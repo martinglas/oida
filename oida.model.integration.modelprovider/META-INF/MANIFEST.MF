@@ -1,0 +1,12 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Model
+Bundle-SymbolicName: oida.model.integration.modelprovider
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: oida.model.integration.modelprovider.Activator
+Require-Bundle: org.eclipse.core.runtime;visibility:=reexport,
+ org.eclipse.emf.ecore;bundle-version="2.7.0";visibility:=reexport
+Bundle-ActivationPolicy: lazy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Export-Package: oida.model.integration.model.extractor,
+ oida.model.integration.modelprovider

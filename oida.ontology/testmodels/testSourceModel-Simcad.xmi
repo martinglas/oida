@@ -1,0 +1,292 @@
+<?xml version="1.0" encoding="ASCII"?>
+<net.bhl.cdt.utilities:CompositeValues xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:net.bhl.cdt.utilities="http://bhl.net/cdt/utilities/datatypes/" name="ac_model">
+  <datatypes xsi:type="net.bhl.cdt.utilities:CompositeValues" name="geom">
+    <datatypes xsi:type="net.bhl.cdt.utilities:CompositeValues" name="cabin">
+      <datatypes xsi:type="net.bhl.cdt.utilities:CompositeValues" name="general">
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="n_cab_crew" value="NaN"/>
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="n_toilet" value="NaN"/>
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="n_trolley" value="NaN"/>
+        <datatypes xsi:type="net.bhl.cdt.utilities:CompositeValues" name="door">
+          <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="type_A" value="NaN"/>
+          <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="type_B" value="NaN"/>
+          <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="type_C" value="NaN"/>
+          <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="type_I" value="NaN"/>
+          <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="type_II" value="NaN"/>
+          <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="type_III" value="NaN"/>
+        </datatypes>
+      </datatypes>
+      <datatypes xsi:type="net.bhl.cdt.utilities:CompositeValues" name="first">
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="n_pax"/>
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="n_pax_front" value="NaN"/>
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="n_aisle" value="NaN"/>
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="seat_pitch" value="NaN" unit="in"/>
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="seat_width" value="NaN" unit="in"/>
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="aisle_width" value="NaN" unit="in"/>
+      </datatypes>
+      <datatypes xsi:type="net.bhl.cdt.utilities:CompositeValues" name="business">
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="n_pax"/>
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="n_pax_front" value="NaN"/>
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="n_aisle" value="NaN"/>
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="seat_pitch" value="NaN" unit="in"/>
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="seat_width" value="NaN" unit="in"/>
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="aisle_width" value="NaN" unit="in"/>
+      </datatypes>
+      <datatypes xsi:type="net.bhl.cdt.utilities:CompositeValues" name="economic">
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="n_pax" value="150.0"/>
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="n_pax_front" value="6.0"/>
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="n_aisle" value="1.0"/>
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="seat_pitch" value="NaN" unit="in"/>
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="seat_width" value="NaN" unit="in"/>
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="aisle_width" value="NaN" unit="in"/>
+      </datatypes>
+    </datatypes>
+    <datatypes xsi:type="net.bhl.cdt.utilities:CompositeValues" name="fuselage">
+      <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="length" value="37.252" unit="m"/>
+      <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="height" value="3.92" unit="m"/>
+      <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="width" value="3.92" unit="m"/>
+      <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="gwa" value="391.86403" unit="m&#xb2;"/>
+    </datatypes>
+    <datatypes xsi:type="net.bhl.cdt.utilities:CompositeValues" name="wing">
+      <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="sref" value="143.00199" unit="m&#xb2;"/>
+      <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="span" value="36.858091" unit="m"/>
+      <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="ar" value="9.5"/>
+      <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="phi" value="24.70593" unit="&#xb0;"/>
+      <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="mac" value="4.5297489" unit="m"/>
+      <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="ToCr" value="0.1490209"/>
+      <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="ToCk" value="0.1112572"/>
+      <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="ToCt" value="0.1027527"/>
+      <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="ctk_fuel" unit="L"/>
+      <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="fuel" value="24403.601" unit="L"/>
+      <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="gwa" value="233.61193" unit="m&#xb2;"/>
+    </datatypes>
+    <datatypes xsi:type="net.bhl.cdt.utilities:CompositeValues" name="htp">
+      <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="sref" value="38.564213" unit="m&#xb2;"/>
+      <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="lever_arm" value="17.364454" unit="m"/>
+      <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="volume" value="1.0183463"/>
+      <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="fuel" unit="L"/>
+      <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="gwa" value="67.650932" unit="m&#xb2;"/>
+    </datatypes>
+    <datatypes xsi:type="net.bhl.cdt.utilities:CompositeValues" name="vtp">
+      <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="sref" value="29.174961" unit="m&#xb2;"/>
+      <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="lever_arm" value="15.773408" unit="m"/>
+      <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="volume" value="0.0863218"/>
+      <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="gwa" value="59.91222" unit="m&#xb2;"/>
+    </datatypes>
+    <datatypes xsi:type="net.bhl.cdt.utilities:CompositeValues" name="ldg">
+      <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="nwheel" value="4.0"/>
+    </datatypes>
+    <datatypes xsi:type="net.bhl.cdt.utilities:CompositeValues" name="prop">
+      <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="ne" value="2.0"/>
+      <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="hnac" value="2.1185127" unit="m"/>
+      <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="wnac" value="2.1185127" unit="m"/>
+      <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="lnac" value="3.887094" unit="m"/>
+      <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="gwa" value="61.869449" unit="m&#xb2;"/>
+      <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="bpr" value="6.0"/>
+      <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="nshaft" value="2.0"/>
+    </datatypes>
+  </datatypes>
+  <datatypes xsi:type="net.bhl.cdt.utilities:CompositeValues" name="mass">
+    <datatypes xsi:type="net.bhl.cdt.utilities:CompositeValues" name="brkdwn">
+      <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="wing" value="9797.3096" unit="kg"/>
+      <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="fuselage" value="8536.1077" unit="kg"/>
+      <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="HTP" value="917.14384" unit="kg"/>
+      <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="VTP" value="805.02122" unit="kg"/>
+      <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="LDG" value="2788.6473" unit="kg"/>
+      <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="pylons" value="1083.4568" unit="kg"/>
+      <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="engines" value="8057.6102" unit="kg"/>
+      <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="systems" value="4963.6306" unit="kg"/>
+      <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="furnishings" value="2750.0" unit="kg"/>
+      <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="adjustment" unit="kg"/>
+    </datatypes>
+    <datatypes xsi:type="net.bhl.cdt.utilities:CompositeValues" name="build_up">
+      <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="cabin_changes" unit="kg"/>
+      <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="MWE_allowance" unit="kg"/>
+      <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="MWE_conservatism" unit="kg"/>
+      <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="op_items" value="5470.0" unit="kg"/>
+      <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="container_pallet" value="254.48481" unit="kg"/>
+      <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="OWE_conservatism" unit="kg"/>
+    </datatypes>
+  </datatypes>
+  <datatypes xsi:type="net.bhl.cdt.utilities:CompositeValues" name="mass">
+    <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="MWE_basic" value="39698.927" unit="kg"/>
+    <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="MWE" value="39868.927" unit="kg"/>
+    <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="OWE_basic" value="45593.412" unit="kg"/>
+    <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="OWE" value="45593.412" unit="kg"/>
+    <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="MZFW" value="64013.412" unit="kg"/>
+    <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="MFW" value="19596.091" unit="kg"/>
+    <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="MLW" value="67874.619" unit="kg"/>
+    <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="MTOW" value="79684.183" unit="kg"/>
+    <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="fuel_density" value="0.803" unit="kg/L"/>
+  </datatypes>
+  <datatypes xsi:type="net.bhl.cdt.utilities:CompositeValues" name="aero">
+    <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="zp_ref" value="35000.0" unit="ft"/>
+    <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="crz_mach" value="0.78"/>
+    <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="lod_max" value="18.294215"/>
+    <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="cl_lod_max" value="0.6194955"/>
+    <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="cl_max_to" value="2.270035"/>
+    <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="cl_max_ld" value="2.6042899"/>
+  </datatypes>
+  <datatypes xsi:type="net.bhl.cdt.utilities:CompositeValues" name="prop">
+    <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="Rubber_factor" value="1.0"/>
+    <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="SLSThrust" value="29094.514" unit="lbf"/>
+    <datatypes xsi:type="net.bhl.cdt.utilities:CompositeValues" name="Take_Off_Normal">
+      <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="Mach" value="0.25"/>
+      <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="disa" unit="K"/>
+      <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="kfn" value="1.0"/>
+      <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="Fnet_0ft" value="23866.713" unit="lbf"/>
+      <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="Fnet_5kft" value="22154.564" unit="lbf"/>
+    </datatypes>
+    <datatypes xsi:type="net.bhl.cdt.utilities:CompositeValues" name="Maxi_Continuous">
+      <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="altp" value="25000.0" unit="ft"/>
+      <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="Mach" value="0.39"/>
+      <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="disa" unit="K"/>
+      <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="kfn" value="1.0"/>
+      <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="Fnet" value="10689.458" unit="lbf"/>
+    </datatypes>
+    <datatypes xsi:type="net.bhl.cdt.utilities:CompositeValues" name="Max_Climb">
+      <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="altp" value="35000.0" unit="ft"/>
+      <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="Mach" value="0.78"/>
+      <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="disa" unit="K"/>
+      <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="kfn" value="1.0"/>
+      <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="Fnet" value="6112.7412" unit="lbf"/>
+    </datatypes>
+    <datatypes xsi:type="net.bhl.cdt.utilities:CompositeValues" name="Max_Cruise">
+      <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="altp" value="35000.0" unit="ft"/>
+      <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="Mach" value="0.78"/>
+      <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="disa" unit="K"/>
+      <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="kfn" value="1.0"/>
+      <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="Fnet" value="5688.2453" unit="lbf"/>
+    </datatypes>
+    <datatypes xsi:type="net.bhl.cdt.utilities:CompositeValues" name="SFC_bucket">
+      <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="altp" value="35000.0" unit="ft"/>
+      <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="Mach" value="0.78"/>
+      <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="disa" unit="K"/>
+      <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="ksfc" value="1.0"/>
+      <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="Fnet" value="4664.3612" unit="lbf"/>
+      <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="sfc" value="0.6017031" unit="lb&#xb7;h/lbf"/>
+    </datatypes>
+  </datatypes>
+  <datatypes xsi:type="net.bhl.cdt.utilities:CompositeValues" name="perfo">
+    <datatypes xsi:type="net.bhl.cdt.utilities:CompositeValues" name="take_off">
+      <datatypes xsi:type="net.bhl.cdt.utilities:CompositeValues" name="case_1">
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="disa" unit="K"/>
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="altp" unit="ft"/>
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="MTOW_ratio" value="1.0"/>
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="Kvs1g" value="1.13"/>
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="tofl" value="1048.7173" unit="m"/>
+      </datatypes>
+      <datatypes xsi:type="net.bhl.cdt.utilities:CompositeValues" name="case_2">
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="disa" value="15.0" unit="K"/>
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="altp" value="5000.0" unit="ft"/>
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="MTOW_ratio" value="1.0"/>
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="Kvs1g" value="1.13"/>
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="tofl" value="1575.297" unit="m"/>
+      </datatypes>
+    </datatypes>
+    <datatypes xsi:type="net.bhl.cdt.utilities:CompositeValues" name="landing">
+      <datatypes xsi:type="net.bhl.cdt.utilities:CompositeValues" name="case_1">
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="disa" unit="K"/>
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="altp" unit="ft"/>
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="MLW_ratio" value="1.0"/>
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="vapp" value="129.55847" unit="nmi/h"/>
+      </datatypes>
+      <datatypes xsi:type="net.bhl.cdt.utilities:CompositeValues" name="case_2">
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="disa" value="15.0" unit="K"/>
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="altp" value="5000.0" unit="ft"/>
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="MLW_ratio" value="1.0"/>
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="vapp" value="129.55847" unit="nmi/h"/>
+      </datatypes>
+    </datatypes>
+    <datatypes xsi:type="net.bhl.cdt.utilities:CompositeValues" name="ceiling">
+      <datatypes xsi:type="net.bhl.cdt.utilities:CompositeValues" name="climb">
+        <datatypes xsi:type="net.bhl.cdt.utilities:CompositeValues" name="case_1">
+          <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="disa" unit="K"/>
+          <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="vz" value="500.0" unit="ft/min"/>
+          <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="MTOW_ratio" value="0.97"/>
+          <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="altp" value="37781.473" unit="ft"/>
+        </datatypes>
+        <datatypes xsi:type="net.bhl.cdt.utilities:CompositeValues" name="case_2">
+          <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="disa" value="15.0" unit="K"/>
+          <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="vz" value="300.0" unit="ft/min"/>
+          <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="MTOW_ratio" value="0.97"/>
+          <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="altp" value="37994.376" unit="ft"/>
+        </datatypes>
+      </datatypes>
+      <datatypes xsi:type="net.bhl.cdt.utilities:CompositeValues" name="cruise">
+        <datatypes xsi:type="net.bhl.cdt.utilities:CompositeValues" name="case_1">
+          <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="disa" unit="K"/>
+          <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="vz" value="500.0" unit="ft/min"/>
+          <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="MTOW_ratio" value="0.97"/>
+          <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="altp" value="37784.988" unit="ft"/>
+        </datatypes>
+        <datatypes xsi:type="net.bhl.cdt.utilities:CompositeValues" name="case_2">
+          <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="disa" value="15.0" unit="K"/>
+          <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="vz" value="300.0" unit="ft/min"/>
+          <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="MTOW_ratio" value="0.97"/>
+          <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="altp" value="37925.81" unit="ft"/>
+        </datatypes>
+      </datatypes>
+      <datatypes xsi:type="net.bhl.cdt.utilities:CompositeValues" name="buffeting">
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="disa" unit="K"/>
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="MTOW_ratio" value="0.97"/>
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="altp" value="37949.491" unit="ft"/>
+      </datatypes>
+      <datatypes xsi:type="net.bhl.cdt.utilities:CompositeValues" name="one_engine_out">
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="disa" unit="K"/>
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="MTOW_ratio" value="0.97"/>
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="altp" value="29885.749" unit="ft"/>
+      </datatypes>
+      <datatypes xsi:type="net.bhl.cdt.utilities:CompositeValues" name="max_sar">
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="disa" unit="K"/>
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="MTOW_ratio" value="0.97"/>
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="altp" value="37456.718" unit="ft"/>
+      </datatypes>
+    </datatypes>
+    <datatypes xsi:type="net.bhl.cdt.utilities:CompositeValues" name="mission">
+      <datatypes xsi:type="net.bhl.cdt.utilities:CompositeValues" name="time_to_climb">
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="MTOW_ratio" value="0.97"/>
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="altp" value="35000.0" unit="ft"/>
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="TTC" value="28.430683" unit="min"/>
+      </datatypes>
+      <datatypes xsi:type="net.bhl.cdt.utilities:CompositeValues" name="optimal_cruise">
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="altp_step" value="NaN" unit="ft"/>
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="KLoD_ceil" value="NaN"/>
+      </datatypes>
+      <datatypes xsi:type="net.bhl.cdt.utilities:CompositeValues" name="nominal">
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="range" value="2999.9997" unit="nmi"/>
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="TOW" value="79684.183" unit="kg"/>
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="ZFW" value="59573.412" unit="kg"/>
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="fuel" value="20110.771" unit="kg"/>
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="payload" value="13980.0" unit="kg"/>
+      </datatypes>
+      <datatypes xsi:type="net.bhl.cdt.utilities:CompositeValues" name="max_payload">
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="range" value="2072.2618" unit="nmi"/>
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="TOW" value="79684.183" unit="kg"/>
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="ZFW" value="64043.412" unit="kg"/>
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="fuel" value="15640.775" unit="kg"/>
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="payload" value="18450.0" unit="kg"/>
+      </datatypes>
+      <datatypes xsi:type="net.bhl.cdt.utilities:CompositeValues" name="max_fuel">
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="range" value="2891.1779" unit="nmi"/>
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="TOW" value="79684.183" unit="kg"/>
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="ZFW" value="60088.092" unit="kg"/>
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="fuel" value="19596.091" unit="kg"/>
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="payload" value="14494.68" unit="kg"/>
+      </datatypes>
+      <datatypes xsi:type="net.bhl.cdt.utilities:CompositeValues" name="zero_payload">
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="range" value="3397.6798" unit="nmi"/>
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="TOW" value="65189.503" unit="kg"/>
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="ZFW" value="45593.412" unit="kg"/>
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="fuel" value="19596.091" unit="kg"/>
+      </datatypes>
+      <datatypes xsi:type="net.bhl.cdt.utilities:CompositeValues" name="cost">
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="range" value="4000.0" unit="nmi"/>
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="TOW" value="85498.592" unit="kg"/>
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="ZFW" value="59573.412" unit="kg"/>
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="payload" value="13980.0" unit="kg"/>
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="block_fuel" value="21491.239" unit="kg"/>
+        <datatypes xsi:type="net.bhl.cdt.utilities:MeasuredValue" name="block_time" value="577.79788" unit="min"/>
+      </datatypes>
+    </datatypes>
+  </datatypes>
+</net.bhl.cdt.utilities:CompositeValues>
