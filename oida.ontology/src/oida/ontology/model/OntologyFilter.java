@@ -5,11 +5,13 @@
  ******************************************************************************/
 package oida.ontology.model;
 
+import org.apache.jena.ontology.OntResource;
+import org.apache.jena.ontology.Ontology;
+import org.apache.jena.util.iterator.Filter;
+
 import oida.ontology.util.OntologyHelper;
 
-import com.hp.hpl.jena.ontology.OntResource;
-import com.hp.hpl.jena.ontology.Ontology;
-import com.hp.hpl.jena.util.iterator.Filter;
+
 
 public class OntologyFilter<R extends OntResource> extends Filter<R> {
 	private Ontology ontology;

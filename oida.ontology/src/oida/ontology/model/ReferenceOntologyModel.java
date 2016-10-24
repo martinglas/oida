@@ -11,9 +11,9 @@ import java.util.List;
 
 import org.eclipse.emf.common.util.URI;
 
-import com.hp.hpl.jena.ontology.Individual;
-import com.hp.hpl.jena.ontology.OntClass;
-import com.hp.hpl.jena.ontology.OntModel;
+import org.apache.jena.ontology.Individual;
+import org.apache.jena.ontology.OntClass;
+import org.apache.jena.ontology.OntModel;
 
 public class ReferenceOntologyModel {
 	private OntologyModel ontologyModel;

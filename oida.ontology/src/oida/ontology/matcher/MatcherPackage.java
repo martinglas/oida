@@ -26,48 +26,44 @@ import org.eclipse.emf.ecore.EPackage;
  * <li>and each data type</li>
  * </ul>
  * <!-- end-user-doc -->
- * 
- * @see net.bhl.cdt.ontology.matcher.MatchingFactory
+ * @see oida.ontology.matcher.MatcherFactory
  * @model kind="package"
  * @generated
  */
 public interface MatcherPackage extends EPackage {
 	/**
-	 * The package name. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The package name.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	String eNAME = "matcher";
 
 	/**
-	 * The package namespace URI. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The package namespace URI.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	String eNS_URI = "http://bhl.net/cdt/ontology/matcher";
 
 	/**
-	 * The package namespace name. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The package namespace name.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	String eNS_PREFIX = "net.bhl.cdt.ontology";
 
 	/**
-	 * The singleton instance of the package. <!-- begin-user-doc --> <!--
+	 * The singleton instance of the package.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @generated
 	 */
-	MatcherPackage eINSTANCE = oida.ontology.matcher.impl.MatcherPackageImpl
-			.init();
+	MatcherPackage eINSTANCE = oida.ontology.matcher.impl.MatcherPackageImpl.init();
 
 	/**
-	 * The meta object id for the '
-	 * {@link oida.ontology.matcher.impl.MatchRecommendationImpl
-	 * <em>Match Recommendation</em>}' class. <!-- begin-user-doc --> <!--
+	 * The meta object id for the '{@link oida.ontology.matcher.impl.MatchRecommendationImpl <em>Match Recommendation</em>}' class.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @see oida.ontology.matcher.impl.MatchRecommendationImpl
 	 * @see oida.ontology.matcher.impl.MatcherPackageImpl#getMatchRecommendation()
 	 * @generated
@@ -93,9 +89,8 @@ public interface MatcherPackage extends EPackage {
 	int MATCH_RECOMMENDATION__TARGET = 1;
 
 	/**
-	 * The number of structural features of the '<em>Match Recommendation</em>'
-	 * class. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The number of structural features of the '<em>Match Recommendation</em>' class.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
@@ -134,7 +129,6 @@ public interface MatcherPackage extends EPackage {
 	/**
 	 * The number of structural features of the '<em>Manual Match</em>' class.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 * @ordered
 	 */
@@ -151,11 +145,9 @@ public interface MatcherPackage extends EPackage {
 	int ONT_RESOURCE = 2;
 
 	/**
-	 * Returns the meta object for class '
-	 * {@link oida.ontology.matcher.MatchRecommendation
-	 * <em>Match Recommendation</em>}'. <!-- begin-user-doc --> <!--
+	 * Returns the meta object for class '{@link oida.ontology.matcher.MatchRecommendation <em>Match Recommendation</em>}'.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @return the meta object for class '<em>Match Recommendation</em>'.
 	 * @see oida.ontology.matcher.MatchRecommendation
 	 * @generated
@@ -163,10 +155,8 @@ public interface MatcherPackage extends EPackage {
 	EClass getMatchRecommendation();
 
 	/**
-	 * Returns the meta object for the attribute '
-	 * {@link oida.ontology.matcher.MatchRecommendation#getSource
-	 * <em>Source</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the meta object for the attribute '{@link oida.ontology.matcher.MatchRecommendation#getSource <em>Source</em>}'.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Source</em>'.
 	 * @see oida.ontology.matcher.MatchRecommendation#getSource()
 	 * @see #getMatchRecommendation()
@@ -175,10 +165,8 @@ public interface MatcherPackage extends EPackage {
 	EAttribute getMatchRecommendation_Source();
 
 	/**
-	 * Returns the meta object for the attribute '
-	 * {@link oida.ontology.matcher.MatchRecommendation#getTarget
-	 * <em>Target</em>}'. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * Returns the meta object for the attribute '{@link oida.ontology.matcher.MatchRecommendation#getTarget <em>Target</em>}'.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Target</em>'.
 	 * @see oida.ontology.matcher.MatchRecommendation#getTarget()
 	 * @see #getMatchRecommendation()
@@ -187,10 +175,8 @@ public interface MatcherPackage extends EPackage {
 	EAttribute getMatchRecommendation_Target();
 
 	/**
-	 * Returns the meta object for class '
-	 * {@link oida.ontology.matcher.ManualMatch <em>Manual Match</em>}'.
+	 * Returns the meta object for class '{@link oida.ontology.matcher.ManualMatch <em>Manual Match</em>}'.
 	 * <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
 	 * @return the meta object for class '<em>Manual Match</em>'.
 	 * @see oida.ontology.matcher.ManualMatch
 	 * @generated
@@ -228,16 +214,13 @@ public interface MatcherPackage extends EPackage {
 	 * <li>and each data type</li>
 	 * </ul>
 	 * <!-- end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	interface Literals {
 		/**
-		 * The meta object literal for the '
-		 * {@link oida.ontology.matcher.impl.MatchRecommendationImpl
-		 * <em>Match Recommendation</em>}' class. <!-- begin-user-doc --> <!--
+		 * The meta object literal for the '{@link oida.ontology.matcher.impl.MatchRecommendationImpl <em>Match Recommendation</em>}' class.
+		 * <!-- begin-user-doc --> <!--
 		 * end-user-doc -->
-		 * 
 		 * @see oida.ontology.matcher.impl.MatchRecommendationImpl
 		 * @see oida.ontology.matcher.impl.MatcherPackageImpl#getMatchRecommendation()
 		 * @generated
@@ -245,29 +228,23 @@ public interface MatcherPackage extends EPackage {
 		EClass MATCH_RECOMMENDATION = eINSTANCE.getMatchRecommendation();
 
 		/**
-		 * The meta object literal for the '<em><b>Source</b></em>' attribute
-		 * feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 * The meta object literal for the '<em><b>Source</b></em>' attribute feature.
+		 * <!-- begin-user-doc --> <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute MATCH_RECOMMENDATION__SOURCE = eINSTANCE
-				.getMatchRecommendation_Source();
+		EAttribute MATCH_RECOMMENDATION__SOURCE = eINSTANCE.getMatchRecommendation_Source();
 
 		/**
-		 * The meta object literal for the '<em><b>Target</b></em>' attribute
-		 * feature. <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
+		 * The meta object literal for the '<em><b>Target</b></em>' attribute feature.
+		 * <!-- begin-user-doc --> <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute MATCH_RECOMMENDATION__TARGET = eINSTANCE
-				.getMatchRecommendation_Target();
+		EAttribute MATCH_RECOMMENDATION__TARGET = eINSTANCE.getMatchRecommendation_Target();
 
 		/**
-		 * The meta object literal for the '
-		 * {@link oida.ontology.matcher.impl.ManualMatchImpl
-		 * <em>Manual Match</em>}' class. <!-- begin-user-doc --> <!--
+		 * The meta object literal for the '{@link oida.ontology.matcher.impl.ManualMatchImpl <em>Manual Match</em>}' class.
+		 * <!-- begin-user-doc --> <!--
 		 * end-user-doc -->
-		 * 
 		 * @see oida.ontology.matcher.impl.ManualMatchImpl
 		 * @see oida.ontology.matcher.impl.MatcherPackageImpl#getManualMatch()
 		 * @generated
@@ -277,8 +254,7 @@ public interface MatcherPackage extends EPackage {
 		/**
 		 * The meta object literal for the '<em>Ont Resource</em>' data type.
 		 * <!-- begin-user-doc --> <!-- end-user-doc -->
-		 * 
-		 * @see com.hp.hpl.jena.ontology.OntResource
+		 * @see org.apache.jena.ontology.OntResource
 		 * @see oida.ontology.matcher.impl.MatcherPackageImpl#getOntResource()
 		 * @generated
 		 */

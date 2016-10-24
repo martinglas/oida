@@ -13,8 +13,8 @@ import oida.ontology.model.OntologyModel;
 import org.eclipse.emf.common.command.AbstractCommand;
 import org.eclipse.emf.common.util.URI;
 
-import com.hp.hpl.jena.ontology.Individual;
-import com.hp.hpl.jena.ontology.OntClass;
+import org.apache.jena.ontology.Individual;
+import org.apache.jena.ontology.OntClass;
 
 /**
  * This is a command which is supposed to load an Ontology from a specific file.

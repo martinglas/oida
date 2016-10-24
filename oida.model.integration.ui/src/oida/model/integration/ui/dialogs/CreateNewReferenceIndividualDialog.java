@@ -37,7 +37,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 
-import com.hp.hpl.jena.ontology.Individual;
+import org.apache.jena.ontology.Individual;
 import com.hp.hpl.jena.ontology.OntClass;
 
 public class CreateNewReferenceIndividualDialog extends Dialog {

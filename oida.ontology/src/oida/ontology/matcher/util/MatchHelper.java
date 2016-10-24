@@ -14,12 +14,12 @@ import oida.ontology.matcher.MatcherFactory;
 import oida.ontology.model.OntologyModel;
 import oida.ontology.util.OntologyHelper;
 
-import com.hp.hpl.jena.ontology.DatatypeProperty;
-import com.hp.hpl.jena.ontology.Individual;
-import com.hp.hpl.jena.ontology.OntClass;
-import com.hp.hpl.jena.ontology.OntProperty;
-import com.hp.hpl.jena.ontology.OntResource;
-import com.hp.hpl.jena.ontology.Ontology;
+import org.apache.jena.ontology.DatatypeProperty;
+import org.apache.jena.ontology.Individual;
+import org.apache.jena.ontology.OntClass;
+import org.apache.jena.ontology.OntProperty;
+import org.apache.jena.ontology.OntResource;
+import org.apache.jena.ontology.Ontology;
 
 /**
  * This is a helper class for finding different kinds of matches between two

@@ -9,12 +9,12 @@ import java.util.Iterator;
 
 import oida.ontology.model.OntologyModel;
 
-import com.hp.hpl.jena.rdf.model.InfModel;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
-import com.hp.hpl.jena.reasoner.Reasoner;
-import com.hp.hpl.jena.reasoner.ReasonerRegistry;
-import com.hp.hpl.jena.reasoner.ValidityReport;
-import com.hp.hpl.jena.reasoner.ValidityReport.Report;
+import org.apache.jena.rdf.model.InfModel;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.reasoner.Reasoner;
+import org.apache.jena.reasoner.ReasonerRegistry;
+import org.apache.jena.reasoner.ValidityReport;
+import org.apache.jena.reasoner.ValidityReport.Report;
 
 /**
  * This class provides reasoning services on the ontology model.

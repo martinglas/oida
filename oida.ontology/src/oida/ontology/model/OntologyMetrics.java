@@ -8,12 +8,14 @@ package oida.ontology.model;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.apache.jena.ontology.OntClass;
+
 import oida.ontology.util.OntologyHelper;
 
-import com.hp.hpl.jena.ontology.Individual;
-import com.hp.hpl.jena.ontology.ObjectProperty;
-import com.hp.hpl.jena.ontology.OntClass;
-import com.hp.hpl.jena.vocabulary.RDFS;
+import org.apache.jena.ontology.Individual;
+import org.apache.jena.ontology.ObjectProperty;
+
+import org.apache.jena.vocabulary.RDFS;
 
 /**
  * This class provides ontology metrics.

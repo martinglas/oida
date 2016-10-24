@@ -8,7 +8,7 @@ package oida.ontology.commands;
 import oida.ontology.matcher.MatchRecommendation;
 import oida.ontology.util.OntologyHelper;
 
-import com.hp.hpl.jena.ontology.OntResource;
+import org.apache.jena.ontology.OntResource;
 
 /**
  * This class is a command which confirms MatchRecommendation objects.

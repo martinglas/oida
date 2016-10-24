@@ -9,7 +9,7 @@ import java.util.List;
 
 import org.eclipse.emf.common.util.URI;
 
-import com.hp.hpl.jena.ontology.OntClass;
+import org.apache.jena.ontology.OntClass;
 
 public class OntologyProvider {
 

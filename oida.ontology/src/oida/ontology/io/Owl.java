@@ -17,10 +17,10 @@ import oida.ontology.util.OntologyHelper;
 
 import org.eclipse.emf.common.util.URI;
 
-import com.hp.hpl.jena.ontology.OntModel;
-import com.hp.hpl.jena.ontology.Ontology;
-import com.hp.hpl.jena.ontology.ProfileRegistry;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
+import org.apache.jena.ontology.OntModel;
+import org.apache.jena.ontology.Ontology;
+import org.apache.jena.ontology.ProfileRegistry;
+import org.apache.jena.rdf.model.ModelFactory;
 
 /**
  * This class handles the persistence of an ontology from and to OWL files.

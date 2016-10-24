@@ -11,6 +11,7 @@
  */
 package oida.ontology.matcher.util;
 
+import oida.ontology.matcher.*;
 import oida.ontology.matcher.ManualMatch;
 import oida.ontology.matcher.MatchRecommendation;
 import oida.ontology.matcher.MatcherPackage;
@@ -24,22 +25,21 @@ import org.eclipse.emf.ecore.EObject;
  * <!-- begin-user-doc --> The <b>Adapter Factory</b> for the model. It provides
  * an adapter <code>createXXX</code> method for each class of the model. <!--
  * end-user-doc -->
- * 
  * @see oida.ontology.matcher.MatcherPackage
  * @generated
  */
 public class MatcherAdapterFactory extends AdapterFactoryImpl {
 	/**
-	 * The cached model package. <!-- begin-user-doc --> <!-- end-user-doc -->
-	 * 
+	 * The cached model package.
+	 * <!-- begin-user-doc --> <!-- end-user-doc -->
 	 * @generated
 	 */
 	protected static MatcherPackage modelPackage;
 
 	/**
-	 * Creates an instance of the adapter factory. <!-- begin-user-doc --> <!--
+	 * Creates an instance of the adapter factory.
+	 * <!-- begin-user-doc --> <!--
 	 * end-user-doc -->
-	 * 
 	 * @generated
 	 */
 	public MatcherAdapterFactory() {
@@ -53,7 +53,6 @@ public class MatcherAdapterFactory extends AdapterFactoryImpl {
 	 * <!-- begin-user-doc --> This implementation returns <code>true</code> if
 	 * the object is either the model's package or is an instance object of the
 	 * model. <!-- end-user-doc -->
-	 * 
 	 * @return whether this factory is applicable for the type of the object.
 	 * @generated
 	 */
@@ -63,7 +62,7 @@ public class MatcherAdapterFactory extends AdapterFactoryImpl {
 			return true;
 		}
 		if (object instanceof EObject) {
-			return ((EObject) object).eClass().getEPackage() == modelPackage;
+			return ((EObject)object).eClass().getEPackage() == modelPackage;
 		}
 		return false;
 	}
@@ -75,44 +74,39 @@ public class MatcherAdapterFactory extends AdapterFactoryImpl {
 	 * @generated
 	 */
 	protected MatcherSwitch<Adapter> modelSwitch = new MatcherSwitch<Adapter>() {
-		@Override
-		public Adapter caseMatchRecommendation(MatchRecommendation object) {
-			return createMatchRecommendationAdapter();
-		}
-
-		@Override
-		public Adapter caseManualMatch(ManualMatch object) {
-			return createManualMatchAdapter();
-		}
-
-		@Override
-		public Adapter defaultCase(EObject object) {
-			return createEObjectAdapter();
-		}
-	};
+			@Override
+			public Adapter caseMatchRecommendation(MatchRecommendation object) {
+				return createMatchRecommendationAdapter();
+			}
+			@Override
+			public Adapter caseManualMatch(ManualMatch object) {
+				return createManualMatchAdapter();
+			}
+			@Override
+			public Adapter defaultCase(EObject object) {
+				return createEObjectAdapter();
+			}
+		};
 
 	/**
-	 * Creates an adapter for the <code>target</code>. <!-- begin-user-doc -->
+	 * Creates an adapter for the <code>target</code>.
+	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * 
-	 * @param target
-	 *            the object to adapt.
+	 * @param target the object to adapt.
 	 * @return the adapter for the <code>target</code>.
 	 * @generated
 	 */
 	@Override
 	public Adapter createAdapter(Notifier target) {
-		return modelSwitch.doSwitch((EObject) target);
+		return modelSwitch.doSwitch((EObject)target);
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '
-	 * {@link oida.ontology.matcher.MatchRecommendation
-	 * <em>Match Recommendation</em>}'. <!-- begin-user-doc --> This default
+	 * Creates a new adapter for an object of class '{@link oida.ontology.matcher.MatchRecommendation <em>Match Recommendation</em>}'.
+	 * <!-- begin-user-doc --> This default
 	 * implementation returns null so that we can easily ignore cases; it's
 	 * useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
-	 * 
 	 * @return the new adapter.
 	 * @see oida.ontology.matcher.MatchRecommendation
 	 * @generated
@@ -122,12 +116,10 @@ public class MatcherAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '
-	 * {@link oida.ontology.matcher.ManualMatch <em>Manual Match</em>}'.
+	 * Creates a new adapter for an object of class '{@link oida.ontology.matcher.ManualMatch <em>Manual Match</em>}'.
 	 * <!-- begin-user-doc --> This default implementation returns null so that
 	 * we can easily ignore cases; it's useful to ignore a case when inheritance
 	 * will catch all the cases anyway. <!-- end-user-doc -->
-	 * 
 	 * @return the new adapter.
 	 * @see oida.ontology.matcher.ManualMatch
 	 * @generated
@@ -137,9 +129,9 @@ public class MatcherAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for the default case. <!-- begin-user-doc --> This
+	 * Creates a new adapter for the default case.
+	 * <!-- begin-user-doc --> This
 	 * default implementation returns null. <!-- end-user-doc -->
-	 * 
 	 * @return the new adapter.
 	 * @generated
 	 */

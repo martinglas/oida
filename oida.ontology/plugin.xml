@@ -39,4 +39,12 @@
       </package>
    </extension>
 
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated matcher -->
+      <package
+            uri="http://bhl.net/cdt/ontology/matcher"
+            class="oida.ontology.matcher.MatcherPackage"
+            genModel="model/matcher.genmodel"/>
+   </extension>
+
 </plugin>

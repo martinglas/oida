@@ -14,8 +14,8 @@ package oida.ontology.matcher;
 /**
  * <!-- begin-user-doc --> A representation of the model object '
  * <em><b>Manual Match</b></em>'. <!-- end-user-doc -->
- * 
- * 
+ *
+ *
  * @see oida.ontology.matcher.MatcherPackage#getManualMatch()
  * @model
  * @generated

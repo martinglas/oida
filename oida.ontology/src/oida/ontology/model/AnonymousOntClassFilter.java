@@ -5,8 +5,8 @@
  ******************************************************************************/
 package oida.ontology.model;
 
-import com.hp.hpl.jena.ontology.OntClass;
-import com.hp.hpl.jena.util.iterator.Filter;
+import org.apache.jena.ontology.OntClass;
+import org.apache.jena.util.iterator.Filter;
 
 public class AnonymousOntClassFilter extends Filter<OntClass> {
 

@@ -5,10 +5,12 @@
  ******************************************************************************/
 package oida.ontology.commands;
 
+import org.apache.jena.ontology.OntResource;
+
 import oida.ontology.matcher.ManualMatch;
 import oida.ontology.util.OntologyHelper;
 
-import com.hp.hpl.jena.ontology.OntResource;
+
 
 /**
  * This command commits a match between two ontologies which is based on a

@@ -13,22 +13,20 @@ package oida.ontology.matcher;
 
 import org.eclipse.emf.ecore.EObject;
 
-import com.hp.hpl.jena.ontology.OntResource;
+import org.apache.jena.ontology.OntResource;
 
 /**
  * <!-- begin-user-doc --> A representation of the model object '
  * <em><b>Match Recommendation</b></em>'. <!-- end-user-doc -->
- * 
+ *
  * <p>
  * The following features are supported:
- * <ul>
- * <li>{@link oida.ontology.matcher.MatchRecommendation#getSource <em>
- * Source</em>}</li>
- * <li>{@link oida.ontology.matcher.MatchRecommendation#getTarget <em>
- * Target</em>}</li>
- * </ul>
  * </p>
- * 
+ * <ul>
+ *   <li>{@link oida.ontology.matcher.MatchRecommendation#getSource <em>Source</em>}</li>
+ *   <li>{@link oida.ontology.matcher.MatchRecommendation#getTarget <em>Target</em>}</li>
+ * </ul>
+ *
  * @see oida.ontology.matcher.MatcherPackage#getMatchRecommendation()
  * @model
  * @generated
