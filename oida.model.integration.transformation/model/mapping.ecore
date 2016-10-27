@@ -12,7 +12,7 @@
     <eStructuralFeatures xsi:type="ecore:EReference" name="attributeMappings" upperBound="-1"
         eType="#//AttributeMapping"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EDataType" name="Individual" instanceClassName="com.hp.hpl.jena.ontology.Individual"/>
+  <eClassifiers xsi:type="ecore:EDataType" name="Individual" instanceClassName="org.apache.jena.ontology.Individual"/>
   <eClassifiers xsi:type="ecore:EDataType" name="EClass" instanceClassName="org.eclipse.emf.ecore.EClass"/>
   <eClassifiers xsi:type="ecore:EClass" name="AttributeMapping">
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="sourceEAttribute" eType="#//EAttribute"/>

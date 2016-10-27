@@ -11,14 +11,14 @@
  */
 package oida.model.integration.transformation.mapping.impl;
 
-import oida.model.integration.transformation.mapping.AttributeMapping;
-import oida.model.integration.transformation.mapping.MappingPackage;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
+
+import oida.model.integration.transformation.mapping.AttributeMapping;
+import oida.model.integration.transformation.mapping.MappingPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -26,11 +26,11 @@ import org.eclipse.emf.ecore.impl.EObjectImpl;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link oida.model.integration.transformation.mapping.impl.AttributeMappingImpl#getSourceEAttribute <em>Source EAttribute</em>}</li>
  *   <li>{@link oida.model.integration.transformation.mapping.impl.AttributeMappingImpl#getReferenceEAttribute <em>Reference EAttribute</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

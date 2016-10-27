@@ -7,15 +7,12 @@ package oida.model.integration.transformation.ontologygenerator;
 
 import java.util.List;
 
-import oida.model.integration.model.extractor.Extractor;
-import oida.model.integration.transformation.typemapping.BaseUnitType;
-import oida.model.integration.transformation.typemapping.ProductUnitType;
-import oida.model.integration.transformation.typemapping.TransformedUnitType;
-import oida.model.integration.transformation.typemapping.UnitType;
-import oida.model.integration.transformation.util.TransformatorHelper;
-import oida.ontology.model.OntologyModel;
-import oida.ontology.util.OntologyHelper;
-
+import org.apache.jena.datatypes.TypeMapper;
+import org.apache.jena.ontology.ObjectProperty;
+import org.apache.jena.ontology.OntClass;
+import org.apache.jena.ontology.Ontology;
+import org.apache.jena.rdf.model.Literal;
+import org.apache.jena.rdf.model.Resource;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
@@ -25,12 +22,14 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
-import com.hp.hpl.jena.datatypes.TypeMapper;
-import com.hp.hpl.jena.ontology.ObjectProperty;
-import com.hp.hpl.jena.ontology.OntClass;
-import com.hp.hpl.jena.ontology.Ontology;
-import com.hp.hpl.jena.rdf.model.Literal;
-import com.hp.hpl.jena.rdf.model.Resource;
+import oida.model.integration.model.extractor.Extractor;
+import oida.model.integration.transformation.typemapping.BaseUnitType;
+import oida.model.integration.transformation.typemapping.ProductUnitType;
+import oida.model.integration.transformation.typemapping.TransformedUnitType;
+import oida.model.integration.transformation.typemapping.UnitType;
+import oida.model.integration.transformation.util.TransformatorHelper;
+import oida.ontology.model.OntologyModel;
+import oida.ontology.util.OntologyHelper;
 
 /**
  * This class generates an OWL ontology form a given EMF Model. It generates

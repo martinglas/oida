@@ -58,8 +58,8 @@ import org.eclipse.ui.PartInitException;
 import org.eclipse.ui.part.EditorPart;
 import org.eclipse.ui.part.ViewPart;
 
-import com.hp.hpl.jena.ontology.Individual;
-import com.hp.hpl.jena.ontology.OntResource;
+import org.apache.jena.ontology.Individual;
+import org.apache.jena.ontology.OntResource;
 
 public class MatchingEditor extends EditorPart {
 

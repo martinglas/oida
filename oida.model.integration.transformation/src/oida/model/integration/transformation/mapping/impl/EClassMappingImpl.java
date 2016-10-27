@@ -13,10 +13,6 @@ package oida.model.integration.transformation.mapping.impl;
 
 import java.util.Collection;
 
-import oida.model.integration.transformation.mapping.AttributeMapping;
-import oida.model.integration.transformation.mapping.EClassMapping;
-import oida.model.integration.transformation.mapping.MappingPackage;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
@@ -24,7 +20,9 @@ import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 import org.eclipse.emf.ecore.util.EObjectResolvingEList;
 
-import com.hp.hpl.jena.ontology.Individual;
+import oida.model.integration.transformation.mapping.AttributeMapping;
+import oida.model.integration.transformation.mapping.EClassMapping;
+import oida.model.integration.transformation.mapping.MappingPackage;
 
 /**
  * <!-- begin-user-doc -->
@@ -32,12 +30,12 @@ import com.hp.hpl.jena.ontology.Individual;
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link oida.model.integration.transformation.mapping.impl.EClassMappingImpl#getReferenceEClass <em>Reference EClass</em>}</li>
  *   <li>{@link oida.model.integration.transformation.mapping.impl.EClassMappingImpl#getReferneceIndividual <em>Refernece Individual</em>}</li>
  *   <li>{@link oida.model.integration.transformation.mapping.impl.EClassMappingImpl#getAttributeMappings <em>Attribute Mappings</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */
@@ -70,7 +68,7 @@ public class EClassMappingImpl extends EObjectImpl implements EClassMapping {
 	 * @generated
 	 * @ordered
 	 */
-	protected static final Individual REFERNECE_INDIVIDUAL_EDEFAULT = null;
+	protected static final org.apache.jena.ontology.Individual REFERNECE_INDIVIDUAL_EDEFAULT = null;
 
 	/**
 	 * The cached value of the '{@link #getReferneceIndividual() <em>Refernece Individual</em>}' attribute.
@@ -80,7 +78,7 @@ public class EClassMappingImpl extends EObjectImpl implements EClassMapping {
 	 * @generated
 	 * @ordered
 	 */
-	protected Individual referneceIndividual = REFERNECE_INDIVIDUAL_EDEFAULT;
+	protected org.apache.jena.ontology.Individual referneceIndividual = REFERNECE_INDIVIDUAL_EDEFAULT;
 
 	/**
 	 * The cached value of the '{@link #getAttributeMappings() <em>Attribute Mappings</em>}' reference list.
@@ -137,7 +135,7 @@ public class EClassMappingImpl extends EObjectImpl implements EClassMapping {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Individual getReferneceIndividual() {
+	public org.apache.jena.ontology.Individual getReferneceIndividual() {
 		return referneceIndividual;
 	}
 
@@ -146,8 +144,8 @@ public class EClassMappingImpl extends EObjectImpl implements EClassMapping {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setReferneceIndividual(Individual newReferneceIndividual) {
-		Individual oldReferneceIndividual = referneceIndividual;
+	public void setReferneceIndividual(org.apache.jena.ontology.Individual newReferneceIndividual) {
+		org.apache.jena.ontology.Individual oldReferneceIndividual = referneceIndividual;
 		referneceIndividual = newReferneceIndividual;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, MappingPackage.ECLASS_MAPPING__REFERNECE_INDIVIDUAL, oldReferneceIndividual, referneceIndividual));
@@ -196,7 +194,7 @@ public class EClassMappingImpl extends EObjectImpl implements EClassMapping {
 				setReferenceEClass((EClass)newValue);
 				return;
 			case MappingPackage.ECLASS_MAPPING__REFERNECE_INDIVIDUAL:
-				setReferneceIndividual((Individual)newValue);
+				setReferneceIndividual((org.apache.jena.ontology.Individual)newValue);
 				return;
 			case MappingPackage.ECLASS_MAPPING__ATTRIBUTE_MAPPINGS:
 				getAttributeMappings().clear();

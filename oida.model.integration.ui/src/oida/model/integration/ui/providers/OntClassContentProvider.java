@@ -11,10 +11,10 @@ import org.eclipse.jface.viewers.ITreeContentProvider;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.jface.viewers.Viewer;
 
-import com.hp.hpl.jena.ontology.OntClass;
-import com.hp.hpl.jena.ontology.OntProperty;
-import com.hp.hpl.jena.ontology.OntResource;
-import com.hp.hpl.jena.ontology.Ontology;
+import org.apache.jena.ontology.OntClass;
+import org.apache.jena.ontology.OntProperty;
+import org.apache.jena.ontology.OntResource;
+import org.apache.jena.ontology.Ontology;
 
 public class OntClassContentProvider implements ITreeContentProvider {
 	private static Object[] EMPTY_ARRAY = new Object[0];

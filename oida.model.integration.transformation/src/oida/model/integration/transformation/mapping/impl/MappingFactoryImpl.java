@@ -11,12 +11,6 @@
  */
 package oida.model.integration.transformation.mapping.impl;
 
-import oida.model.integration.transformation.mapping.AttributeMapping;
-import oida.model.integration.transformation.mapping.EClassMapping;
-import oida.model.integration.transformation.mapping.MappingFactory;
-import oida.model.integration.transformation.mapping.MappingPackage;
-import oida.model.integration.transformation.mapping.ReferenceMapping;
-
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
@@ -25,7 +19,11 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.impl.EFactoryImpl;
 import org.eclipse.emf.ecore.plugin.EcorePlugin;
 
-import com.hp.hpl.jena.ontology.Individual;
+import oida.model.integration.transformation.mapping.AttributeMapping;
+import oida.model.integration.transformation.mapping.EClassMapping;
+import oida.model.integration.transformation.mapping.MappingFactory;
+import oida.model.integration.transformation.mapping.MappingPackage;
+import oida.model.integration.transformation.mapping.ReferenceMapping;
 
 /**
  * <!-- begin-user-doc -->
@@ -42,7 +40,7 @@ public class MappingFactoryImpl extends EFactoryImpl implements MappingFactory {
 	 */
 	public static MappingFactory init() {
 		try {
-			MappingFactory theMappingFactory = (MappingFactory)EPackage.Registry.INSTANCE.getEFactory("http://bhl.net/cdt/transformation/mapping"); 
+			MappingFactory theMappingFactory = (MappingFactory)EPackage.Registry.INSTANCE.getEFactory(MappingPackage.eNS_URI);
 			if (theMappingFactory != null) {
 				return theMappingFactory;
 			}
@@ -152,8 +150,8 @@ public class MappingFactoryImpl extends EFactoryImpl implements MappingFactory {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public Individual createIndividualFromString(EDataType eDataType, String initialValue) {
-		return (Individual)super.createFromString(eDataType, initialValue);
+	public org.apache.jena.ontology.Individual createIndividualFromString(EDataType eDataType, String initialValue) {
+		return (org.apache.jena.ontology.Individual)super.createFromString(eDataType, initialValue);
 	}
 
 	/**

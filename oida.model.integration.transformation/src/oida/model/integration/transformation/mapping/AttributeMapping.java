@@ -21,11 +21,11 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link oida.model.integration.transformation.mapping.AttributeMapping#getSourceEAttribute <em>Source EAttribute</em>}</li>
  *   <li>{@link oida.model.integration.transformation.mapping.AttributeMapping#getReferenceEAttribute <em>Reference EAttribute</em>}</li>
  * </ul>
- * </p>
  *
  * @see oida.model.integration.transformation.mapping.MappingPackage#getAttributeMapping()
  * @model
@@ -43,7 +43,7 @@ public interface AttributeMapping extends EObject {
 	 * @return the value of the '<em>Source EAttribute</em>' attribute.
 	 * @see #setSourceEAttribute(EAttribute)
 	 * @see oida.model.integration.transformation.mapping.MappingPackage#getAttributeMapping_SourceEAttribute()
-	 * @model dataType="net.bhl.cdt.model.integration.transformation.mapping.EAttribute"
+	 * @model dataType="oida.model.integration.transformation.mapping.EAttribute"
 	 * @generated
 	 */
 	EAttribute getSourceEAttribute();
@@ -69,7 +69,7 @@ public interface AttributeMapping extends EObject {
 	 * @return the value of the '<em>Reference EAttribute</em>' attribute.
 	 * @see #setReferenceEAttribute(EAttribute)
 	 * @see oida.model.integration.transformation.mapping.MappingPackage#getAttributeMapping_ReferenceEAttribute()
-	 * @model dataType="net.bhl.cdt.model.integration.transformation.mapping.EAttribute"
+	 * @model dataType="oida.model.integration.transformation.mapping.EAttribute"
 	 * @generated
 	 */
 	EAttribute getReferenceEAttribute();

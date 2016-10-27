@@ -16,7 +16,7 @@ import oida.model.integration.transformation.modelgenerator.Metamodel;
 import oida.model.integration.transformation.ontologygenerator.Renamer;
 import oida.model.integration.transformation.util.TransformatorHelper;
 
-import com.hp.hpl.jena.ontology.Ontology;
+import org.apache.jena.ontology.Ontology;
 
 public final class MatchingHelper {
 	public static DiffModel getDiffModel(

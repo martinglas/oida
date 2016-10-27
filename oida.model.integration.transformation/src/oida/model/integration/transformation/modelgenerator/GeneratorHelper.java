@@ -12,10 +12,10 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import oida.model.integration.transformation.typemapping.DatatypeProvider;
-import oida.model.integration.transformation.util.TransformatorHelper;
-import oida.ontology.model.OntologyModel;
-
+import org.apache.jena.ontology.DatatypeProperty;
+import org.apache.jena.ontology.ObjectProperty;
+import org.apache.jena.ontology.OntClass;
+import org.apache.jena.ontology.Ontology;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -27,6 +27,10 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.resource.ResourceSet;
 import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.ecore.xmi.impl.XMIResourceFactoryImpl;
+
+import oida.model.integration.transformation.typemapping.DatatypeProvider;
+import oida.model.integration.transformation.util.TransformatorHelper;
+import oida.ontology.model.OntologyModel;
 
 
 

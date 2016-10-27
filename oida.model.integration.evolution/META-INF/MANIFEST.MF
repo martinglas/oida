@@ -8,4 +8,4 @@ Require-Bundle: oida.model.integration.transformation;visibility:=reexport
 Bundle-ActivationPolicy: lazy
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
 Export-Package: oida.model.integration.evolution
-Import-Package: org.apache.jena.ontology
+

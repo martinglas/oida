@@ -11,12 +11,6 @@
  */
 package oida.model.integration.transformation.mapping.impl;
 
-import oida.model.integration.transformation.mapping.AttributeMapping;
-import oida.model.integration.transformation.mapping.EClassMapping;
-import oida.model.integration.transformation.mapping.MappingFactory;
-import oida.model.integration.transformation.mapping.MappingPackage;
-import oida.model.integration.transformation.mapping.ReferenceMapping;
-
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EDataType;
@@ -24,7 +18,11 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.impl.EPackageImpl;
 
-import com.hp.hpl.jena.ontology.Individual;
+import oida.model.integration.transformation.mapping.AttributeMapping;
+import oida.model.integration.transformation.mapping.EClassMapping;
+import oida.model.integration.transformation.mapping.MappingFactory;
+import oida.model.integration.transformation.mapping.MappingPackage;
+import oida.model.integration.transformation.mapping.ReferenceMapping;
 
 /**
  * <!-- begin-user-doc -->
@@ -355,7 +353,7 @@ public class MappingPackageImpl extends EPackageImpl implements MappingPackage {
 		initEAttribute(getAttributeMapping_ReferenceEAttribute(), this.getEAttribute(), "referenceEAttribute", null, 0, 1, AttributeMapping.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		// Initialize data types
-		initEDataType(individualEDataType, Individual.class, "Individual", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
+		initEDataType(individualEDataType, org.apache.jena.ontology.Individual.class, "Individual", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 		initEDataType(eClassEDataType, EClass.class, "EClass", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 		initEDataType(eAttributeEDataType, EAttribute.class, "EAttribute", IS_SERIALIZABLE, !IS_GENERATED_INSTANCE_CLASS);
 

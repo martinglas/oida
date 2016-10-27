@@ -38,4 +38,12 @@
    </extension>
 
 
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated mapping -->
+      <package
+            uri="http://oida/transformation/mapping"
+            class="oida.model.integration.transformation.mapping.MappingPackage"
+            genModel="model/mapping.genmodel"/>
+   </extension>
+
 </plugin>

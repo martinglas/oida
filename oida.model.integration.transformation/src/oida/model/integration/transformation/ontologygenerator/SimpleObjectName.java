@@ -5,11 +5,11 @@
  ******************************************************************************/
 package oida.model.integration.transformation.ontologygenerator;
 
-import oida.model.integration.modelprovider.ModelProviderHelper;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
+
+import oida.model.integration.modelprovider.ModelProviderHelper;
 
 public class SimpleObjectName implements RenamerStrategy {
 	protected EObject rootEObject;

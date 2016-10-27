@@ -47,7 +47,7 @@ public interface MappingPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_URI = "http://bhl.net/cdt/transformation/mapping";
+	String eNS_URI = "http://oida/transformation/mapping";
 
 	/**
 	 * The package namespace name.
@@ -55,7 +55,7 @@ public interface MappingPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_PREFIX = "net.bhl.cdt.merge";
+	String eNS_PREFIX = "oida.merge";
 
 	/**
 	 * The singleton instance of the package.
@@ -198,7 +198,7 @@ public interface MappingPackage extends EPackage {
 	 * The meta object id for the '<em>Individual</em>' data type.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see com.hp.hpl.jena.ontology.Individual
+	 * @see org.apache.jena.ontology.Individual
 	 * @see oida.model.integration.transformation.mapping.impl.MappingPackageImpl#getIndividual()
 	 * @generated
 	 */
@@ -344,12 +344,12 @@ public interface MappingPackage extends EPackage {
 	EAttribute getAttributeMapping_ReferenceEAttribute();
 
 	/**
-	 * Returns the meta object for data type '{@link com.hp.hpl.jena.ontology.Individual <em>Individual</em>}'.
+	 * Returns the meta object for data type '{@link org.apache.jena.ontology.Individual <em>Individual</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for data type '<em>Individual</em>'.
-	 * @see com.hp.hpl.jena.ontology.Individual
-	 * @model instanceClass="com.hp.hpl.jena.ontology.Individual"
+	 * @see org.apache.jena.ontology.Individual
+	 * @model instanceClass="org.apache.jena.ontology.Individual"
 	 * @generated
 	 */
 	EDataType getIndividual();
@@ -496,7 +496,7 @@ public interface MappingPackage extends EPackage {
 		 * The meta object literal for the '<em>Individual</em>' data type.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see com.hp.hpl.jena.ontology.Individual
+		 * @see org.apache.jena.ontology.Individual
 		 * @see oida.model.integration.transformation.mapping.impl.MappingPackageImpl#getIndividual()
 		 * @generated
 		 */

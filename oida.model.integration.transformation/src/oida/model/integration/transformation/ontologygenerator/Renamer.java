@@ -13,11 +13,11 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 
-import oida.model.integration.modelprovider.ModelProviderHelper;
-
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
+
+import oida.model.integration.modelprovider.ModelProviderHelper;
 
 /**
  * This class renames model elements in order to avoid naming conflicts.

@@ -11,10 +11,6 @@
  */
 package oida.model.integration.transformation.mapping.impl;
 
-import oida.model.integration.transformation.mapping.EClassMapping;
-import oida.model.integration.transformation.mapping.MappingPackage;
-import oida.model.integration.transformation.mapping.ReferenceMapping;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
@@ -22,18 +18,22 @@ import org.eclipse.emf.ecore.InternalEObject;
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 import org.eclipse.emf.ecore.impl.EObjectImpl;
 
+import oida.model.integration.transformation.mapping.EClassMapping;
+import oida.model.integration.transformation.mapping.MappingPackage;
+import oida.model.integration.transformation.mapping.ReferenceMapping;
+
 /**
  * <!-- begin-user-doc -->
  * An implementation of the model object '<em><b>Reference Mapping</b></em>'.
  * <!-- end-user-doc -->
  * <p>
  * The following features are implemented:
+ * </p>
  * <ul>
  *   <li>{@link oida.model.integration.transformation.mapping.impl.ReferenceMappingImpl#getSourceEObject <em>Source EObject</em>}</li>
  *   <li>{@link oida.model.integration.transformation.mapping.impl.ReferenceMappingImpl#getReferenceEObject <em>Reference EObject</em>}</li>
  *   <li>{@link oida.model.integration.transformation.mapping.impl.ReferenceMappingImpl#getEClassMapping <em>EClass Mapping</em>}</li>
  * </ul>
- * </p>
  *
  * @generated
  */

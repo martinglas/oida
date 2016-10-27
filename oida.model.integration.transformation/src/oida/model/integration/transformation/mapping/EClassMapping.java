@@ -15,8 +15,6 @@ import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
-import com.hp.hpl.jena.ontology.Individual;
-
 
 
 /**
@@ -26,12 +24,12 @@ import com.hp.hpl.jena.ontology.Individual;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link oida.model.integration.transformation.mapping.EClassMapping#getReferenceEClass <em>Reference EClass</em>}</li>
  *   <li>{@link oida.model.integration.transformation.mapping.EClassMapping#getReferneceIndividual <em>Refernece Individual</em>}</li>
  *   <li>{@link oida.model.integration.transformation.mapping.EClassMapping#getAttributeMappings <em>Attribute Mappings</em>}</li>
  * </ul>
- * </p>
  *
  * @see oida.model.integration.transformation.mapping.MappingPackage#getEClassMapping()
  * @model
@@ -49,7 +47,7 @@ public interface EClassMapping extends EObject {
 	 * @return the value of the '<em>Reference EClass</em>' attribute.
 	 * @see #setReferenceEClass(EClass)
 	 * @see oida.model.integration.transformation.mapping.MappingPackage#getEClassMapping_ReferenceEClass()
-	 * @model dataType="net.bhl.cdt.model.integration.transformation.mapping.EClass"
+	 * @model dataType="oida.model.integration.transformation.mapping.EClass"
 	 * @generated
 	 */
 	EClass getReferenceEClass();
@@ -73,12 +71,12 @@ public interface EClassMapping extends EObject {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Refernece Individual</em>' attribute.
-	 * @see #setReferneceIndividual(Individual)
+	 * @see #setReferneceIndividual(org.apache.jena.ontology.Individual)
 	 * @see oida.model.integration.transformation.mapping.MappingPackage#getEClassMapping_ReferneceIndividual()
-	 * @model dataType="net.bhl.cdt.model.integration.transformation.mapping.Individual"
+	 * @model dataType="oida.model.integration.transformation.mapping.Individual"
 	 * @generated
 	 */
-	Individual getReferneceIndividual();
+	org.apache.jena.ontology.Individual getReferneceIndividual();
 
 	/**
 	 * Sets the value of the '{@link oida.model.integration.transformation.mapping.EClassMapping#getReferneceIndividual <em>Refernece Individual</em>}' attribute.
@@ -88,7 +86,7 @@ public interface EClassMapping extends EObject {
 	 * @see #getReferneceIndividual()
 	 * @generated
 	 */
-	void setReferneceIndividual(Individual value);
+	void setReferneceIndividual(org.apache.jena.ontology.Individual value);
 
 	/**
 	 * Returns the value of the '<em><b>Attribute Mappings</b></em>' reference list.

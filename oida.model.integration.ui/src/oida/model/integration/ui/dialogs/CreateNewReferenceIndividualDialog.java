@@ -38,7 +38,7 @@ import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 
 import org.apache.jena.ontology.Individual;
-import com.hp.hpl.jena.ontology.OntClass;
+import org.apache.jena.ontology.OntClass;
 
 public class CreateNewReferenceIndividualDialog extends Dialog {
 	private DataBindingContext m_bindingContext;

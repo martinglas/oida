@@ -5,9 +5,9 @@
  ******************************************************************************/
 package oida.model.integration.transformation.ontologygenerator;
 
-import oida.model.integration.modelprovider.ModelProviderHelper;
-
 import org.eclipse.emf.ecore.EObject;
+
+import oida.model.integration.modelprovider.ModelProviderHelper;
 
 public class ContainerContext extends SimpleObjectName {
 

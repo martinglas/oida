@@ -20,12 +20,12 @@ import org.eclipse.emf.ecore.EObject;
  *
  * <p>
  * The following features are supported:
+ * </p>
  * <ul>
  *   <li>{@link oida.model.integration.transformation.mapping.ReferenceMapping#getSourceEObject <em>Source EObject</em>}</li>
  *   <li>{@link oida.model.integration.transformation.mapping.ReferenceMapping#getReferenceEObject <em>Reference EObject</em>}</li>
  *   <li>{@link oida.model.integration.transformation.mapping.ReferenceMapping#getEClassMapping <em>EClass Mapping</em>}</li>
  * </ul>
- * </p>
  *
  * @see oida.model.integration.transformation.mapping.MappingPackage#getReferenceMapping()
  * @model

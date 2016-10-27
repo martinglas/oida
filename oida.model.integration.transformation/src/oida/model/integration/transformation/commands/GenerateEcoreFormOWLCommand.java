@@ -7,12 +7,12 @@ package oida.model.integration.transformation.commands;
 
 import java.net.URL;
 
+import org.apache.jena.ontology.Ontology;
+
 import oida.model.integration.transformation.modelgenerator.GeneratorHelper;
 import oida.model.integration.transformation.modelgenerator.Metamodel;
 import oida.model.integration.transformation.modelgenerator.MetamodelHelper;
 import oida.ontology.model.OntologyModel;
-
-import com.hp.hpl.jena.ontology.Ontology;
 
 /**
  * This class provides command to generate an ECore metamodel form an owl

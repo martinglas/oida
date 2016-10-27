@@ -9,9 +9,17 @@ Bundle-ClassPath: .,
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Export-Package: oida.model.integration.transformation.mapping,
+ oida.model.integration.transformation.mapping.impl,
+ oida.model.integration.transformation.mapping.util,
+ oida.model.integration.transformation.modelgenerator,
+ oida.model.integration.transformation.ontologygenerator,
+ oida.model.integration.transformation.util
 Require-Bundle: oida.model.integration.modelprovider;visibility:=reexport,
  org.eclipse.swt;visibility:=reexport,
  org.eclipse.ui;bundle-version="3.105.0";visibility:=reexport,
  oida.ontology;bundle-version="1.0.0";visibility:=reexport,
- org.eclipse.emf.ecore.xmi;visibility:=reexport
+ org.eclipse.emf.ecore.xmi;visibility:=reexport,
+ org.eclipse.core.runtime,
+ org.eclipse.emf.ecore;visibility:=reexport
 Bundle-ActivationPolicy: lazy

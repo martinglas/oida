@@ -14,12 +14,12 @@ import oida.ontology.util.OntologyHelper;
 
 import org.eclipse.emf.common.util.URI;
 
-import com.hp.hpl.jena.iri.IRI;
-import com.hp.hpl.jena.ontology.OntModel;
-import com.hp.hpl.jena.ontology.OntResource;
-import com.hp.hpl.jena.ontology.ProfileRegistry;
-import com.hp.hpl.jena.rdf.model.ModelFactory;
-import com.hp.hpl.jena.util.ResourceUtils;
+import org.apache.jena.iri.IRI;
+import org.apache.jena.ontology.OntModel;
+import org.apache.jena.ontology.OntResource;
+import org.apache.jena.ontology.ProfileRegistry;
+import org.apache.jena.rdf.model.ModelFactory;
+import org.apache.jena.util.ResourceUtils;
 
 public class RenameReference {
 	private HashMap<URI, OntModel> sourceOntModels = new HashMap<URI, OntModel>();

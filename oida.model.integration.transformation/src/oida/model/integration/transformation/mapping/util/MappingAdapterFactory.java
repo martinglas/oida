@@ -11,15 +11,15 @@
  */
 package oida.model.integration.transformation.mapping.util;
 
-import oida.model.integration.transformation.mapping.AttributeMapping;
-import oida.model.integration.transformation.mapping.EClassMapping;
-import oida.model.integration.transformation.mapping.MappingPackage;
-import oida.model.integration.transformation.mapping.ReferenceMapping;
-
 import org.eclipse.emf.common.notify.Adapter;
 import org.eclipse.emf.common.notify.Notifier;
 import org.eclipse.emf.common.notify.impl.AdapterFactoryImpl;
 import org.eclipse.emf.ecore.EObject;
+
+import oida.model.integration.transformation.mapping.AttributeMapping;
+import oida.model.integration.transformation.mapping.EClassMapping;
+import oida.model.integration.transformation.mapping.MappingPackage;
+import oida.model.integration.transformation.mapping.ReferenceMapping;
 
 /**
  * <!-- begin-user-doc -->

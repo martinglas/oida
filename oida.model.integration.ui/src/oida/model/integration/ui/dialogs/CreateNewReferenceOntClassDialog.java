@@ -37,7 +37,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.swt.widgets.Text;
 import org.eclipse.ui.PlatformUI;
 
-import com.hp.hpl.jena.ontology.OntClass;
+import org.apache.jena.ontology.OntClass;
 
 public class CreateNewReferenceOntClassDialog extends Dialog {
 	private DataBindingContext m_bindingContext;

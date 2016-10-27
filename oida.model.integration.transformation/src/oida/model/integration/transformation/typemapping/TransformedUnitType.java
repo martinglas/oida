@@ -7,10 +7,10 @@ package oida.model.integration.transformation.typemapping;
 
 import javax.measure.unit.TransformedUnit;
 
-import com.hp.hpl.jena.datatypes.BaseDatatype;
-import com.hp.hpl.jena.datatypes.DatatypeFormatException;
-import com.hp.hpl.jena.datatypes.RDFDatatype;
-import com.hp.hpl.jena.graph.impl.LiteralLabel;
+import org.apache.jena.datatypes.BaseDatatype;
+import org.apache.jena.datatypes.DatatypeFormatException;
+import org.apache.jena.datatypes.RDFDatatype;
+import org.apache.jena.graph.impl.LiteralLabel;
 
 public class TransformedUnitType extends BaseDatatype {
 

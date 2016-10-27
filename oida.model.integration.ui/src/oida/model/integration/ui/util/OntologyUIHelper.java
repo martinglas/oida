@@ -25,7 +25,7 @@ import org.eclipse.swt.widgets.Shell;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.HandlerUtil;
 
-import com.hp.hpl.jena.ontology.OntResource;
+import org.apache.jena.ontology.OntResource;
 
 public final class OntologyUIHelper {
 	public static class OntResourceSorter extends ViewerSorter {
