@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            category="de.symo.ontology.manager.ui"
+            class="oida.ontology.manager.ui.UiExecutableExtensionFactory:oida.ontology.manager.ui.OntologyLibraryView"
+            id="de.symo.ontology.manager.ui"
+            name="Ontology Library"
+            restorable="true">
+      </view>
+   </extension>
+</plugin>

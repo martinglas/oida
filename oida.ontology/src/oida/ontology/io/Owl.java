@@ -203,7 +203,7 @@ public final class Owl {
 
 	}
 
-	public static OntModel loadFromOwlToOntModel(URI sourceOntologyURI,
+	public static OntModel EXC_FILE_ERROR(URI sourceOntologyURI,
 			URL sourceFileURL, OntModel ontModel) {
 
 		OntologyHelper.addMerologyFileEntry(ontModel);
