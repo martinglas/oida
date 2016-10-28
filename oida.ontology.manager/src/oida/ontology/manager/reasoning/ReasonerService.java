@@ -15,6 +15,10 @@ public class ReasonerService extends Thread {
 	
 	private ValidityReport results;
 	
+	public ValidityReport getResults() {
+		return results;
+	}
+	
 	public ReasonerService() {	
 		reasoner = ReasonerRegistry.getOWLReasoner();
 	}

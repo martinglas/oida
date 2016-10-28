@@ -31,7 +31,7 @@ public class RenameReference {
 	public RenameReference(URL referenceOntologyFileURL) {
 		setReferenceOntModel(ModelFactory
 				.createOntologyModel(ProfileRegistry.OWL_DL_LANG));
-		Owl.loadFromOwlToOntModel(OntologyHelper
+		Owl.loadFromOwlToOntModelWithImport(OntologyHelper
 				.getOntologyURI(OntologyHelper.REFERENCE_ONTOLOGY_FILENAME),
 				referenceOntologyFileURL, getReferenceOntModel());
 	}
@@ -58,7 +58,7 @@ public class RenameReference {
 
 			OntModel sourceOntModel = ModelFactory
 					.createOntologyModel(ProfileRegistry.OWL_DL_LANG);
-			Owl.loadFromOwlToOntModel(sourceOntologyEntry.getKey(),
+			Owl.loadFromOwlToOntModelWithImport(sourceOntologyEntry.getKey(),
 					sourceOntologyEntry.getValue(), sourceOntModel);
 			getSourceOntModels().put(sourceOntologyEntry.getKey(),
 					sourceOntModel);

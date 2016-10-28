@@ -5,7 +5,7 @@ Bundle-SymbolicName: oida.ontology;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: oida.ontology.Activator
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: oida.ontology,
  oida.ontology.io,
  oida.ontology.matcher,

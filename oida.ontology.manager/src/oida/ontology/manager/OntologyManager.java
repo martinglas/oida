@@ -2,16 +2,10 @@ package oida.ontology.manager;
 
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 
-import org.apache.jena.ontology.OntClass;
-import org.apache.jena.ontology.OntModelSpec;
-import org.apache.jena.ontology.OntResource;
 import org.apache.jena.ontology.ProfileRegistry;
 import org.apache.jena.rdf.model.ModelFactory;
-import org.apache.jena.util.iterator.ExtendedIterator;
 
 import OIDAOntMgr.LocalOntology;
 import OIDAOntMgr.ManagedOntology;

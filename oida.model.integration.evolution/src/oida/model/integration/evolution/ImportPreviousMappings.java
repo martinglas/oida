@@ -96,7 +96,7 @@ public class ImportPreviousMappings {
 
 		URL previousOntologyURL = OntologyHelper.getFileURL(getFilePath(), getPreviousOntologyFileName());
 
-		Owl.loadFromOwlToOntModel(previousOntologyURI, previousOntologyURL, getPreviousOntModel());
+		Owl.loadFromOwlToOntModelWithImport(previousOntologyURI, previousOntologyURL, getPreviousOntModel());
 		setOldOntology(getPreviousOntModel().getOntology(previousOntologyURI.toString()));
 
 	}

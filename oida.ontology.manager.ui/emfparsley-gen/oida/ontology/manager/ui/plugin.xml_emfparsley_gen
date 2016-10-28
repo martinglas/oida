@@ -4,9 +4,9 @@
    <extension
          point="org.eclipse.ui.views">
       <view
-            category="de.symo.ontology.manager.ui"
+            category="oida.ontology.manager.ui"
             class="oida.ontology.manager.ui.UiExecutableExtensionFactory:oida.ontology.manager.ui.OntologyLibraryView"
-            id="de.symo.ontology.manager.ui"
+            id="oida.ontology.manager.ui"
             name="Ontology Library"
             restorable="true">
       </view>

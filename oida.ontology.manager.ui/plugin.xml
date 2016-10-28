@@ -10,6 +10,13 @@
             name="Ontology Library"
             restorable="true">
       </view>
+      <view
+            category="oida.ontology.manager.ui"
+            class="oida.ontology.manager.ui.UiExecutableExtensionFactory:oida.ontology.manager.ui.OntologyLibraryView"
+            id="oida.ontology.manager.ui"
+            name="Ontology Library"
+            restorable="true">
+      </view>
    </extension>
    <extension
          id="de.symo.ontology.manager.ui.fragment"

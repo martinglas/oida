@@ -9,10 +9,10 @@ import OIDAOntMgr.LocalOntology
 module oida.ontology.manager.ui {
 	
 	parts {
-		viewpart de.symo.ontology.manager.ui {
+		viewpart oida.ontology.manager.ui {
 			viewname "Ontology Library"
 			viewclass OntologyLibraryView
-			viewcategory de.symo.ontology.manager.ui
+			viewcategory oida.ontology.manager.ui
 		}
 	}
 	
