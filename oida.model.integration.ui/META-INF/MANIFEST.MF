@@ -15,7 +15,7 @@ Require-Bundle: oida.model.integration.merge;visibility:=reexport,
  org.eclipse.ui.workbench,
  org.eclipse.emf.edit.ui
 Bundle-ActivationPolicy: lazy
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: oida.model.integration.ui
 Bundle-ClassPath: .,
  swing2swt.jar

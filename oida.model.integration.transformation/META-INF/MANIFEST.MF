@@ -8,7 +8,7 @@ Bundle-ClassPath: .,
  lib/jscience-4.3.1.jar
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
-Bundle-RequiredExecutionEnvironment: JavaSE-1.6
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: oida.model.integration.transformation.mapping,
  oida.model.integration.transformation.mapping.impl,
  oida.model.integration.transformation.mapping.util,
