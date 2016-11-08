@@ -1,50 +1,15 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
-   <extension
-         point="org.eclipse.ui.commands">
-      <command
-            defaultHandler="oida.ontology.handlers.LoadOntologyHandler"
-            id="net.bhl.cdt.ontology.loadOntology"
-            name="LoadOntology">
-      </command>
-      <command
-            defaultHandler="oida.ontology.handlers.SaveOntologyHandler"
-            id="net.bhl.cdt.ontology.saveOntology"
-            name="SaveOntology">
-      </command>
-   </extension>
-   <extension
-         point="org.eclipse.ui.menus">
-      <menuContribution
-            allPopups="false"
-            locationURI="popup:org.eclipse.emf.ecp.navigator.viewer?after=additions">
-         <command
-               commandId="net.bhl.cdt.ontology.loadOntology"
-               label="LoadOntology"
-               style="push">
-         </command>
-         <command
-               commandId="net.bhl.cdt.ontology.saveOntology"
-               label="SaveOntology"
-               style="push">
-         </command>
-      </menuContribution>
-   </extension>
-   <extension
-         point="org.eclipse.emf.ecore.generated_package">
-      <package
-            class="oida.ontology.matcher.MatcherPackage"
-            uri="net.bhl.cdt.ontology.matcher">
-      </package>
-   </extension>
+
+
 
    <extension point="org.eclipse.emf.ecore.generated_package">
-      <!-- @generated matcher -->
+      <!-- @generated ontologyMgr -->
       <package
-            uri="http://bhl.net/cdt/ontology/matcher"
-            class="oida.ontology.matcher.MatcherPackage"
-            genModel="model/matcher.genmodel"/>
+            uri="http://bauhaus-luftfahrt.net/oida/ontologyMgr"
+            class="oida.ontologyMgr.OntologyMgrPackage"
+            genModel="model/ontologyMgr.genmodel"/>
    </extension>
 
 </plugin>

@@ -1,0 +1,65 @@
+import oida.ontologyMgr.OntologyMgrFactory
+import oida.ontology.ui.e4.OntologyLibraryView
+import oida.ontologyMgr.Library
+import java.util.Date
+import oida.ontologyMgr.LocalOntology
+import oida.ontologyMgr.GitRepoOntology
+
+/* oida.ontology.ui.e4 Emf Parsley Dsl Module file */
+module oida.ontology.ui.e4 {
+	
+	parts {
+		viewpart oida.ontology.ui.e4 {
+			viewname "Ontology Library"
+			viewclass OntologyLibraryView
+		}
+	}
+	
+	resourceManager {
+		initializeResource {
+			val lib = OntologyMgrFactory.eINSTANCE.createLibrary
+			lib.creationDate = new Date
+			lib.owner = System.getProperty("user.name")
+			
+			it.getContents += lib
+		}
+	}
+	
+	viewerContentProvider{
+		elements{
+			Library -> ontologies
+		}
+		children {
+			Library -> ontologies
+		}
+	}
+	
+	featuresProvider {
+		features {
+			Library -> owner, creationDate
+			LocalOntology -> path, file, maintenanceFile
+			GitRepoOntology -> path, file, maintenanceFile, repoURL, gitUsername, gitPassword
+		}
+	}
+	
+	labelProvider {
+		text {
+			Library -> "Listed Ontologies"
+			LocalOntology e -> e.file
+			GitRepoOntology e -> e.file
+		}
+		image {
+			Library -> "OntologyLibrary_16.png"
+			LocalOntology -> "OntologyLocal_16.png"
+			GitRepoOntology -> "OntologyRepository_16.png"
+		}
+	}
+	
+	menuBuilder{
+			emfMenus{
+				Library lib -> #[
+					actionAdd("Add local Ontology", lib.ontologies, OntologyMgrFactory.eINSTANCE.createLocalOntology)
+				]
+			}
+		}
+}

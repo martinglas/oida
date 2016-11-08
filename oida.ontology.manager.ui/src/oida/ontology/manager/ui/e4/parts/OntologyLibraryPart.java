@@ -6,7 +6,6 @@ import java.util.EventObject;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.e4.ui.di.Persist;
 import org.eclipse.e4.ui.model.application.ui.MDirtyable;
 import org.eclipse.emf.common.command.CommandStackListener;
@@ -26,17 +25,20 @@ import com.google.inject.Injector;
 import oida.ontology.manager.ui.UiInjectorProvider;
 
 public class OntologyLibraryPart {
-	
-	//the EMF Parley composite for showing a tree and a detail form
+
+	// the EMF Parley composite for showing a tree and a detail form
 	private TreeFormComposite treeFormComposite;
 	// the EMF Resource
 	private Resource resource;
 	// URI for EMF Resource
-	private URI uri = URI.createFileURI(ResourcesPlugin.getWorkspace().getRoot().getLocation().toString() + "//OntLib.onl");
-	
+	private URI uri = URI.createFileURI(System.getProperty("user.home") + "/MyLibrary.library");
+	// private URI uri =
+	// URI.createFileURI(ResourcesPlugin.getWorkspace().getRoot().getLocation().toString()
+	// + "//OntLib.onl");
+
 	@Inject
 	MDirtyable dirty;
-	
+
 	public OntologyLibraryPart() {
 
 	}
@@ -76,7 +78,7 @@ public class OntologyLibraryPart {
 			}
 		});
 	}
-	
+
 	@Persist
 	public void save(MDirtyable dirty) throws IOException {
 		resource.save(null);

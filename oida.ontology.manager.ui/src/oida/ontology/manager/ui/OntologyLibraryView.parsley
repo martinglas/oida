@@ -1,13 +1,13 @@
 import oida.ontology.manager.ui.OntologyLibraryView
 import java.util.Date
 import org.eclipse.swt.SWT
-import OIDAOntMgr.Library
-import OIDAOntMgr.OIDAOntMgrFactory
-import OIDAOntMgr.GitRepoOntology
-import OIDAOntMgr.LocalOntology
+import oida.ontologyMgr.OntologyMgrFactory
+import oida.ontologyMgr.Library
+import oida.ontologyMgr.LocalOntology
+import oida.ontologyMgr.GitRepoOntology
+import oida.ontology.manager.ui.swt.FilePathSelectorComposite
 
 module oida.ontology.manager.ui {
-	
 	parts {
 		viewpart oida.ontology.manager.ui {
 			viewname "Ontology Library"
@@ -22,13 +22,24 @@ module oida.ontology.manager.ui {
 	
 	resourceManager {
 		initializeResource {
-			val l = OIDAOntMgrFactory.eINSTANCE.createLibrary
+			val l = OntologyMgrFactory.eINSTANCE.createLibrary
 			l.creationDate = new Date()
 			
+			l.ontologies += OntologyMgrFactory.eINSTANCE.createLocalOntology
+
 			it.getContents += l
 		}
 	}
-	
+
+	viewerContentProvider{
+		elements{
+			Library -> ontologies
+		}
+		children {
+			Library -> ontologies
+		}
+	}
+
 	featuresProvider {
 		features {
 			Library -> owner, creationDate
@@ -36,7 +47,7 @@ module oida.ontology.manager.ui {
 			GitRepoOntology -> path, file, maintenanceFile, repoURL, gitUsername, gitPassword
 		}
 	}
-	
+
 	labelProvider {
 		text {
 			Library -> "Listed Ontologies"
@@ -49,16 +60,16 @@ module oida.ontology.manager.ui {
 			GitRepoOntology -> "OntologyRepository_16.png"
 		}
 	}
-	
+
 	featureCaptionProvider {
 		text {
 			Library : owner -> "Owner: "
 			Library : creationDate -> "Created on: "
-			
+
 			LocalOntology : path -> "Path: "
 			LocalOntology : file -> "File: "
 			LocalOntology : maintenanceFile -> "Maintenance Ontology: "
-			
+
 			GitRepoOntology : path -> "Path: "
 			GitRepoOntology : file -> "File: "
 			GitRepoOntology : maintenanceFile -> "Maintenance Ontology: "
@@ -67,12 +78,30 @@ module oida.ontology.manager.ui {
 			GitRepoOntology : gitPassword -> "Password: "
 		}
 	}
-	
+
 	formControlFactory {
 		control {
-			Library : owner -> { createText(parent, SWT.READ_ONLY) } target { observeText }
-			Library : creationDate -> { createText(parent, SWT.READ_ONLY) } target { observeText }
-			GitRepoOntology : gitPassword -> { createText(parent, SWT.PASSWORD) } target { observeText }
+			Library : owner -> {
+				createText(parent, SWT.READ_ONLY)
+			} target {
+				observeText
+			}
+			Library : creationDate -> {
+				createText(parent, SWT.READ_ONLY)
+			} target {
+				observeText
+			}
+
+			LocalOntology : path -> {
+				val fpsel = new FilePathSelectorComposite(parent, SWT.NONE, false)
+				return fpsel.getTextControl
+			} target { observeText }
+
+			GitRepoOntology : gitPassword -> {
+				createText(parent, SWT.PASSWORD)
+			} target {
+				observeText
+			}
 		}
 	}
 }

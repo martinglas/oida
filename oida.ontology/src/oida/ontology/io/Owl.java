@@ -115,14 +115,12 @@ public final class Owl {
 	 * @param sourceFileURL
 	 *            The location of the File expressed in a URL
 	 */
-	public static Ontology loadFromOwl(URI sourceOntologyURI, URL sourceFileURL) {
+	public static Ontology loadFromOwl(URI sourceOntologyURI,
+			URL sourceFileURL) {
 		OntologyModel ontologyModel = OntologyModel.getInstance();
 		ontologyModel.addOntology(sourceOntologyURI);
-		ontologyModel
-				.getOntologyModel()
-				.getDocumentManager()
-				.addAltEntry(sourceOntologyURI.toString(),
-						sourceFileURL.toString());
+		ontologyModel.getOntologyModel().getDocumentManager().addAltEntry(
+				sourceOntologyURI.toString(), sourceFileURL.toString());
 
 		ontologyModel.getOntologyModel().read(sourceOntologyURI.toString());
 		// ontologyModel.getOntologyModel().loadImports();
@@ -131,10 +129,10 @@ public final class Owl {
 			System.out.println("Successfully loaded " + ontology.getURI());
 		}
 
-		for (String importedOntologyURIString : ontologyModel
-				.getOntologyModel().listImportedOntologyURIs()) {
-			System.out.println("Successfully imported "
-					+ importedOntologyURIString);
+		for (String importedOntologyURIString : ontologyModel.getOntologyModel()
+				.listImportedOntologyURIs()) {
+			System.out.println(
+					"Successfully imported " + importedOntologyURIString);
 		}
 
 		return ontologyModel.getOntology(sourceOntologyURI);
@@ -150,15 +148,12 @@ public final class Owl {
 	 * @param sourceFileURL
 	 *            The location of the File expressed in a URL
 	 */
-	public static Ontology loadFromOwl(URI sourceOntologyURI,
-			URL sourceFileURL, URI baseOntologyURI) {
+	public static Ontology loadFromOwl(URI sourceOntologyURI, URL sourceFileURL,
+			URI baseOntologyURI) {
 		OntologyModel ontologyModel = OntologyModel.getInstance();
 		ontologyModel.addOntology(sourceOntologyURI);
-		ontologyModel
-				.getOntologyModel()
-				.getDocumentManager()
-				.addAltEntry(sourceOntologyURI.toString(),
-						sourceFileURL.toString());
+		ontologyModel.getOntologyModel().getDocumentManager().addAltEntry(
+				sourceOntologyURI.toString(), sourceFileURL.toString());
 
 		ontologyModel.getOntologyModel().read(sourceOntologyURI.toString(),
 				baseOntologyURI.toString(), "RDF/XML-ABBREV");
@@ -168,10 +163,10 @@ public final class Owl {
 			System.out.println("Successfully loaded " + ontology.getURI());
 		}
 
-		for (String importedOntologyURIString : ontologyModel
-				.getOntologyModel().listImportedOntologyURIs()) {
-			System.out.println("Successfully imported "
-					+ importedOntologyURIString);
+		for (String importedOntologyURIString : ontologyModel.getOntologyModel()
+				.listImportedOntologyURIs()) {
+			System.out.println(
+					"Successfully imported " + importedOntologyURIString);
 		}
 
 		Ontology importedOntology = ontologyModel.getOntology(baseOntologyURI);
@@ -191,8 +186,8 @@ public final class Owl {
 		OntologyModel ontologyModel = OntologyModel.getInstance();
 		ontologyModel.getOntologyModel().addSubModel(importOntologyModel);
 
-		baseOntology.addImport(ontologyModel.getOntologyModel().createResource(
-				importOntologyURI.toString()));
+		baseOntology.addImport(ontologyModel.getOntologyModel()
+				.createResource(importOntologyURI.toString()));
 
 		ontologyModel.getOntologyModel().loadImports();
 
