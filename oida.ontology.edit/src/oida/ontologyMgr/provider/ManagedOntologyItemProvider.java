@@ -15,6 +15,7 @@ import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
+import org.eclipse.emf.edit.provider.ITableItemLabelProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
@@ -32,11 +33,7 @@ import oida.ontologyMgr.OntologyMgrPackage;
 public class ManagedOntologyItemProvider 
 	extends ItemProviderAdapter
 	implements
-		IEditingDomainItemProvider,
-		IStructuredItemContentProvider,
-		ITreeItemContentProvider,
-		IItemLabelProvider,
-		IItemPropertySource {
+		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource {
 	/**
 	 * This constructs an instance from a factory and a notifier.
 	 * <!-- begin-user-doc -->
@@ -75,8 +72,8 @@ public class ManagedOntologyItemProvider
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_ManagedOntology_IsConsistent_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_ManagedOntology_IsConsistent_feature", "_UI_ManagedOntology_type"),
+				 getString("_UI_ManagedOntology_IsConsistent_feature"), //$NON-NLS-1$
+				 getString("_UI_PropertyDescriptor_description", "_UI_ManagedOntology_IsConsistent_feature", "_UI_ManagedOntology_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				 OntologyMgrPackage.Literals.MANAGED_ONTOLOGY__IS_CONSISTENT,
 				 true,
 				 false,
@@ -97,8 +94,8 @@ public class ManagedOntologyItemProvider
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_ManagedOntology_LocalOntology_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_ManagedOntology_LocalOntology_feature", "_UI_ManagedOntology_type"),
+				 getString("_UI_ManagedOntology_LocalOntology_feature"), //$NON-NLS-1$
+				 getString("_UI_PropertyDescriptor_description", "_UI_ManagedOntology_LocalOntology_feature", "_UI_ManagedOntology_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				 OntologyMgrPackage.Literals.MANAGED_ONTOLOGY__LOCAL_ONTOLOGY,
 				 true,
 				 false,
@@ -116,7 +113,7 @@ public class ManagedOntologyItemProvider
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/ManagedOntology"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/ManagedOntology")); //$NON-NLS-1$
 	}
 
 	/**
@@ -128,7 +125,7 @@ public class ManagedOntologyItemProvider
 	@Override
 	public String getText(Object object) {
 		ManagedOntology managedOntology = (ManagedOntology)object;
-		return getString("_UI_ManagedOntology_type") + " " + managedOntology.isIsConsistent();
+		return getString("_UI_ManagedOntology_type") + " " + managedOntology.isIsConsistent(); //$NON-NLS-1$ //$NON-NLS-2$
 	}
 	
 

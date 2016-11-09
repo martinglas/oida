@@ -1,4 +1,4 @@
-package oida.ontology.manager.ui.swt;
+package oida.ontology.ui.swt;
 
 import java.io.File;
 

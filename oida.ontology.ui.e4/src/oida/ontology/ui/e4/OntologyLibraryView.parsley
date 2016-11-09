@@ -1,13 +1,16 @@
-import oida.ontologyMgr.OntologyMgrFactory
-import oida.ontology.ui.e4.OntologyLibraryView
-import oida.ontologyMgr.Library
+import java.^text.SimpleDateFormat
 import java.util.Date
-import oida.ontologyMgr.LocalOntology
+import oida.ontology.ui.e4.OntologyLibraryView
 import oida.ontologyMgr.GitRepoOntology
+import oida.ontologyMgr.Library
+import oida.ontologyMgr.LocalOntology
+import oida.ontologyMgr.OntologyMgrFactory
+import org.eclipse.emf.parsley.edit.IEditingStrategy
+import org.eclipse.emf.parsley.edit.UndoableEditingStrategy
+import org.eclipse.swt.SWT
 
 /* oida.ontology.ui.e4 Emf Parsley Dsl Module file */
 module oida.ontology.ui.e4 {
-	
 	parts {
 		viewpart oida.ontology.ui.e4 {
 			viewname "Ontology Library"
@@ -15,36 +18,33 @@ module oida.ontology.ui.e4 {
 		}
 	}
 	
+	bindings {
+		type IEditingStrategy -> UndoableEditingStrategy
+		value int TreeFormSashStyle -> SWT.VERTICAL
+	}
+	
 	resourceManager {
 		initializeResource {
 			val lib = OntologyMgrFactory.eINSTANCE.createLibrary
-			lib.creationDate = new Date
+			
+			lib.creationDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())
 			lib.owner = System.getProperty("user.name")
 			
 			it.getContents += lib
 		}
 	}
 	
-	viewerContentProvider{
-		elements{
-			Library -> ontologies
-		}
-		children {
-			Library -> ontologies
-		}
-	}
-	
 	featuresProvider {
 		features {
-			Library -> owner, creationDate
+			Library -> owner, creationDate, activeOntology
 			LocalOntology -> path, file, maintenanceFile
 			GitRepoOntology -> path, file, maintenanceFile, repoURL, gitUsername, gitPassword
 		}
 	}
-	
+
 	labelProvider {
 		text {
-			Library -> "Listed Ontologies"
+			Library -> "Library"
 			LocalOntology e -> e.file
 			GitRepoOntology e -> e.file
 		}
@@ -55,11 +55,60 @@ module oida.ontology.ui.e4 {
 		}
 	}
 	
-	menuBuilder{
-			emfMenus{
-				Library lib -> #[
-					actionAdd("Add local Ontology", lib.ontologies, OntologyMgrFactory.eINSTANCE.createLocalOntology)
-				]
+	featureCaptionProvider {
+		text {
+			Library : owner -> "Owner: "
+			Library : creationDate -> "Created on: "
+
+			LocalOntology : path -> "Path: "
+			LocalOntology : file -> "File: "
+			LocalOntology : maintenanceFile -> "Maintenance Ontology: "
+
+			GitRepoOntology : path -> "Path: "
+			GitRepoOntology : file -> "File: "
+			GitRepoOntology : maintenanceFile -> "Maintenance Ontology: "
+			GitRepoOntology : repoURL -> "Git Repository URL: "
+			GitRepoOntology : gitUsername -> "Username: "
+			GitRepoOntology : gitPassword -> "Password: "
+		}
+	}
+	
+	formControlFactory {
+		control {
+			Library : owner -> {
+				createText(parent, SWT.READ_ONLY)
+			} target {
+				observeText
+			}
+			Library : creationDate -> {
+				createText(parent, SWT.READ_ONLY)
+			} target {
+				observeText
+			}
+
+			/*LocalOntology : path -> {
+				val fpsel = new FilePathSelectorComposite(parent, SWT.NONE, false)
+				return fpsel.getTextControl
+			} target { observeText }*/
+
+			GitRepoOntology : gitPassword -> {
+				createText(parent, SWT.PASSWORD)
+			} target {
+				observeText
 			}
 		}
+	}
+	
+	menuBuilder {
+		emfMenus {
+			LocalOntology lOnt -> #[
+				actionChange("Set active", lOnt.eContainer as Library,
+					[
+						library |
+						library.activeOntology = lOnt;
+					]
+				)
+			]
+		}
+	}
 }

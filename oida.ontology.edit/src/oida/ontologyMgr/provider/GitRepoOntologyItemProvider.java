@@ -63,8 +63,8 @@ public class GitRepoOntologyItemProvider extends LocalOntologyItemProvider {
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_GitRepoOntology_repoURL_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_GitRepoOntology_repoURL_feature", "_UI_GitRepoOntology_type"),
+				 getString("_UI_GitRepoOntology_repoURL_feature"), //$NON-NLS-1$
+				 getString("_UI_PropertyDescriptor_description", "_UI_GitRepoOntology_repoURL_feature", "_UI_GitRepoOntology_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				 OntologyMgrPackage.Literals.GIT_REPO_ONTOLOGY__REPO_URL,
 				 true,
 				 false,
@@ -85,8 +85,8 @@ public class GitRepoOntologyItemProvider extends LocalOntologyItemProvider {
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_GitRepoOntology_gitUsername_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_GitRepoOntology_gitUsername_feature", "_UI_GitRepoOntology_type"),
+				 getString("_UI_GitRepoOntology_gitUsername_feature"), //$NON-NLS-1$
+				 getString("_UI_PropertyDescriptor_description", "_UI_GitRepoOntology_gitUsername_feature", "_UI_GitRepoOntology_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				 OntologyMgrPackage.Literals.GIT_REPO_ONTOLOGY__GIT_USERNAME,
 				 true,
 				 false,
@@ -107,8 +107,8 @@ public class GitRepoOntologyItemProvider extends LocalOntologyItemProvider {
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_GitRepoOntology_gitPassword_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_GitRepoOntology_gitPassword_feature", "_UI_GitRepoOntology_type"),
+				 getString("_UI_GitRepoOntology_gitPassword_feature"), //$NON-NLS-1$
+				 getString("_UI_PropertyDescriptor_description", "_UI_GitRepoOntology_gitPassword_feature", "_UI_GitRepoOntology_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				 OntologyMgrPackage.Literals.GIT_REPO_ONTOLOGY__GIT_PASSWORD,
 				 true,
 				 false,
@@ -126,7 +126,7 @@ public class GitRepoOntologyItemProvider extends LocalOntologyItemProvider {
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/GitRepoOntology"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/GitRepoOntology")); //$NON-NLS-1$
 	}
 
 	/**
@@ -139,8 +139,8 @@ public class GitRepoOntologyItemProvider extends LocalOntologyItemProvider {
 	public String getText(Object object) {
 		String label = ((GitRepoOntology)object).getGitUsername();
 		return label == null || label.length() == 0 ?
-			getString("_UI_GitRepoOntology_type") :
-			getString("_UI_GitRepoOntology_type") + " " + label;
+			getString("_UI_GitRepoOntology_type") : //$NON-NLS-1$
+			getString("_UI_GitRepoOntology_type") + " " + label; //$NON-NLS-1$ //$NON-NLS-2$
 	}
 	
 

@@ -20,6 +20,7 @@ import org.eclipse.emf.edit.provider.IItemLabelProvider;
 import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
+import org.eclipse.emf.edit.provider.ITableItemLabelProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
 import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
@@ -34,11 +35,7 @@ import org.eclipse.emf.edit.provider.ViewerNotification;
 public class LocalOntologyItemProvider 
 	extends ItemProviderAdapter
 	implements
-		IEditingDomainItemProvider,
-		IStructuredItemContentProvider,
-		ITreeItemContentProvider,
-		IItemLabelProvider,
-		IItemPropertySource {
+		IEditingDomainItemProvider, IStructuredItemContentProvider, ITreeItemContentProvider, IItemLabelProvider, IItemPropertySource {
 	/**
 	 * This constructs an instance from a factory and a notifier.
 	 * <!-- begin-user-doc -->
@@ -78,8 +75,8 @@ public class LocalOntologyItemProvider
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_LocalOntology_path_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_LocalOntology_path_feature", "_UI_LocalOntology_type"),
+				 getString("_UI_LocalOntology_path_feature"), //$NON-NLS-1$
+				 getString("_UI_PropertyDescriptor_description", "_UI_LocalOntology_path_feature", "_UI_LocalOntology_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				 OntologyMgrPackage.Literals.LOCAL_ONTOLOGY__PATH,
 				 true,
 				 false,
@@ -100,8 +97,8 @@ public class LocalOntologyItemProvider
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_LocalOntology_file_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_LocalOntology_file_feature", "_UI_LocalOntology_type"),
+				 getString("_UI_LocalOntology_file_feature"), //$NON-NLS-1$
+				 getString("_UI_PropertyDescriptor_description", "_UI_LocalOntology_file_feature", "_UI_LocalOntology_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				 OntologyMgrPackage.Literals.LOCAL_ONTOLOGY__FILE,
 				 true,
 				 false,
@@ -122,8 +119,8 @@ public class LocalOntologyItemProvider
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_LocalOntology_maintenanceFile_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_LocalOntology_maintenanceFile_feature", "_UI_LocalOntology_type"),
+				 getString("_UI_LocalOntology_maintenanceFile_feature"), //$NON-NLS-1$
+				 getString("_UI_PropertyDescriptor_description", "_UI_LocalOntology_maintenanceFile_feature", "_UI_LocalOntology_type"), //$NON-NLS-1$ //$NON-NLS-2$ //$NON-NLS-3$
 				 OntologyMgrPackage.Literals.LOCAL_ONTOLOGY__MAINTENANCE_FILE,
 				 true,
 				 false,
@@ -141,7 +138,7 @@ public class LocalOntologyItemProvider
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/LocalOntology"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/LocalOntology")); //$NON-NLS-1$
 	}
 
 	/**
@@ -154,8 +151,8 @@ public class LocalOntologyItemProvider
 	public String getText(Object object) {
 		String label = ((LocalOntology)object).getPath();
 		return label == null || label.length() == 0 ?
-			getString("_UI_LocalOntology_type") :
-			getString("_UI_LocalOntology_type") + " " + label;
+			getString("_UI_LocalOntology_type") : //$NON-NLS-1$
+			getString("_UI_LocalOntology_type") + " " + label; //$NON-NLS-1$ //$NON-NLS-2$
 	}
 	
 

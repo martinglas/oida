@@ -1,4 +1,4 @@
-package oida.ontology.manager.ui;
+package oida.ontology.ui;
 
 import org.osgi.framework.BundleContext;
 import org.eclipse.ui.plugin.AbstractUIPlugin;
@@ -9,7 +9,7 @@ import org.eclipse.ui.plugin.AbstractUIPlugin;
 public class Activator extends AbstractUIPlugin {
 
 	// The plug-in ID
-	public static final String PLUGIN_ID = "de.symo.ontology.manager.ui"; //$NON-NLS-1$
+	public static final String PLUGIN_ID = "oida.ontology.ui.e4"; //$NON-NLS-1$
 
 	// The shared instance
 	private static Activator plugin;

@@ -47,10 +47,11 @@ public class OntologyLibraryPart {
 		ResourceLoader resourceLoader = injector.getInstance(ResourceLoader.class);
 		// load the resource
 		resource = resourceLoader.getResource(editingDomain, uri).getResource();
+		resource.getContents().size();
 
 		TreeFormFactory treeFormFactory = injector.getInstance(TreeFormFactory.class);
 		// create the tree-form composite
-		treeFormComposite = treeFormFactory.createTreeFormComposite(parent, SWT.BORDER);
+		treeFormComposite = treeFormFactory.createTreeFormComposite(parent, SWT.NONE);
 
 		// Guice injected viewer context menu helper
 		ViewerContextMenuHelper contextMenuHelper = injector.getInstance(ViewerContextMenuHelper.class);
