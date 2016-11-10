@@ -25,6 +25,12 @@ import com.google.inject.Injector;
 
 import oida.ontology.ui.e4.E4InjectorProvider;
 
+/**
+ * 
+ * @since 2016-11-08
+ * @author Michael.Shamiyeh
+ *
+ */
 public class OntologyLibraryPart {
 	// the EMF Parley composite for showing a tree and a detail form
 	private TreeFormComposite treeFormComposite;

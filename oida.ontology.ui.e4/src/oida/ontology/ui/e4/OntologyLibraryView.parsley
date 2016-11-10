@@ -9,7 +9,12 @@ import org.eclipse.emf.parsley.edit.IEditingStrategy
 import org.eclipse.emf.parsley.edit.UndoableEditingStrategy
 import org.eclipse.swt.SWT
 
-/* oida.ontology.ui.e4 Emf Parsley Dsl Module file */
+/**
+ * 
+ * @since 2016-11-08
+ * @author Michael.Shamiyeh
+ *
+ */
 module oida.ontology.ui.e4 {
 	parts {
 		viewpart oida.ontology.ui.e4 {
