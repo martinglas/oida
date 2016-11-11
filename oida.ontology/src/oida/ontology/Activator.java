@@ -5,11 +5,21 @@
  ******************************************************************************/
 package oida.ontology;
 
+import org.eclipse.core.databinding.observable.list.IListChangeListener;
+import org.eclipse.core.databinding.observable.list.ListChangeEvent;
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IExtensionRegistry;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
-public class Activator implements BundleActivator {
+import oida.ontology.manager.IOntologyManagerClient;
+import oida.ontologyMgr.LocalOntology;
 
+public class Activator implements BundleActivator, IListChangeListener<LocalOntology> {
+
+	private static final String MANAGER_EXTENSIONPOINT_ID = "oida.ontology.managerextensionpoint";
+	
 	private static BundleContext context;
 
 	static BundleContext getContext() {
@@ -25,6 +35,30 @@ public class Activator implements BundleActivator {
 	 */
 	public void start(BundleContext bundleContext) throws Exception {
 		Activator.context = bundleContext;
+		
+		IExtensionRegistry registry = (IExtensionRegistry)bundleContext.getService(bundleContext.getServiceReference(IExtensionRegistry.class.getName()));
+		
+		IConfigurationElement[] config = registry.getConfigurationElementsFor(MANAGER_EXTENSIONPOINT_ID);
+		try {
+			for (IConfigurationElement e : config) {
+				System.out.println("Evaluating extension");
+				final Object o = e.createExecutableExtension("class");
+				if (o instanceof IOntologyManagerClient) {
+					registerOntologyManagerClient((IOntologyManagerClient)o);
+				}
+			}
+		} catch (CoreException ex) {
+			System.out.println(ex.getMessage());
+		}
+	}
+	
+	private void registerOntologyManagerClient(IOntologyManagerClient client) {
+		client.getOntologyList().addListChangeListener(this);
+	}
+	
+	@Override
+	public void handleListChange(ListChangeEvent<? extends LocalOntology> event) {
+		System.out.println("Ontology List changed!!!");
 	}
 
 	/*

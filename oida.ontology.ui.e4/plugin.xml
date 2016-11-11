@@ -18,4 +18,10 @@
             restorable="true">
       </view>
    </extension>
+   <extension
+         point="oida.ontology.managerextensionpoint">
+      <client
+            class="oida.ontology.ui.library.OntologyLibrary">
+      </client>
+   </extension>
 </plugin>

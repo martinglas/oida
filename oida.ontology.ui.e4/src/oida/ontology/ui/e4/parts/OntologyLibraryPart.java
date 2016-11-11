@@ -24,6 +24,8 @@ import org.eclipse.swt.widgets.Composite;
 import com.google.inject.Injector;
 
 import oida.ontology.ui.e4.E4InjectorProvider;
+import oida.ontology.ui.library.OntologyLibrary;
+import oida.ontologyMgr.Library;
 
 /**
  * 
@@ -41,7 +43,7 @@ public class OntologyLibraryPart {
 
 	@Inject
 	MDirtyable dirty;
-	
+		
 	@PostConstruct
 	public void postConstruct(Composite parent) {
 		// Guice injector
@@ -53,8 +55,11 @@ public class OntologyLibraryPart {
 		ResourceLoader resourceLoader = injector.getInstance(ResourceLoader.class);
 		// load the resource
 		resource = resourceLoader.getResource(editingDomain, uri).getResource();
-		resource.getContents().size();
-
+		
+		Library lib = (Library)resource.getContents().get(0);
+		if (lib.getActiveOntology() != null)
+			OntologyLibrary.getOntologyLibrary().getOntologyList().add(lib.getActiveOntology());
+		
 		TreeFormFactory treeFormFactory = injector.getInstance(TreeFormFactory.class);
 		// create the tree-form composite
 		treeFormComposite = treeFormFactory.createTreeFormComposite(parent, SWT.NONE);
