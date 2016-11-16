@@ -1,16 +1,27 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
-   <extension-point id="oida.ontology.managerextensionpoint" name="Ontology Manager Extension Point" schema="schema/oida.ontology.managerextensionpoint.exsd"/>
+   <extension-point id="oida.ontology.manage" name="Ontology Manager Extension" schema="schema/oida.ontology.manage.exsd"/>
 
-
-
-   <extension point="org.eclipse.emf.ecore.generated_package">
-      <!-- @generated ontologyMgr -->
-      <package
-            uri="http://bauhaus-luftfahrt.net/oida/ontologyMgr"
-            class="oida.ontologyMgr.OntologyMgrPackage"
-            genModel="model/ontologyMgr.genmodel"/>
+   <extension
+         id="oida.ontology.ui.e4.fragment"
+         point="org.eclipse.e4.workbench.model">
+      <fragment
+            apply="initial"
+            uri="fragment.e4xmi">
+      </fragment>
+   </extension>
+   <extension
+         point="oida.ontolog.ui.e4.dataprovider">
+      <provider
+            class="oida.ontology.OIDACoreUIDataProvider">
+      </provider>
+   </extension>
+   <extension
+         point="oida.ontolog.ui.e4.dataprovider">
+      <provider
+            class="oida.ontology.OidaUIDataProvider1">
+      </provider>
    </extension>
 
 </plugin>

@@ -1,10 +1,8 @@
-import java.^text.SimpleDateFormat
-import java.util.Date
+import oida.ontology.ui.Activator
 import oida.ontology.ui.e4.OntologyLibraryView
 import oida.ontologyMgr.GitRepoOntology
 import oida.ontologyMgr.Library
 import oida.ontologyMgr.LocalOntology
-import oida.ontologyMgr.OntologyMgrFactory
 import org.eclipse.emf.parsley.edit.IEditingStrategy
 import org.eclipse.emf.parsley.edit.UndoableEditingStrategy
 import org.eclipse.swt.SWT
@@ -30,12 +28,12 @@ module oida.ontology.ui.e4 {
 	
 	resourceManager {
 		initializeResource {
-			val lib = OntologyMgrFactory.eINSTANCE.createLibrary
+			//val lib = Activator.provider.library;
 			
-			lib.creationDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())
-			lib.owner = System.getProperty("user.name")
+			//lib.creationDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())
+			//lib.owner = System.getProperty("user.name")
 			
-			it.getContents += lib
+			it.getContents += Activator.provider.library
 		}
 	}
 	
@@ -59,7 +57,7 @@ module oida.ontology.ui.e4 {
 			GitRepoOntology -> "OntologyRepository_16.png"
 		}
 	}
-	
+
 	featureCaptionProvider {
 		text {
 			Library : owner -> "Owner: "

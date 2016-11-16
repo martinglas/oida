@@ -12,6 +12,8 @@ import org.eclipse.e4.ui.model.application.ui.MDirtyable;
 import org.eclipse.emf.common.command.CommandStackListener;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.parsley.composite.TreeFormComposite;
 import org.eclipse.emf.parsley.composite.TreeFormFactory;
@@ -23,9 +25,8 @@ import org.eclipse.swt.widgets.Composite;
 
 import com.google.inject.Injector;
 
+import oida.ontology.ui.Activator;
 import oida.ontology.ui.e4.E4InjectorProvider;
-import oida.ontology.ui.library.OntologyLibrary;
-import oida.ontologyMgr.Library;
 
 /**
  * 
@@ -55,13 +56,10 @@ public class OntologyLibraryPart {
 		ResourceLoader resourceLoader = injector.getInstance(ResourceLoader.class);
 		// load the resource
 		resource = resourceLoader.getResource(editingDomain, uri).getResource();
-		
-		Library lib = (Library)resource.getContents().get(0);
-		if (lib.getActiveOntology() != null)
-			OntologyLibrary.getOntologyLibrary().getOntologyList().add(lib.getActiveOntology());
-		
+
 		TreeFormFactory treeFormFactory = injector.getInstance(TreeFormFactory.class);
 		// create the tree-form composite
+		
 		treeFormComposite = treeFormFactory.createTreeFormComposite(parent, SWT.NONE);
 
 		// Guice injected viewer context menu helper

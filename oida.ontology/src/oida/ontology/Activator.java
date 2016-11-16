@@ -1,24 +1,18 @@
-/*******************************************************************************
- * <copyright> Copyright (c) 2009-2014 Martin Glas. All rights reserved. This program and the accompanying
- *  materials are made available under the terms of the Eclipse Public License v1.0 which accompanies this distribution,
- *  and is available at http://www.eclipse.org/legal/epl-v10.html </copyright>
- ******************************************************************************/
 package oida.ontology;
 
-import org.eclipse.core.databinding.observable.list.IListChangeListener;
-import org.eclipse.core.databinding.observable.list.ListChangeEvent;
+import java.util.Observable;
+import java.util.Observer;
+
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
-import oida.ontology.manager.IOntologyManagerClient;
-import oida.ontologyMgr.LocalOntology;
+import oida.ontology.manager.client.AbstractOntologyManagerClient;
 
-public class Activator implements BundleActivator, IListChangeListener<LocalOntology> {
-
-	private static final String MANAGER_EXTENSIONPOINT_ID = "oida.ontology.managerextensionpoint";
+public class Activator implements BundleActivator, Observer {
+	private static String MANAGERCLIENT_EXTENSIONPOINT_ID = "oida.ontology.manage";
 	
 	private static BundleContext context;
 
@@ -28,23 +22,20 @@ public class Activator implements BundleActivator, IListChangeListener<LocalOnto
 
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext
-	 * )
+	 * @see org.osgi.framework.BundleActivator#start(org.osgi.framework.BundleContext)
 	 */
 	public void start(BundleContext bundleContext) throws Exception {
 		Activator.context = bundleContext;
 		
 		IExtensionRegistry registry = (IExtensionRegistry)bundleContext.getService(bundleContext.getServiceReference(IExtensionRegistry.class.getName()));
 		
-		IConfigurationElement[] config = registry.getConfigurationElementsFor(MANAGER_EXTENSIONPOINT_ID);
+		IConfigurationElement[] config = registry.getConfigurationElementsFor(MANAGERCLIENT_EXTENSIONPOINT_ID);
 		try {
 			for (IConfigurationElement e : config) {
 				System.out.println("Evaluating extension");
 				final Object o = e.createExecutableExtension("class");
-				if (o instanceof IOntologyManagerClient) {
-					registerOntologyManagerClient((IOntologyManagerClient)o);
+				if (o instanceof AbstractOntologyManagerClient) {
+					registerOntologyManagerClient((AbstractOntologyManagerClient)o);
 				}
 			}
 		} catch (CoreException ex) {
@@ -52,20 +43,18 @@ public class Activator implements BundleActivator, IListChangeListener<LocalOnto
 		}
 	}
 	
-	private void registerOntologyManagerClient(IOntologyManagerClient client) {
-		client.getOntologyList().addListChangeListener(this);
+	private void registerOntologyManagerClient(AbstractOntologyManagerClient client) {
+		client.addObserver(this);
 	}
 	
 	@Override
-	public void handleListChange(ListChangeEvent<? extends LocalOntology> event) {
-		System.out.println("Ontology List changed!!!");
+	public void update(Observable arg0, Object arg1) {
+		System.out.println("Ontology of " + arg0.toString() + " changed!");
 	}
-
+	
 	/*
 	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext)
+	 * @see org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext)
 	 */
 	public void stop(BundleContext bundleContext) throws Exception {
 		Activator.context = null;

@@ -16,11 +16,13 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.e4.ui.di,
  org.eclipse.emf.common,
  org.eclipse.core.resources,
- oida.ontology;bundle-version="1.0.0",
- oida.ontology.edit;bundle-version="1.0.0",
- org.eclipse.xtext.xbase.lib
+ org.eclipse.xtext.xbase.lib,
+ oida.ontology.model;bundle-version="0.1.0",
+ oida.ontology.model.edit;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: javax.inject;version="1.0.0",
  org.apache.commons.logging,
  org.apache.log4j
 Bundle-ActivationPolicy: lazy
+Export-Package: oida.ontology.ui.e4.ui.provider,
+ oida.ontology.ui.provider

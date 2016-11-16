@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated oida -->
+      <package
+            uri="http://www.bauhaus-luftfahrt.net/oida/ontologyMgr"
+            class="oida.ontologyMgr.OntologyMgrPackage"
+            genModel="model/oida.genmodel"/>
+   </extension>
+
+</plugin>
