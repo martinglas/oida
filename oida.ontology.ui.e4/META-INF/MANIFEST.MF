@@ -21,8 +21,7 @@ Require-Bundle: org.eclipse.core.runtime,
  oida.ontology.model.edit;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: javax.inject;version="1.0.0",
+ oida.ontology.service,
  org.apache.commons.logging,
  org.apache.log4j
 Bundle-ActivationPolicy: lazy
-Export-Package: oida.ontology.ui.e4.ui.provider,
- oida.ontology.ui.provider

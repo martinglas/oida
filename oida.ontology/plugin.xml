@@ -11,17 +11,5 @@
             uri="fragment.e4xmi">
       </fragment>
    </extension>
-   <extension
-         point="oida.ontolog.ui.e4.dataprovider">
-      <provider
-            class="oida.ontology.OIDACoreUIDataProvider">
-      </provider>
-   </extension>
-   <extension
-         point="oida.ontolog.ui.e4.dataprovider">
-      <provider
-            class="oida.ontology.OidaUIDataProvider1">
-      </provider>
-   </extension>
 
 </plugin>

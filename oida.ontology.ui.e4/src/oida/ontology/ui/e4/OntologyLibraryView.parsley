@@ -1,4 +1,3 @@
-import oida.ontology.ui.Activator
 import oida.ontology.ui.e4.OntologyLibraryView
 import oida.ontologyMgr.GitRepoOntology
 import oida.ontologyMgr.Library
@@ -24,17 +23,6 @@ module oida.ontology.ui.e4 {
 	bindings {
 		type IEditingStrategy -> UndoableEditingStrategy
 		value int TreeFormSashStyle -> SWT.VERTICAL
-	}
-	
-	resourceManager {
-		initializeResource {
-			//val lib = Activator.provider.library;
-			
-			//lib.creationDate = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(new Date())
-			//lib.owner = System.getProperty("user.name")
-			
-			it.getContents += Activator.provider.library
-		}
 	}
 	
 	featuresProvider {

@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
-   <extension-point id="oida.ontolog.ui.e4.dataprovider" name="OIDA UI Data Provider" schema="schema/oida.ontolog.ui.e4.dataprovider.exsd"/>
    <extension
          id="oida.ontology.ui.e4.fragment"
          point="org.eclipse.e4.workbench.model">

@@ -1,21 +1,19 @@
 package oida.ontology;
 
-import java.util.Observable;
-import java.util.Observer;
-
-import org.eclipse.core.runtime.CoreException;
-import org.eclipse.core.runtime.IConfigurationElement;
-import org.eclipse.core.runtime.IExtensionRegistry;
+import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.emf.common.util.URI;
 import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
-import oida.ontology.manager.client.AbstractOntologyManagerClient;
+import oida.ontology.service.OIDAOntologyService;
 
-public class Activator implements BundleActivator, Observer {
-	private static String MANAGERCLIENT_EXTENSIONPOINT_ID = "oida.ontology.manage";
+public class Activator implements BundleActivator {
+	//private static String MANAGERCLIENT_EXTENSIONPOINT_ID = "oida.ontology.manage";
 	
 	private static BundleContext context;
 
+	private URI uri = URI.createFileURI(ResourcesPlugin.getWorkspace().getRoot().getLocation().toString() + "//OntLib.onl");
+	
 	static BundleContext getContext() {
 		return context;
 	}
@@ -27,29 +25,17 @@ public class Activator implements BundleActivator, Observer {
 	public void start(BundleContext bundleContext) throws Exception {
 		Activator.context = bundleContext;
 		
-		IExtensionRegistry registry = (IExtensionRegistry)bundleContext.getService(bundleContext.getServiceReference(IExtensionRegistry.class.getName()));
+		OIDAOntologyService oidaService = new OIDAOntologyService();
 		
-		IConfigurationElement[] config = registry.getConfigurationElementsFor(MANAGERCLIENT_EXTENSIONPOINT_ID);
 		try {
-			for (IConfigurationElement e : config) {
-				System.out.println("Evaluating extension");
-				final Object o = e.createExecutableExtension("class");
-				if (o instanceof AbstractOntologyManagerClient) {
-					registerOntologyManagerClient((AbstractOntologyManagerClient)o);
-				}
-			}
-		} catch (CoreException ex) {
-			System.out.println(ex.getMessage());
-		}
-	}
-	
-	private void registerOntologyManagerClient(AbstractOntologyManagerClient client) {
-		client.addObserver(this);
-	}
-	
-	@Override
-	public void update(Observable arg0, Object arg1) {
-		System.out.println("Ontology of " + arg0.toString() + " changed!");
+		oidaService.loadOIDAModel(uri);
+		} catch (Exception e) {}
+		
+		if (oidaService.getLibrary() == null)
+			oidaService.initializeOIDAModel(uri);
+		
+		context.registerService(OIDAOntologyService.class.getName(), oidaService, null);
+		System.out.println("OIDA Service registered.");
 	}
 	
 	/*

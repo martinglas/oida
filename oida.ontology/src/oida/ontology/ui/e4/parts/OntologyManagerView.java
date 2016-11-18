@@ -26,7 +26,6 @@ public class OntologyManagerView {
 	@Focus
 	public void setFocus() {
 		myLabelInView.setFocus();
-
 	}
 
 	/**
