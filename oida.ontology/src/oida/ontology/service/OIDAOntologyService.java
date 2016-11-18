@@ -1,10 +1,14 @@
 package oida.ontology.service;
 
+import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.resource.ResourceSet;
+import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
+import org.eclipse.emf.edit.provider.INotifyChangedListener;
 import org.eclipse.emf.edit.provider.resource.ResourceItemProviderAdapterFactory;
 import org.eclipse.emf.parsley.edit.domain.InjectableAdapterFactoryEditingDomain;
 
@@ -12,24 +16,42 @@ import oida.ontologyMgr.Library;
 import oida.ontologyMgr.OntologyMgrFactory;
 import oida.ontologyMgr.provider.OntologyMgrItemProviderAdapterFactory;
 
-public class OIDAOntologyService extends AbstractOIDAOntologyService {
+/**
+ * 
+ * @author Michael.Shamiyeh
+ * @since 
+ *
+ */
+public class OIDAOntologyService extends AbstractOIDAOntologyService implements INotifyChangedListener {
 	private EditingDomain editingDomain;
 	
 	private Resource resource;
 	
 	public OIDAOntologyService() {
-		ComposedAdapterFactory composedAdapterFactory = new ComposedAdapterFactory(new OntologyMgrItemProviderAdapterFactory());
+		super();
+		
+		OntologyMgrItemProviderAdapterFactory adapterFactory = new OntologyMgrItemProviderAdapterFactory();
+		adapterFactory.addListener(this);
+		
+		ComposedAdapterFactory composedAdapterFactory = new ComposedAdapterFactory(adapterFactory);
 		composedAdapterFactory.addAdapterFactory(new ResourceItemProviderAdapterFactory());
 		
-		editingDomain = new InjectableAdapterFactoryEditingDomain(composedAdapterFactory);
+		editingDomain = new InjectableAdapterFactoryEditingDomain(composedAdapterFactory);		
+	}
+	
+	public void initialize(URI uri) {
+		loadExistingOIDAOntologyServiceData(uri);
+		
+		if (resource == null || resource.getContents().isEmpty())
+			initializeNewOIDAOntologyServiceData(uri);
 	}
 
-	public void loadOIDAModel(URI uri) {
-		resource = getResource(editingDomain, uri).getResource();
+	public void loadExistingOIDAOntologyServiceData(URI uri) {
+        ResourceSet resSet = new ResourceSetImpl();
+        resource = resSet.getResource(uri, true);
 	}
 		
-	public void initializeOIDAModel(URI uri) {
-		this.initializeEmptyResource(resource);
+	public void initializeNewOIDAOntologyServiceData(URI uri) {
 		resource = editingDomain.createResource(uri.toString());
 		resource.getContents().add(OntologyMgrFactory.eINSTANCE.createLibrary());
 		
@@ -54,5 +76,10 @@ public class OIDAOntologyService extends AbstractOIDAOntologyService {
 	
 	public Resource getResource() {
 		return resource;
+	}
+
+	@Override
+	public void notifyChanged(Notification notification) {
+		System.out.println("Change!!! " + notification.getNewValue());
 	}
 }

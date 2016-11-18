@@ -26,13 +26,7 @@ public class Activator implements BundleActivator {
 		Activator.context = bundleContext;
 		
 		OIDAOntologyService oidaService = new OIDAOntologyService();
-		
-		try {
-		oidaService.loadOIDAModel(uri);
-		} catch (Exception e) {}
-		
-		if (oidaService.getLibrary() == null)
-			oidaService.initializeOIDAModel(uri);
+		oidaService.initialize(uri);
 		
 		context.registerService(OIDAOntologyService.class.getName(), oidaService, null);
 		System.out.println("OIDA Service registered.");
