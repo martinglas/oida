@@ -38,7 +38,7 @@ public interface OntologyMgrPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_URI = "http://www.bauhaus-luftfahrt.net/oida/ontologyMgr";
+	String eNS_URI = "http://net/bauhaus-luftfahrt/oida/ontologyMgr";
 
 	/**
 	 * The package namespace name.
@@ -46,7 +46,7 @@ public interface OntologyMgrPackage extends EPackage {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	String eNS_PREFIX = "ontologyMgr";
+	String eNS_PREFIX = "net.bauhaus-luftfahrt.oida.ontologyMgr";
 
 	/**
 	 * The singleton instance of the package.

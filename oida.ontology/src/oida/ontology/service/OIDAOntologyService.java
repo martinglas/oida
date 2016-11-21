@@ -1,11 +1,11 @@
 package oida.ontology.service;
 
+import java.io.File;
+
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.provider.INotifyChangedListener;
@@ -47,15 +47,13 @@ public class OIDAOntologyService extends AbstractOIDAOntologyService implements 
 	}
 
 	public void loadExistingOIDAOntologyServiceData(URI uri) {
-        ResourceSet resSet = new ResourceSetImpl();
-        resource = resSet.getResource(uri, true);
+		if (uri.isFile() && new File(uri.toFileString()).exists())
+			resource = editingDomain.loadResource(uri.toString());
 	}
 		
 	public void initializeNewOIDAOntologyServiceData(URI uri) {
 		resource = editingDomain.createResource(uri.toString());
 		resource.getContents().add(OntologyMgrFactory.eINSTANCE.createLibrary());
-		
-		getLibrary().getOntologies().add(OntologyMgrFactory.eINSTANCE.createLocalOntology());
 	}
 
 	@Override

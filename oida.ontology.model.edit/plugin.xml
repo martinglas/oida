@@ -9,7 +9,7 @@
    <extension point="org.eclipse.emf.edit.itemProviderAdapterFactories">
       <!-- @generated oida -->
       <factory
-            uri="http://www.bauhaus-luftfahrt.net/oida/ontologyMgr"
+            uri="http://net/bauhaus-luftfahrt/oida/ontologyMgr"
             class="oida.ontologyMgr.provider.OntologyMgrItemProviderAdapterFactory"
             supportedTypes=
               "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
