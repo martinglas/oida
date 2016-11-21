@@ -78,6 +78,9 @@ public class OIDAOntologyService extends AbstractOIDAOntologyService implements 
 
 	@Override
 	public void notifyChanged(Notification notification) {
+		if (notification.getFeature() != null)
+			System.out.println("Active ontology changed: " + notification.toString());
+		
 		System.out.println("Change!!! " + notification.getNewValue());
 	}
 }

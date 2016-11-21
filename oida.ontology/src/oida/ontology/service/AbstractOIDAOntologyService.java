@@ -1,5 +1,7 @@
 package oida.ontology.service;
 
-public abstract class AbstractOIDAOntologyService implements IOIDAOntologyService {
+import java.util.Observable;
+
+public abstract class AbstractOIDAOntologyService extends Observable implements IOIDAOntologyService {
 
 }
