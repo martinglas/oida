@@ -95,72 +95,49 @@ public class OntologyMgrItemProviderAdapterFactory extends OntologyMgrAdapterFac
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link oida.ontologyMgr.LocalOntology} instances.
+	 * This keeps track of the one adapter used for all {@link oida.ontologyMgr.LocalOntologyEntry} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected LocalOntologyItemProvider localOntologyItemProvider;
+	protected LocalOntologyEntryItemProvider localOntologyEntryItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link oida.ontologyMgr.LocalOntology}.
+	 * This creates an adapter for a {@link oida.ontologyMgr.LocalOntologyEntry}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public Adapter createLocalOntologyAdapter() {
-		if (localOntologyItemProvider == null) {
-			localOntologyItemProvider = new LocalOntologyItemProvider(this);
+	public Adapter createLocalOntologyEntryAdapter() {
+		if (localOntologyEntryItemProvider == null) {
+			localOntologyEntryItemProvider = new LocalOntologyEntryItemProvider(this);
 		}
 
-		return localOntologyItemProvider;
+		return localOntologyEntryItemProvider;
 	}
 
 	/**
-	 * This keeps track of the one adapter used for all {@link oida.ontologyMgr.GitRepoOntology} instances.
+	 * This keeps track of the one adapter used for all {@link oida.ontologyMgr.GitRepoOntologyEntry} instances.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected GitRepoOntologyItemProvider gitRepoOntologyItemProvider;
+	protected GitRepoOntologyEntryItemProvider gitRepoOntologyEntryItemProvider;
 
 	/**
-	 * This creates an adapter for a {@link oida.ontologyMgr.GitRepoOntology}.
+	 * This creates an adapter for a {@link oida.ontologyMgr.GitRepoOntologyEntry}.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
-	public Adapter createGitRepoOntologyAdapter() {
-		if (gitRepoOntologyItemProvider == null) {
-			gitRepoOntologyItemProvider = new GitRepoOntologyItemProvider(this);
+	public Adapter createGitRepoOntologyEntryAdapter() {
+		if (gitRepoOntologyEntryItemProvider == null) {
+			gitRepoOntologyEntryItemProvider = new GitRepoOntologyEntryItemProvider(this);
 		}
 
-		return gitRepoOntologyItemProvider;
-	}
-
-	/**
-	 * This keeps track of the one adapter used for all {@link oida.ontologyMgr.ManagedOntology} instances.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected ManagedOntologyItemProvider managedOntologyItemProvider;
-
-	/**
-	 * This creates an adapter for a {@link oida.ontologyMgr.ManagedOntology}.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	@Override
-	public Adapter createManagedOntologyAdapter() {
-		if (managedOntologyItemProvider == null) {
-			managedOntologyItemProvider = new ManagedOntologyItemProvider(this);
-		}
-
-		return managedOntologyItemProvider;
+		return gitRepoOntologyEntryItemProvider;
 	}
 
 	/**
@@ -263,9 +240,8 @@ public class OntologyMgrItemProviderAdapterFactory extends OntologyMgrAdapterFac
 	 */
 	public void dispose() {
 		if (libraryItemProvider != null) libraryItemProvider.dispose();
-		if (localOntologyItemProvider != null) localOntologyItemProvider.dispose();
-		if (gitRepoOntologyItemProvider != null) gitRepoOntologyItemProvider.dispose();
-		if (managedOntologyItemProvider != null) managedOntologyItemProvider.dispose();
+		if (localOntologyEntryItemProvider != null) localOntologyEntryItemProvider.dispose();
+		if (gitRepoOntologyEntryItemProvider != null) gitRepoOntologyEntryItemProvider.dispose();
 	}
 
 }

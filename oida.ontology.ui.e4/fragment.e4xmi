@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="ASCII"?>
 <fragment:ModelFragments xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:basic="http://www.eclipse.org/ui/2010/UIModel/application/ui/basic" xmlns:commands="http://www.eclipse.org/ui/2010/UIModel/application/commands" xmlns:fragment="http://www.eclipse.org/ui/2010/UIModel/fragment" xmlns:menu="http://www.eclipse.org/ui/2010/UIModel/application/ui/menu" xmi:id="_E7VxUKXEEeac7pLqBaVU8A">
   <fragments xsi:type="fragment:StringModelFragment" xmi:id="_xOTwkKXEEeac7pLqBaVU8A" featurename="children" parentElementId="de.symo.application.partstack.knowledgemangement.lefttop">
-    <elements xsi:type="basic:Part" xmi:id="_1hSosKXEEeac7pLqBaVU8A" elementId="oida.ontology.ui.e4.ontologylibrary" contributionURI="bundleclass://oida.ontology.ui.e4/oida.ontology.ui.e4.parts.OntologyLibraryPart" label="Ontology Library" iconURI="platform:/plugin/oida.ontology.ui.e4/icons/OntologyLibrary_16.png">
+    <elements xsi:type="basic:Part" xmi:id="_1hSosKXEEeac7pLqBaVU8A" elementId="oida.ontology.ui.e4.ontologylibrary" contributionURI="bundleclass://oida.ontology.ui.e4/oida.ontology.ui.e4.part.OntologyLibraryPart" label="Ontology Library" iconURI="platform:/plugin/oida.ontology.ui.e4/icons/OntologyLibrary_16.png">
       <toolbar xmi:id="_-vAVcKXEEeac7pLqBaVU8A" elementId="oida.ontology.ui.e4.toolbar.0">
         <children xsi:type="menu:HandledToolItem" xmi:id="__eJTYKXEEeac7pLqBaVU8A" elementId="oida.ontology.ui.e4.handledtoolitem.save" label="Save" iconURI="platform:/plugin/oida.ontology.ui.e4/icons/Save_16.png" command="_FOPpwKXFEeac7pLqBaVU8A"/>
       </toolbar>

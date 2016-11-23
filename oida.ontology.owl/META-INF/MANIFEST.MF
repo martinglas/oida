@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: OIDA Owl Ontology Manager
+Bundle-SymbolicName: oida.ontology.owl
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: oida.ontology.owl.Activator
+Bundle-Vendor: Bauhaus Luftfahrt e.V.
+Require-Bundle: org.eclipse.core.runtime,
+ oida.ontology.model;bundle-version="0.1.0",
+ org.eclipse.e4.core.di;bundle-version="1.6.0"
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-ActivationPolicy: lazy
+Import-Package: oida.ontology.manager

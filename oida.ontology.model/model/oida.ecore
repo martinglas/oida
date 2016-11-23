@@ -7,25 +7,48 @@
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="owner" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="creationDate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="ontologies" upperBound="-1"
-          eType="#//ontologyMgr/LocalOntology" containment="true" resolveProxies="false"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="activeOntology" eType="#//ontologyMgr/LocalOntology"/>
+          eType="#//ontologyMgr/LocalOntologyEntry" containment="true" resolveProxies="false"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="LocalOntology">
+    <eClassifiers xsi:type="ecore:EClass" name="LocalOntologyEntry">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="path" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
           iD="true"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="file" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"
           defaultValueLiteral="ontology.owl"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="maintenanceFile" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="managedOntology" eType="#//ontology/Ontology"
+          eOpposite="#//ontology/Ontology/ontologyEntry"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="GitRepoOntology" eSuperTypes="#//ontologyMgr/LocalOntology">
+    <eClassifiers xsi:type="ecore:EClass" name="GitRepoOntologyEntry" eSuperTypes="#//ontologyMgr/LocalOntologyEntry">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="repoURL" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="gitUsername" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="gitPassword" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="ManagedOntology">
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="IsConsistent" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="LocalOntology" lowerBound="1"
-          eType="#//ontologyMgr/LocalOntology"/>
+  </eSubpackages>
+  <eSubpackages name="ontology" nsURI="http://net/bauhaus-luftfahrt/oida/ontology"
+      nsPrefix="net.bauhaus-luftfahrt.oida.ontology">
+    <eClassifiers xsi:type="ecore:EClass" name="OntologyClass" eSuperTypes="#//ontology/OntologyEntity">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="individuals" upperBound="-1"
+          eType="#//ontology/OntologyIndividual"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="OntologyEntity" eSuperTypes="#//ontology/OntologyItem">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="prefix" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="containingOntology" lowerBound="1"
+          eType="#//ontology/Ontology" eOpposite="#//ontology/Ontology/entities"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Ontology" eSuperTypes="#//ontology/OntologyItem">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="entities" upperBound="-1"
+          eType="#//ontology/OntologyEntity" containment="true" eOpposite="#//ontology/OntologyEntity/containingOntology"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="nrOfClasses" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="nrOfIndividuals" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EInt"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="ontologyEntry" eType="#//ontologyMgr/LocalOntologyEntry"
+          eOpposite="#//ontologyMgr/LocalOntologyEntry/managedOntology"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="OntologyIndividual" eSuperTypes="#//ontology/OntologyEntity">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="types" upperBound="-1"
+          eType="#//ontology/OntologyClass"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="OntologyItem">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eClassifiers>
   </eSubpackages>
 </ecore:EPackage>

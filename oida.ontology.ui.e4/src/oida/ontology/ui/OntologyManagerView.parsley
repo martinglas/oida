@@ -1,0 +1,16 @@
+import oida.ontology.ui.view.OntologyManagerView
+
+/**
+ * 
+ * @since 2016-11-08
+ * @author Michael.Shamiyeh
+ *
+ */
+module oida.ontology.ui.OntologyManagerView {
+	parts {
+		viewpart oida.ontology.ui.view.OntologyManagerView {
+			viewname "Ontology Manager"
+			viewclass OntologyManagerView
+		}
+	}
+}

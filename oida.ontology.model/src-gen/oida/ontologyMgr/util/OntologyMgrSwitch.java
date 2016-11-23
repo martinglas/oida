@@ -72,22 +72,16 @@ public class OntologyMgrSwitch<T> extends Switch<T> {
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case OntologyMgrPackage.LOCAL_ONTOLOGY: {
-				LocalOntology localOntology = (LocalOntology)theEObject;
-				T result = caseLocalOntology(localOntology);
+			case OntologyMgrPackage.LOCAL_ONTOLOGY_ENTRY: {
+				LocalOntologyEntry localOntologyEntry = (LocalOntologyEntry)theEObject;
+				T result = caseLocalOntologyEntry(localOntologyEntry);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
-			case OntologyMgrPackage.GIT_REPO_ONTOLOGY: {
-				GitRepoOntology gitRepoOntology = (GitRepoOntology)theEObject;
-				T result = caseGitRepoOntology(gitRepoOntology);
-				if (result == null) result = caseLocalOntology(gitRepoOntology);
-				if (result == null) result = defaultCase(theEObject);
-				return result;
-			}
-			case OntologyMgrPackage.MANAGED_ONTOLOGY: {
-				ManagedOntology managedOntology = (ManagedOntology)theEObject;
-				T result = caseManagedOntology(managedOntology);
+			case OntologyMgrPackage.GIT_REPO_ONTOLOGY_ENTRY: {
+				GitRepoOntologyEntry gitRepoOntologyEntry = (GitRepoOntologyEntry)theEObject;
+				T result = caseGitRepoOntologyEntry(gitRepoOntologyEntry);
+				if (result == null) result = caseLocalOntologyEntry(gitRepoOntologyEntry);
 				if (result == null) result = defaultCase(theEObject);
 				return result;
 			}
@@ -111,47 +105,32 @@ public class OntologyMgrSwitch<T> extends Switch<T> {
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Local Ontology</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Local Ontology Entry</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Local Ontology</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Local Ontology Entry</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseLocalOntology(LocalOntology object) {
+	public T caseLocalOntologyEntry(LocalOntologyEntry object) {
 		return null;
 	}
 
 	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Git Repo Ontology</em>'.
+	 * Returns the result of interpreting the object as an instance of '<em>Git Repo Ontology Entry</em>'.
 	 * <!-- begin-user-doc -->
 	 * This implementation returns null;
 	 * returning a non-null result will terminate the switch.
 	 * <!-- end-user-doc -->
 	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Git Repo Ontology</em>'.
+	 * @return the result of interpreting the object as an instance of '<em>Git Repo Ontology Entry</em>'.
 	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
 	 * @generated
 	 */
-	public T caseGitRepoOntology(GitRepoOntology object) {
-		return null;
-	}
-
-	/**
-	 * Returns the result of interpreting the object as an instance of '<em>Managed Ontology</em>'.
-	 * <!-- begin-user-doc -->
-	 * This implementation returns null;
-	 * returning a non-null result will terminate the switch.
-	 * <!-- end-user-doc -->
-	 * @param object the target of the switch.
-	 * @return the result of interpreting the object as an instance of '<em>Managed Ontology</em>'.
-	 * @see #doSwitch(org.eclipse.emf.ecore.EObject) doSwitch(EObject)
-	 * @generated
-	 */
-	public T caseManagedOntology(ManagedOntology object) {
+	public T caseGitRepoOntologyEntry(GitRepoOntologyEntry object) {
 		return null;
 	}
 

@@ -18,7 +18,6 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link oida.ontologyMgr.Library#getOwner <em>Owner</em>}</li>
  *   <li>{@link oida.ontologyMgr.Library#getCreationDate <em>Creation Date</em>}</li>
  *   <li>{@link oida.ontologyMgr.Library#getOntologies <em>Ontologies</em>}</li>
- *   <li>{@link oida.ontologyMgr.Library#getActiveOntology <em>Active Ontology</em>}</li>
  * </ul>
  *
  * @see oida.ontologyMgr.OntologyMgrPackage#getLibrary()
@@ -80,7 +79,7 @@ public interface Library extends EObject {
 
 	/**
 	 * Returns the value of the '<em><b>Ontologies</b></em>' containment reference list.
-	 * The list contents are of type {@link oida.ontologyMgr.LocalOntology}.
+	 * The list contents are of type {@link oida.ontologyMgr.LocalOntologyEntry}.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Ontologies</em>' containment reference list isn't clear,
@@ -92,32 +91,6 @@ public interface Library extends EObject {
 	 * @model containment="true"
 	 * @generated
 	 */
-	EList<LocalOntology> getOntologies();
-
-	/**
-	 * Returns the value of the '<em><b>Active Ontology</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <p>
-	 * If the meaning of the '<em>Active Ontology</em>' reference isn't clear,
-	 * there really should be more of a description here...
-	 * </p>
-	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Active Ontology</em>' reference.
-	 * @see #setActiveOntology(LocalOntology)
-	 * @see oida.ontologyMgr.OntologyMgrPackage#getLibrary_ActiveOntology()
-	 * @model
-	 * @generated
-	 */
-	LocalOntology getActiveOntology();
-
-	/**
-	 * Sets the value of the '{@link oida.ontologyMgr.Library#getActiveOntology <em>Active Ontology</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Active Ontology</em>' reference.
-	 * @see #getActiveOntology()
-	 * @generated
-	 */
-	void setActiveOntology(LocalOntology value);
+	EList<LocalOntologyEntry> getOntologies();
 
 } // Library

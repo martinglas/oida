@@ -31,31 +31,22 @@ public interface OntologyMgrFactory extends EFactory {
 	Library createLibrary();
 
 	/**
-	 * Returns a new object of class '<em>Local Ontology</em>'.
+	 * Returns a new object of class '<em>Local Ontology Entry</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Local Ontology</em>'.
+	 * @return a new object of class '<em>Local Ontology Entry</em>'.
 	 * @generated
 	 */
-	LocalOntology createLocalOntology();
+	LocalOntologyEntry createLocalOntologyEntry();
 
 	/**
-	 * Returns a new object of class '<em>Git Repo Ontology</em>'.
+	 * Returns a new object of class '<em>Git Repo Ontology Entry</em>'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Git Repo Ontology</em>'.
+	 * @return a new object of class '<em>Git Repo Ontology Entry</em>'.
 	 * @generated
 	 */
-	GitRepoOntology createGitRepoOntology();
-
-	/**
-	 * Returns a new object of class '<em>Managed Ontology</em>'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return a new object of class '<em>Managed Ontology</em>'.
-	 * @generated
-	 */
-	ManagedOntology createManagedOntology();
+	GitRepoOntologyEntry createGitRepoOntologyEntry();
 
 	/**
 	 * Returns the package supported by this factory.

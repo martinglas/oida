@@ -1,6 +1,9 @@
 package oida.ontology.service;
 
 import java.io.File;
+import java.util.Hashtable;
+
+import javax.inject.Inject;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.URI;
@@ -12,7 +15,12 @@ import org.eclipse.emf.edit.provider.INotifyChangedListener;
 import org.eclipse.emf.edit.provider.resource.ResourceItemProviderAdapterFactory;
 import org.eclipse.emf.parsley.edit.domain.InjectableAdapterFactoryEditingDomain;
 
+import oida.ontology.Ontology;
+import oida.ontology.manager.IOntologyManager;
+import oida.ontology.manager.IOntologyManagerFactory;
+import oida.ontology.manager.OntologyManagerException;
 import oida.ontologyMgr.Library;
+import oida.ontologyMgr.LocalOntologyEntry;
 import oida.ontologyMgr.OntologyMgrFactory;
 import oida.ontologyMgr.provider.OntologyMgrItemProviderAdapterFactory;
 
@@ -23,13 +31,20 @@ import oida.ontologyMgr.provider.OntologyMgrItemProviderAdapterFactory;
  *
  */
 public class OIDAOntologyService extends AbstractOIDAOntologyService implements INotifyChangedListener {
+	private Hashtable<Ontology, IOntologyManager> managedOntologies;
+	
 	private EditingDomain editingDomain;
 	
 	private Resource resource;
 	
+	@Inject
+	IOntologyManagerFactory managerFactory;
+	
 	public OIDAOntologyService() {
 		super();
 		
+		managedOntologies = new Hashtable<Ontology, IOntologyManager>();
+
 		OntologyMgrItemProviderAdapterFactory adapterFactory = new OntologyMgrItemProviderAdapterFactory();
 		adapterFactory.addListener(this);
 		
@@ -74,6 +89,23 @@ public class OIDAOntologyService extends AbstractOIDAOntologyService implements 
 	
 	public Resource getResource() {
 		return resource;
+	}
+	
+	public IOntologyManager addManagedOntology(LocalOntologyEntry localOntology) throws OntologyManagerException {
+		IOntologyManager mgr = managerFactory.getNewManager();
+		
+		Ontology ontologyObj = mgr.loadOntology(localOntology, true);
+		
+		managedOntologies.put(ontologyObj, mgr);
+		
+		return mgr;
+	}
+	
+	public IOntologyManager getManagedOntology(String ontologyName) throws OntologyManagerException {
+		if (managedOntologies.containsKey(ontologyName))
+			return managedOntologies.get(ontologyName);
+		else
+			throw new OntologyManagerException("An ontology with the name '" + ontologyName + "' does not exist.");
 	}
 
 	@Override

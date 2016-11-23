@@ -65,7 +65,6 @@ public class LibraryItemProvider
 
 			addOwnerPropertyDescriptor(object);
 			addCreationDatePropertyDescriptor(object);
-			addActiveOntologyPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -110,28 +109,6 @@ public class LibraryItemProvider
 				 false,
 				 false,
 				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Active Ontology feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addActiveOntologyPropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_Library_activeOntology_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_Library_activeOntology_feature", "_UI_Library_type"),
-				 OntologyMgrPackage.Literals.LIBRARY__ACTIVE_ONTOLOGY,
-				 true,
-				 false,
-				 true,
-				 null,
 				 null,
 				 null));
 	}
@@ -229,12 +206,12 @@ public class LibraryItemProvider
 		newChildDescriptors.add
 			(createChildParameter
 				(OntologyMgrPackage.Literals.LIBRARY__ONTOLOGIES,
-				 OntologyMgrFactory.eINSTANCE.createLocalOntology()));
+				 OntologyMgrFactory.eINSTANCE.createLocalOntologyEntry()));
 
 		newChildDescriptors.add
 			(createChildParameter
 				(OntologyMgrPackage.Literals.LIBRARY__ONTOLOGIES,
-				 OntologyMgrFactory.eINSTANCE.createGitRepoOntology()));
+				 OntologyMgrFactory.eINSTANCE.createGitRepoOntologyEntry()));
 	}
 
 	/**

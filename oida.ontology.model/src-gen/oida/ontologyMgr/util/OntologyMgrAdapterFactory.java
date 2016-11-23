@@ -72,16 +72,12 @@ public class OntologyMgrAdapterFactory extends AdapterFactoryImpl {
 				return createLibraryAdapter();
 			}
 			@Override
-			public Adapter caseLocalOntology(LocalOntology object) {
-				return createLocalOntologyAdapter();
+			public Adapter caseLocalOntologyEntry(LocalOntologyEntry object) {
+				return createLocalOntologyEntryAdapter();
 			}
 			@Override
-			public Adapter caseGitRepoOntology(GitRepoOntology object) {
-				return createGitRepoOntologyAdapter();
-			}
-			@Override
-			public Adapter caseManagedOntology(ManagedOntology object) {
-				return createManagedOntologyAdapter();
+			public Adapter caseGitRepoOntologyEntry(GitRepoOntologyEntry object) {
+				return createGitRepoOntologyEntryAdapter();
 			}
 			@Override
 			public Adapter defaultCase(EObject object) {
@@ -118,44 +114,30 @@ public class OntologyMgrAdapterFactory extends AdapterFactoryImpl {
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link oida.ontologyMgr.LocalOntology <em>Local Ontology</em>}'.
+	 * Creates a new adapter for an object of class '{@link oida.ontologyMgr.LocalOntologyEntry <em>Local Ontology Entry</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see oida.ontologyMgr.LocalOntology
+	 * @see oida.ontologyMgr.LocalOntologyEntry
 	 * @generated
 	 */
-	public Adapter createLocalOntologyAdapter() {
+	public Adapter createLocalOntologyEntryAdapter() {
 		return null;
 	}
 
 	/**
-	 * Creates a new adapter for an object of class '{@link oida.ontologyMgr.GitRepoOntology <em>Git Repo Ontology</em>}'.
+	 * Creates a new adapter for an object of class '{@link oida.ontologyMgr.GitRepoOntologyEntry <em>Git Repo Ontology Entry</em>}'.
 	 * <!-- begin-user-doc -->
 	 * This default implementation returns null so that we can easily ignore cases;
 	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
 	 * <!-- end-user-doc -->
 	 * @return the new adapter.
-	 * @see oida.ontologyMgr.GitRepoOntology
+	 * @see oida.ontologyMgr.GitRepoOntologyEntry
 	 * @generated
 	 */
-	public Adapter createGitRepoOntologyAdapter() {
-		return null;
-	}
-
-	/**
-	 * Creates a new adapter for an object of class '{@link oida.ontologyMgr.ManagedOntology <em>Managed Ontology</em>}'.
-	 * <!-- begin-user-doc -->
-	 * This default implementation returns null so that we can easily ignore cases;
-	 * it's useful to ignore a case when inheritance will catch all the cases anyway.
-	 * <!-- end-user-doc -->
-	 * @return the new adapter.
-	 * @see oida.ontologyMgr.ManagedOntology
-	 * @generated
-	 */
-	public Adapter createManagedOntologyAdapter() {
+	public Adapter createGitRepoOntologyEntryAdapter() {
 		return null;
 	}
 

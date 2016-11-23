@@ -5,7 +5,7 @@ package oida.ontologyMgr.impl;
 import java.util.Collection;
 
 import oida.ontologyMgr.Library;
-import oida.ontologyMgr.LocalOntology;
+import oida.ontologyMgr.LocalOntologyEntry;
 import oida.ontologyMgr.OntologyMgrPackage;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -33,7 +33,6 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link oida.ontologyMgr.impl.LibraryImpl#getOwner <em>Owner</em>}</li>
  *   <li>{@link oida.ontologyMgr.impl.LibraryImpl#getCreationDate <em>Creation Date</em>}</li>
  *   <li>{@link oida.ontologyMgr.impl.LibraryImpl#getOntologies <em>Ontologies</em>}</li>
- *   <li>{@link oida.ontologyMgr.impl.LibraryImpl#getActiveOntology <em>Active Ontology</em>}</li>
  * </ul>
  *
  * @generated
@@ -87,17 +86,7 @@ public class LibraryImpl extends MinimalEObjectImpl.Container implements Library
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<LocalOntology> ontologies;
-
-	/**
-	 * The cached value of the '{@link #getActiveOntology() <em>Active Ontology</em>}' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see #getActiveOntology()
-	 * @generated
-	 * @ordered
-	 */
-	protected LocalOntology activeOntology;
+	protected EList<LocalOntologyEntry> ontologies;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -165,49 +154,11 @@ public class LibraryImpl extends MinimalEObjectImpl.Container implements Library
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<LocalOntology> getOntologies() {
+	public EList<LocalOntologyEntry> getOntologies() {
 		if (ontologies == null) {
-			ontologies = new EObjectContainmentEList<LocalOntology>(LocalOntology.class, this, OntologyMgrPackage.LIBRARY__ONTOLOGIES);
+			ontologies = new EObjectContainmentEList<LocalOntologyEntry>(LocalOntologyEntry.class, this, OntologyMgrPackage.LIBRARY__ONTOLOGIES);
 		}
 		return ontologies;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public LocalOntology getActiveOntology() {
-		if (activeOntology != null && activeOntology.eIsProxy()) {
-			InternalEObject oldActiveOntology = (InternalEObject)activeOntology;
-			activeOntology = (LocalOntology)eResolveProxy(oldActiveOntology);
-			if (activeOntology != oldActiveOntology) {
-				if (eNotificationRequired())
-					eNotify(new ENotificationImpl(this, Notification.RESOLVE, OntologyMgrPackage.LIBRARY__ACTIVE_ONTOLOGY, oldActiveOntology, activeOntology));
-			}
-		}
-		return activeOntology;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public LocalOntology basicGetActiveOntology() {
-		return activeOntology;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public void setActiveOntology(LocalOntology newActiveOntology) {
-		LocalOntology oldActiveOntology = activeOntology;
-		activeOntology = newActiveOntology;
-		if (eNotificationRequired())
-			eNotify(new ENotificationImpl(this, Notification.SET, OntologyMgrPackage.LIBRARY__ACTIVE_ONTOLOGY, oldActiveOntology, activeOntology));
 	}
 
 	/**
@@ -238,9 +189,6 @@ public class LibraryImpl extends MinimalEObjectImpl.Container implements Library
 				return getCreationDate();
 			case OntologyMgrPackage.LIBRARY__ONTOLOGIES:
 				return getOntologies();
-			case OntologyMgrPackage.LIBRARY__ACTIVE_ONTOLOGY:
-				if (resolve) return getActiveOntology();
-				return basicGetActiveOntology();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -262,10 +210,7 @@ public class LibraryImpl extends MinimalEObjectImpl.Container implements Library
 				return;
 			case OntologyMgrPackage.LIBRARY__ONTOLOGIES:
 				getOntologies().clear();
-				getOntologies().addAll((Collection<? extends LocalOntology>)newValue);
-				return;
-			case OntologyMgrPackage.LIBRARY__ACTIVE_ONTOLOGY:
-				setActiveOntology((LocalOntology)newValue);
+				getOntologies().addAll((Collection<? extends LocalOntologyEntry>)newValue);
 				return;
 		}
 		super.eSet(featureID, newValue);
@@ -288,9 +233,6 @@ public class LibraryImpl extends MinimalEObjectImpl.Container implements Library
 			case OntologyMgrPackage.LIBRARY__ONTOLOGIES:
 				getOntologies().clear();
 				return;
-			case OntologyMgrPackage.LIBRARY__ACTIVE_ONTOLOGY:
-				setActiveOntology((LocalOntology)null);
-				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -309,8 +251,6 @@ public class LibraryImpl extends MinimalEObjectImpl.Container implements Library
 				return CREATION_DATE_EDEFAULT == null ? creationDate != null : !CREATION_DATE_EDEFAULT.equals(creationDate);
 			case OntologyMgrPackage.LIBRARY__ONTOLOGIES:
 				return ontologies != null && !ontologies.isEmpty();
-			case OntologyMgrPackage.LIBRARY__ACTIVE_ONTOLOGY:
-				return activeOntology != null;
 		}
 		return super.eIsSet(featureID);
 	}

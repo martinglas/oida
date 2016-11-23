@@ -12,9 +12,16 @@
          point="org.eclipse.ui.views">
       <view
             category="org.eclipse.emf.parsley"
-            class="oida.ontology.ui.e4.E4ExecutableExtensionFactory:oida.ontology.ui.e4.OntologyLibraryView"
-            id="oida.ontology.ui.e4"
+            class="oida.ontology.ui.OntologyLibraryView.OntologyLibraryViewExecutableExtensionFactory:oida.ontology.ui.view.OntologyLibraryView"
+            id="oida.ontology.ui.view.OntologyLibraryView"
             name="Ontology Library"
+            restorable="true">
+      </view>
+      <view
+            category="org.eclipse.emf.parsley"
+            class="oida.ontology.ui.OntologyManagerView.OntologyManagerViewExecutableExtensionFactory:oida.ontology.ui.view.OntologyManagerView"
+            id="oida.ontology.ui.view.OntologyManagerView"
+            name="Ontology Manager"
             restorable="true">
       </view>
    </extension>

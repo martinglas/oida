@@ -1,7 +1,6 @@
 package oida.ontology.reference;
 
 import oida.ontologyMgr.LocalOntology;
-import oida.ontologyMgr.OntologyMgrFactory;
 
 public class ReferenceOntologyMgr {
 	private LocalOntology referenceOntology;
@@ -24,6 +23,6 @@ public class ReferenceOntologyMgr {
 	}
 	
 	private ReferenceOntologyMgr() {
-		referenceOntology = OntologyMgrFactory.eINSTANCE.createLocalOntology();
+		//referenceOntology = OntologyMgrFactory.eINSTANCE.createLocalOntology();
 	}
 }

@@ -8,7 +8,7 @@ import org.osgi.framework.BundleContext;
 import oida.ontology.service.OIDAOntologyService;
 
 public class Activator implements BundleActivator {
-	//private static String MANAGERCLIENT_EXTENSIONPOINT_ID = "oida.ontology.manage";
+	static String ONTOLOGYMANAGER_EXTENSIONPOINT_ID = "oida.ontology.manager";
 	
 	private static BundleContext context;
 

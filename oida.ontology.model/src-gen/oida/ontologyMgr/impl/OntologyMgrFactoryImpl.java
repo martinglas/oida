@@ -57,9 +57,8 @@ public class OntologyMgrFactoryImpl extends EFactoryImpl implements OntologyMgrF
 	public EObject create(EClass eClass) {
 		switch (eClass.getClassifierID()) {
 			case OntologyMgrPackage.LIBRARY: return createLibrary();
-			case OntologyMgrPackage.LOCAL_ONTOLOGY: return createLocalOntology();
-			case OntologyMgrPackage.GIT_REPO_ONTOLOGY: return createGitRepoOntology();
-			case OntologyMgrPackage.MANAGED_ONTOLOGY: return createManagedOntology();
+			case OntologyMgrPackage.LOCAL_ONTOLOGY_ENTRY: return createLocalOntologyEntry();
+			case OntologyMgrPackage.GIT_REPO_ONTOLOGY_ENTRY: return createGitRepoOntologyEntry();
 			default:
 				throw new IllegalArgumentException("The class '" + eClass.getName() + "' is not a valid classifier");
 		}
@@ -80,9 +79,9 @@ public class OntologyMgrFactoryImpl extends EFactoryImpl implements OntologyMgrF
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public LocalOntology createLocalOntology() {
-		LocalOntologyImpl localOntology = new LocalOntologyImpl();
-		return localOntology;
+	public LocalOntologyEntry createLocalOntologyEntry() {
+		LocalOntologyEntryImpl localOntologyEntry = new LocalOntologyEntryImpl();
+		return localOntologyEntry;
 	}
 
 	/**
@@ -90,19 +89,9 @@ public class OntologyMgrFactoryImpl extends EFactoryImpl implements OntologyMgrF
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public GitRepoOntology createGitRepoOntology() {
-		GitRepoOntologyImpl gitRepoOntology = new GitRepoOntologyImpl();
-		return gitRepoOntology;
-	}
-
-	/**
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	public ManagedOntology createManagedOntology() {
-		ManagedOntologyImpl managedOntology = new ManagedOntologyImpl();
-		return managedOntology;
+	public GitRepoOntologyEntry createGitRepoOntologyEntry() {
+		GitRepoOntologyEntryImpl gitRepoOntologyEntry = new GitRepoOntologyEntryImpl();
+		return gitRepoOntologyEntry;
 	}
 
 	/**

@@ -94,22 +94,13 @@ public interface OntologyMgrPackage extends EPackage {
 	int LIBRARY__ONTOLOGIES = 2;
 
 	/**
-	 * The feature id for the '<em><b>Active Ontology</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int LIBRARY__ACTIVE_ONTOLOGY = 3;
-
-	/**
 	 * The number of structural features of the '<em>Library</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int LIBRARY_FEATURE_COUNT = 4;
+	int LIBRARY_FEATURE_COUNT = 3;
 
 	/**
 	 * The number of operations of the '<em>Library</em>' class.
@@ -121,14 +112,14 @@ public interface OntologyMgrPackage extends EPackage {
 	int LIBRARY_OPERATION_COUNT = 0;
 
 	/**
-	 * The meta object id for the '{@link oida.ontologyMgr.impl.LocalOntologyImpl <em>Local Ontology</em>}' class.
+	 * The meta object id for the '{@link oida.ontologyMgr.impl.LocalOntologyEntryImpl <em>Local Ontology Entry</em>}' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see oida.ontologyMgr.impl.LocalOntologyImpl
-	 * @see oida.ontologyMgr.impl.OntologyMgrPackageImpl#getLocalOntology()
+	 * @see oida.ontologyMgr.impl.LocalOntologyEntryImpl
+	 * @see oida.ontologyMgr.impl.OntologyMgrPackageImpl#getLocalOntologyEntry()
 	 * @generated
 	 */
-	int LOCAL_ONTOLOGY = 1;
+	int LOCAL_ONTOLOGY_ENTRY = 1;
 
 	/**
 	 * The feature id for the '<em><b>Path</b></em>' attribute.
@@ -137,7 +128,7 @@ public interface OntologyMgrPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int LOCAL_ONTOLOGY__PATH = 0;
+	int LOCAL_ONTOLOGY_ENTRY__PATH = 0;
 
 	/**
 	 * The feature id for the '<em><b>File</b></em>' attribute.
@@ -146,7 +137,7 @@ public interface OntologyMgrPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int LOCAL_ONTOLOGY__FILE = 1;
+	int LOCAL_ONTOLOGY_ENTRY__FILE = 1;
 
 	/**
 	 * The feature id for the '<em><b>Maintenance File</b></em>' attribute.
@@ -155,35 +146,44 @@ public interface OntologyMgrPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int LOCAL_ONTOLOGY__MAINTENANCE_FILE = 2;
+	int LOCAL_ONTOLOGY_ENTRY__MAINTENANCE_FILE = 2;
 
 	/**
-	 * The number of structural features of the '<em>Local Ontology</em>' class.
+	 * The feature id for the '<em><b>Managed Ontology</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int LOCAL_ONTOLOGY_FEATURE_COUNT = 3;
+	int LOCAL_ONTOLOGY_ENTRY__MANAGED_ONTOLOGY = 3;
 
 	/**
-	 * The number of operations of the '<em>Local Ontology</em>' class.
+	 * The number of structural features of the '<em>Local Ontology Entry</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int LOCAL_ONTOLOGY_OPERATION_COUNT = 0;
+	int LOCAL_ONTOLOGY_ENTRY_FEATURE_COUNT = 4;
 
 	/**
-	 * The meta object id for the '{@link oida.ontologyMgr.impl.GitRepoOntologyImpl <em>Git Repo Ontology</em>}' class.
+	 * The number of operations of the '<em>Local Ontology Entry</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see oida.ontologyMgr.impl.GitRepoOntologyImpl
-	 * @see oida.ontologyMgr.impl.OntologyMgrPackageImpl#getGitRepoOntology()
+	 * @generated
+	 * @ordered
+	 */
+	int LOCAL_ONTOLOGY_ENTRY_OPERATION_COUNT = 0;
+
+	/**
+	 * The meta object id for the '{@link oida.ontologyMgr.impl.GitRepoOntologyEntryImpl <em>Git Repo Ontology Entry</em>}' class.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see oida.ontologyMgr.impl.GitRepoOntologyEntryImpl
+	 * @see oida.ontologyMgr.impl.OntologyMgrPackageImpl#getGitRepoOntologyEntry()
 	 * @generated
 	 */
-	int GIT_REPO_ONTOLOGY = 2;
+	int GIT_REPO_ONTOLOGY_ENTRY = 2;
 
 	/**
 	 * The feature id for the '<em><b>Path</b></em>' attribute.
@@ -192,7 +192,7 @@ public interface OntologyMgrPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int GIT_REPO_ONTOLOGY__PATH = LOCAL_ONTOLOGY__PATH;
+	int GIT_REPO_ONTOLOGY_ENTRY__PATH = LOCAL_ONTOLOGY_ENTRY__PATH;
 
 	/**
 	 * The feature id for the '<em><b>File</b></em>' attribute.
@@ -201,7 +201,7 @@ public interface OntologyMgrPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int GIT_REPO_ONTOLOGY__FILE = LOCAL_ONTOLOGY__FILE;
+	int GIT_REPO_ONTOLOGY_ENTRY__FILE = LOCAL_ONTOLOGY_ENTRY__FILE;
 
 	/**
 	 * The feature id for the '<em><b>Maintenance File</b></em>' attribute.
@@ -210,7 +210,16 @@ public interface OntologyMgrPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int GIT_REPO_ONTOLOGY__MAINTENANCE_FILE = LOCAL_ONTOLOGY__MAINTENANCE_FILE;
+	int GIT_REPO_ONTOLOGY_ENTRY__MAINTENANCE_FILE = LOCAL_ONTOLOGY_ENTRY__MAINTENANCE_FILE;
+
+	/**
+	 * The feature id for the '<em><b>Managed Ontology</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int GIT_REPO_ONTOLOGY_ENTRY__MANAGED_ONTOLOGY = LOCAL_ONTOLOGY_ENTRY__MANAGED_ONTOLOGY;
 
 	/**
 	 * The feature id for the '<em><b>Repo URL</b></em>' attribute.
@@ -219,7 +228,7 @@ public interface OntologyMgrPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int GIT_REPO_ONTOLOGY__REPO_URL = LOCAL_ONTOLOGY_FEATURE_COUNT + 0;
+	int GIT_REPO_ONTOLOGY_ENTRY__REPO_URL = LOCAL_ONTOLOGY_ENTRY_FEATURE_COUNT + 0;
 
 	/**
 	 * The feature id for the '<em><b>Git Username</b></em>' attribute.
@@ -228,7 +237,7 @@ public interface OntologyMgrPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int GIT_REPO_ONTOLOGY__GIT_USERNAME = LOCAL_ONTOLOGY_FEATURE_COUNT + 1;
+	int GIT_REPO_ONTOLOGY_ENTRY__GIT_USERNAME = LOCAL_ONTOLOGY_ENTRY_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Git Password</b></em>' attribute.
@@ -237,72 +246,25 @@ public interface OntologyMgrPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int GIT_REPO_ONTOLOGY__GIT_PASSWORD = LOCAL_ONTOLOGY_FEATURE_COUNT + 2;
+	int GIT_REPO_ONTOLOGY_ENTRY__GIT_PASSWORD = LOCAL_ONTOLOGY_ENTRY_FEATURE_COUNT + 2;
 
 	/**
-	 * The number of structural features of the '<em>Git Repo Ontology</em>' class.
+	 * The number of structural features of the '<em>Git Repo Ontology Entry</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int GIT_REPO_ONTOLOGY_FEATURE_COUNT = LOCAL_ONTOLOGY_FEATURE_COUNT + 3;
+	int GIT_REPO_ONTOLOGY_ENTRY_FEATURE_COUNT = LOCAL_ONTOLOGY_ENTRY_FEATURE_COUNT + 3;
 
 	/**
-	 * The number of operations of the '<em>Git Repo Ontology</em>' class.
+	 * The number of operations of the '<em>Git Repo Ontology Entry</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int GIT_REPO_ONTOLOGY_OPERATION_COUNT = LOCAL_ONTOLOGY_OPERATION_COUNT + 0;
-
-	/**
-	 * The meta object id for the '{@link oida.ontologyMgr.impl.ManagedOntologyImpl <em>Managed Ontology</em>}' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @see oida.ontologyMgr.impl.ManagedOntologyImpl
-	 * @see oida.ontologyMgr.impl.OntologyMgrPackageImpl#getManagedOntology()
-	 * @generated
-	 */
-	int MANAGED_ONTOLOGY = 3;
-
-	/**
-	 * The feature id for the '<em><b>Is Consistent</b></em>' attribute.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MANAGED_ONTOLOGY__IS_CONSISTENT = 0;
-
-	/**
-	 * The feature id for the '<em><b>Local Ontology</b></em>' reference.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MANAGED_ONTOLOGY__LOCAL_ONTOLOGY = 1;
-
-	/**
-	 * The number of structural features of the '<em>Managed Ontology</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MANAGED_ONTOLOGY_FEATURE_COUNT = 2;
-
-	/**
-	 * The number of operations of the '<em>Managed Ontology</em>' class.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 * @ordered
-	 */
-	int MANAGED_ONTOLOGY_OPERATION_COUNT = 0;
-
+	int GIT_REPO_ONTOLOGY_ENTRY_OPERATION_COUNT = LOCAL_ONTOLOGY_ENTRY_OPERATION_COUNT + 0;
 
 	/**
 	 * Returns the meta object for class '{@link oida.ontologyMgr.Library <em>Library</em>}'.
@@ -348,133 +310,101 @@ public interface OntologyMgrPackage extends EPackage {
 	EReference getLibrary_Ontologies();
 
 	/**
-	 * Returns the meta object for the reference '{@link oida.ontologyMgr.Library#getActiveOntology <em>Active Ontology</em>}'.
+	 * Returns the meta object for class '{@link oida.ontologyMgr.LocalOntologyEntry <em>Local Ontology Entry</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Active Ontology</em>'.
-	 * @see oida.ontologyMgr.Library#getActiveOntology()
-	 * @see #getLibrary()
+	 * @return the meta object for class '<em>Local Ontology Entry</em>'.
+	 * @see oida.ontologyMgr.LocalOntologyEntry
 	 * @generated
 	 */
-	EReference getLibrary_ActiveOntology();
+	EClass getLocalOntologyEntry();
 
 	/**
-	 * Returns the meta object for class '{@link oida.ontologyMgr.LocalOntology <em>Local Ontology</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Local Ontology</em>'.
-	 * @see oida.ontologyMgr.LocalOntology
-	 * @generated
-	 */
-	EClass getLocalOntology();
-
-	/**
-	 * Returns the meta object for the attribute '{@link oida.ontologyMgr.LocalOntology#getPath <em>Path</em>}'.
+	 * Returns the meta object for the attribute '{@link oida.ontologyMgr.LocalOntologyEntry#getPath <em>Path</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Path</em>'.
-	 * @see oida.ontologyMgr.LocalOntology#getPath()
-	 * @see #getLocalOntology()
+	 * @see oida.ontologyMgr.LocalOntologyEntry#getPath()
+	 * @see #getLocalOntologyEntry()
 	 * @generated
 	 */
-	EAttribute getLocalOntology_Path();
+	EAttribute getLocalOntologyEntry_Path();
 
 	/**
-	 * Returns the meta object for the attribute '{@link oida.ontologyMgr.LocalOntology#getFile <em>File</em>}'.
+	 * Returns the meta object for the attribute '{@link oida.ontologyMgr.LocalOntologyEntry#getFile <em>File</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>File</em>'.
-	 * @see oida.ontologyMgr.LocalOntology#getFile()
-	 * @see #getLocalOntology()
+	 * @see oida.ontologyMgr.LocalOntologyEntry#getFile()
+	 * @see #getLocalOntologyEntry()
 	 * @generated
 	 */
-	EAttribute getLocalOntology_File();
+	EAttribute getLocalOntologyEntry_File();
 
 	/**
-	 * Returns the meta object for the attribute '{@link oida.ontologyMgr.LocalOntology#getMaintenanceFile <em>Maintenance File</em>}'.
+	 * Returns the meta object for the attribute '{@link oida.ontologyMgr.LocalOntologyEntry#getMaintenanceFile <em>Maintenance File</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Maintenance File</em>'.
-	 * @see oida.ontologyMgr.LocalOntology#getMaintenanceFile()
-	 * @see #getLocalOntology()
+	 * @see oida.ontologyMgr.LocalOntologyEntry#getMaintenanceFile()
+	 * @see #getLocalOntologyEntry()
 	 * @generated
 	 */
-	EAttribute getLocalOntology_MaintenanceFile();
+	EAttribute getLocalOntologyEntry_MaintenanceFile();
 
 	/**
-	 * Returns the meta object for class '{@link oida.ontologyMgr.GitRepoOntology <em>Git Repo Ontology</em>}'.
+	 * Returns the meta object for the reference '{@link oida.ontologyMgr.LocalOntologyEntry#getManagedOntology <em>Managed Ontology</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Git Repo Ontology</em>'.
-	 * @see oida.ontologyMgr.GitRepoOntology
+	 * @return the meta object for the reference '<em>Managed Ontology</em>'.
+	 * @see oida.ontologyMgr.LocalOntologyEntry#getManagedOntology()
+	 * @see #getLocalOntologyEntry()
 	 * @generated
 	 */
-	EClass getGitRepoOntology();
+	EReference getLocalOntologyEntry_ManagedOntology();
 
 	/**
-	 * Returns the meta object for the attribute '{@link oida.ontologyMgr.GitRepoOntology#getRepoURL <em>Repo URL</em>}'.
+	 * Returns the meta object for class '{@link oida.ontologyMgr.GitRepoOntologyEntry <em>Git Repo Ontology Entry</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for class '<em>Git Repo Ontology Entry</em>'.
+	 * @see oida.ontologyMgr.GitRepoOntologyEntry
+	 * @generated
+	 */
+	EClass getGitRepoOntologyEntry();
+
+	/**
+	 * Returns the meta object for the attribute '{@link oida.ontologyMgr.GitRepoOntologyEntry#getRepoURL <em>Repo URL</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Repo URL</em>'.
-	 * @see oida.ontologyMgr.GitRepoOntology#getRepoURL()
-	 * @see #getGitRepoOntology()
+	 * @see oida.ontologyMgr.GitRepoOntologyEntry#getRepoURL()
+	 * @see #getGitRepoOntologyEntry()
 	 * @generated
 	 */
-	EAttribute getGitRepoOntology_RepoURL();
+	EAttribute getGitRepoOntologyEntry_RepoURL();
 
 	/**
-	 * Returns the meta object for the attribute '{@link oida.ontologyMgr.GitRepoOntology#getGitUsername <em>Git Username</em>}'.
+	 * Returns the meta object for the attribute '{@link oida.ontologyMgr.GitRepoOntologyEntry#getGitUsername <em>Git Username</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Git Username</em>'.
-	 * @see oida.ontologyMgr.GitRepoOntology#getGitUsername()
-	 * @see #getGitRepoOntology()
+	 * @see oida.ontologyMgr.GitRepoOntologyEntry#getGitUsername()
+	 * @see #getGitRepoOntologyEntry()
 	 * @generated
 	 */
-	EAttribute getGitRepoOntology_GitUsername();
+	EAttribute getGitRepoOntologyEntry_GitUsername();
 
 	/**
-	 * Returns the meta object for the attribute '{@link oida.ontologyMgr.GitRepoOntology#getGitPassword <em>Git Password</em>}'.
+	 * Returns the meta object for the attribute '{@link oida.ontologyMgr.GitRepoOntologyEntry#getGitPassword <em>Git Password</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @return the meta object for the attribute '<em>Git Password</em>'.
-	 * @see oida.ontologyMgr.GitRepoOntology#getGitPassword()
-	 * @see #getGitRepoOntology()
+	 * @see oida.ontologyMgr.GitRepoOntologyEntry#getGitPassword()
+	 * @see #getGitRepoOntologyEntry()
 	 * @generated
 	 */
-	EAttribute getGitRepoOntology_GitPassword();
-
-	/**
-	 * Returns the meta object for class '{@link oida.ontologyMgr.ManagedOntology <em>Managed Ontology</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for class '<em>Managed Ontology</em>'.
-	 * @see oida.ontologyMgr.ManagedOntology
-	 * @generated
-	 */
-	EClass getManagedOntology();
-
-	/**
-	 * Returns the meta object for the attribute '{@link oida.ontologyMgr.ManagedOntology#isIsConsistent <em>Is Consistent</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the attribute '<em>Is Consistent</em>'.
-	 * @see oida.ontologyMgr.ManagedOntology#isIsConsistent()
-	 * @see #getManagedOntology()
-	 * @generated
-	 */
-	EAttribute getManagedOntology_IsConsistent();
-
-	/**
-	 * Returns the meta object for the reference '{@link oida.ontologyMgr.ManagedOntology#getLocalOntology <em>Local Ontology</em>}'.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @return the meta object for the reference '<em>Local Ontology</em>'.
-	 * @see oida.ontologyMgr.ManagedOntology#getLocalOntology()
-	 * @see #getManagedOntology()
-	 * @generated
-	 */
-	EReference getManagedOntology_LocalOntology();
+	EAttribute getGitRepoOntologyEntry_GitPassword();
 
 	/**
 	 * Returns the factory that creates the instances of the model.
@@ -534,22 +464,14 @@ public interface OntologyMgrPackage extends EPackage {
 		EReference LIBRARY__ONTOLOGIES = eINSTANCE.getLibrary_Ontologies();
 
 		/**
-		 * The meta object literal for the '<em><b>Active Ontology</b></em>' reference feature.
+		 * The meta object literal for the '{@link oida.ontologyMgr.impl.LocalOntologyEntryImpl <em>Local Ontology Entry</em>}' class.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
+		 * @see oida.ontologyMgr.impl.LocalOntologyEntryImpl
+		 * @see oida.ontologyMgr.impl.OntologyMgrPackageImpl#getLocalOntologyEntry()
 		 * @generated
 		 */
-		EReference LIBRARY__ACTIVE_ONTOLOGY = eINSTANCE.getLibrary_ActiveOntology();
-
-		/**
-		 * The meta object literal for the '{@link oida.ontologyMgr.impl.LocalOntologyImpl <em>Local Ontology</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see oida.ontologyMgr.impl.LocalOntologyImpl
-		 * @see oida.ontologyMgr.impl.OntologyMgrPackageImpl#getLocalOntology()
-		 * @generated
-		 */
-		EClass LOCAL_ONTOLOGY = eINSTANCE.getLocalOntology();
+		EClass LOCAL_ONTOLOGY_ENTRY = eINSTANCE.getLocalOntologyEntry();
 
 		/**
 		 * The meta object literal for the '<em><b>Path</b></em>' attribute feature.
@@ -557,7 +479,7 @@ public interface OntologyMgrPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute LOCAL_ONTOLOGY__PATH = eINSTANCE.getLocalOntology_Path();
+		EAttribute LOCAL_ONTOLOGY_ENTRY__PATH = eINSTANCE.getLocalOntologyEntry_Path();
 
 		/**
 		 * The meta object literal for the '<em><b>File</b></em>' attribute feature.
@@ -565,7 +487,7 @@ public interface OntologyMgrPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute LOCAL_ONTOLOGY__FILE = eINSTANCE.getLocalOntology_File();
+		EAttribute LOCAL_ONTOLOGY_ENTRY__FILE = eINSTANCE.getLocalOntologyEntry_File();
 
 		/**
 		 * The meta object literal for the '<em><b>Maintenance File</b></em>' attribute feature.
@@ -573,17 +495,25 @@ public interface OntologyMgrPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute LOCAL_ONTOLOGY__MAINTENANCE_FILE = eINSTANCE.getLocalOntology_MaintenanceFile();
+		EAttribute LOCAL_ONTOLOGY_ENTRY__MAINTENANCE_FILE = eINSTANCE.getLocalOntologyEntry_MaintenanceFile();
 
 		/**
-		 * The meta object literal for the '{@link oida.ontologyMgr.impl.GitRepoOntologyImpl <em>Git Repo Ontology</em>}' class.
+		 * The meta object literal for the '<em><b>Managed Ontology</b></em>' reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
-		 * @see oida.ontologyMgr.impl.GitRepoOntologyImpl
-		 * @see oida.ontologyMgr.impl.OntologyMgrPackageImpl#getGitRepoOntology()
 		 * @generated
 		 */
-		EClass GIT_REPO_ONTOLOGY = eINSTANCE.getGitRepoOntology();
+		EReference LOCAL_ONTOLOGY_ENTRY__MANAGED_ONTOLOGY = eINSTANCE.getLocalOntologyEntry_ManagedOntology();
+
+		/**
+		 * The meta object literal for the '{@link oida.ontologyMgr.impl.GitRepoOntologyEntryImpl <em>Git Repo Ontology Entry</em>}' class.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @see oida.ontologyMgr.impl.GitRepoOntologyEntryImpl
+		 * @see oida.ontologyMgr.impl.OntologyMgrPackageImpl#getGitRepoOntologyEntry()
+		 * @generated
+		 */
+		EClass GIT_REPO_ONTOLOGY_ENTRY = eINSTANCE.getGitRepoOntologyEntry();
 
 		/**
 		 * The meta object literal for the '<em><b>Repo URL</b></em>' attribute feature.
@@ -591,7 +521,7 @@ public interface OntologyMgrPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute GIT_REPO_ONTOLOGY__REPO_URL = eINSTANCE.getGitRepoOntology_RepoURL();
+		EAttribute GIT_REPO_ONTOLOGY_ENTRY__REPO_URL = eINSTANCE.getGitRepoOntologyEntry_RepoURL();
 
 		/**
 		 * The meta object literal for the '<em><b>Git Username</b></em>' attribute feature.
@@ -599,7 +529,7 @@ public interface OntologyMgrPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute GIT_REPO_ONTOLOGY__GIT_USERNAME = eINSTANCE.getGitRepoOntology_GitUsername();
+		EAttribute GIT_REPO_ONTOLOGY_ENTRY__GIT_USERNAME = eINSTANCE.getGitRepoOntologyEntry_GitUsername();
 
 		/**
 		 * The meta object literal for the '<em><b>Git Password</b></em>' attribute feature.
@@ -607,33 +537,7 @@ public interface OntologyMgrPackage extends EPackage {
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EAttribute GIT_REPO_ONTOLOGY__GIT_PASSWORD = eINSTANCE.getGitRepoOntology_GitPassword();
-
-		/**
-		 * The meta object literal for the '{@link oida.ontologyMgr.impl.ManagedOntologyImpl <em>Managed Ontology</em>}' class.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @see oida.ontologyMgr.impl.ManagedOntologyImpl
-		 * @see oida.ontologyMgr.impl.OntologyMgrPackageImpl#getManagedOntology()
-		 * @generated
-		 */
-		EClass MANAGED_ONTOLOGY = eINSTANCE.getManagedOntology();
-
-		/**
-		 * The meta object literal for the '<em><b>Is Consistent</b></em>' attribute feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EAttribute MANAGED_ONTOLOGY__IS_CONSISTENT = eINSTANCE.getManagedOntology_IsConsistent();
-
-		/**
-		 * The meta object literal for the '<em><b>Local Ontology</b></em>' reference feature.
-		 * <!-- begin-user-doc -->
-		 * <!-- end-user-doc -->
-		 * @generated
-		 */
-		EReference MANAGED_ONTOLOGY__LOCAL_ONTOLOGY = eINSTANCE.getManagedOntology_LocalOntology();
+		EAttribute GIT_REPO_ONTOLOGY_ENTRY__GIT_PASSWORD = eINSTANCE.getGitRepoOntologyEntry_GitPassword();
 
 	}
 
