@@ -1,16 +1,31 @@
 <?xml version="1.0" encoding="ASCII"?>
-<fragment:ModelFragments xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:basic="http://www.eclipse.org/ui/2010/UIModel/application/ui/basic" xmlns:commands="http://www.eclipse.org/ui/2010/UIModel/application/commands" xmlns:fragment="http://www.eclipse.org/ui/2010/UIModel/fragment" xmlns:menu="http://www.eclipse.org/ui/2010/UIModel/application/ui/menu" xmi:id="_E7VxUKXEEeac7pLqBaVU8A">
-  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_xOTwkKXEEeac7pLqBaVU8A" featurename="children" parentElementId="de.symo.application.partstack.knowledgemangement.lefttop">
-    <elements xsi:type="basic:Part" xmi:id="_1hSosKXEEeac7pLqBaVU8A" elementId="oida.ontology.ui.e4.ontologylibrary" contributionURI="bundleclass://oida.ontology.ui.e4/oida.ontology.ui.e4.part.OntologyLibraryPart" label="Ontology Library" iconURI="platform:/plugin/oida.ontology.ui.e4/icons/OntologyLibrary_16.png">
-      <toolbar xmi:id="_-vAVcKXEEeac7pLqBaVU8A" elementId="oida.ontology.ui.e4.toolbar.0">
-        <children xsi:type="menu:HandledToolItem" xmi:id="__eJTYKXEEeac7pLqBaVU8A" elementId="oida.ontology.ui.e4.handledtoolitem.save" label="Save" iconURI="platform:/plugin/oida.ontology.ui.e4/icons/Save_16.png" command="_FOPpwKXFEeac7pLqBaVU8A"/>
-      </toolbar>
-    </elements>
-  </fragments>
+<fragment:ModelFragments xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:advanced="http://www.eclipse.org/ui/2010/UIModel/application/ui/advanced" xmlns:basic="http://www.eclipse.org/ui/2010/UIModel/application/ui/basic" xmlns:commands="http://www.eclipse.org/ui/2010/UIModel/application/commands" xmlns:fragment="http://www.eclipse.org/ui/2010/UIModel/fragment" xmlns:menu="http://www.eclipse.org/ui/2010/UIModel/application/ui/menu" xmi:id="_E7VxUKXEEeac7pLqBaVU8A">
   <fragments xsi:type="fragment:StringModelFragment" xmi:id="_C5bHcKXFEeac7pLqBaVU8A" featurename="commands" parentElementId="de.symo.application.e4.application">
     <elements xsi:type="commands:Command" xmi:id="_FOPpwKXFEeac7pLqBaVU8A" elementId="oida.ontology.ui.e4.command.savelibrary" commandName="Save Library"/>
   </fragments>
   <fragments xsi:type="fragment:StringModelFragment" xmi:id="_HMEoYKXFEeac7pLqBaVU8A" featurename="handlers" parentElementId="de.symo.application.e4.application">
     <elements xsi:type="commands:Handler" xmi:id="_Ik6qoKXFEeac7pLqBaVU8A" elementId="oida.ontology.ui.e4.handler.0" contributionURI="bundleclass://oida.ontology.ui.e4/oida.ontology.ui.e4.handler.SaveOntologyLibrary" command="_FOPpwKXFEeac7pLqBaVU8A"/>
+  </fragments>
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_vY7MkLJXEeaw4puSHi5CMg" featurename="children" parentElementId="org.eclipse.ui.ide.perspectivestack">
+    <elements xsi:type="advanced:Perspective" xmi:id="_7j3fcLJXEeaw4puSHi5CMg" elementId="oida.ontology.ui.e4.perspective" label="Knowledge" iconURI="platform:/plugin/oida.ontology.ui.e4/icons/OntologyLibrary_16.png">
+      <children xsi:type="basic:PartSashContainer" xmi:id="_I-8_8Jq8EeaelOAnCMy4mw" elementId="de.symo.application.partsashcontainer.2" horizontal="true">
+        <children xsi:type="basic:PartSashContainer" xmi:id="_GHPPIJrAEeaelOAnCMy4mw" elementId="de.symo.application.partsashcontainer.3" containerData="20">
+          <children xsi:type="basic:PartStack" xmi:id="_KSRB8Jq8EeaelOAnCMy4mw" elementId="de.symo.application.partstack.knowledge.lefttop" containerData="50">
+            <children xsi:type="basic:Part" xmi:id="_1hSosKXEEeac7pLqBaVU8A" elementId="oida.ontology.ui.e4.ontologylibrary" contributionURI="bundleclass://oida.ontology.ui.e4/oida.ontology.ui.e4.part.OntologyLibraryPart" label="Ontology Library" iconURI="platform:/plugin/oida.ontology.ui.e4/icons/OntologyLibrary_16.png">
+              <toolbar xmi:id="_-vAVcKXEEeac7pLqBaVU8A" elementId="oida.ontology.ui.e4.toolbar.0">
+                <children xsi:type="menu:HandledToolItem" xmi:id="__eJTYKXEEeac7pLqBaVU8A" elementId="oida.ontology.ui.e4.handledtoolitem.save" label="Save" iconURI="platform:/plugin/oida.ontology.ui.e4/icons/Save_16.png" command="_FOPpwKXFEeac7pLqBaVU8A"/>
+              </toolbar>
+            </children>
+          </children>
+          <children xsi:type="basic:PartStack" xmi:id="_Klm0sJq8EeaelOAnCMy4mw" elementId="de.symo.application.partstack.knowledge.leftbottom" containerData="50">
+            <children xsi:type="basic:Part" xmi:id="_TqfhMLJYEeaw4puSHi5CMg" elementId="oida.ontology.ui.e4.part.ontologymanager" contributionURI="bundleclass://oida.ontology.ui.e4/oida.ontology.ui.e4.part.OntologyManagerPart" label="Ontology Manager"/>
+          </children>
+        </children>
+        <children xsi:type="basic:PartStack" xmi:id="_K7oIAJq8EeaelOAnCMy4mw" elementId="de.symo.application.partstack.2" containerData="60"/>
+        <children xsi:type="basic:PartSashContainer" xmi:id="_SgSKsKaNEea4d_GmOhDBEg" elementId="de.symo.application.partsashcontainer.4" containerData="20">
+          <children xsi:type="basic:PartStack" xmi:id="_T3-WYKaNEea4d_GmOhDBEg" elementId="de.symo.application.partstack.0"/>
+        </children>
+      </children>
+    </elements>
   </fragments>
 </fragment:ModelFragments>

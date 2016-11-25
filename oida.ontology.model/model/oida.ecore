@@ -1,6 +1,14 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="oida" nsURI="http://net/bauhaus-luftfahrt/oida" nsPrefix="net.bauhaus-luftfahrt.oida">
+  <eClassifiers xsi:type="ecore:EClass" name="OIDASystem">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="OntologyLibrary" eType="#//ontologyMgr/Library"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ReferenceOntology" eType="#//ManagedOntology"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ManagedOntology">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="Ontology" eType="#//ontology/Ontology"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="OntologyEntry" eType="#//ontologyMgr/LocalOntologyEntry"/>
+  </eClassifiers>
   <eSubpackages name="ontologyMgr" nsURI="http://net/bauhaus-luftfahrt/oida/ontologyMgr"
       nsPrefix="net.bauhaus-luftfahrt.oida.ontologyMgr">
     <eClassifiers xsi:type="ecore:EClass" name="Library">

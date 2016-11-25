@@ -2,6 +2,8 @@
  */
 package oida.ontology.impl;
 
+import oida.OidaPackage;
+import oida.impl.OidaPackageImpl;
 import oida.ontology.Ontology;
 import oida.ontology.OntologyClass;
 import oida.ontology.OntologyEntity;
@@ -110,14 +112,17 @@ public class OntologyPackageImpl extends EPackageImpl implements OntologyPackage
 		isInited = true;
 
 		// Obtain or create and register interdependencies
+		OidaPackageImpl theOidaPackage = (OidaPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(OidaPackage.eNS_URI) instanceof OidaPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(OidaPackage.eNS_URI) : OidaPackage.eINSTANCE);
 		OntologyMgrPackageImpl theOntologyMgrPackage = (OntologyMgrPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(OntologyMgrPackage.eNS_URI) instanceof OntologyMgrPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(OntologyMgrPackage.eNS_URI) : OntologyMgrPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theOntologyPackage.createPackageContents();
+		theOidaPackage.createPackageContents();
 		theOntologyMgrPackage.createPackageContents();
 
 		// Initialize created meta-data
 		theOntologyPackage.initializePackageContents();
+		theOidaPackage.initializePackageContents();
 		theOntologyMgrPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
@@ -358,9 +363,6 @@ public class OntologyPackageImpl extends EPackageImpl implements OntologyPackage
 
 		initEClass(ontologyItemEClass, OntologyItem.class, "OntologyItem", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getOntologyItem_Name(), ecorePackage.getEString(), "name", null, 0, 1, OntologyItem.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		// Create resource
-		createResource(eNS_URI);
 	}
 
 } //OntologyPackageImpl

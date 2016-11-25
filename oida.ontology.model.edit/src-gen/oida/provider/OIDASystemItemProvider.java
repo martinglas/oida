@@ -1,13 +1,13 @@
 /**
  */
-package oida.ontology.provider;
+package oida.provider;
 
 
 import java.util.Collection;
 import java.util.List;
 
-import oida.ontology.OntologyItem;
-import oida.ontology.OntologyPackage;
+import oida.OidaPackage;
+
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 
@@ -20,17 +20,15 @@ import org.eclipse.emf.edit.provider.IItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.IItemPropertySource;
 import org.eclipse.emf.edit.provider.IStructuredItemContentProvider;
 import org.eclipse.emf.edit.provider.ITreeItemContentProvider;
-import org.eclipse.emf.edit.provider.ItemPropertyDescriptor;
 import org.eclipse.emf.edit.provider.ItemProviderAdapter;
-import org.eclipse.emf.edit.provider.ViewerNotification;
 
 /**
- * This is the item provider adapter for a {@link oida.ontology.OntologyItem} object.
+ * This is the item provider adapter for a {@link oida.OIDASystem} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
  */
-public class OntologyItemItemProvider 
+public class OIDASystemItemProvider 
 	extends ItemProviderAdapter
 	implements
 		IEditingDomainItemProvider,
@@ -44,7 +42,7 @@ public class OntologyItemItemProvider
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public OntologyItemItemProvider(AdapterFactory adapterFactory) {
+	public OIDASystemItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 
@@ -59,42 +57,65 @@ public class OntologyItemItemProvider
 		if (itemPropertyDescriptors == null) {
 			super.getPropertyDescriptors(object);
 
-			addNamePropertyDescriptor(object);
+			addOntologyLibraryPropertyDescriptor(object);
+			addReferenceOntologyPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
 
 	/**
-	 * This adds a property descriptor for the Name feature.
+	 * This adds a property descriptor for the Ontology Library feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addNamePropertyDescriptor(Object object) {
+	protected void addOntologyLibraryPropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_OntologyItem_name_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_OntologyItem_name_feature", "_UI_OntologyItem_type"),
-				 OntologyPackage.Literals.ONTOLOGY_ITEM__NAME,
+				 getString("_UI_OIDASystem_OntologyLibrary_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_OIDASystem_OntologyLibrary_feature", "_UI_OIDASystem_type"),
+				 OidaPackage.Literals.OIDA_SYSTEM__ONTOLOGY_LIBRARY,
 				 true,
 				 false,
-				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 true,
+				 null,
 				 null,
 				 null));
 	}
 
 	/**
-	 * This returns OntologyItem.gif.
+	 * This adds a property descriptor for the Reference Ontology feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addReferenceOntologyPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_OIDASystem_ReferenceOntology_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_OIDASystem_ReferenceOntology_feature", "_UI_OIDASystem_type"),
+				 OidaPackage.Literals.OIDA_SYSTEM__REFERENCE_ONTOLOGY,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This returns OIDASystem.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/OntologyItem"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/OIDASystem"));
 	}
 
 	/**
@@ -105,10 +126,7 @@ public class OntologyItemItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((OntologyItem)object).getName();
-		return label == null || label.length() == 0 ?
-			getString("_UI_OntologyItem_type") :
-			getString("_UI_OntologyItem_type") + " " + label;
+		return getString("_UI_OIDASystem_type");
 	}
 	
 
@@ -122,12 +140,6 @@ public class OntologyItemItemProvider
 	@Override
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
-
-		switch (notification.getFeatureID(OntologyItem.class)) {
-			case OntologyPackage.ONTOLOGY_ITEM__NAME:
-				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
-				return;
-		}
 		super.notifyChanged(notification);
 	}
 
@@ -151,7 +163,7 @@ public class OntologyItemItemProvider
 	 */
 	@Override
 	public ResourceLocator getResourceLocator() {
-		return oida.provider.OidaEditPlugin.INSTANCE;
+		return OidaEditPlugin.INSTANCE;
 	}
 
 }

@@ -2,6 +2,7 @@ package oida.ontology.service;
 
 import java.io.File;
 import java.util.Hashtable;
+import java.util.Set;
 
 import javax.inject.Inject;
 
@@ -15,6 +16,8 @@ import org.eclipse.emf.edit.provider.INotifyChangedListener;
 import org.eclipse.emf.edit.provider.resource.ResourceItemProviderAdapterFactory;
 import org.eclipse.emf.parsley.edit.domain.InjectableAdapterFactoryEditingDomain;
 
+import oida.OIDASystem;
+import oida.OidaFactory;
 import oida.ontology.Ontology;
 import oida.ontology.manager.IOntologyManager;
 import oida.ontology.manager.IOntologyManagerFactory;
@@ -31,6 +34,15 @@ import oida.ontologyMgr.provider.OntologyMgrItemProviderAdapterFactory;
  *
  */
 public class OIDAOntologyService extends AbstractOIDAOntologyService implements INotifyChangedListener {
+	private OIDASystem systemModel;
+	
+	public OIDASystem getSystemModel() {
+		if (systemModel == null)
+			systemModel = OidaFactory.eINSTANCE.createOIDASystem();
+		
+		return systemModel;
+	}
+
 	private Hashtable<Ontology, IOntologyManager> managedOntologies;
 	
 	private EditingDomain editingDomain;
@@ -106,6 +118,10 @@ public class OIDAOntologyService extends AbstractOIDAOntologyService implements 
 			return managedOntologies.get(ontologyName);
 		else
 			throw new OntologyManagerException("An ontology with the name '" + ontologyName + "' does not exist.");
+	}
+	
+	public Set<Ontology> getManagedOntologies() {
+		return managedOntologies.keySet();
 	}
 
 	@Override

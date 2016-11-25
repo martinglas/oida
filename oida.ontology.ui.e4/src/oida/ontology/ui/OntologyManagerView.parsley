@@ -1,4 +1,5 @@
 import oida.ontology.ui.view.OntologyManagerView
+import oida.ontology.Ontology
 
 /**
  * 
@@ -11,6 +12,20 @@ module oida.ontology.ui.OntologyManagerView {
 		viewpart oida.ontology.ui.view.OntologyManagerView {
 			viewname "Ontology Manager"
 			viewclass OntologyManagerView
+		}
+	}
+	
+	featuresProvider {
+		features {
+			Ontology -> name, nrOfClasses, nrOfIndividuals 
+		}
+	}
+	
+	featureCaptionProvider {
+		text {
+			Ontology : name -> "Name"
+			Ontology : nrOfClasses -> "Classes"
+			Ontology : nrOfIndividuals -> "Individuals"
 		}
 	}
 }

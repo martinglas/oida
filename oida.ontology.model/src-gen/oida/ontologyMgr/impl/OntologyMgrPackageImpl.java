@@ -2,6 +2,8 @@
  */
 package oida.ontologyMgr.impl;
 
+import oida.OidaPackage;
+import oida.impl.OidaPackageImpl;
 import oida.ontology.OntologyPackage;
 import oida.ontology.impl.OntologyPackageImpl;
 import oida.ontologyMgr.GitRepoOntologyEntry;
@@ -92,14 +94,17 @@ public class OntologyMgrPackageImpl extends EPackageImpl implements OntologyMgrP
 		isInited = true;
 
 		// Obtain or create and register interdependencies
+		OidaPackageImpl theOidaPackage = (OidaPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(OidaPackage.eNS_URI) instanceof OidaPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(OidaPackage.eNS_URI) : OidaPackage.eINSTANCE);
 		OntologyPackageImpl theOntologyPackage = (OntologyPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(OntologyPackage.eNS_URI) instanceof OntologyPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(OntologyPackage.eNS_URI) : OntologyPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theOntologyMgrPackage.createPackageContents();
+		theOidaPackage.createPackageContents();
 		theOntologyPackage.createPackageContents();
 
 		// Initialize created meta-data
 		theOntologyMgrPackage.initializePackageContents();
+		theOidaPackage.initializePackageContents();
 		theOntologyPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
@@ -322,9 +327,6 @@ public class OntologyMgrPackageImpl extends EPackageImpl implements OntologyMgrP
 		initEAttribute(getGitRepoOntologyEntry_RepoURL(), ecorePackage.getEString(), "repoURL", null, 0, 1, GitRepoOntologyEntry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getGitRepoOntologyEntry_GitUsername(), ecorePackage.getEString(), "gitUsername", null, 0, 1, GitRepoOntologyEntry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getGitRepoOntologyEntry_GitPassword(), ecorePackage.getEString(), "gitPassword", null, 0, 1, GitRepoOntologyEntry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
-
-		// Create resource
-		createResource(eNS_URI);
 	}
 
 } //OntologyMgrPackageImpl
