@@ -15,9 +15,7 @@ import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLOntology;
-import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
-import org.semanticweb.owlapi.model.OWLOntologyStorageException;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 
 import com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory;
@@ -305,9 +303,12 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 			toMap(ontology, o);
 
 			return o;
-		} catch (OWLOntologyCreationException e) {
-			throw new OntologyManagerException("Ontology creation failed.", e);
+		} catch (Exception e) {
+			throw new OntologyManagerException("Ontology creation failed.");
 		}
+//		} catch (OWLOntologyCreationException e) {
+//			throw new OntologyManagerException("Ontology creation failed.");
+//		}
 	}
 
 	@Override
@@ -328,9 +329,13 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 				toMap(ontology, o);
 
 				return o;
-			} catch (OWLOntologyCreationException e) {
-				throw new OntologyManagerException("Error while loading ontology from file '" + file.getName() + "'", e);
-			}
+			} catch (Exception e) {
+				throw new OntologyManagerException("Error while loading ontology from file '" + file.getName() + "'");
+			}	
+				
+//			} catch (OWLOntologyCreationException e) {
+//				throw new OntologyManagerException("Error while loading ontology from file '" + file.getName() + "'");
+//			}
 		} else {
 			return createOntology(entry);
 		}
@@ -345,9 +350,13 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 			manager.saveOntology(ontology, outputStream);
 		} catch (FileNotFoundException e) {
 			throw new OntologyManagerException("Error while saving ontology to file '" + file.getName() + "'", e);
-		} catch (OWLOntologyStorageException e) {
-			throw new OntologyManagerException("Error while saving ontology to file '" + file.getName() + "'", e);
+		} catch (Exception e) {
+			throw new OntologyManagerException("Error while saving ontology to file '" + file.getName() + "'");
 		}
+			
+//		} catch (OWLOntologyStorageException e) {
+//			throw new OntologyManagerException("Error while saving ontology to file '" + file.getName() + "'", e);
+//		}
 	}
 
 	@Override

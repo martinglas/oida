@@ -4,8 +4,6 @@ import java.io.File;
 import java.util.Hashtable;
 import java.util.Set;
 
-import javax.inject.Inject;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -39,11 +37,12 @@ public class OIDAOntologyService extends AbstractOIDAOntologyService implements 
 	
 	private Resource resource;
 
-	@Inject
-	IOntologyManagerFactory managerFactory;
+	private IOntologyManagerFactory managerFactory;
 
-	public OIDAOntologyService() {
+	public OIDAOntologyService(IOntologyManagerFactory managerFactory) {
 		super();
+		
+		this.managerFactory = managerFactory;
 		
 		managedOntologies = new Hashtable<Ontology, IOntologyManager>();
 
@@ -123,7 +122,7 @@ public class OIDAOntologyService extends AbstractOIDAOntologyService implements 
 			if (notification.getFeature() == OntologyMgrPackage.eINSTANCE.getLibrary_ReferenceOntology()) {
 				IOntologyManager mgr = managerFactory.getNewManager();
 				try {
-					mgr.loadOntology((LocalOntologyEntry)notification.getFeature(), true);
+					mgr.loadOntology((LocalOntologyEntry)notification.getNewValue(), true);
 					managedOntologies.put(mgr.getOntology(), mgr);
 				} catch (OntologyManagerException e) {
 					e.printStackTrace();
