@@ -10,6 +10,7 @@ import oida.ontology.OntologyPackage;
 
 import oida.ontologyMgr.LocalOntologyEntry;
 import oida.ontologyMgr.OntologyMgrPackage;
+
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.notify.NotificationChain;
 
@@ -17,7 +18,9 @@ import org.eclipse.emf.common.util.EList;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.InternalEObject;
+
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
+
 import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
@@ -57,6 +60,7 @@ public class OntologyImpl extends OntologyItemImpl implements Ontology {
 	 * @ordered
 	 */
 	protected static final int NR_OF_CLASSES_EDEFAULT = 0;
+
 	/**
 	 * The cached value of the '{@link #getNrOfClasses() <em>Nr Of Classes</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -66,6 +70,7 @@ public class OntologyImpl extends OntologyItemImpl implements Ontology {
 	 * @ordered
 	 */
 	protected int nrOfClasses = NR_OF_CLASSES_EDEFAULT;
+
 	/**
 	 * The default value of the '{@link #getNrOfIndividuals() <em>Nr Of Individuals</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -75,6 +80,7 @@ public class OntologyImpl extends OntologyItemImpl implements Ontology {
 	 * @ordered
 	 */
 	protected static final int NR_OF_INDIVIDUALS_EDEFAULT = 0;
+
 	/**
 	 * The cached value of the '{@link #getNrOfIndividuals() <em>Nr Of Individuals</em>}' attribute.
 	 * <!-- begin-user-doc -->
@@ -84,6 +90,7 @@ public class OntologyImpl extends OntologyItemImpl implements Ontology {
 	 * @ordered
 	 */
 	protected int nrOfIndividuals = NR_OF_INDIVIDUALS_EDEFAULT;
+
 	/**
 	 * The cached value of the '{@link #getOntologyEntry() <em>Ontology Entry</em>}' reference.
 	 * <!-- begin-user-doc -->

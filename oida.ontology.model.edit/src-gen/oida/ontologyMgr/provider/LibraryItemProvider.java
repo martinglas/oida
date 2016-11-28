@@ -10,7 +10,6 @@ import oida.ontologyMgr.Library;
 import oida.ontologyMgr.OntologyMgrFactory;
 import oida.ontologyMgr.OntologyMgrPackage;
 
-import oida.provider.OidaEditPlugin;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 
@@ -66,6 +65,7 @@ public class LibraryItemProvider
 
 			addOwnerPropertyDescriptor(object);
 			addCreationDatePropertyDescriptor(object);
+			addReferenceOntologyPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -110,6 +110,28 @@ public class LibraryItemProvider
 				 false,
 				 false,
 				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Reference Ontology feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addReferenceOntologyPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_Library_referenceOntology_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_Library_referenceOntology_feature", "_UI_Library_type"),
+				 OntologyMgrPackage.Literals.LIBRARY__REFERENCE_ONTOLOGY,
+				 true,
+				 false,
+				 true,
+				 null,
 				 null,
 				 null));
 	}

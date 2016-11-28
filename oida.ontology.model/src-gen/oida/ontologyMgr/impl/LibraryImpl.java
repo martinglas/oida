@@ -33,6 +33,7 @@ import org.eclipse.emf.ecore.util.InternalEList;
  *   <li>{@link oida.ontologyMgr.impl.LibraryImpl#getOwner <em>Owner</em>}</li>
  *   <li>{@link oida.ontologyMgr.impl.LibraryImpl#getCreationDate <em>Creation Date</em>}</li>
  *   <li>{@link oida.ontologyMgr.impl.LibraryImpl#getOntologies <em>Ontologies</em>}</li>
+ *   <li>{@link oida.ontologyMgr.impl.LibraryImpl#getReferenceOntology <em>Reference Ontology</em>}</li>
  * </ul>
  *
  * @generated
@@ -87,6 +88,16 @@ public class LibraryImpl extends MinimalEObjectImpl.Container implements Library
 	 * @ordered
 	 */
 	protected EList<LocalOntologyEntry> ontologies;
+
+	/**
+	 * The cached value of the '{@link #getReferenceOntology() <em>Reference Ontology</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getReferenceOntology()
+	 * @generated
+	 * @ordered
+	 */
+	protected LocalOntologyEntry referenceOntology;
 
 	/**
 	 * <!-- begin-user-doc -->
@@ -166,6 +177,44 @@ public class LibraryImpl extends MinimalEObjectImpl.Container implements Library
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public LocalOntologyEntry getReferenceOntology() {
+		if (referenceOntology != null && referenceOntology.eIsProxy()) {
+			InternalEObject oldReferenceOntology = (InternalEObject)referenceOntology;
+			referenceOntology = (LocalOntologyEntry)eResolveProxy(oldReferenceOntology);
+			if (referenceOntology != oldReferenceOntology) {
+				if (eNotificationRequired())
+					eNotify(new ENotificationImpl(this, Notification.RESOLVE, OntologyMgrPackage.LIBRARY__REFERENCE_ONTOLOGY, oldReferenceOntology, referenceOntology));
+			}
+		}
+		return referenceOntology;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public LocalOntologyEntry basicGetReferenceOntology() {
+		return referenceOntology;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public void setReferenceOntology(LocalOntologyEntry newReferenceOntology) {
+		LocalOntologyEntry oldReferenceOntology = referenceOntology;
+		referenceOntology = newReferenceOntology;
+		if (eNotificationRequired())
+			eNotify(new ENotificationImpl(this, Notification.SET, OntologyMgrPackage.LIBRARY__REFERENCE_ONTOLOGY, oldReferenceOntology, referenceOntology));
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
@@ -189,6 +238,9 @@ public class LibraryImpl extends MinimalEObjectImpl.Container implements Library
 				return getCreationDate();
 			case OntologyMgrPackage.LIBRARY__ONTOLOGIES:
 				return getOntologies();
+			case OntologyMgrPackage.LIBRARY__REFERENCE_ONTOLOGY:
+				if (resolve) return getReferenceOntology();
+				return basicGetReferenceOntology();
 		}
 		return super.eGet(featureID, resolve, coreType);
 	}
@@ -212,6 +264,9 @@ public class LibraryImpl extends MinimalEObjectImpl.Container implements Library
 				getOntologies().clear();
 				getOntologies().addAll((Collection<? extends LocalOntologyEntry>)newValue);
 				return;
+			case OntologyMgrPackage.LIBRARY__REFERENCE_ONTOLOGY:
+				setReferenceOntology((LocalOntologyEntry)newValue);
+				return;
 		}
 		super.eSet(featureID, newValue);
 	}
@@ -233,6 +288,9 @@ public class LibraryImpl extends MinimalEObjectImpl.Container implements Library
 			case OntologyMgrPackage.LIBRARY__ONTOLOGIES:
 				getOntologies().clear();
 				return;
+			case OntologyMgrPackage.LIBRARY__REFERENCE_ONTOLOGY:
+				setReferenceOntology((LocalOntologyEntry)null);
+				return;
 		}
 		super.eUnset(featureID);
 	}
@@ -251,6 +309,8 @@ public class LibraryImpl extends MinimalEObjectImpl.Container implements Library
 				return CREATION_DATE_EDEFAULT == null ? creationDate != null : !CREATION_DATE_EDEFAULT.equals(creationDate);
 			case OntologyMgrPackage.LIBRARY__ONTOLOGIES:
 				return ontologies != null && !ontologies.isEmpty();
+			case OntologyMgrPackage.LIBRARY__REFERENCE_ONTOLOGY:
+				return referenceOntology != null;
 		}
 		return super.eIsSet(featureID);
 	}

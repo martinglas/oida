@@ -9,14 +9,6 @@
    <extension point="org.eclipse.emf.ecore.generated_package">
       <!-- @generated oida -->
       <package
-            uri="http://net/bauhaus-luftfahrt/oida"
-            class="oida.OidaPackage"
-            genModel="model/oida.genmodel"/>
-   </extension>
-
-   <extension point="org.eclipse.emf.ecore.generated_package">
-      <!-- @generated oida -->
-      <package
             uri="http://net/bauhaus-luftfahrt/oida/ontologyMgr"
             class="oida.ontologyMgr.OntologyMgrPackage"
             genModel="model/oida.genmodel"/>

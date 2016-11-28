@@ -2,6 +2,7 @@
  */
 package oida.ontology;
 
+
 /**
  * <!-- begin-user-doc -->
  * A representation of the model object '<em><b>Entity</b></em>'.

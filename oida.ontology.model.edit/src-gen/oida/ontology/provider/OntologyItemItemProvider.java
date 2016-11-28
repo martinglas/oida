@@ -8,6 +8,9 @@ import java.util.List;
 
 import oida.ontology.OntologyItem;
 import oida.ontology.OntologyPackage;
+
+import oida.ontologyMgr.provider.OidaEditPlugin;
+
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 
@@ -151,7 +154,7 @@ public class OntologyItemItemProvider
 	 */
 	@Override
 	public ResourceLocator getResourceLocator() {
-		return oida.provider.OidaEditPlugin.INSTANCE;
+		return OidaEditPlugin.INSTANCE;
 	}
 
 }

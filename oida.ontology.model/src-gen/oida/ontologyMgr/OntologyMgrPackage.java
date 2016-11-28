@@ -94,13 +94,22 @@ public interface OntologyMgrPackage extends EPackage {
 	int LIBRARY__ONTOLOGIES = 2;
 
 	/**
+	 * The feature id for the '<em><b>Reference Ontology</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int LIBRARY__REFERENCE_ONTOLOGY = 3;
+
+	/**
 	 * The number of structural features of the '<em>Library</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int LIBRARY_FEATURE_COUNT = 3;
+	int LIBRARY_FEATURE_COUNT = 4;
 
 	/**
 	 * The number of operations of the '<em>Library</em>' class.
@@ -266,6 +275,7 @@ public interface OntologyMgrPackage extends EPackage {
 	 */
 	int GIT_REPO_ONTOLOGY_ENTRY_OPERATION_COUNT = LOCAL_ONTOLOGY_ENTRY_OPERATION_COUNT + 0;
 
+
 	/**
 	 * Returns the meta object for class '{@link oida.ontologyMgr.Library <em>Library</em>}'.
 	 * <!-- begin-user-doc -->
@@ -308,6 +318,17 @@ public interface OntologyMgrPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getLibrary_Ontologies();
+
+	/**
+	 * Returns the meta object for the reference '{@link oida.ontologyMgr.Library#getReferenceOntology <em>Reference Ontology</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference '<em>Reference Ontology</em>'.
+	 * @see oida.ontologyMgr.Library#getReferenceOntology()
+	 * @see #getLibrary()
+	 * @generated
+	 */
+	EReference getLibrary_ReferenceOntology();
 
 	/**
 	 * Returns the meta object for class '{@link oida.ontologyMgr.LocalOntologyEntry <em>Local Ontology Entry</em>}'.
@@ -462,6 +483,14 @@ public interface OntologyMgrPackage extends EPackage {
 		 * @generated
 		 */
 		EReference LIBRARY__ONTOLOGIES = eINSTANCE.getLibrary_Ontologies();
+
+		/**
+		 * The meta object literal for the '<em><b>Reference Ontology</b></em>' reference feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference LIBRARY__REFERENCE_ONTOLOGY = eINSTANCE.getLibrary_ReferenceOntology();
 
 		/**
 		 * The meta object literal for the '{@link oida.ontologyMgr.impl.LocalOntologyEntryImpl <em>Local Ontology Entry</em>}' class.

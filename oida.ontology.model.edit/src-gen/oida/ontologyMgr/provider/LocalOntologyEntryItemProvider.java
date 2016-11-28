@@ -9,7 +9,6 @@ import java.util.List;
 import oida.ontologyMgr.LocalOntologyEntry;
 import oida.ontologyMgr.OntologyMgrPackage;
 
-import oida.provider.OidaEditPlugin;
 import org.eclipse.emf.common.notify.AdapterFactory;
 import org.eclipse.emf.common.notify.Notification;
 

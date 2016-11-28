@@ -1,7 +1,6 @@
 package oida.ontology.service;
 
-import java.util.Observable;
+import org.eclipse.emf.ecore.util.EContentAdapter;
 
-public abstract class AbstractOIDAOntologyService extends Observable implements IOIDAOntologyService {
-
+public abstract class AbstractOIDAOntologyService extends EContentAdapter implements IOIDAOntologyService {
 }

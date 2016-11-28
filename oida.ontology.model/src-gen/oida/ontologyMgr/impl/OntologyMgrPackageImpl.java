@@ -2,10 +2,10 @@
  */
 package oida.ontologyMgr.impl;
 
-import oida.OidaPackage;
-import oida.impl.OidaPackageImpl;
 import oida.ontology.OntologyPackage;
+
 import oida.ontology.impl.OntologyPackageImpl;
+
 import oida.ontologyMgr.GitRepoOntologyEntry;
 import oida.ontologyMgr.Library;
 import oida.ontologyMgr.LocalOntologyEntry;
@@ -94,17 +94,14 @@ public class OntologyMgrPackageImpl extends EPackageImpl implements OntologyMgrP
 		isInited = true;
 
 		// Obtain or create and register interdependencies
-		OidaPackageImpl theOidaPackage = (OidaPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(OidaPackage.eNS_URI) instanceof OidaPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(OidaPackage.eNS_URI) : OidaPackage.eINSTANCE);
 		OntologyPackageImpl theOntologyPackage = (OntologyPackageImpl)(EPackage.Registry.INSTANCE.getEPackage(OntologyPackage.eNS_URI) instanceof OntologyPackageImpl ? EPackage.Registry.INSTANCE.getEPackage(OntologyPackage.eNS_URI) : OntologyPackage.eINSTANCE);
 
 		// Create package meta-data objects
 		theOntologyMgrPackage.createPackageContents();
-		theOidaPackage.createPackageContents();
 		theOntologyPackage.createPackageContents();
 
 		// Initialize created meta-data
 		theOntologyMgrPackage.initializePackageContents();
-		theOidaPackage.initializePackageContents();
 		theOntologyPackage.initializePackageContents();
 
 		// Mark meta-data to indicate it can't be changed
@@ -150,6 +147,15 @@ public class OntologyMgrPackageImpl extends EPackageImpl implements OntologyMgrP
 	 */
 	public EReference getLibrary_Ontologies() {
 		return (EReference)libraryEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getLibrary_ReferenceOntology() {
+		return (EReference)libraryEClass.getEStructuralFeatures().get(3);
 	}
 
 	/**
@@ -265,6 +271,7 @@ public class OntologyMgrPackageImpl extends EPackageImpl implements OntologyMgrP
 		createEAttribute(libraryEClass, LIBRARY__OWNER);
 		createEAttribute(libraryEClass, LIBRARY__CREATION_DATE);
 		createEReference(libraryEClass, LIBRARY__ONTOLOGIES);
+		createEReference(libraryEClass, LIBRARY__REFERENCE_ONTOLOGY);
 
 		localOntologyEntryEClass = createEClass(LOCAL_ONTOLOGY_ENTRY);
 		createEAttribute(localOntologyEntryEClass, LOCAL_ONTOLOGY_ENTRY__PATH);
@@ -316,6 +323,7 @@ public class OntologyMgrPackageImpl extends EPackageImpl implements OntologyMgrP
 		initEAttribute(getLibrary_Owner(), ecorePackage.getEString(), "owner", null, 0, 1, Library.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getLibrary_CreationDate(), ecorePackage.getEString(), "creationDate", null, 0, 1, Library.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEReference(getLibrary_Ontologies(), this.getLocalOntologyEntry(), null, "ontologies", null, 0, -1, Library.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, IS_COMPOSITE, !IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getLibrary_ReferenceOntology(), this.getLocalOntologyEntry(), null, "referenceOntology", null, 0, 1, Library.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(localOntologyEntryEClass, LocalOntologyEntry.class, "LocalOntologyEntry", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getLocalOntologyEntry_Path(), ecorePackage.getEString(), "path", null, 0, 1, LocalOntologyEntry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
@@ -327,6 +335,9 @@ public class OntologyMgrPackageImpl extends EPackageImpl implements OntologyMgrP
 		initEAttribute(getGitRepoOntologyEntry_RepoURL(), ecorePackage.getEString(), "repoURL", null, 0, 1, GitRepoOntologyEntry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getGitRepoOntologyEntry_GitUsername(), ecorePackage.getEString(), "gitUsername", null, 0, 1, GitRepoOntologyEntry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 		initEAttribute(getGitRepoOntologyEntry_GitPassword(), ecorePackage.getEString(), "gitPassword", null, 0, 1, GitRepoOntologyEntry.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+
+		// Create resource
+		createResource(eNS_URI);
 	}
 
 } //OntologyMgrPackageImpl

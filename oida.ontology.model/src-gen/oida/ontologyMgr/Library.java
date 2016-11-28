@@ -18,6 +18,7 @@ import org.eclipse.emf.ecore.EObject;
  *   <li>{@link oida.ontologyMgr.Library#getOwner <em>Owner</em>}</li>
  *   <li>{@link oida.ontologyMgr.Library#getCreationDate <em>Creation Date</em>}</li>
  *   <li>{@link oida.ontologyMgr.Library#getOntologies <em>Ontologies</em>}</li>
+ *   <li>{@link oida.ontologyMgr.Library#getReferenceOntology <em>Reference Ontology</em>}</li>
  * </ul>
  *
  * @see oida.ontologyMgr.OntologyMgrPackage#getLibrary()
@@ -92,5 +93,31 @@ public interface Library extends EObject {
 	 * @generated
 	 */
 	EList<LocalOntologyEntry> getOntologies();
+
+	/**
+	 * Returns the value of the '<em><b>Reference Ontology</b></em>' reference.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Reference Ontology</em>' reference isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Reference Ontology</em>' reference.
+	 * @see #setReferenceOntology(LocalOntologyEntry)
+	 * @see oida.ontologyMgr.OntologyMgrPackage#getLibrary_ReferenceOntology()
+	 * @model
+	 * @generated
+	 */
+	LocalOntologyEntry getReferenceOntology();
+
+	/**
+	 * Sets the value of the '{@link oida.ontologyMgr.Library#getReferenceOntology <em>Reference Ontology</em>}' reference.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @param value the new value of the '<em>Reference Ontology</em>' reference.
+	 * @see #getReferenceOntology()
+	 * @generated
+	 */
+	void setReferenceOntology(LocalOntologyEntry value);
 
 } // Library

@@ -9,19 +9,6 @@
    <extension point="org.eclipse.emf.edit.itemProviderAdapterFactories">
       <!-- @generated oida -->
       <factory
-            uri="http://net/bauhaus-luftfahrt/oida"
-            class="oida.provider.OidaItemProviderAdapterFactory"
-            supportedTypes=
-              "org.eclipse.emf.edit.provider.IEditingDomainItemProvider
-               org.eclipse.emf.edit.provider.IStructuredItemContentProvider
-               org.eclipse.emf.edit.provider.ITreeItemContentProvider
-               org.eclipse.emf.edit.provider.IItemLabelProvider
-               org.eclipse.emf.edit.provider.IItemPropertySource"/>
-   </extension>
-
-   <extension point="org.eclipse.emf.edit.itemProviderAdapterFactories">
-      <!-- @generated oida -->
-      <factory
             uri="http://net/bauhaus-luftfahrt/oida/ontologyMgr"
             class="oida.ontologyMgr.provider.OntologyMgrItemProviderAdapterFactory"
             supportedTypes=

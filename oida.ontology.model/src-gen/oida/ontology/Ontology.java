@@ -3,6 +3,7 @@
 package oida.ontology;
 
 import oida.ontologyMgr.LocalOntologyEntry;
+
 import org.eclipse.emf.common.util.EList;
 
 /**

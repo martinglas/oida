@@ -27,7 +27,7 @@ module oida.ontology.ui.OntologyLibraryView {
 	
 	featuresProvider {
 		features {
-			Library -> owner, creationDate
+			Library -> owner, creationDate, referenceOntology
 			LocalOntologyEntry -> path, file, maintenanceFile
 			GitRepoOntologyEntry -> path, file, maintenanceFile, repoURL, gitUsername, gitPassword
 		}

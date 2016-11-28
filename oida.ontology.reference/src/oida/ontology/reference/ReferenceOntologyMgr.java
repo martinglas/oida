@@ -1,15 +1,15 @@
 package oida.ontology.reference;
 
-import oida.ontologyMgr.LocalOntology;
+import oida.ontologyMgr.LocalOntologyEntry;
 
 public class ReferenceOntologyMgr {
-	private LocalOntology referenceOntology;
+	private LocalOntologyEntry referenceOntology;
 
-	public LocalOntology getReferenceOntology() {
+	public LocalOntologyEntry getReferenceOntology() {
 		return referenceOntology;
 	}
 
-	public void setReferenceOntology(LocalOntology referenceOntology) {
+	public void setReferenceOntology(LocalOntologyEntry referenceOntology) {
 		this.referenceOntology = referenceOntology;
 	}
 

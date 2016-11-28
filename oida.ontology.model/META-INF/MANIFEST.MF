@@ -7,15 +7,12 @@ Bundle-ClassPath: .
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Export-Package: oida,
- oida.impl,
- oida.ontology,
+Export-Package: oida.ontology,
  oida.ontology.impl,
  oida.ontology.util,
  oida.ontologyMgr,
  oida.ontologyMgr.impl,
- oida.ontologyMgr.util,
- oida.util
+ oida.ontologyMgr.util
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport
 Bundle-ActivationPolicy: lazy
