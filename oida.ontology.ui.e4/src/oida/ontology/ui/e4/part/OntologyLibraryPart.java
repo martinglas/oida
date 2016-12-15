@@ -18,7 +18,7 @@ import org.eclipse.swt.widgets.Composite;
 
 import com.google.inject.Injector;
 
-import oida.ontology.service.OIDAOntologyService;
+import oida.ontology.service.IOIDAOntologyService;
 import oida.ontology.ui.OntologyLibraryView.OntologyLibraryViewInjectorProvider;
 
 /**
@@ -32,7 +32,7 @@ public class OntologyLibraryPart {
 	private TreeFormComposite treeFormComposite;
 
 	@Inject
-	OIDAOntologyService ontologyService;
+	IOIDAOntologyService ontologyService;
 
 	@Inject
 	MDirtyable dirty;
@@ -57,7 +57,7 @@ public class OntologyLibraryPart {
 		dragAndDropHelper.addDragAndDrop(treeFormComposite.getViewer(), ontologyService.getEditingDomain());
 
 		// update the composite
-		treeFormComposite.update(ontologyService.getResource());
+		treeFormComposite.update(ontologyService.getLibraryResource());
 		
 		ontologyService.getEditingDomain().getCommandStack().addCommandStackListener(new CommandStackListener() {
 			public void commandStackChanged(EventObject event) {
@@ -69,7 +69,7 @@ public class OntologyLibraryPart {
 
 	@Persist
 	public void save(MDirtyable dirty) throws IOException {
-		ontologyService.getResource().save(null);
+		ontologyService.getLibraryResource().save(null);
 		if (dirty != null) {
 			dirty.setDirty(false);
 		}
