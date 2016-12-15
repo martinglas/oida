@@ -12,7 +12,7 @@ import org.eclipse.swt.widgets.Composite;
 import com.google.inject.Injector;
 
 import oida.ontology.OntologyPackage;
-import oida.ontology.service.OIDAOntologyService;
+import oida.ontology.service.IOIDAOntologyService;
 import oida.ontology.ui.OntologyManagerView.OntologyManagerViewInjectorProvider;
 
 public class OntologyManagerPart {
@@ -20,7 +20,7 @@ public class OntologyManagerPart {
 	private TableViewer tableViewer;
 	
 	@Inject
-	OIDAOntologyService ontologyService;
+	IOIDAOntologyService ontologyService;
 
 	@PostConstruct
 	public void postConstruct(Composite parent) {
