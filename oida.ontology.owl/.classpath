@@ -6,16 +6,82 @@
 		</attributes>
 	</classpathentry>
 	<classpathentry kind="con" path="org.eclipse.pde.core.requiredPlugins"/>
-	<classpathentry kind="src" output="target/classes" path="src">
+	<classpathentry kind="src" path="src">
 		<attributes>
 			<attribute name="optional" value="true"/>
 			<attribute name="maven.pomderived" value="true"/>
 		</attributes>
 	</classpathentry>
-	<classpathentry exported="true" kind="con" path="org.eclipse.m2e.MAVEN2_CLASSPATH_CONTAINER">
-		<attributes>
-			<attribute name="maven.pomderived" value="true"/>
-		</attributes>
-	</classpathentry>
-	<classpathentry kind="output" path="target/classes"/>
+	<classpathentry kind="lib" path="lib/antlr-2.7.7.jar"/>
+	<classpathentry kind="lib" path="lib/antlr-runtime-3.4.jar"/>
+	<classpathentry kind="lib" path="lib/aopalliance-1.0.jar"/>
+	<classpathentry kind="lib" path="lib/aterm-java-1.8.2-p1.jar"/>
+	<classpathentry kind="lib" path="lib/caffeine-2.1.0.jar"/>
+	<classpathentry kind="lib" path="lib/commons-codec-1.9.jar"/>
+	<classpathentry kind="lib" path="lib/commons-io-2.4.jar"/>
+	<classpathentry kind="lib" path="lib/commons-rdf-api-0.1.0-incubating.jar"/>
+	<classpathentry kind="lib" path="lib/fluent-hc-4.5.1.jar"/>
+	<classpathentry kind="lib" path="lib/guava-19.0.jar"/>
+	<classpathentry kind="lib" path="lib/guice-4.0.jar"/>
+	<classpathentry kind="lib" path="lib/guice-assistedinject-4.0.jar"/>
+	<classpathentry kind="lib" path="lib/guice-multibindings-4.0.jar"/>
+	<classpathentry kind="lib" path="lib/httpclient-4.5.1.jar"/>
+	<classpathentry kind="lib" path="lib/httpclient-cache-4.5.1.jar"/>
+	<classpathentry kind="lib" path="lib/httpclient-osgi-4.5.1.jar"/>
+	<classpathentry kind="lib" path="lib/httpcore-4.4.4.jar"/>
+	<classpathentry kind="lib" path="lib/httpcore-nio-4.4.4.jar"/>
+	<classpathentry kind="lib" path="lib/httpcore-osgi-4.4.4.jar"/>
+	<classpathentry kind="lib" path="lib/httpmime-4.5.1.jar"/>
+	<classpathentry kind="lib" path="lib/jackson-annotations-2.6.3.jar"/>
+	<classpathentry kind="lib" path="lib/jackson-core-2.6.3.jar"/>
+	<classpathentry kind="lib" path="lib/jackson-databind-2.6.3.jar"/>
+	<classpathentry kind="lib" path="lib/javax.inject-1.jar"/>
+	<classpathentry kind="lib" path="lib/jcl-over-slf4j-1.7.13.jar"/>
+	<classpathentry kind="lib" path="lib/jena-arq-2.10.1.jar"/>
+	<classpathentry kind="lib" path="lib/jena-core-2.10.1.jar"/>
+	<classpathentry kind="lib" path="lib/jena-iri-0.9.6.jar"/>
+	<classpathentry kind="lib" path="lib/jgrapht-jdk1.5-0.7.3.jar"/>
+	<classpathentry kind="lib" path="lib/jjtraveler-0.6.jar"/>
+	<classpathentry kind="lib" path="lib/jsonld-java-0.8.0.jar"/>
+	<classpathentry kind="lib" path="lib/jsr305-2.0.1.jar"/>
+	<classpathentry kind="lib" path="lib/owlapi-api-5.0.4.jar"/>
+	<classpathentry kind="lib" path="lib/owlapi-apibinding-5.0.4.jar"/>
+	<classpathentry kind="lib" path="lib/owlapi-compatibility-5.0.4.jar"/>
+	<classpathentry kind="lib" path="lib/owlapi-distribution-5.0.4.jar"/>
+	<classpathentry kind="lib" path="lib/owlapi-impl-5.0.4.jar"/>
+	<classpathentry kind="lib" path="lib/owlapi-oboformat-5.0.4.jar"/>
+	<classpathentry kind="lib" path="lib/owlapi-parsers-5.0.4.jar"/>
+	<classpathentry kind="lib" path="lib/owlapi-rio-5.0.4.jar"/>
+	<classpathentry kind="lib" path="lib/owlapi-tools-5.0.4.jar"/>
+	<classpathentry kind="lib" path="lib/pellet-core-ignazio1977-2.4.0-ignazio1977.jar"/>
+	<classpathentry kind="lib" path="lib/pellet-jena-ignazio1977-2.4.0-ignazio1977.jar"/>
+	<classpathentry kind="lib" path="lib/pellet-owlapi-ignazio1977-2.4.0-ignazio1977.jar"/>
+	<classpathentry kind="lib" path="lib/pellet-query-ignazio1977-2.4.0-ignazio1977.jar"/>
+	<classpathentry kind="lib" path="lib/semargl-core-0.6.1.jar"/>
+	<classpathentry kind="lib" path="lib/semargl-rdf-0.6.1.jar"/>
+	<classpathentry kind="lib" path="lib/semargl-rdfa-0.6.1.jar"/>
+	<classpathentry kind="lib" path="lib/semargl-sesame-0.6.1.jar"/>
+	<classpathentry kind="lib" path="lib/sesame-model-4.0.2.jar"/>
+	<classpathentry kind="lib" path="lib/sesame-rio-api-4.0.2.jar"/>
+	<classpathentry kind="lib" path="lib/sesame-rio-binary-4.0.2.jar"/>
+	<classpathentry kind="lib" path="lib/sesame-rio-datatypes-4.0.2.jar"/>
+	<classpathentry kind="lib" path="lib/sesame-rio-jsonld-4.0.2.jar"/>
+	<classpathentry kind="lib" path="lib/sesame-rio-languages-4.0.2.jar"/>
+	<classpathentry kind="lib" path="lib/sesame-rio-n3-4.0.2.jar"/>
+	<classpathentry kind="lib" path="lib/sesame-rio-nquads-4.0.2.jar"/>
+	<classpathentry kind="lib" path="lib/sesame-rio-ntriples-4.0.2.jar"/>
+	<classpathentry kind="lib" path="lib/sesame-rio-rdfjson-4.0.2.jar"/>
+	<classpathentry kind="lib" path="lib/sesame-rio-rdfxml-4.0.2.jar"/>
+	<classpathentry kind="lib" path="lib/sesame-rio-trig-4.0.2.jar"/>
+	<classpathentry kind="lib" path="lib/sesame-rio-trix-4.0.2.jar"/>
+	<classpathentry kind="lib" path="lib/sesame-rio-turtle-4.0.2.jar"/>
+	<classpathentry kind="lib" path="lib/sesame-util-4.0.2.jar"/>
+	<classpathentry kind="lib" path="lib/shared-objects-1.4.9-p1.jar"/>
+	<classpathentry kind="lib" path="lib/slf4j-api-1.7.14.jar"/>
+	<classpathentry kind="lib" path="lib/stringtemplate-3.2.1.jar"/>
+	<classpathentry kind="lib" path="lib/trove4j-3.0.3.jar"/>
+	<classpathentry kind="lib" path="lib/xercesImpl-2.11.0.jar"/>
+	<classpathentry kind="lib" path="lib/xml-apis-1.4.01.jar"/>
+	<classpathentry kind="lib" path="lib/xz-1.5.jar"/>
+	<classpathentry kind="output" path="bin"/>
 </classpath>

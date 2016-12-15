@@ -123,7 +123,10 @@ public class OIDAOntologyService extends AbstractOIDAOntologyService implements 
 				IOntologyManager mgr = managerFactory.getNewManager();
 				try {
 					mgr.loadOntology((LocalOntologyEntry)notification.getNewValue(), true);
-					managedOntologies.put(mgr.getOntology(), mgr);
+					Ontology o = mgr.getOntology();
+					
+					if (o != null)
+						managedOntologies.put(o, mgr);
 				} catch (OntologyManagerException e) {
 					e.printStackTrace();
 				}

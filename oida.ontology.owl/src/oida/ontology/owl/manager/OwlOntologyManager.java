@@ -313,6 +313,9 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 
 	@Override
 	public Ontology loadOntology(LocalOntologyEntry entry, boolean createIfNotExisting) throws OntologyManagerException {
+		if (entry == null || entry.getPath() == null)
+			return null;
+		
 		setOntologyEntry(entry);
 		File file = new File(entry.getPath());
 
@@ -332,10 +335,6 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 			} catch (Exception e) {
 				throw new OntologyManagerException("Error while loading ontology from file '" + file.getName() + "'");
 			}	
-				
-//			} catch (OWLOntologyCreationException e) {
-//				throw new OntologyManagerException("Error while loading ontology from file '" + file.getName() + "'");
-//			}
 		} else {
 			return createOntology(entry);
 		}
