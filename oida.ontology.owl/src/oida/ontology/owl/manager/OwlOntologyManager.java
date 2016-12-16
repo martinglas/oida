@@ -16,9 +16,6 @@ import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
-import org.semanticweb.owlapi.reasoner.OWLReasoner;
-
-import com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory;
 
 import oida.ontology.Ontology;
 import oida.ontology.OntologyClass;
@@ -40,7 +37,7 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 	private OWLDataFactory factory;
 	private PrefixDocumentFormat prefixMgr;
 
-	private OWLReasoner reasoner;
+	//private OWLReasoner reasoner;
 
 	public void addPrefix(String prefixName, String prefix, boolean setDefault) {
 		String prefInternal = prefix;
@@ -66,7 +63,7 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 	}
 
 	public void initializeReasoner() {
-		reasoner = PelletReasonerFactory.getInstance().createReasoner(ontology);
+		//reasoner = PelletReasonerFactory.getInstance().createReasoner(ontology);
 
 		// ((PelletReasoner)reasoner).getKB().realize();
 		// ((PelletReasoner)reasoner).getKB().printClassTree();
@@ -306,18 +303,19 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 		} catch (Exception e) {
 			throw new OntologyManagerException("Ontology creation failed.");
 		}
-//		} catch (OWLOntologyCreationException e) {
-//			throw new OntologyManagerException("Ontology creation failed.");
-//		}
 	}
 
 	@Override
 	public Ontology loadOntology(LocalOntologyEntry entry, boolean createIfNotExisting) throws OntologyManagerException {
-		if (entry == null || entry.getPath() == null)
+		if (entry == null)
+			return null;
+		
+		File file = getOntologyFile(entry);
+		
+		if (file == null)
 			return null;
 		
 		setOntologyEntry(entry);
-		File file = new File(entry.getPath());
 
 		if (file.exists()) {
 			try {

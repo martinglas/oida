@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: OIDA Owl Ontology Manager
-Bundle-SymbolicName: oida.ontology.owl
+Bundle-SymbolicName: oida.ontology.owl;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: oida.ontology.owl.Activator
 Bundle-Vendor: Bauhaus Luftfahrt e.V.
