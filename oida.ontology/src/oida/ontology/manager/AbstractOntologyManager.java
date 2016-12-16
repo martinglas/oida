@@ -1,5 +1,7 @@
 package oida.ontology.manager;
 
+import java.io.File;
+
 import oida.ontology.Ontology;
 import oida.ontology.OntologyClass;
 import oida.ontology.OntologyIndividual;
@@ -25,6 +27,27 @@ public abstract class AbstractOntologyManager implements IOntologyManager {
 
 	protected void setOntologyEntry(LocalOntologyEntry entry) {
 		this.ontologyEntry = entry;
+	}
+	
+	protected File getOntologyFile(LocalOntologyEntry entry) {
+		if (entry.getPath() == null) {
+			System.out.println("Loading the Ontology failed: Path is not set.");
+			return null;
+		}
+		
+		if (entry.getFile() == null) {
+			System.out.println("Loading the Ontology failed: Filename is not set.");
+			return null;
+		}
+		
+		File file = new File(entry.getPath() + entry.getFile());
+		
+		if (!file.exists()) {
+			System.out.println("Loading the Ontology failed: File '" + file.getAbsolutePath() + "' doesn't exist.");
+			return null;
+		}
+		
+		return file;
 	}
 
 	@Override

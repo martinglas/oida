@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
+   <extension-point id="oida.ontology.managerFactory" name="Ontology Manager Factory Extension Point" schema="schema/oida.ontology.manager.exsd"/>
 
    <extension
          id="oida.ontology.ui.e4.fragment"
