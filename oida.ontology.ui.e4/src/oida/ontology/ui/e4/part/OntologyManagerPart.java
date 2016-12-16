@@ -4,7 +4,7 @@ import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
 import org.eclipse.emf.parsley.viewers.ViewerFactory;
-import org.eclipse.jface.viewers.ArrayContentProvider;
+import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -30,11 +30,7 @@ public class OntologyManagerPart {
 		ViewerFactory viewerFactory = injector.getInstance(ViewerFactory.class);
 		
 		tableViewer = viewerFactory.createTableViewer(parent,  SWT.NONE, OntologyPackage.eINSTANCE.getOntology());
-		
-		tableViewer.setContentProvider(ArrayContentProvider.getInstance());
+		tableViewer.setContentProvider(new ObservableListContentProvider());
 		tableViewer.setInput(ontologyService.getManagedOntologies());
-		
-		// update the composite
-		//treeFormComposite.update(ontologyService.getResource());
 	}
 }

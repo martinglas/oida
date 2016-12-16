@@ -69,7 +69,7 @@ public class OIDAOntologyService extends AbstractOIDAOntologyService implements 
 		resource.getResourceSet().eAdapters().add(this);
 		
 		if (getLibrary().getReferenceOntology() != null)
-			loadManagedOntology(getLibrary().getReferenceOntology(), true);
+			addOntologyManager(getLibrary().getReferenceOntology(), true);
 	}
 
 	public void loadExistingOIDAServiceData(URI oidaServiceDataFileURI) {
@@ -132,12 +132,18 @@ public class OIDAOntologyService extends AbstractOIDAOntologyService implements 
 	public void notifyChanged(Notification notification) {
 		if (notification.getFeature() != null) {
 			if (notification.getFeature() == OntologyMgrPackage.eINSTANCE.getLibrary_ReferenceOntology()) {
-				loadManagedOntology((LocalOntologyEntry)notification.getNewValue(), true);
+				addOntologyManager((LocalOntologyEntry)notification.getNewValue(), true);
 			}
 		}
 	}
 	
-	private void loadManagedOntology(LocalOntologyEntry entry, boolean createIfNotExisting) {
+	@Override
+	public IObservableList<IOntologyManager> getManagedOntologies() {
+		return managedOntologies;
+	}
+
+	@Override
+	public IOntologyManager addOntologyManager(LocalOntologyEntry entry, boolean createIfNotExisting) {
 		IOntologyManager mgr = managerFactory.getNewManager();
 		managedOntologies.add(mgr);
 		
@@ -146,10 +152,7 @@ public class OIDAOntologyService extends AbstractOIDAOntologyService implements 
 		} catch (OntologyManagerException e) {
 			e.printStackTrace();
 		}
-	}
-	
-	@Override
-	public IObservableList<IOntologyManager> getManagedOntologies() {
-		return managedOntologies;
+		
+		return mgr;
 	}
 }
