@@ -5,7 +5,8 @@ package oida.ontology.impl;
 import java.util.Collection;
 
 import oida.ontology.Ontology;
-import oida.ontology.OntologyEntity;
+import oida.ontology.OntologyClass;
+import oida.ontology.OntologyIndividual;
 import oida.ontology.OntologyPackage;
 
 import oida.ontologyMgr.LocalOntologyEntry;
@@ -21,7 +22,7 @@ import org.eclipse.emf.ecore.InternalEObject;
 
 import org.eclipse.emf.ecore.impl.ENotificationImpl;
 
-import org.eclipse.emf.ecore.util.EObjectContainmentWithInverseEList;
+import org.eclipse.emf.ecore.util.EObjectContainmentEList;
 import org.eclipse.emf.ecore.util.InternalEList;
 
 /**
@@ -32,7 +33,8 @@ import org.eclipse.emf.ecore.util.InternalEList;
  * The following features are implemented:
  * </p>
  * <ul>
- *   <li>{@link oida.ontology.impl.OntologyImpl#getEntities <em>Entities</em>}</li>
+ *   <li>{@link oida.ontology.impl.OntologyImpl#getClasses <em>Classes</em>}</li>
+ *   <li>{@link oida.ontology.impl.OntologyImpl#getIndividuals <em>Individuals</em>}</li>
  *   <li>{@link oida.ontology.impl.OntologyImpl#getNrOfClasses <em>Nr Of Classes</em>}</li>
  *   <li>{@link oida.ontology.impl.OntologyImpl#getNrOfIndividuals <em>Nr Of Individuals</em>}</li>
  *   <li>{@link oida.ontology.impl.OntologyImpl#getOntologyEntry <em>Ontology Entry</em>}</li>
@@ -42,14 +44,24 @@ import org.eclipse.emf.ecore.util.InternalEList;
  */
 public class OntologyImpl extends OntologyItemImpl implements Ontology {
 	/**
-	 * The cached value of the '{@link #getEntities() <em>Entities</em>}' containment reference list.
+	 * The cached value of the '{@link #getClasses() <em>Classes</em>}' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @see #getEntities()
+	 * @see #getClasses()
 	 * @generated
 	 * @ordered
 	 */
-	protected EList<OntologyEntity> entities;
+	protected EList<OntologyClass> classes;
+
+	/**
+	 * The cached value of the '{@link #getIndividuals() <em>Individuals</em>}' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @see #getIndividuals()
+	 * @generated
+	 * @ordered
+	 */
+	protected EList<OntologyIndividual> individuals;
 
 	/**
 	 * The default value of the '{@link #getNrOfClasses() <em>Nr Of Classes</em>}' attribute.
@@ -59,7 +71,7 @@ public class OntologyImpl extends OntologyItemImpl implements Ontology {
 	 * @generated
 	 * @ordered
 	 */
-	protected static final int NR_OF_CLASSES_EDEFAULT = 0;
+	protected static final long NR_OF_CLASSES_EDEFAULT = 0L;
 
 	/**
 	 * The cached value of the '{@link #getNrOfClasses() <em>Nr Of Classes</em>}' attribute.
@@ -69,7 +81,7 @@ public class OntologyImpl extends OntologyItemImpl implements Ontology {
 	 * @generated
 	 * @ordered
 	 */
-	protected int nrOfClasses = NR_OF_CLASSES_EDEFAULT;
+	protected long nrOfClasses = NR_OF_CLASSES_EDEFAULT;
 
 	/**
 	 * The default value of the '{@link #getNrOfIndividuals() <em>Nr Of Individuals</em>}' attribute.
@@ -79,7 +91,7 @@ public class OntologyImpl extends OntologyItemImpl implements Ontology {
 	 * @generated
 	 * @ordered
 	 */
-	protected static final int NR_OF_INDIVIDUALS_EDEFAULT = 0;
+	protected static final long NR_OF_INDIVIDUALS_EDEFAULT = 0L;
 
 	/**
 	 * The cached value of the '{@link #getNrOfIndividuals() <em>Nr Of Individuals</em>}' attribute.
@@ -89,7 +101,7 @@ public class OntologyImpl extends OntologyItemImpl implements Ontology {
 	 * @generated
 	 * @ordered
 	 */
-	protected int nrOfIndividuals = NR_OF_INDIVIDUALS_EDEFAULT;
+	protected long nrOfIndividuals = NR_OF_INDIVIDUALS_EDEFAULT;
 
 	/**
 	 * The cached value of the '{@link #getOntologyEntry() <em>Ontology Entry</em>}' reference.
@@ -125,11 +137,11 @@ public class OntologyImpl extends OntologyItemImpl implements Ontology {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public EList<OntologyEntity> getEntities() {
-		if (entities == null) {
-			entities = new EObjectContainmentWithInverseEList<OntologyEntity>(OntologyEntity.class, this, OntologyPackage.ONTOLOGY__ENTITIES, OntologyPackage.ONTOLOGY_ENTITY__CONTAINING_ONTOLOGY);
+	public EList<OntologyClass> getClasses() {
+		if (classes == null) {
+			classes = new EObjectContainmentEList<OntologyClass>(OntologyClass.class, this, OntologyPackage.ONTOLOGY__CLASSES);
 		}
-		return entities;
+		return classes;
 	}
 
 	/**
@@ -137,7 +149,19 @@ public class OntologyImpl extends OntologyItemImpl implements Ontology {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public int getNrOfClasses() {
+	public EList<OntologyIndividual> getIndividuals() {
+		if (individuals == null) {
+			individuals = new EObjectContainmentEList<OntologyIndividual>(OntologyIndividual.class, this, OntologyPackage.ONTOLOGY__INDIVIDUALS);
+		}
+		return individuals;
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public long getNrOfClasses() {
 		return nrOfClasses;
 	}
 
@@ -146,8 +170,8 @@ public class OntologyImpl extends OntologyItemImpl implements Ontology {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setNrOfClasses(int newNrOfClasses) {
-		int oldNrOfClasses = nrOfClasses;
+	public void setNrOfClasses(long newNrOfClasses) {
+		long oldNrOfClasses = nrOfClasses;
 		nrOfClasses = newNrOfClasses;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, OntologyPackage.ONTOLOGY__NR_OF_CLASSES, oldNrOfClasses, nrOfClasses));
@@ -158,7 +182,7 @@ public class OntologyImpl extends OntologyItemImpl implements Ontology {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public int getNrOfIndividuals() {
+	public long getNrOfIndividuals() {
 		return nrOfIndividuals;
 	}
 
@@ -167,8 +191,8 @@ public class OntologyImpl extends OntologyItemImpl implements Ontology {
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public void setNrOfIndividuals(int newNrOfIndividuals) {
-		int oldNrOfIndividuals = nrOfIndividuals;
+	public void setNrOfIndividuals(long newNrOfIndividuals) {
+		long oldNrOfIndividuals = nrOfIndividuals;
 		nrOfIndividuals = newNrOfIndividuals;
 		if (eNotificationRequired())
 			eNotify(new ENotificationImpl(this, Notification.SET, OntologyPackage.ONTOLOGY__NR_OF_INDIVIDUALS, oldNrOfIndividuals, nrOfIndividuals));
@@ -243,8 +267,6 @@ public class OntologyImpl extends OntologyItemImpl implements Ontology {
 	@Override
 	public NotificationChain eInverseAdd(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case OntologyPackage.ONTOLOGY__ENTITIES:
-				return ((InternalEList<InternalEObject>)(InternalEList<?>)getEntities()).basicAdd(otherEnd, msgs);
 			case OntologyPackage.ONTOLOGY__ONTOLOGY_ENTRY:
 				if (ontologyEntry != null)
 					msgs = ((InternalEObject)ontologyEntry).eInverseRemove(this, OntologyMgrPackage.LOCAL_ONTOLOGY_ENTRY__MANAGED_ONTOLOGY, LocalOntologyEntry.class, msgs);
@@ -261,8 +283,10 @@ public class OntologyImpl extends OntologyItemImpl implements Ontology {
 	@Override
 	public NotificationChain eInverseRemove(InternalEObject otherEnd, int featureID, NotificationChain msgs) {
 		switch (featureID) {
-			case OntologyPackage.ONTOLOGY__ENTITIES:
-				return ((InternalEList<?>)getEntities()).basicRemove(otherEnd, msgs);
+			case OntologyPackage.ONTOLOGY__CLASSES:
+				return ((InternalEList<?>)getClasses()).basicRemove(otherEnd, msgs);
+			case OntologyPackage.ONTOLOGY__INDIVIDUALS:
+				return ((InternalEList<?>)getIndividuals()).basicRemove(otherEnd, msgs);
 			case OntologyPackage.ONTOLOGY__ONTOLOGY_ENTRY:
 				return basicSetOntologyEntry(null, msgs);
 		}
@@ -277,8 +301,10 @@ public class OntologyImpl extends OntologyItemImpl implements Ontology {
 	@Override
 	public Object eGet(int featureID, boolean resolve, boolean coreType) {
 		switch (featureID) {
-			case OntologyPackage.ONTOLOGY__ENTITIES:
-				return getEntities();
+			case OntologyPackage.ONTOLOGY__CLASSES:
+				return getClasses();
+			case OntologyPackage.ONTOLOGY__INDIVIDUALS:
+				return getIndividuals();
 			case OntologyPackage.ONTOLOGY__NR_OF_CLASSES:
 				return getNrOfClasses();
 			case OntologyPackage.ONTOLOGY__NR_OF_INDIVIDUALS:
@@ -299,15 +325,19 @@ public class OntologyImpl extends OntologyItemImpl implements Ontology {
 	@Override
 	public void eSet(int featureID, Object newValue) {
 		switch (featureID) {
-			case OntologyPackage.ONTOLOGY__ENTITIES:
-				getEntities().clear();
-				getEntities().addAll((Collection<? extends OntologyEntity>)newValue);
+			case OntologyPackage.ONTOLOGY__CLASSES:
+				getClasses().clear();
+				getClasses().addAll((Collection<? extends OntologyClass>)newValue);
+				return;
+			case OntologyPackage.ONTOLOGY__INDIVIDUALS:
+				getIndividuals().clear();
+				getIndividuals().addAll((Collection<? extends OntologyIndividual>)newValue);
 				return;
 			case OntologyPackage.ONTOLOGY__NR_OF_CLASSES:
-				setNrOfClasses((Integer)newValue);
+				setNrOfClasses((Long)newValue);
 				return;
 			case OntologyPackage.ONTOLOGY__NR_OF_INDIVIDUALS:
-				setNrOfIndividuals((Integer)newValue);
+				setNrOfIndividuals((Long)newValue);
 				return;
 			case OntologyPackage.ONTOLOGY__ONTOLOGY_ENTRY:
 				setOntologyEntry((LocalOntologyEntry)newValue);
@@ -324,8 +354,11 @@ public class OntologyImpl extends OntologyItemImpl implements Ontology {
 	@Override
 	public void eUnset(int featureID) {
 		switch (featureID) {
-			case OntologyPackage.ONTOLOGY__ENTITIES:
-				getEntities().clear();
+			case OntologyPackage.ONTOLOGY__CLASSES:
+				getClasses().clear();
+				return;
+			case OntologyPackage.ONTOLOGY__INDIVIDUALS:
+				getIndividuals().clear();
 				return;
 			case OntologyPackage.ONTOLOGY__NR_OF_CLASSES:
 				setNrOfClasses(NR_OF_CLASSES_EDEFAULT);
@@ -348,8 +381,10 @@ public class OntologyImpl extends OntologyItemImpl implements Ontology {
 	@Override
 	public boolean eIsSet(int featureID) {
 		switch (featureID) {
-			case OntologyPackage.ONTOLOGY__ENTITIES:
-				return entities != null && !entities.isEmpty();
+			case OntologyPackage.ONTOLOGY__CLASSES:
+				return classes != null && !classes.isEmpty();
+			case OntologyPackage.ONTOLOGY__INDIVIDUALS:
+				return individuals != null && !individuals.isEmpty();
 			case OntologyPackage.ONTOLOGY__NR_OF_CLASSES:
 				return nrOfClasses != NR_OF_CLASSES_EDEFAULT;
 			case OntologyPackage.ONTOLOGY__NR_OF_INDIVIDUALS:

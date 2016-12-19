@@ -77,10 +77,10 @@ module oida.ontology.ui.OntologyLibraryView {
 				observeText
 			}
 
-			/*LocalOntology : path -> {
+			/* LocalOntology : path -> {
 				val fpsel = new FilePathSelectorComposite(parent, SWT.NONE, false)
 				return fpsel.getTextControl
-			} target { observeText }*/
+			} target { observeText } */
 
 			GitRepoOntologyEntry : gitPassword -> {
 				createText(parent, SWT.PASSWORD)
@@ -90,16 +90,16 @@ module oida.ontology.ui.OntologyLibraryView {
 		}
 	}
 	
-//	menuBuilder {
-//		emfMenus {
-//			LocalOntology lOnt -> #[
-//				actionChange("Set active", lOnt.eContainer as Library,
-//					[
-//						library |
-//						library.activeOntology = lOnt;
-//					]
-//				)
-//			]
-//		}
-//	}
+	menuBuilder {
+		emfMenus {
+			LocalOntologyEntry lOnt -> #[
+				actionChange("Set as Reference", lOnt.eContainer as Library,
+					[
+						library |
+						library.referenceOntology = lOnt;
+					]
+				)
+			]
+		}
+	}
 }

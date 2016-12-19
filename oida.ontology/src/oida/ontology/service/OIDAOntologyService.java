@@ -16,6 +16,7 @@ import org.eclipse.emf.edit.provider.INotifyChangedListener;
 import org.eclipse.emf.edit.provider.resource.ResourceItemProviderAdapterFactory;
 import org.eclipse.emf.parsley.edit.domain.InjectableAdapterFactoryEditingDomain;
 
+import oida.ontology.Ontology;
 import oida.ontology.manager.IOntologyManager;
 import oida.ontology.manager.IOntologyManagerFactory;
 import oida.ontology.manager.OntologyManagerException;
@@ -37,7 +38,7 @@ public class OIDAOntologyService extends AbstractOIDAOntologyService implements 
 	
 	private IOntologyManagerFactory managerFactory;
 	
-	private WritableList<IOntologyManager> managedOntologies;
+	private WritableList<Ontology> managedOntologies;
 
 	public OIDAOntologyService() {
 		super();
@@ -50,7 +51,7 @@ public class OIDAOntologyService extends AbstractOIDAOntologyService implements 
 		composedAdapterFactory.addListener(this);
 		
 		editingDomain = new InjectableAdapterFactoryEditingDomain(composedAdapterFactory);
-		managedOntologies = new WritableList<IOntologyManager>();
+		managedOntologies = new WritableList<Ontology>();
 	}
 
 	public void initialize(URI oidaServiceDataFileURI, IOntologyManagerFactory managerFactory) {
@@ -138,17 +139,18 @@ public class OIDAOntologyService extends AbstractOIDAOntologyService implements 
 	}
 	
 	@Override
-	public IObservableList<IOntologyManager> getManagedOntologies() {
+	public IObservableList<Ontology> getManagedOntologies() {
 		return managedOntologies;
 	}
 
 	@Override
 	public IOntologyManager addOntologyManager(LocalOntologyEntry entry, boolean createIfNotExisting) {
 		IOntologyManager mgr = managerFactory.getNewManager();
-		managedOntologies.add(mgr);
 		
 		try {
 			mgr.loadOntology(entry, createIfNotExisting);
+			managedOntologies.add(mgr.getOntology());
+			
 		} catch (OntologyManagerException e) {
 			e.printStackTrace();
 		}

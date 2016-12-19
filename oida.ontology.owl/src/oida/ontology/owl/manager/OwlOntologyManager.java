@@ -323,12 +323,16 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 
 				factory = manager.getOWLDataFactory();
 				prefixMgr = (PrefixDocumentFormat)manager.getOntologyFormat(ontology);
-				System.out.println("Ontology loaded: '" + ontology.toString() + "'");
-
+				System.out.println("Ontology loaded: '" + file.getName() + "'");
+				
 				Ontology o = OntologyFactory.eINSTANCE.createOntology();
+				o.setName(file.getName());
+				o.setNrOfClasses(ontology.classesInSignature().count());
+				o.setNrOfIndividuals(ontology.individualsInSignature().count());
+				
 				setOntology(o);
 				toMap(ontology, o);
-
+				
 				return o;
 			} catch (Exception e) {
 				throw new OntologyManagerException("Error while loading ontology from file '" + file.getName() + "'");

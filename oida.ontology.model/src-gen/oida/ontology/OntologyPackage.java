@@ -122,7 +122,7 @@ public interface OntologyPackage extends EPackage {
 	int ONTOLOGY_ENTITY__PREFIX = ONTOLOGY_ITEM_FEATURE_COUNT + 0;
 
 	/**
-	 * The feature id for the '<em><b>Containing Ontology</b></em>' container reference.
+	 * The feature id for the '<em><b>Containing Ontology</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -177,7 +177,7 @@ public interface OntologyPackage extends EPackage {
 	int ONTOLOGY_CLASS__PREFIX = ONTOLOGY_ENTITY__PREFIX;
 
 	/**
-	 * The feature id for the '<em><b>Containing Ontology</b></em>' container reference.
+	 * The feature id for the '<em><b>Containing Ontology</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -232,13 +232,22 @@ public interface OntologyPackage extends EPackage {
 	int ONTOLOGY__NAME = ONTOLOGY_ITEM__NAME;
 
 	/**
-	 * The feature id for the '<em><b>Entities</b></em>' containment reference list.
+	 * The feature id for the '<em><b>Classes</b></em>' containment reference list.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ONTOLOGY__ENTITIES = ONTOLOGY_ITEM_FEATURE_COUNT + 0;
+	int ONTOLOGY__CLASSES = ONTOLOGY_ITEM_FEATURE_COUNT + 0;
+
+	/**
+	 * The feature id for the '<em><b>Individuals</b></em>' containment reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ONTOLOGY__INDIVIDUALS = ONTOLOGY_ITEM_FEATURE_COUNT + 1;
 
 	/**
 	 * The feature id for the '<em><b>Nr Of Classes</b></em>' attribute.
@@ -247,7 +256,7 @@ public interface OntologyPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ONTOLOGY__NR_OF_CLASSES = ONTOLOGY_ITEM_FEATURE_COUNT + 1;
+	int ONTOLOGY__NR_OF_CLASSES = ONTOLOGY_ITEM_FEATURE_COUNT + 2;
 
 	/**
 	 * The feature id for the '<em><b>Nr Of Individuals</b></em>' attribute.
@@ -256,7 +265,7 @@ public interface OntologyPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ONTOLOGY__NR_OF_INDIVIDUALS = ONTOLOGY_ITEM_FEATURE_COUNT + 2;
+	int ONTOLOGY__NR_OF_INDIVIDUALS = ONTOLOGY_ITEM_FEATURE_COUNT + 3;
 
 	/**
 	 * The feature id for the '<em><b>Ontology Entry</b></em>' reference.
@@ -265,7 +274,7 @@ public interface OntologyPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ONTOLOGY__ONTOLOGY_ENTRY = ONTOLOGY_ITEM_FEATURE_COUNT + 3;
+	int ONTOLOGY__ONTOLOGY_ENTRY = ONTOLOGY_ITEM_FEATURE_COUNT + 4;
 
 	/**
 	 * The number of structural features of the '<em>Ontology</em>' class.
@@ -274,7 +283,7 @@ public interface OntologyPackage extends EPackage {
 	 * @generated
 	 * @ordered
 	 */
-	int ONTOLOGY_FEATURE_COUNT = ONTOLOGY_ITEM_FEATURE_COUNT + 4;
+	int ONTOLOGY_FEATURE_COUNT = ONTOLOGY_ITEM_FEATURE_COUNT + 5;
 
 	/**
 	 * The number of operations of the '<em>Ontology</em>' class.
@@ -314,7 +323,7 @@ public interface OntologyPackage extends EPackage {
 	int ONTOLOGY_INDIVIDUAL__PREFIX = ONTOLOGY_ENTITY__PREFIX;
 
 	/**
-	 * The feature id for the '<em><b>Containing Ontology</b></em>' container reference.
+	 * The feature id for the '<em><b>Containing Ontology</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
@@ -393,10 +402,10 @@ public interface OntologyPackage extends EPackage {
 	EAttribute getOntologyEntity_Prefix();
 
 	/**
-	 * Returns the meta object for the container reference '{@link oida.ontology.OntologyEntity#getContainingOntology <em>Containing Ontology</em>}'.
+	 * Returns the meta object for the reference '{@link oida.ontology.OntologyEntity#getContainingOntology <em>Containing Ontology</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the container reference '<em>Containing Ontology</em>'.
+	 * @return the meta object for the reference '<em>Containing Ontology</em>'.
 	 * @see oida.ontology.OntologyEntity#getContainingOntology()
 	 * @see #getOntologyEntity()
 	 * @generated
@@ -414,15 +423,26 @@ public interface OntologyPackage extends EPackage {
 	EClass getOntology();
 
 	/**
-	 * Returns the meta object for the containment reference list '{@link oida.ontology.Ontology#getEntities <em>Entities</em>}'.
+	 * Returns the meta object for the containment reference list '{@link oida.ontology.Ontology#getClasses <em>Classes</em>}'.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @return the meta object for the containment reference list '<em>Entities</em>'.
-	 * @see oida.ontology.Ontology#getEntities()
+	 * @return the meta object for the containment reference list '<em>Classes</em>'.
+	 * @see oida.ontology.Ontology#getClasses()
 	 * @see #getOntology()
 	 * @generated
 	 */
-	EReference getOntology_Entities();
+	EReference getOntology_Classes();
+
+	/**
+	 * Returns the meta object for the containment reference list '{@link oida.ontology.Ontology#getIndividuals <em>Individuals</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the containment reference list '<em>Individuals</em>'.
+	 * @see oida.ontology.Ontology#getIndividuals()
+	 * @see #getOntology()
+	 * @generated
+	 */
+	EReference getOntology_Individuals();
 
 	/**
 	 * Returns the meta object for the attribute '{@link oida.ontology.Ontology#getNrOfClasses <em>Nr Of Classes</em>}'.
@@ -559,7 +579,7 @@ public interface OntologyPackage extends EPackage {
 		EAttribute ONTOLOGY_ENTITY__PREFIX = eINSTANCE.getOntologyEntity_Prefix();
 
 		/**
-		 * The meta object literal for the '<em><b>Containing Ontology</b></em>' container reference feature.
+		 * The meta object literal for the '<em><b>Containing Ontology</b></em>' reference feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
@@ -577,12 +597,20 @@ public interface OntologyPackage extends EPackage {
 		EClass ONTOLOGY = eINSTANCE.getOntology();
 
 		/**
-		 * The meta object literal for the '<em><b>Entities</b></em>' containment reference list feature.
+		 * The meta object literal for the '<em><b>Classes</b></em>' containment reference list feature.
 		 * <!-- begin-user-doc -->
 		 * <!-- end-user-doc -->
 		 * @generated
 		 */
-		EReference ONTOLOGY__ENTITIES = eINSTANCE.getOntology_Entities();
+		EReference ONTOLOGY__CLASSES = eINSTANCE.getOntology_Classes();
+
+		/**
+		 * The meta object literal for the '<em><b>Individuals</b></em>' containment reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ONTOLOGY__INDIVIDUALS = eINSTANCE.getOntology_Individuals();
 
 		/**
 		 * The meta object literal for the '<em><b>Nr Of Classes</b></em>' attribute feature.

@@ -23,7 +23,9 @@
         </children>
         <children xsi:type="basic:PartStack" xmi:id="_K7oIAJq8EeaelOAnCMy4mw" elementId="de.symo.application.partstack.2" containerData="60"/>
         <children xsi:type="basic:PartSashContainer" xmi:id="_SgSKsKaNEea4d_GmOhDBEg" elementId="de.symo.application.partsashcontainer.4" containerData="20">
-          <children xsi:type="basic:PartStack" xmi:id="_T3-WYKaNEea4d_GmOhDBEg" elementId="de.symo.application.partstack.0"/>
+          <children xsi:type="basic:PartStack" xmi:id="_T3-WYKaNEea4d_GmOhDBEg" elementId="de.symo.application.partstack.0">
+            <children xsi:type="basic:Part" xmi:id="_8KWA4MXwEeacHtEzKgG6Vg" elementId="oida.ontology.ui.e4.part.selectedontology" contributionURI="bundleclass://oida.ontology.ui.e4/oida.ontology.ui.e4.part.OntologyViewPart" label="Selected Ontology"/>
+          </children>
         </children>
       </children>
     </elements>
