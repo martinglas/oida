@@ -1,0 +1,78 @@
+import oida.ontology.manager.ui.OntologyLibraryView
+import java.util.Date
+import org.eclipse.swt.SWT
+import OIDAOntMgr.Library
+import OIDAOntMgr.OIDAOntMgrFactory
+import OIDAOntMgr.GitRepoOntology
+import OIDAOntMgr.LocalOntology
+
+module oida.ontology.manager.ui {
+	
+	parts {
+		viewpart oida.ontology.manager.ui {
+			viewname "Ontology Library"
+			viewclass OntologyLibraryView
+			viewcategory oida.ontology.manager.ui
+		}
+	}
+	
+	bindings {
+		value int TreeFormSashStyle -> SWT.HORIZONTAL
+	}
+	
+	resourceManager {
+		initializeResource {
+			val l = OIDAOntMgrFactory.eINSTANCE.createLibrary
+			l.creationDate = new Date()
+			
+			it.getContents += l
+		}
+	}
+	
+	featuresProvider {
+		features {
+			Library -> owner, creationDate
+			LocalOntology -> path, file, maintenanceFile
+			GitRepoOntology -> path, file, maintenanceFile, repoURL, gitUsername, gitPassword
+		}
+	}
+	
+	labelProvider {
+		text {
+			Library -> "Listed Ontologies"
+			LocalOntology e -> e.file
+			GitRepoOntology e -> e.file
+		}
+		image {
+			Library -> "OntologyLibrary_16.png"
+			LocalOntology -> "OntologyLocal_16.png"
+			GitRepoOntology -> "OntologyRepository_16.png"
+		}
+	}
+	
+	featureCaptionProvider {
+		text {
+			Library : owner -> "Owner: "
+			Library : creationDate -> "Created on: "
+			
+			LocalOntology : path -> "Path: "
+			LocalOntology : file -> "File: "
+			LocalOntology : maintenanceFile -> "Maintenance Ontology: "
+			
+			GitRepoOntology : path -> "Path: "
+			GitRepoOntology : file -> "File: "
+			GitRepoOntology : maintenanceFile -> "Maintenance Ontology: "
+			GitRepoOntology : repoURL -> "Git Repository URL: "
+			GitRepoOntology : gitUsername -> "Username: "
+			GitRepoOntology : gitPassword -> "Password: "
+		}
+	}
+	
+	formControlFactory {
+		control {
+			Library : owner -> { createText(parent, SWT.READ_ONLY) } target { observeText }
+			Library : creationDate -> { createText(parent, SWT.READ_ONLY) } target { observeText }
+			GitRepoOntology : gitPassword -> { createText(parent, SWT.PASSWORD) } target { observeText }
+		}
+	}
+}
