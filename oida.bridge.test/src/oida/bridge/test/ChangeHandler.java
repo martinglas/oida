@@ -1,4 +1,4 @@
-package oida.test;
+package oida.bridge.test;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EStructuralFeature;

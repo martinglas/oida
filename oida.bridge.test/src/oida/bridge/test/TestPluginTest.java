@@ -1,4 +1,4 @@
-package oida.test;
+package oida.bridge.test;
 
 import static org.junit.Assert.*;
 
