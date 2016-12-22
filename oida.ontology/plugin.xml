@@ -2,14 +2,4 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension-point id="oida.ontology.managerFactory" name="Ontology Manager Factory Extension Point" schema="schema/oida.ontology.manager.exsd"/>
-
-   <extension
-         id="oida.ontology.ui.e4.fragment"
-         point="org.eclipse.e4.workbench.model">
-      <fragment
-            apply="initial"
-            uri="fragment.e4xmi">
-      </fragment>
-   </extension>
-
 </plugin>

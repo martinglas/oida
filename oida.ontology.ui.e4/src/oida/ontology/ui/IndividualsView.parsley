@@ -1,0 +1,38 @@
+import oida.ontology.OntologyIndividual
+import oida.ontology.ui.view.IndividualsView
+
+/**
+ * 
+ * @since 2016-11-08
+ * @author Michael.Shamiyeh
+ * 
+ */
+module oida.ontology.ui.IndividualsView {
+	parts {
+		viewpart oida.ontology.ui.view.IndividualsView {
+			viewname "Individuals"
+			viewclass IndividualsView
+		}
+	}
+	
+	featuresProvider {
+		features {
+			OntologyIndividual -> name, prefix
+		}
+	}
+
+//	viewerContentProvider{
+//		elements{
+//			Ontology -> classes
+//		}
+//		children {
+//			Ontology -> classes
+//		}
+//	}
+
+	labelProvider {
+		text {
+			OntologyIndividual i -> i.name
+		}
+	}
+}

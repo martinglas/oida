@@ -23,7 +23,7 @@ public class Activator implements BundleActivator {
 
 	private static BundleContext context;
 
-	private URI uri = URI.createFileURI(ResourcesPlugin.getWorkspace().getRoot().getLocation().toString() + "//OntLib.onl");
+	private URI uri = URI.createFileURI(ResourcesPlugin.getWorkspace().getRoot().getLocation().toString() + "OntLib.onl");
 
 	static BundleContext getContext() {
 		return context;
@@ -43,18 +43,20 @@ public class Activator implements BundleActivator {
 
 		OIDAOntologyService oidaService = new OIDAOntologyService();
 		
-		IConfigurationElement[] config = registry.getConfigurationElementsFor(ONTOLOGYMANAGERFACTORY_EXTENSIONPOINT_ID);
-		try {
-			for (IConfigurationElement e : config) {
-				System.out.println("Evaluating extension");
-				final Object o = e.createExecutableExtension("class");
-				if (o instanceof IOntologyManagerFactory) {
-					oidaService.initialize(uri, (IOntologyManagerFactory)o);
-					break;
+		if (registry != null) {
+			IConfigurationElement[] config = registry.getConfigurationElementsFor(ONTOLOGYMANAGERFACTORY_EXTENSIONPOINT_ID);
+			try {
+				for (IConfigurationElement e : config) {
+					System.out.println("Evaluating extension");
+					final Object o = e.createExecutableExtension("class");
+					if (o instanceof IOntologyManagerFactory) {
+						oidaService.initialize(uri, (IOntologyManagerFactory)o);
+						break;
+					}
 				}
+			} catch (CoreException ex) {
+				System.out.println(ex.getMessage());
 			}
-		} catch (CoreException ex) {
-			System.out.println(ex.getMessage());
 		}
 
 		context.registerService(IOIDAOntologyService.class.getName(), oidaService, null);

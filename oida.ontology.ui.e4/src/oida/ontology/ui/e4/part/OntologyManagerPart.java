@@ -26,12 +26,12 @@ import oida.ontology.ui.OntologyManagerView.OntologyManagerViewInjectorProvider;
  *
  */
 public class OntologyManagerPart {
-	public static final String ONTOLOGYMGRPART_ID = "oida.ontology.ui.e4.part.ontologymanager";
+	public static final String PART_ID = "oida.ontology.ui.e4.part.ontologymanager";
 	
 	private TableViewer tableViewer;
 	
 	@Inject
-	IOIDAOntologyService ontologyService;
+	IOIDAOntologyService oidaService;
 	
 	@Inject
 	ESelectionService selectionService;
@@ -45,7 +45,7 @@ public class OntologyManagerPart {
 		
 		tableViewer = viewerFactory.createTableViewer(parent, SWT.FULL_SELECTION, OntologyPackage.eINSTANCE.getOntology());
 		tableViewer.setContentProvider(new ObservableListContentProvider());
-		tableViewer.setInput(ontologyService.getManagedOntologies());
+		tableViewer.setInput(oidaService.getManagedOntologies());
 		
 		tableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 	        @Override

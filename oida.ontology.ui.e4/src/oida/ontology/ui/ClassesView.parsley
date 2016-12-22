@@ -1,7 +1,7 @@
 import oida.ontology.Ontology
 import oida.ontology.OntologyClass
 import oida.ontology.OntologyIndividual
-import oida.ontology.ui.view.OntologyView
+import oida.ontology.ui.view.ClassesView
 
 /**
  * 
@@ -9,36 +9,25 @@ import oida.ontology.ui.view.OntologyView
  * @author Michael.Shamiyeh
  * 
  */
-module oida.ontology.ui.OntologyView {
+module oida.ontology.ui.ClassesView {
 	parts {
 		viewpart oida.ontology.ui.view.OntologyView {
-			viewname "Ontology View"
-			viewclass OntologyView
+			viewname "Classes"
+			viewclass ClassesView
 		}
 	}
 	
 	featuresProvider {
 		features {
-			Ontology -> classes, individuals
+			Ontology -> classes
 			OntologyClass -> name
-			OntologyIndividual -> name
 		}
 	}
-
-//	viewerContentProvider{
-//		elements{
-//			Ontology -> classes
-//		}
-//		children {
-//			Ontology -> classes
-//		}
-//	}
-
+	
 	labelProvider {
 		text {
 			Ontology o -> o.name
 			OntologyClass c -> c.name
-			OntologyIndividual i -> i.name
 		}
 	}
 }

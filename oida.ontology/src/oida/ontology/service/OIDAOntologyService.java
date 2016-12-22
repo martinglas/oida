@@ -54,14 +54,19 @@ public class OIDAOntologyService extends AbstractOIDAOntologyService implements 
 		managedOntologies = new WritableList<Ontology>();
 	}
 
-	public void initialize(URI oidaServiceDataFileURI, IOntologyManagerFactory managerFactory) {
+	public void initialize(IOntologyManagerFactory managerFactory) {
 		managedOntologies.clear();
 		
 		if (managerFactory != null)
 			this.managerFactory = managerFactory;
 		else
 			System.out.println("OIDA Ontology Service: Initialized without an Ontology Manager Factory!");
-
+		
+		if (getLibrary().getReferenceOntology() != null)
+			addOntologyManager(getLibrary().getReferenceOntology(), true);
+	}
+	
+	public void initialize(URI oidaServiceDataFileURI, IOntologyManagerFactory managerFactory) {
 		loadExistingOIDAServiceData(oidaServiceDataFileURI);
 
 		if (resource == null || resource.getContents().isEmpty())
@@ -69,8 +74,7 @@ public class OIDAOntologyService extends AbstractOIDAOntologyService implements 
 		
 		resource.getResourceSet().eAdapters().add(this);
 		
-		if (getLibrary().getReferenceOntology() != null)
-			addOntologyManager(getLibrary().getReferenceOntology(), true);
+		initialize(managerFactory);
 	}
 
 	public void loadExistingOIDAServiceData(URI oidaServiceDataFileURI) {

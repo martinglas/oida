@@ -26,9 +26,16 @@
       </view>
       <view
             category="org.eclipse.emf.parsley"
-            class="oida.ontology.ui.OntologyView.OntologyViewExecutableExtensionFactory:oida.ontology.ui.view.OntologyView"
+            class="oida.ontology.ui.ClassesView.ClassesViewExecutableExtensionFactory:oida.ontology.ui.view.ClassesView"
             id="oida.ontology.ui.view.OntologyView"
-            name="Ontology View"
+            name="Classes"
+            restorable="true">
+      </view>
+      <view
+            category="org.eclipse.emf.parsley"
+            class="oida.ontology.ui.IndividualsView.IndividualsViewExecutableExtensionFactory:oida.ontology.ui.view.IndividualsView"
+            id="oida.ontology.ui.view.IndividualsView"
+            name="Individuals"
             restorable="true">
       </view>
    </extension>
