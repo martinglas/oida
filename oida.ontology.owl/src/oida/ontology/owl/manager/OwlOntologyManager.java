@@ -5,6 +5,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.HashMap;
 import java.util.Optional;
+import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.semanticweb.owlapi.apibinding.OWLManager;
@@ -13,6 +14,7 @@ import org.semanticweb.owlapi.formats.PrefixDocumentFormat;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLDataFactory;
+import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
@@ -329,6 +331,20 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 				o.setName(file.getName());
 				o.setNrOfClasses(ontology.classesInSignature().count());
 				o.setNrOfIndividuals(ontology.individualsInSignature().count());
+				
+				for (OWLClass c : ontology.classesInSignature().collect(Collectors.toList())) {
+					OntologyClass oC = OntologyFactory.eINSTANCE.createOntologyClass();
+					oC.setName(c.getIRI().getShortForm());
+					
+					o.getClasses().add(oC);
+				}
+				
+				for (OWLNamedIndividual i : ontology.individualsInSignature().collect(Collectors.toList())) {
+					OntologyIndividual oI = OntologyFactory.eINSTANCE.createOntologyIndividual();
+					oI.setName(i.getIRI().getShortForm());
+					
+					o.getIndividuals().add(oI);
+				}
 				
 				setOntology(o);
 				toMap(ontology, o);

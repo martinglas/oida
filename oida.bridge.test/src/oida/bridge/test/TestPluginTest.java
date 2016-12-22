@@ -1,20 +1,15 @@
 package oida.bridge.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.fail;
 
-import javax.inject.Inject;
-
-import org.eclipse.emf.common.util.URI;
 import org.junit.Test;
 
 import oida.ontology.service.OIDAOntologyService;
 
 public class TestPluginTest {
-	@Inject 
-    OIDAOntologyService ontologyService; 
 	
 	@Test
-	public void test() {
+	public void test(OIDAOntologyService ontologyService) {
 		//ontologyService.initialize(URI.createURI("http://model.owl"));
 		TotalObserver observ2 = new TotalObserver();
         observ2.doStuff();
