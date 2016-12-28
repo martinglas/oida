@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-public class TestModelOntologyGenerator {
+public class TestProvideModelOntology {
 
 	@Test
 	public void test() {
