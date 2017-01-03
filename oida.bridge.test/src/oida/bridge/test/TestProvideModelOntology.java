@@ -8,7 +8,7 @@ public class TestProvideModelOntology {
 
 	@Test
 	public void test() {
-		//Tool ontology has been loaded into ontology manager on startup.
+		//TODO Load tool ontology has been loaded into ontology manager on startup.
 
 		//Notification ADD object named “leftWing”
 		//Get ontology name from project container (Assumption: objects can only be part of one project)

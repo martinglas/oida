@@ -335,6 +335,7 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 				for (OWLClass c : ontology.classesInSignature().collect(Collectors.toList())) {
 					OntologyClass oC = OntologyFactory.eINSTANCE.createOntologyClass();
 					oC.setName(c.getIRI().getShortForm());
+					oC.setPrefix(c.getIRI().getNamespace());
 					
 					o.getClasses().add(oC);
 				}
@@ -400,6 +401,7 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 
 	@Override
 	public OntologyClass getClass(String name) {
+		long i=ontology.classesInSignature().count();
 		Optional<OWLClass> opt = ontology.classesInSignature().filter(cl -> cl.getIRI().toString().substring(cl.getIRI().toString().indexOf(HASHTAG) + 1).equals(name)).findFirst();
 
 		if (opt.isPresent()) {

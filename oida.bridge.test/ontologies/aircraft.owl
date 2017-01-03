@@ -1,0 +1,4169 @@
+<?xml version="1.0"?>
+<Ontology xmlns="http://www.w3.org/2002/07/owl#"
+     xml:base="http://www.bauhaus-luftfahrt.net/ontologies/2012/AircraftDesign.owl"
+     xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+     xmlns:xml="http://www.w3.org/XML/1998/namespace"
+     xmlns:xsd="http://www.w3.org/2001/XMLSchema#"
+     xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+     ontologyIRI="http://www.bauhaus-luftfahrt.net/ontologies/2012/AircraftDesign.owl">
+    <Prefix name="" IRI="http://www.bauhaus-luftfahrt.net/ontologies/2012/AircraftDesign.owl#"/>
+    <Prefix name="owl" IRI="http://www.w3.org/2002/07/owl#"/>
+    <Prefix name="rdf" IRI="http://www.w3.org/1999/02/22-rdf-syntax-ns#"/>
+    <Prefix name="xml" IRI="http://www.w3.org/XML/1998/namespace"/>
+    <Prefix name="xsd" IRI="http://www.w3.org/2001/XMLSchema#"/>
+    <Prefix name="rdfs" IRI="http://www.w3.org/2000/01/rdf-schema#"/>
+    <Import>http://purl.oclc.org/NET/ssnx/qu/qu-rec20</Import>
+    <Annotation>
+        <AnnotationProperty abbreviatedIRI="owl:versionInfo"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">initial version (0.1)</Literal>
+    </Annotation>
+    <Annotation>
+        <AnnotationProperty IRI="http://purl.org/dc/elements/1.1/title"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">Aircraft Design Ontology</Literal>
+    </Annotation>
+    <Annotation>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">An Ontology that is intended to be used in the process of aircraft design.</Literal>
+    </Annotation>
+    <Annotation>
+        <AnnotationProperty IRI="http://purl.org/dc/elements/1.1/created"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">with Protégé 4.1</Literal>
+    </Annotation>
+    <Annotation>
+        <AnnotationProperty IRI="http://purl.org/dc/elements/1.1/rights"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">This ontology is published under the Eclipse Public License, Version 1.0 (EPL-1.0)</Literal>
+    </Annotation>
+    <Annotation>
+        <AnnotationProperty IRI="http://purl.org/dc/elements/1.1/rights"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">qu-rec20.owl Copyright 2010 - 2011 CSIRO with data from UN/CEFACT Recommendation 20</Literal>
+    </Annotation>
+    <Annotation>
+        <AnnotationProperty IRI="http://purl.org/dc/elements/1.1/rights"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">qu.owl Copyright 2010 - 2011 CSIRO</Literal>
+    </Annotation>
+    <Annotation>
+        <AnnotationProperty IRI="http://purl.org/dc/elements/1.1/rights"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">sysml-qudv:qudv_owl Copyright 2009 - 2011 The QUDV authors</Literal>
+    </Annotation>
+    <Annotation>
+        <AnnotationProperty IRI="http://purl.org/dc/elements/1.1/author"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">Markus Ast</Literal>
+    </Annotation>
+    <Annotation>
+        <AnnotationProperty abbreviatedIRI="rdfs:seeAlso"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">Diploma Thesis in Computer Science: &quot;An Ontology for Aircraft Design&quot; by Markus Ast, Technische Universität München (TUM)</Literal>
+    </Annotation>
+    <Annotation>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">Regarding UN/CEFACT content:
+&quot;Each output is based on the contributions of participants in the UN/CEFACT process, who have agreed to waive enforcement of their intellectual property rights pursuant to the UN/CEFACT IPR Policy (document ECE/TRADE/CEFACT/2006/11 available at http://www.unece.org/cefact/ or from the UNECE secretariat). UN/CEFACT takes no position concerning the evidence, validity or applicability of any claimed intellectual property right or any other right that might be claimed by any third parties related to the implementation of its outputs. UN/CEFACT makes no representation that it has made any investigation or effort to evaluate any such rights. &quot;Implementers of UN/CEFACT outputs are cautioned that any third party intellectual property rights claims related to their use of a UN/CEFACT output will be their responsibility and are urged to ensure that their use of UN/CEFACT outputs does not infringe on an intellectual property right of a third party.&quot; &quot;UN/CEFACT does not accept any liability for any possible infringement of a claimed intellectual property right or any other right that might be claimed to relate to the implementation of any of its outputs.&quot;</Literal>
+    </Annotation>
+    <Declaration>
+        <ObjectProperty IRI="#hasAspect"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasDirectPart"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Fuselage"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#MyA320Engine1"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasLandingGearSystem"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Tailplane"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ElectricPowerComponent"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#MyA320"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isPylonOf"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasTailplane"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasMainLandingGear"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasAftNonConstantSection"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByThicknessToChordRatioAtTip"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByMachNumber"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#DualMountedMainLandingGear"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#MyA320Wing"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByLiftingArea"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#AircraftAspect"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByRelativeParameter"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#MainLandingGear"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Concept007WingWettedArea"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByMinimumFlightWeight"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#EnergyDensityParameter"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByArea"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByWheelTrack"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#BlockFuelMass"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#MainWingLift"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByFuelCapacity"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#AircraftComponent"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByBasicOperatingWeightEmpty"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ForwardNonConstantSection"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Stabilator"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasWinglet"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByMass"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Concept007Wing"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#PassengerCompartment"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isFuelTankOf"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#MassComponent"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasFin"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasConstantSection"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByWheelCount"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#MechanicPowerComponent"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#ExampleA320"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByAerodynamicCenter"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#WingMountedMainLandingGear"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isRudderOf"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#UndefinedContextParameter"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#StateParameter"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isTailplaneOf"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Nacelle"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByTotalSurfaceControlsMass"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByThrustForce"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#DistanceParameter"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByBase"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#MyA380MainLandingGear"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByFloorZOffset"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#MyA320Fuselage"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByTaperRatio"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedBySafetyEquipmentPerPassengerMass"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByThicknessToChordRatioAtRoot"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByDistance"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#StructuralComponent"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#AircraftMassComponent"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#VerticalStabilizer"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isForwardNonConstantSectionOf"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Cabin"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByGeometricMeanChord"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Wing"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isPartOf"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isElectricalPowerConnectedTo"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByGasGeneratorExhaustDiameter"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#LandingGearSubComponent"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#PowerComponent"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByParameter"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#AerodynamicForceParameter"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByCabinCrewCount"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasPylon"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByEquipmentCenterOfGravity"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasMainLandingGearMember"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ConstantSection"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isCabinSectionOf"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Pylon"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByAisleCount"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#FirstClassCompartment"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByForce"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByTotalNacellesMass"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasNoseLandingGearMember"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByFuelVolume"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasCabinSection"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isMechanicalPowerConnectedTo"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByVolume"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Concept007TailplaneDescribingParameter"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByCabinChangesMass"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByMaximumLandingWeight"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#MainWing"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByReferenceArea"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#MyExecutiveCabin"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasNoseLandingGear"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Concept007WingDescribingParameter"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isFuselageOf"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Concept007Fin"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#NoseLandingGear"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#TripFuelMass"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDirectPartOf"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#TankSystem"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isHorizontalStabilizerOf"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedBySeatsAbreastCount"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#TailplaneSubComponent"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByReferenceDiameter"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Concept007TailplaneWettedArea"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isNacelleOf"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByMaximumPayload"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Component"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedBySingleLandingGearSystemCount"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#AircraftAerodynamicComponent"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#FuselageMountedMainLandingGear"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#CabinSection"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isMainLandingGearOf"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByEnergyDensity"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#SingleLandingGearSystem"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByUsableFuelCapacityCorrection"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#EconomyClassCompartment"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isPowerConnectedTo"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByMaximumLiftCoefficientAtTakeOff"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#MassParameter"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByOperatingPressureRatio"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByDiameter"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#CabinSubComponent"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByPassengerCount"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByToiletCount"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Concept007FinWettedArea"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isAftNonConstantSectionOf"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByManufacturerWeightEmpty"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByWheelBase"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isTankSystemOf"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#ElectricMotor"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isConnectedTo"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByFanDiameter"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isStabilatorOf"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#PropulsiveComponent"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByPlanformArea"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasUndercarriageGroupAspect"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByTotalEquipmentMass"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByBodysideYPosition"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByTankCount"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByThicknessToChordRatio"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByKinkYPosition"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByEngineCount"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isWingOf"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#AngleParameter"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByCenterlineChord"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasElevator"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#FuelMassParameter"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#DragForceParameter"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#DimensionlessParameter"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ContingencyFuelMass"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByPlugExposedLength"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#FuelTank"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByOperationalItemsCenterOfGravity"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByThicknessToChordRatioAtCenterline"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByDryEngineMass"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedBySpan"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByFanXPosition"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#AircraftMission"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByBasicManufacturerWeightEmpty"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#TankMaxFuelMass"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasPropulsionGroupAspect"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#MyA320MainLandingGear"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasEngineMember"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Aircraft"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="http://purl.oclc.org/NET/ssnx/qu/unit#squareFoot"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#MyA320EngineMass"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#state"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByFlightCrewCount"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ProcessParameter"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Cockpit"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByReferenceThicknessToChordRatio"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#AircraftParameter"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#WingtipUnfolded"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByDeliverableWeightEmpty"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Rudder"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasFuselage"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByTrack"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Concept007FinDescribingParameter"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDoorOf"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByWettedArea"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isFinOf"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByTotalInstrumentsMass"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByThicknessToChordRatioAtKink"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#SpanUnfolded"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isStructurallyConnectedTo"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#SpanFolded"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByGasGeneratorExposedLength"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByAisleWidth"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByItemMass"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByTyreDiameter"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#VolumeParameter"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#AircraftState"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByCount"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#LandingGear"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasForwardNonConstantSection"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasTankSystem"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByStructuralCenterOfGravity"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#BusinessClassCompartment"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByTotalAirConditioningMass"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByExposedArea"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasEngine"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isWingletOf"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Concept007"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByTotalPassengerCount"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByTyreWidth"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isPropulsionOf"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#AftNonConstantSection"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByTotalHydraulicMass"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByCenterOfGravity"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#FuselageMountedEngine"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#AircraftComponentState"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#WingSubComponent"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#MainWingDrag"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#PropulsionGroup"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isCabinOf"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasPropulsion"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByDragForce"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByRatioVolume"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByNumberOfShafts"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByFanCowlingLength"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByMaximumLiftCoefficientAtLanding"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Battery"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByOperatingWeightEmpty"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByRatio"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByHeight"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ForceParameter"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByLength"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasCabin"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByReferenceThrust"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#HorizontalStabilizer"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#WingState"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByAngle"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByOperatingItemsMass"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByGasGeneratorDiameter"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#aircraftMission"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isVerticalStabilizerOf"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#MyDC10MainLandingGear"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasWing"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#TankSystemSubComponent"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#TankGroup"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByTipChord"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#CargoCompartment"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#WingMountedEngine"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByFinenessRatio"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Fin"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#AircraftProcess"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Winglet"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByLeverArm"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByMeanAerodynamicChord"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedBySuppliesPerPassengerMass"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByGasGeneratorLength"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasTankSystemMember"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#WingtipFolded"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByKinkChord"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Parameter"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#FuselageSubComponent"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByLiftCoefficientAtMaximumGlideRatio"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isElevatorOf"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByTotalFurnishingsMass"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ShaftPowerComponent"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isEngineOf"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Engine"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByWingSweep"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Elevator"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByLengthToYKink"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByWidth"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#State"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#LandingGearState"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByTotalStructureMass"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#SpanParameter"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isCargoCompartmentOf"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasRudder"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#StructuralMassParameter"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByBypassRatio"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasTankGroupAspect"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByAuxiliaryPowerUnitMass"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasStabilator"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByCoefficient"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#FinSubComponent"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#DensityParameter"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#LiftForceParameter"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByTotalElectricalSystemMass"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByMaximumRampWeight"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByTotalAdjustmentsMass"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#ExampleWingReferenceArea"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByDimensionlessParameter"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByMaximumTakeOffWeight"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isNoseLandingGearOf"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#process"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByTotalPylonsMass"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#Process"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasDirectAspect"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#aircraftProcess"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="http://purl.oclc.org/NET/ssnx/qu/unit#squareMetre"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByZeroFuelWeight"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByDensity"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasPart"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByAerodynamicForce"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByMachNumberAtCruise"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByChord"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#Concept007Tailplane"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasVerticalStabilizer"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasFuelTank"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByFuelDensity"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#MissionFuelMassParameter"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedBySeatWidth"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#AerodynamicComponent"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByMaximumZeroFuelWeight"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#EnergyComponent"/>
+    </Declaration>
+    <Declaration>
+        <AnnotationProperty IRI="http://purl.org/dc/elements/1.1/created"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#ExampleWing"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedBySeaLevelStaticThrust"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasHorizontalStabilizer"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByRootChord"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByReferenceLength"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#AreaParameter"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#FinMountedEngine"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByLiftForce"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="#ExampleWingDescribingParameter"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#hasNacelle"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isConstantSectionOf"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByTrolleyCount"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByOperatingWeight"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#ThrustForceParameter"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#TaxiFuelMass"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#EngineSubComponent"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByContainerPalletMass"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByMaximumLiftToDragRatio"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedBySeatPitch"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByAspectRatio"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isShaftPowerConnectedTo"/>
+    </Declaration>
+    <Declaration>
+        <Class IRI="#UndercarriageGroup"/>
+    </Declaration>
+    <Declaration>
+        <ObjectProperty IRI="#isDescribedByTotalSystemsMass"/>
+    </Declaration>
+    <Declaration>
+        <NamedIndividual IRI="http://purl.oclc.org/NET/ssnx/qu/unit#metre"/>
+    </Declaration>
+    <EquivalentClasses>
+        <Class IRI="#AerodynamicComponent"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#Component"/>
+            <ObjectUnionOf>
+                <ObjectSomeValuesFrom>
+                    <ObjectProperty IRI="#isDescribedByDragForce"/>
+                    <Class IRI="#DragForceParameter"/>
+                </ObjectSomeValuesFrom>
+                <ObjectSomeValuesFrom>
+                    <ObjectProperty IRI="#isDescribedByLiftForce"/>
+                    <Class IRI="#LiftForceParameter"/>
+                </ObjectSomeValuesFrom>
+            </ObjectUnionOf>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#AircraftAerodynamicComponent"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#AircraftComponent"/>
+            <ObjectUnionOf>
+                <ObjectSomeValuesFrom>
+                    <ObjectProperty IRI="#isDescribedByDragForce"/>
+                    <Class IRI="#DragForceParameter"/>
+                </ObjectSomeValuesFrom>
+                <ObjectSomeValuesFrom>
+                    <ObjectProperty IRI="#isDescribedByLiftForce"/>
+                    <Class IRI="#LiftForceParameter"/>
+                </ObjectSomeValuesFrom>
+            </ObjectUnionOf>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#AircraftMassComponent"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#AircraftComponent"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#isDescribedByMass"/>
+                <Class IRI="#MassParameter"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#DualMountedMainLandingGear"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#MainLandingGear"/>
+            <ObjectExactCardinality cardinality="1">
+                <ObjectProperty IRI="#isConnectedTo"/>
+                <Class IRI="#Fuselage"/>
+            </ObjectExactCardinality>
+            <ObjectExactCardinality cardinality="1">
+                <ObjectProperty IRI="#isConnectedTo"/>
+                <Class IRI="#Wing"/>
+            </ObjectExactCardinality>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#EnergyComponent"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#Component"/>
+            <ObjectExactCardinality cardinality="1">
+                <ObjectProperty IRI="#isDescribedByEnergyDensity"/>
+                <Class IRI="#EnergyDensityParameter"/>
+            </ObjectExactCardinality>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#FinMountedEngine"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#Engine"/>
+            <ObjectAllValuesFrom>
+                <ObjectProperty IRI="#isConnectedTo"/>
+                <Class IRI="#Fin"/>
+            </ObjectAllValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#FuselageMountedEngine"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#Engine"/>
+            <ObjectAllValuesFrom>
+                <ObjectProperty IRI="#isConnectedTo"/>
+                <Class IRI="#Fuselage"/>
+            </ObjectAllValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#FuselageMountedMainLandingGear"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#MainLandingGear"/>
+            <ObjectExactCardinality cardinality="1">
+                <ObjectProperty IRI="#isConnectedTo"/>
+                <Class IRI="#Fuselage"/>
+            </ObjectExactCardinality>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#MassComponent"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#Component"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#isDescribedByMass"/>
+                <Class IRI="#MassParameter"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#ProcessParameter"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#Parameter"/>
+            <ObjectExactCardinality cardinality="1">
+                <ObjectProperty IRI="#process"/>
+                <Class IRI="#Process"/>
+            </ObjectExactCardinality>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#PropulsiveComponent"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#Component"/>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#isDescribedByThrustForce"/>
+                <Class IRI="#ThrustForceParameter"/>
+            </ObjectSomeValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#StateParameter"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#Parameter"/>
+            <ObjectExactCardinality cardinality="1">
+                <ObjectProperty IRI="#state"/>
+                <Class IRI="#State"/>
+            </ObjectExactCardinality>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#UndefinedContextParameter"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#Parameter"/>
+            <ObjectMaxCardinality cardinality="0">
+                <ObjectProperty IRI="#process"/>
+                <Class IRI="#Process"/>
+            </ObjectMaxCardinality>
+            <ObjectMaxCardinality cardinality="0">
+                <ObjectProperty IRI="#state"/>
+                <Class IRI="#State"/>
+            </ObjectMaxCardinality>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#WingMountedEngine"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#Engine"/>
+            <ObjectAllValuesFrom>
+                <ObjectProperty IRI="#isConnectedTo"/>
+                <Class IRI="#Wing"/>
+            </ObjectAllValuesFrom>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <EquivalentClasses>
+        <Class IRI="#WingMountedMainLandingGear"/>
+        <ObjectIntersectionOf>
+            <Class IRI="#MainLandingGear"/>
+            <ObjectExactCardinality cardinality="1">
+                <ObjectProperty IRI="#isConnectedTo"/>
+                <Class IRI="#Wing"/>
+            </ObjectExactCardinality>
+        </ObjectIntersectionOf>
+    </EquivalentClasses>
+    <SubClassOf>
+        <Class IRI="#AerodynamicForceParameter"/>
+        <Class IRI="#ForceParameter"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#AftNonConstantSection"/>
+        <Class IRI="#FuselageSubComponent"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Aircraft"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasEngine"/>
+            <Class IRI="#Engine"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Aircraft"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasFin"/>
+            <Class IRI="#Fin"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Aircraft"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasFuselage"/>
+            <Class IRI="#Fuselage"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Aircraft"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasPropulsionGroupAspect"/>
+            <Class IRI="#PropulsionGroup"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Aircraft"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasTailplane"/>
+            <Class IRI="#Tailplane"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Aircraft"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasTankGroupAspect"/>
+            <Class IRI="#TankGroup"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Aircraft"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasUndercarriageGroupAspect"/>
+            <Class IRI="#UndercarriageGroup"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Aircraft"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasWing"/>
+            <Class IRI="#Wing"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Aircraft"/>
+        <ObjectAllValuesFrom>
+            <ObjectProperty IRI="#hasAspect"/>
+            <ObjectUnionOf>
+                <Class IRI="#AircraftAspect"/>
+                <Class IRI="#AircraftComponent"/>
+            </ObjectUnionOf>
+        </ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Aircraft"/>
+        <ObjectAllValuesFrom>
+            <ObjectProperty IRI="#hasPart"/>
+            <Class IRI="#AircraftComponent"/>
+        </ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Aircraft"/>
+        <ObjectExactCardinality cardinality="1">
+            <ObjectProperty IRI="#hasMainLandingGear"/>
+            <Class IRI="#MainLandingGear"/>
+        </ObjectExactCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Aircraft"/>
+        <ObjectExactCardinality cardinality="1">
+            <ObjectProperty IRI="#hasNoseLandingGear"/>
+            <Class IRI="#NoseLandingGear"/>
+        </ObjectExactCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#AircraftAspect"/>
+        <Class abbreviatedIRI="owl:Thing"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#AircraftAspect"/>
+        <ObjectAllValuesFrom>
+            <ObjectProperty IRI="#hasAspect"/>
+            <ObjectUnionOf>
+                <Class IRI="#AircraftAspect"/>
+                <Class IRI="#AircraftComponent"/>
+            </ObjectUnionOf>
+        </ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#AircraftComponent"/>
+        <Class IRI="#Component"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#AircraftComponentState"/>
+        <Class IRI="#State"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#AircraftMission"/>
+        <Class IRI="#AircraftProcess"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#AircraftParameter"/>
+        <Class IRI="#Parameter"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#AircraftProcess"/>
+        <Class IRI="#Process"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#AircraftState"/>
+        <Class IRI="#State"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#AngleParameter"/>
+        <Class IRI="#Parameter"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#AngleParameter"/>
+        <ObjectAllValuesFrom>
+            <ObjectProperty IRI="http://purl.oclc.org/NET/ssnx/qu/qu#unit"/>
+            <Class IRI="http://purl.oclc.org/NET/ssnx/qu/dim#AngleUnit"/>
+        </ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#AngleParameter"/>
+        <ObjectExactCardinality cardinality="1">
+            <ObjectProperty IRI="http://purl.oclc.org/NET/ssnx/qu/qu#unit"/>
+            <Class IRI="http://purl.oclc.org/NET/ssnx/qu/dim#AngleUnit"/>
+        </ObjectExactCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#AreaParameter"/>
+        <Class IRI="#Parameter"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#AreaParameter"/>
+        <ObjectAllValuesFrom>
+            <ObjectProperty IRI="http://purl.oclc.org/NET/ssnx/qu/qu#unit"/>
+            <Class IRI="http://purl.oclc.org/NET/ssnx/qu/dim#AreaUnit"/>
+        </ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#AreaParameter"/>
+        <ObjectExactCardinality cardinality="1">
+            <ObjectProperty IRI="http://purl.oclc.org/NET/ssnx/qu/qu#unit"/>
+            <Class IRI="http://purl.oclc.org/NET/ssnx/qu/dim#AreaUnit"/>
+        </ObjectExactCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#BlockFuelMass"/>
+        <Class IRI="#MissionFuelMassParameter"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#BusinessClassCompartment"/>
+        <Class IRI="#PassengerCompartment"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Cabin"/>
+        <Class IRI="#FuselageSubComponent"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Cabin"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasCabinSection"/>
+            <Class IRI="#CabinSection"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Cabin"/>
+        <ObjectAllValuesFrom>
+            <ObjectProperty IRI="#hasPart"/>
+            <Class IRI="#CabinSubComponent"/>
+        </ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#CabinSection"/>
+        <Class IRI="#CabinSubComponent"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#CabinSubComponent"/>
+        <Class IRI="#FuselageSubComponent"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#CargoCompartment"/>
+        <Class IRI="#CabinSection"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Cockpit"/>
+        <Class IRI="#CabinSection"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ConstantSection"/>
+        <Class IRI="#FuselageSubComponent"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ContingencyFuelMass"/>
+        <Class IRI="#MissionFuelMassParameter"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#DensityParameter"/>
+        <Class IRI="#Parameter"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#DensityParameter"/>
+        <ObjectAllValuesFrom>
+            <ObjectProperty IRI="http://purl.oclc.org/NET/ssnx/qu/qu#unit"/>
+            <Class IRI="http://purl.oclc.org/NET/ssnx/qu/dim#DensityUnit"/>
+        </ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#DensityParameter"/>
+        <ObjectExactCardinality cardinality="1">
+            <ObjectProperty IRI="http://purl.oclc.org/NET/ssnx/qu/qu#unit"/>
+            <Class IRI="http://purl.oclc.org/NET/ssnx/qu/dim#DensityUnit"/>
+        </ObjectExactCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#DimensionlessParameter"/>
+        <Class IRI="#Parameter"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#DimensionlessParameter"/>
+        <ObjectAllValuesFrom>
+            <ObjectProperty IRI="http://purl.oclc.org/NET/ssnx/qu/qu#unit"/>
+            <Class IRI="http://purl.oclc.org/NET/ssnx/qu/dim#DimensionlessUnit"/>
+        </ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#DistanceParameter"/>
+        <Class IRI="#Parameter"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#DistanceParameter"/>
+        <ObjectAllValuesFrom>
+            <ObjectProperty IRI="http://purl.oclc.org/NET/ssnx/qu/qu#unit"/>
+            <Class IRI="http://purl.oclc.org/NET/ssnx/qu/dim#DistanceUnit"/>
+        </ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#DistanceParameter"/>
+        <ObjectExactCardinality cardinality="1">
+            <ObjectProperty IRI="http://purl.oclc.org/NET/ssnx/qu/qu#unit"/>
+            <Class IRI="http://purl.oclc.org/NET/ssnx/qu/dim#DistanceUnit"/>
+        </ObjectExactCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#DragForceParameter"/>
+        <Class IRI="#AerodynamicForceParameter"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#EconomyClassCompartment"/>
+        <Class IRI="#PassengerCompartment"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ElectricPowerComponent"/>
+        <Class IRI="#PowerComponent"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Elevator"/>
+        <Class IRI="#TailplaneSubComponent"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#EnergyDensityParameter"/>
+        <Class IRI="#Parameter"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#EnergyDensityParameter"/>
+        <ObjectAllValuesFrom>
+            <ObjectProperty IRI="http://purl.oclc.org/NET/ssnx/qu/qu#unit"/>
+            <Class IRI="http://purl.oclc.org/NET/ssnx/qu/dim#EnergyDensityUnit"/>
+        </ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#EnergyDensityParameter"/>
+        <ObjectExactCardinality cardinality="1">
+            <ObjectProperty IRI="http://purl.oclc.org/NET/ssnx/qu/qu#unit"/>
+            <Class IRI="http://purl.oclc.org/NET/ssnx/qu/dim#EnergyDensityUnit"/>
+        </ObjectExactCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Engine"/>
+        <Class IRI="#AircraftComponent"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Engine"/>
+        <ObjectAllValuesFrom>
+            <ObjectProperty IRI="#hasPart"/>
+            <Class IRI="#EngineSubComponent"/>
+        </ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Engine"/>
+        <ObjectAllValuesFrom>
+            <ObjectProperty IRI="#isConnectedTo"/>
+            <ObjectUnionOf>
+                <Class IRI="#Fin"/>
+                <Class IRI="#Fuselage"/>
+                <Class IRI="#Wing"/>
+            </ObjectUnionOf>
+        </ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Engine"/>
+        <ObjectExactCardinality cardinality="1">
+            <ObjectProperty IRI="#hasNacelle"/>
+            <Class IRI="#Nacelle"/>
+        </ObjectExactCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Engine"/>
+        <ObjectExactCardinality cardinality="1">
+            <ObjectProperty IRI="#isConnectedTo"/>
+            <ObjectUnionOf>
+                <Class IRI="#Fin"/>
+                <Class IRI="#Fuselage"/>
+                <Class IRI="#Wing"/>
+            </ObjectUnionOf>
+        </ObjectExactCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Engine"/>
+        <ObjectExactCardinality cardinality="1">
+            <ObjectProperty IRI="#isDescribedByMass"/>
+            <Class IRI="#MassParameter"/>
+        </ObjectExactCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Engine"/>
+        <ObjectExactCardinality cardinality="1">
+            <ObjectProperty IRI="#isDescribedByThrustForce"/>
+            <Class IRI="#ThrustForceParameter"/>
+        </ObjectExactCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Engine"/>
+        <ObjectMaxCardinality cardinality="1">
+            <ObjectProperty IRI="#hasPylon"/>
+            <Class IRI="#Pylon"/>
+        </ObjectMaxCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#EngineSubComponent"/>
+        <Class IRI="#AircraftComponent"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Fin"/>
+        <Class IRI="#AircraftComponent"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Fin"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasTankSystem"/>
+            <Class IRI="#TankSystem"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Fin"/>
+        <ObjectAllValuesFrom>
+            <ObjectProperty IRI="#hasPart"/>
+            <ObjectUnionOf>
+                <Class IRI="#FinSubComponent"/>
+                <Class IRI="#TankSystem"/>
+            </ObjectUnionOf>
+        </ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Fin"/>
+        <ObjectExactCardinality cardinality="1">
+            <ObjectProperty IRI="#hasRudder"/>
+            <Class IRI="#Rudder"/>
+        </ObjectExactCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Fin"/>
+        <ObjectExactCardinality cardinality="1">
+            <ObjectProperty IRI="#hasVerticalStabilizer"/>
+            <Class IRI="#VerticalStabilizer"/>
+        </ObjectExactCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Fin"/>
+        <ObjectExactCardinality cardinality="1">
+            <ObjectProperty IRI="#isDescribedByMass"/>
+            <Class IRI="#MassParameter"/>
+        </ObjectExactCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#FinSubComponent"/>
+        <Class IRI="#AircraftComponent"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#FirstClassCompartment"/>
+        <Class IRI="#PassengerCompartment"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ForceParameter"/>
+        <Class IRI="#Parameter"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ForceParameter"/>
+        <ObjectAllValuesFrom>
+            <ObjectProperty IRI="http://purl.oclc.org/NET/ssnx/qu/qu#unit"/>
+            <Class IRI="http://purl.oclc.org/NET/ssnx/qu/dim#ForceUnit"/>
+        </ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ForceParameter"/>
+        <ObjectExactCardinality cardinality="1">
+            <ObjectProperty IRI="http://purl.oclc.org/NET/ssnx/qu/qu#unit"/>
+            <Class IRI="http://purl.oclc.org/NET/ssnx/qu/dim#ForceUnit"/>
+        </ObjectExactCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ForwardNonConstantSection"/>
+        <Class IRI="#FuselageSubComponent"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#FuelMassParameter"/>
+        <Class IRI="#MassParameter"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#FuelTank"/>
+        <Class IRI="#TankSystemSubComponent"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Fuselage"/>
+        <Class IRI="#AircraftComponent"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Fuselage"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasAftNonConstantSection"/>
+            <Class IRI="#AftNonConstantSection"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Fuselage"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasCabin"/>
+            <Class IRI="#Cabin"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Fuselage"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasConstantSection"/>
+            <Class IRI="#ConstantSection"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Fuselage"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasForwardNonConstantSection"/>
+            <Class IRI="#ForwardNonConstantSection"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Fuselage"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasTankSystem"/>
+            <Class IRI="#TankSystem"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Fuselage"/>
+        <ObjectAllValuesFrom>
+            <ObjectProperty IRI="#hasPart"/>
+            <ObjectUnionOf>
+                <Class IRI="#FuselageSubComponent"/>
+                <Class IRI="#TankSystem"/>
+            </ObjectUnionOf>
+        </ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Fuselage"/>
+        <ObjectExactCardinality cardinality="1">
+            <ObjectProperty IRI="#isDescribedByDragForce"/>
+            <Class IRI="#DragForceParameter"/>
+        </ObjectExactCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Fuselage"/>
+        <ObjectExactCardinality cardinality="1">
+            <ObjectProperty IRI="#isDescribedByLiftForce"/>
+            <Class IRI="#LiftForceParameter"/>
+        </ObjectExactCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#FuselageSubComponent"/>
+        <Class IRI="#AircraftComponent"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#HorizontalStabilizer"/>
+        <Class IRI="#TailplaneSubComponent"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#LandingGear"/>
+        <Class IRI="#AircraftComponent"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#LandingGear"/>
+        <ObjectAllValuesFrom>
+            <ObjectProperty IRI="#hasPart"/>
+            <Class IRI="#LandingGearSubComponent"/>
+        </ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#LandingGearState"/>
+        <Class IRI="#AircraftComponentState"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#LandingGearSubComponent"/>
+        <Class IRI="#AircraftComponent"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#LiftForceParameter"/>
+        <Class IRI="#AerodynamicForceParameter"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#MainLandingGear"/>
+        <Class IRI="#LandingGear"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#MainLandingGear"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasLandingGearSystem"/>
+            <Class IRI="#SingleLandingGearSystem"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#MainLandingGear"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#isConnectedTo"/>
+            <ObjectUnionOf>
+                <Class IRI="#Fuselage"/>
+                <Class IRI="#Wing"/>
+            </ObjectUnionOf>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#MainLandingGear"/>
+        <ObjectAllValuesFrom>
+            <ObjectProperty IRI="#isConnectedTo"/>
+            <ObjectUnionOf>
+                <Class IRI="#Fuselage"/>
+                <Class IRI="#Wing"/>
+            </ObjectUnionOf>
+        </ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#MainLandingGear"/>
+        <ObjectMaxCardinality cardinality="1">
+            <ObjectProperty IRI="#isConnectedTo"/>
+            <Class IRI="#Fuselage"/>
+        </ObjectMaxCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#MainLandingGear"/>
+        <ObjectMaxCardinality cardinality="1">
+            <ObjectProperty IRI="#isConnectedTo"/>
+            <Class IRI="#Wing"/>
+        </ObjectMaxCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#MassParameter"/>
+        <Class IRI="#Parameter"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#MassParameter"/>
+        <ObjectAllValuesFrom>
+            <ObjectProperty IRI="http://purl.oclc.org/NET/ssnx/qu/qu#unit"/>
+            <Class IRI="http://purl.oclc.org/NET/ssnx/qu/dim#MassUnit"/>
+        </ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#MassParameter"/>
+        <ObjectExactCardinality cardinality="1">
+            <ObjectProperty IRI="http://purl.oclc.org/NET/ssnx/qu/qu#unit"/>
+            <Class IRI="http://purl.oclc.org/NET/ssnx/qu/dim#MassUnit"/>
+        </ObjectExactCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#MechanicPowerComponent"/>
+        <Class IRI="#PowerComponent"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#MissionFuelMassParameter"/>
+        <Class IRI="#FuelMassParameter"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#MissionFuelMassParameter"/>
+        <ObjectExactCardinality cardinality="1">
+            <ObjectProperty IRI="#aircraftMission"/>
+            <Class IRI="#AircraftMission"/>
+        </ObjectExactCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Nacelle"/>
+        <Class IRI="#EngineSubComponent"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Nacelle"/>
+        <ObjectExactCardinality cardinality="1">
+            <ObjectProperty IRI="#isDescribedByDragForce"/>
+            <Class IRI="#DragForceParameter"/>
+        </ObjectExactCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#NoseLandingGear"/>
+        <Class IRI="#LandingGear"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#NoseLandingGear"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasLandingGearSystem"/>
+            <Class IRI="#SingleLandingGearSystem"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#NoseLandingGear"/>
+        <ObjectAllValuesFrom>
+            <ObjectProperty IRI="#isConnectedTo"/>
+            <Class IRI="#Fuselage"/>
+        </ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#NoseLandingGear"/>
+        <ObjectExactCardinality cardinality="1">
+            <ObjectProperty IRI="#isConnectedTo"/>
+            <Class IRI="#Fuselage"/>
+        </ObjectExactCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Parameter"/>
+        <DataExactCardinality cardinality="1">
+            <DataProperty IRI="http://purl.oclc.org/NET/ssnx/qu/qu#numericalValue"/>
+            <Datatype abbreviatedIRI="xsd:double"/>
+        </DataExactCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#PassengerCompartment"/>
+        <Class IRI="#CabinSection"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#PowerComponent"/>
+        <Class IRI="#Component"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#PropulsionGroup"/>
+        <Class IRI="#AircraftAspect"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#PropulsionGroup"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasEngineMember"/>
+            <Class IRI="#Engine"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Pylon"/>
+        <Class IRI="#EngineSubComponent"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Pylon"/>
+        <ObjectExactCardinality cardinality="1">
+            <ObjectProperty IRI="#isDescribedByDragForce"/>
+            <Class IRI="#DragForceParameter"/>
+        </ObjectExactCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Rudder"/>
+        <Class IRI="#FinSubComponent"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ShaftPowerComponent"/>
+        <Class IRI="#MechanicPowerComponent"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#SingleLandingGearSystem"/>
+        <Class IRI="#LandingGearSubComponent"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#SpanParameter"/>
+        <Class IRI="#AircraftParameter"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#SpanParameter"/>
+        <Class IRI="#DistanceParameter"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Stabilator"/>
+        <Class IRI="#TailplaneSubComponent"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#StructuralComponent"/>
+        <Class IRI="#Component"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#StructuralMassParameter"/>
+        <Class IRI="#MassParameter"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Tailplane"/>
+        <Class IRI="#AircraftComponent"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Tailplane"/>
+        <ObjectUnionOf>
+            <ObjectIntersectionOf>
+                <ObjectSomeValuesFrom>
+                    <ObjectProperty IRI="#hasElevator"/>
+                    <Class IRI="#Elevator"/>
+                </ObjectSomeValuesFrom>
+                <ObjectSomeValuesFrom>
+                    <ObjectProperty IRI="#hasHorizontalStabilizer"/>
+                    <Class IRI="#HorizontalStabilizer"/>
+                </ObjectSomeValuesFrom>
+            </ObjectIntersectionOf>
+            <ObjectSomeValuesFrom>
+                <ObjectProperty IRI="#hasStabilator"/>
+                <Class IRI="#Stabilator"/>
+            </ObjectSomeValuesFrom>
+        </ObjectUnionOf>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Tailplane"/>
+        <ObjectAllValuesFrom>
+            <ObjectProperty IRI="#hasPart"/>
+            <ObjectUnionOf>
+                <Class IRI="#TailplaneSubComponent"/>
+                <Class IRI="#TankSystem"/>
+            </ObjectUnionOf>
+        </ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Tailplane"/>
+        <ObjectExactCardinality cardinality="1">
+            <ObjectProperty IRI="#hasTankSystem"/>
+            <Class IRI="#TankSystem"/>
+        </ObjectExactCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#TailplaneSubComponent"/>
+        <Class IRI="#AircraftComponent"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#TankGroup"/>
+        <Class IRI="#AircraftAspect"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#TankGroup"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasTankSystemMember"/>
+            <Class IRI="#TankSystem"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#TankMaxFuelMass"/>
+        <Class IRI="#FuelMassParameter"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#TankSystem"/>
+        <Class IRI="#AircraftComponent"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#TankSystem"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasFuelTank"/>
+            <Class IRI="#FuelTank"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#TankSystem"/>
+        <ObjectAllValuesFrom>
+            <ObjectProperty IRI="#hasPart"/>
+            <Class IRI="#TankSystemSubComponent"/>
+        </ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#TankSystemSubComponent"/>
+        <Class IRI="#AircraftComponent"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#TaxiFuelMass"/>
+        <Class IRI="#MissionFuelMassParameter"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#ThrustForceParameter"/>
+        <Class IRI="#AerodynamicForceParameter"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#TripFuelMass"/>
+        <Class IRI="#MissionFuelMassParameter"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#UndercarriageGroup"/>
+        <Class IRI="#AircraftAspect"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#UndercarriageGroup"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasMainLandingGearMember"/>
+            <Class IRI="#MainLandingGear"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#UndercarriageGroup"/>
+        <ObjectSomeValuesFrom>
+            <ObjectProperty IRI="#hasNoseLandingGearMember"/>
+            <Class IRI="#NoseLandingGear"/>
+        </ObjectSomeValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#VerticalStabilizer"/>
+        <Class IRI="#FinSubComponent"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#VolumeParameter"/>
+        <Class IRI="#Parameter"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#VolumeParameter"/>
+        <ObjectAllValuesFrom>
+            <ObjectProperty IRI="http://purl.oclc.org/NET/ssnx/qu/qu#unit"/>
+            <Class IRI="http://purl.oclc.org/NET/ssnx/qu/dim#VolumeUnit"/>
+        </ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#VolumeParameter"/>
+        <ObjectExactCardinality cardinality="1">
+            <ObjectProperty IRI="http://purl.oclc.org/NET/ssnx/qu/qu#unit"/>
+            <Class IRI="http://purl.oclc.org/NET/ssnx/qu/dim#VolumeUnit"/>
+        </ObjectExactCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Wing"/>
+        <Class IRI="#AircraftComponent"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Wing"/>
+        <ObjectAllValuesFrom>
+            <ObjectProperty IRI="#hasPart"/>
+            <ObjectUnionOf>
+                <Class IRI="#TankSystem"/>
+                <Class IRI="#WingSubComponent"/>
+            </ObjectUnionOf>
+        </ObjectAllValuesFrom>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Wing"/>
+        <ObjectExactCardinality cardinality="1">
+            <ObjectProperty IRI="#hasTankSystem"/>
+            <Class IRI="#TankSystem"/>
+        </ObjectExactCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Wing"/>
+        <ObjectExactCardinality cardinality="1">
+            <ObjectProperty IRI="#isDescribedByDragForce"/>
+            <Class IRI="#DragForceParameter"/>
+        </ObjectExactCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Wing"/>
+        <ObjectExactCardinality cardinality="1">
+            <ObjectProperty IRI="#isDescribedByLiftForce"/>
+            <Class IRI="#LiftForceParameter"/>
+        </ObjectExactCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Wing"/>
+        <ObjectExactCardinality cardinality="1">
+            <ObjectProperty IRI="#isDescribedByMass"/>
+            <Class IRI="#MassParameter"/>
+        </ObjectExactCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Wing"/>
+        <ObjectMaxCardinality cardinality="2">
+            <ObjectProperty IRI="#hasWinglet"/>
+            <Class IRI="#Winglet"/>
+        </ObjectMaxCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#WingState"/>
+        <Class IRI="#AircraftComponentState"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#WingSubComponent"/>
+        <Class IRI="#AircraftComponent"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Winglet"/>
+        <Class IRI="#WingSubComponent"/>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Winglet"/>
+        <ObjectExactCardinality cardinality="1">
+            <ObjectProperty IRI="#isDescribedByDragForce"/>
+            <Class IRI="#DragForceParameter"/>
+        </ObjectExactCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Winglet"/>
+        <ObjectExactCardinality cardinality="1">
+            <ObjectProperty IRI="#isDescribedByLiftForce"/>
+            <Class IRI="#LiftForceParameter"/>
+        </ObjectExactCardinality>
+    </SubClassOf>
+    <SubClassOf>
+        <Class IRI="#Winglet"/>
+        <ObjectExactCardinality cardinality="1">
+            <ObjectProperty IRI="#isDescribedByMass"/>
+            <Class IRI="#MassParameter"/>
+        </ObjectExactCardinality>
+    </SubClassOf>
+    <DisjointClasses>
+        <Class IRI="#AftNonConstantSection"/>
+        <Class IRI="#Cabin"/>
+        <Class IRI="#ConstantSection"/>
+        <Class IRI="#ForwardNonConstantSection"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#AngleParameter"/>
+        <Class IRI="#AreaParameter"/>
+        <Class IRI="#DensityParameter"/>
+        <Class IRI="#DimensionlessParameter"/>
+        <Class IRI="#DistanceParameter"/>
+        <Class IRI="#EnergyDensityParameter"/>
+        <Class IRI="#ForceParameter"/>
+        <Class IRI="#MassParameter"/>
+        <Class IRI="#VolumeParameter"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#BusinessClassCompartment"/>
+        <Class IRI="#EconomyClassCompartment"/>
+        <Class IRI="#FirstClassCompartment"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#CargoCompartment"/>
+        <Class IRI="#Cockpit"/>
+        <Class IRI="#PassengerCompartment"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#Engine"/>
+        <Class IRI="#Fin"/>
+        <Class IRI="#Fuselage"/>
+        <Class IRI="#LandingGear"/>
+        <Class IRI="#Tailplane"/>
+        <Class IRI="#TankSystem"/>
+        <Class IRI="#Wing"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#EngineSubComponent"/>
+        <Class IRI="#FinSubComponent"/>
+        <Class IRI="#FuselageSubComponent"/>
+        <Class IRI="#LandingGearSubComponent"/>
+        <Class IRI="#TailplaneSubComponent"/>
+        <Class IRI="#WingSubComponent"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#FinMountedEngine"/>
+        <Class IRI="#FuselageMountedEngine"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#FinMountedEngine"/>
+        <Class IRI="#WingMountedEngine"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#FuelTank"/>
+        <Class IRI="#TankSystem"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#FuselageMountedEngine"/>
+        <Class IRI="#WingMountedEngine"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#MainLandingGear"/>
+        <Class IRI="#NoseLandingGear"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#Process"/>
+        <Class IRI="#State"/>
+    </DisjointClasses>
+    <DisjointClasses>
+        <Class IRI="#ProcessParameter"/>
+        <Class IRI="#StateParameter"/>
+        <Class IRI="#UndefinedContextParameter"/>
+    </DisjointClasses>
+    <ClassAssertion>
+        <Class IRI="#EnergyComponent"/>
+        <NamedIndividual IRI="#Battery"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Aircraft"/>
+        <NamedIndividual IRI="#Concept007"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="owl:Thing"/>
+        <NamedIndividual IRI="#Concept007Fin"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="owl:Thing"/>
+        <NamedIndividual IRI="#Concept007Tailplane"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="owl:Thing"/>
+        <NamedIndividual IRI="#Concept007Wing"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Aircraft"/>
+        <NamedIndividual IRI="#ExampleA320"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Wing"/>
+        <NamedIndividual IRI="#ExampleWing"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#AreaParameter"/>
+        <NamedIndividual IRI="#ExampleWingReferenceArea"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Aircraft"/>
+        <NamedIndividual IRI="#MyA320"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Engine"/>
+        <NamedIndividual IRI="#MyA320Engine1"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#MassParameter"/>
+        <NamedIndividual IRI="#MyA320EngineMass"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Fuselage"/>
+        <NamedIndividual IRI="#MyA320Fuselage"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#MainLandingGear"/>
+        <NamedIndividual IRI="#MyA320MainLandingGear"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#Wing"/>
+        <NamedIndividual IRI="#MyA320Wing"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#MainLandingGear"/>
+        <NamedIndividual IRI="#MyA380MainLandingGear"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#MainLandingGear"/>
+        <NamedIndividual IRI="#MyDC10MainLandingGear"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class abbreviatedIRI="owl:Thing"/>
+        <NamedIndividual IRI="#MyExecutiveCabin"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#SpanParameter"/>
+        <NamedIndividual IRI="#SpanFolded"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#SpanParameter"/>
+        <NamedIndividual IRI="#SpanUnfolded"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#WingState"/>
+        <NamedIndividual IRI="#WingtipFolded"/>
+    </ClassAssertion>
+    <ClassAssertion>
+        <Class IRI="#WingState"/>
+        <NamedIndividual IRI="#WingtipUnfolded"/>
+    </ClassAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isFinOf"/>
+        <NamedIndividual IRI="#Concept007Fin"/>
+        <NamedIndividual IRI="#Concept007"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDescribedByParameter"/>
+        <NamedIndividual IRI="#Concept007FinDescribingParameter"/>
+        <NamedIndividual IRI="#Concept007FinWettedArea"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="http://purl.oclc.org/NET/ssnx/qu/qu#unit"/>
+        <NamedIndividual IRI="#Concept007FinWettedArea"/>
+        <NamedIndividual IRI="http://purl.oclc.org/NET/ssnx/qu/unit#squareFoot"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isTailplaneOf"/>
+        <NamedIndividual IRI="#Concept007Tailplane"/>
+        <NamedIndividual IRI="#Concept007"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDescribedByParameter"/>
+        <NamedIndividual IRI="#Concept007TailplaneDescribingParameter"/>
+        <NamedIndividual IRI="#Concept007TailplaneWettedArea"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="http://purl.oclc.org/NET/ssnx/qu/qu#unit"/>
+        <NamedIndividual IRI="#Concept007TailplaneWettedArea"/>
+        <NamedIndividual IRI="http://purl.oclc.org/NET/ssnx/qu/unit#squareMetre"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isWingOf"/>
+        <NamedIndividual IRI="#Concept007Wing"/>
+        <NamedIndividual IRI="#Concept007"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDescribedByParameter"/>
+        <NamedIndividual IRI="#Concept007WingDescribingParameter"/>
+        <NamedIndividual IRI="#Concept007WingWettedArea"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="http://purl.oclc.org/NET/ssnx/qu/qu#unit"/>
+        <NamedIndividual IRI="#Concept007WingWettedArea"/>
+        <NamedIndividual IRI="http://purl.oclc.org/NET/ssnx/qu/unit#squareMetre"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isWingOf"/>
+        <NamedIndividual IRI="#ExampleWing"/>
+        <NamedIndividual IRI="#ExampleA320"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDescribedByReferenceArea"/>
+        <NamedIndividual IRI="#ExampleWingDescribingParameter"/>
+        <NamedIndividual IRI="#ExampleWingReferenceArea"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="http://purl.oclc.org/NET/ssnx/qu/qu#unit"/>
+        <NamedIndividual IRI="#ExampleWingReferenceArea"/>
+        <NamedIndividual IRI="http://purl.oclc.org/NET/ssnx/qu/unit#squareMetre"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDescribedByAerodynamicForce"/>
+        <NamedIndividual IRI="#MainWing"/>
+        <NamedIndividual IRI="#MainWingDrag"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDescribedByAerodynamicForce"/>
+        <NamedIndividual IRI="#MainWing"/>
+        <NamedIndividual IRI="#MainWingLift"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isConnectedTo"/>
+        <NamedIndividual IRI="#MyA320Engine1"/>
+        <NamedIndividual IRI="#MyA320Wing"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isDescribedByMass"/>
+        <NamedIndividual IRI="#MyA320Engine1"/>
+        <NamedIndividual IRI="#MyA320EngineMass"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isFuselageOf"/>
+        <NamedIndividual IRI="#MyA320Fuselage"/>
+        <NamedIndividual IRI="#MyA320"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isConnectedTo"/>
+        <NamedIndividual IRI="#MyA320MainLandingGear"/>
+        <NamedIndividual IRI="#MyA320Wing"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isWingOf"/>
+        <NamedIndividual IRI="#MyA320Wing"/>
+        <NamedIndividual IRI="#MyA320"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isConnectedTo"/>
+        <NamedIndividual IRI="#MyA380MainLandingGear"/>
+        <NamedIndividual IRI="#MyA320Fuselage"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isConnectedTo"/>
+        <NamedIndividual IRI="#MyA380MainLandingGear"/>
+        <NamedIndividual IRI="#MyA320Wing"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isConnectedTo"/>
+        <NamedIndividual IRI="#MyDC10MainLandingGear"/>
+        <NamedIndividual IRI="#MyA320Fuselage"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#isCabinOf"/>
+        <NamedIndividual IRI="#MyExecutiveCabin"/>
+        <NamedIndividual IRI="#MyA320Fuselage"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="http://purl.oclc.org/NET/ssnx/qu/qu#unit"/>
+        <NamedIndividual IRI="#SpanFolded"/>
+        <NamedIndividual IRI="http://purl.oclc.org/NET/ssnx/qu/unit#metre"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#state"/>
+        <NamedIndividual IRI="#SpanFolded"/>
+        <NamedIndividual IRI="#WingtipFolded"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="http://purl.oclc.org/NET/ssnx/qu/qu#unit"/>
+        <NamedIndividual IRI="#SpanUnfolded"/>
+        <NamedIndividual IRI="http://purl.oclc.org/NET/ssnx/qu/unit#metre"/>
+    </ObjectPropertyAssertion>
+    <ObjectPropertyAssertion>
+        <ObjectProperty IRI="#state"/>
+        <NamedIndividual IRI="#SpanUnfolded"/>
+        <NamedIndividual IRI="#WingtipUnfolded"/>
+    </ObjectPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="http://purl.oclc.org/NET/ssnx/qu/qu#numericalValue"/>
+        <NamedIndividual IRI="#Concept007FinWettedArea"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#double">279.345</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="http://purl.oclc.org/NET/ssnx/qu/qu#numericalValue"/>
+        <NamedIndividual IRI="#Concept007TailplaneWettedArea"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#double">42.0001</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="http://purl.oclc.org/NET/ssnx/qu/qu#numericalValue"/>
+        <NamedIndividual IRI="#Concept007WingWettedArea"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#double">221.557</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="http://purl.oclc.org/NET/ssnx/qu/qu#numericalValue"/>
+        <NamedIndividual IRI="#ExampleWingReferenceArea"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#double">122.6</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="http://purl.oclc.org/NET/ssnx/qu/qu#numericalValue"/>
+        <NamedIndividual IRI="#SpanFolded"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#double">10.0</Literal>
+    </DataPropertyAssertion>
+    <DataPropertyAssertion>
+        <DataProperty IRI="http://purl.oclc.org/NET/ssnx/qu/qu#numericalValue"/>
+        <NamedIndividual IRI="#SpanUnfolded"/>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#double">12.0</Literal>
+    </DataPropertyAssertion>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#aircraftMission"/>
+        <ObjectProperty IRI="#aircraftProcess"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#aircraftProcess"/>
+        <ObjectProperty IRI="#process"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasAftNonConstantSection"/>
+        <ObjectProperty IRI="#hasDirectPart"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasCabin"/>
+        <ObjectProperty IRI="#hasDirectPart"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasCabinSection"/>
+        <ObjectProperty IRI="#hasDirectPart"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasConstantSection"/>
+        <ObjectProperty IRI="#hasDirectPart"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasDirectAspect"/>
+        <ObjectProperty IRI="#hasAspect"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasDirectPart"/>
+        <ObjectProperty IRI="#hasPart"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasElevator"/>
+        <ObjectProperty IRI="#hasDirectPart"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasEngine"/>
+        <ObjectProperty IRI="#hasDirectPart"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasEngineMember"/>
+        <ObjectProperty IRI="#hasDirectAspect"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasFin"/>
+        <ObjectProperty IRI="#hasDirectPart"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasForwardNonConstantSection"/>
+        <ObjectProperty IRI="#hasDirectPart"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasFuelTank"/>
+        <ObjectProperty IRI="#hasDirectPart"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasFuselage"/>
+        <ObjectProperty IRI="#hasDirectPart"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasHorizontalStabilizer"/>
+        <ObjectProperty IRI="#hasDirectPart"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasLandingGearSystem"/>
+        <ObjectProperty IRI="#hasDirectPart"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasMainLandingGear"/>
+        <ObjectProperty IRI="#hasDirectPart"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasMainLandingGearMember"/>
+        <ObjectProperty IRI="#hasDirectAspect"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasNacelle"/>
+        <ObjectProperty IRI="#hasDirectPart"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasNoseLandingGear"/>
+        <ObjectProperty IRI="#hasDirectPart"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasNoseLandingGearMember"/>
+        <ObjectProperty IRI="#hasDirectAspect"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasPropulsion"/>
+        <ObjectProperty IRI="#hasDirectPart"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasPropulsionGroupAspect"/>
+        <ObjectProperty IRI="#hasDirectAspect"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasPylon"/>
+        <ObjectProperty IRI="#hasDirectPart"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasRudder"/>
+        <ObjectProperty IRI="#hasDirectPart"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasStabilator"/>
+        <ObjectProperty IRI="#hasDirectPart"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasTailplane"/>
+        <ObjectProperty IRI="#hasDirectPart"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasTankGroupAspect"/>
+        <ObjectProperty IRI="#hasDirectAspect"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasTankSystem"/>
+        <ObjectProperty IRI="#hasDirectPart"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasTankSystemMember"/>
+        <ObjectProperty IRI="#hasDirectAspect"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasUndercarriageGroupAspect"/>
+        <ObjectProperty IRI="#hasDirectAspect"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasVerticalStabilizer"/>
+        <ObjectProperty IRI="#hasDirectPart"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasWing"/>
+        <ObjectProperty IRI="#hasDirectPart"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#hasWinglet"/>
+        <ObjectProperty IRI="#hasDirectPart"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isAftNonConstantSectionOf"/>
+        <ObjectProperty IRI="#isDirectPartOf"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isCabinOf"/>
+        <ObjectProperty IRI="#isDirectPartOf"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isCabinSectionOf"/>
+        <ObjectProperty IRI="#isDirectPartOf"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isCargoCompartmentOf"/>
+        <ObjectProperty IRI="#isDirectPartOf"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isConnectedTo"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isConstantSectionOf"/>
+        <ObjectProperty IRI="#isDirectPartOf"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByAerodynamicCenter"/>
+        <ObjectProperty IRI="#isDescribedByRelativeParameter"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByAerodynamicForce"/>
+        <ObjectProperty IRI="#isDescribedByForce"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByAisleCount"/>
+        <ObjectProperty IRI="#isDescribedByCount"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByAisleWidth"/>
+        <ObjectProperty IRI="#isDescribedByWidth"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByAngle"/>
+        <ObjectProperty IRI="#isDescribedByParameter"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByArea"/>
+        <ObjectProperty IRI="#isDescribedByParameter"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByAspectRatio"/>
+        <ObjectProperty IRI="#isDescribedByRatio"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByAuxiliaryPowerUnitMass"/>
+        <ObjectProperty IRI="#isDescribedByItemMass"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByBase"/>
+        <ObjectProperty IRI="#isDescribedByDistance"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByBasicManufacturerWeightEmpty"/>
+        <ObjectProperty IRI="#isDescribedByOperatingWeight"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByBasicOperatingWeightEmpty"/>
+        <ObjectProperty IRI="#isDescribedByOperatingWeight"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByBodysideYPosition"/>
+        <ObjectProperty IRI="#isDescribedByRelativeParameter"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByBypassRatio"/>
+        <ObjectProperty IRI="#isDescribedByRatio"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByCabinChangesMass"/>
+        <ObjectProperty IRI="#isDescribedByItemMass"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByCabinCrewCount"/>
+        <ObjectProperty IRI="#isDescribedByCount"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByCenterOfGravity"/>
+        <ObjectProperty IRI="#isDescribedByRelativeParameter"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByCenterlineChord"/>
+        <ObjectProperty IRI="#isDescribedByChord"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByChord"/>
+        <ObjectProperty IRI="#isDescribedByDistance"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByCoefficient"/>
+        <ObjectProperty IRI="#isDescribedByDimensionlessParameter"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByContainerPalletMass"/>
+        <ObjectProperty IRI="#isDescribedByItemMass"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByCount"/>
+        <ObjectProperty IRI="#isDescribedByDimensionlessParameter"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByDeliverableWeightEmpty"/>
+        <ObjectProperty IRI="#isDescribedByOperatingWeight"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByDensity"/>
+        <ObjectProperty IRI="#isDescribedByParameter"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByDiameter"/>
+        <ObjectProperty IRI="#isDescribedByDistance"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByDimensionlessParameter"/>
+        <ObjectProperty IRI="#isDescribedByParameter"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByDistance"/>
+        <ObjectProperty IRI="#isDescribedByParameter"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByDragForce"/>
+        <ObjectProperty IRI="#isDescribedByAerodynamicForce"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByDryEngineMass"/>
+        <ObjectProperty IRI="#isDescribedByItemMass"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByEnergyDensity"/>
+        <ObjectProperty IRI="#isDescribedByParameter"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByEngineCount"/>
+        <ObjectProperty IRI="#isDescribedByCount"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByEquipmentCenterOfGravity"/>
+        <ObjectProperty IRI="#isDescribedByCenterOfGravity"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByExposedArea"/>
+        <ObjectProperty IRI="#isDescribedByArea"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByFanCowlingLength"/>
+        <ObjectProperty IRI="#isDescribedByLength"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByFanDiameter"/>
+        <ObjectProperty IRI="#isDescribedByDiameter"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByFanXPosition"/>
+        <ObjectProperty IRI="#isDescribedByRelativeParameter"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByFinenessRatio"/>
+        <ObjectProperty IRI="#isDescribedByRatio"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByFlightCrewCount"/>
+        <ObjectProperty IRI="#isDescribedByCount"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByFloorZOffset"/>
+        <ObjectProperty IRI="#isDescribedByHeight"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByForce"/>
+        <ObjectProperty IRI="#isDescribedByParameter"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByFuelCapacity"/>
+        <ObjectProperty IRI="#isDescribedByVolume"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByFuelDensity"/>
+        <ObjectProperty IRI="#isDescribedByDensity"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByFuelVolume"/>
+        <ObjectProperty IRI="#isDescribedByVolume"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByGasGeneratorDiameter"/>
+        <ObjectProperty IRI="#isDescribedByDiameter"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByGasGeneratorExhaustDiameter"/>
+        <ObjectProperty IRI="#isDescribedByDiameter"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByGasGeneratorExposedLength"/>
+        <ObjectProperty IRI="#isDescribedByLength"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByGasGeneratorLength"/>
+        <ObjectProperty IRI="#isDescribedByLength"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByGeometricMeanChord"/>
+        <ObjectProperty IRI="#isDescribedByChord"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByHeight"/>
+        <ObjectProperty IRI="#isDescribedByDistance"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByItemMass"/>
+        <ObjectProperty IRI="#isDescribedByMass"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByKinkChord"/>
+        <ObjectProperty IRI="#isDescribedByChord"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByKinkYPosition"/>
+        <ObjectProperty IRI="#isDescribedByRelativeParameter"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByLength"/>
+        <ObjectProperty IRI="#isDescribedByDistance"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByLengthToYKink"/>
+        <ObjectProperty IRI="#isDescribedByLength"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByLeverArm"/>
+        <ObjectProperty IRI="#isDescribedByDistance"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByLiftCoefficientAtMaximumGlideRatio"/>
+        <ObjectProperty IRI="#isDescribedByCoefficient"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByLiftForce"/>
+        <ObjectProperty IRI="#isDescribedByAerodynamicForce"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByLiftingArea"/>
+        <ObjectProperty IRI="#isDescribedByArea"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByMachNumber"/>
+        <ObjectProperty IRI="#isDescribedByDimensionlessParameter"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByMachNumberAtCruise"/>
+        <ObjectProperty IRI="#isDescribedByMachNumber"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByManufacturerWeightEmpty"/>
+        <ObjectProperty IRI="#isDescribedByOperatingWeight"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByMass"/>
+        <ObjectProperty IRI="#isDescribedByParameter"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByMaximumLandingWeight"/>
+        <ObjectProperty IRI="#isDescribedByOperatingWeight"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByMaximumLiftCoefficientAtLanding"/>
+        <ObjectProperty IRI="#isDescribedByCoefficient"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByMaximumLiftCoefficientAtTakeOff"/>
+        <ObjectProperty IRI="#isDescribedByCoefficient"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByMaximumLiftToDragRatio"/>
+        <ObjectProperty IRI="#isDescribedByRatio"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByMaximumPayload"/>
+        <ObjectProperty IRI="#isDescribedByOperatingWeight"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByMaximumRampWeight"/>
+        <ObjectProperty IRI="#isDescribedByOperatingWeight"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByMaximumTakeOffWeight"/>
+        <ObjectProperty IRI="#isDescribedByOperatingWeight"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByMaximumZeroFuelWeight"/>
+        <ObjectProperty IRI="#isDescribedByOperatingWeight"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByMeanAerodynamicChord"/>
+        <ObjectProperty IRI="#isDescribedByChord"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByMinimumFlightWeight"/>
+        <ObjectProperty IRI="#isDescribedByOperatingWeight"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByNumberOfShafts"/>
+        <ObjectProperty IRI="#isDescribedByCount"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByOperatingItemsMass"/>
+        <ObjectProperty IRI="#isDescribedByItemMass"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByOperatingPressureRatio"/>
+        <ObjectProperty IRI="#isDescribedByRatio"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByOperatingWeight"/>
+        <ObjectProperty IRI="#isDescribedByMass"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByOperatingWeightEmpty"/>
+        <ObjectProperty IRI="#isDescribedByOperatingWeight"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByOperationalItemsCenterOfGravity"/>
+        <ObjectProperty IRI="#isDescribedByCenterOfGravity"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByParameter"/>
+        <ObjectProperty abbreviatedIRI="owl:topObjectProperty"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByPassengerCount"/>
+        <ObjectProperty IRI="#isDescribedByCount"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByPlanformArea"/>
+        <ObjectProperty IRI="#isDescribedByArea"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByPlugExposedLength"/>
+        <ObjectProperty IRI="#isDescribedByLength"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByRatio"/>
+        <ObjectProperty IRI="#isDescribedByDimensionlessParameter"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByRatioVolume"/>
+        <ObjectProperty IRI="#isDescribedByRatio"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByReferenceArea"/>
+        <ObjectProperty IRI="#isDescribedByArea"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByReferenceDiameter"/>
+        <ObjectProperty IRI="#isDescribedByDiameter"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByReferenceLength"/>
+        <ObjectProperty IRI="#isDescribedByLength"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByReferenceThicknessToChordRatio"/>
+        <ObjectProperty IRI="#isDescribedByThicknessToChordRatio"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByReferenceThrust"/>
+        <ObjectProperty IRI="#isDescribedByForce"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByRelativeParameter"/>
+        <ObjectProperty IRI="#isDescribedByDimensionlessParameter"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByRootChord"/>
+        <ObjectProperty IRI="#isDescribedByChord"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedBySafetyEquipmentPerPassengerMass"/>
+        <ObjectProperty IRI="#isDescribedByMass"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedBySeaLevelStaticThrust"/>
+        <ObjectProperty IRI="#isDescribedByForce"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedBySeatPitch"/>
+        <ObjectProperty IRI="#isDescribedByDistance"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedBySeatWidth"/>
+        <ObjectProperty IRI="#isDescribedByWidth"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedBySeatsAbreastCount"/>
+        <ObjectProperty IRI="#isDescribedByCount"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedBySingleLandingGearSystemCount"/>
+        <ObjectProperty IRI="#isDescribedByCount"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedBySpan"/>
+        <ObjectProperty IRI="#isDescribedByDistance"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByStructuralCenterOfGravity"/>
+        <ObjectProperty IRI="#isDescribedByCenterOfGravity"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedBySuppliesPerPassengerMass"/>
+        <ObjectProperty IRI="#isDescribedByMass"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByTankCount"/>
+        <ObjectProperty IRI="#isDescribedByCount"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByTaperRatio"/>
+        <ObjectProperty IRI="#isDescribedByRatio"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByThicknessToChordRatio"/>
+        <ObjectProperty IRI="#isDescribedByRatio"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByThicknessToChordRatioAtCenterline"/>
+        <ObjectProperty IRI="#isDescribedByThicknessToChordRatio"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByThicknessToChordRatioAtKink"/>
+        <ObjectProperty IRI="#isDescribedByThicknessToChordRatio"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByThicknessToChordRatioAtRoot"/>
+        <ObjectProperty IRI="#isDescribedByThicknessToChordRatio"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByThicknessToChordRatioAtTip"/>
+        <ObjectProperty IRI="#isDescribedByThicknessToChordRatio"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByThrustForce"/>
+        <ObjectProperty IRI="#isDescribedByAerodynamicForce"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByTipChord"/>
+        <ObjectProperty IRI="#isDescribedByChord"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByToiletCount"/>
+        <ObjectProperty IRI="#isDescribedByCount"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByTotalAdjustmentsMass"/>
+        <ObjectProperty IRI="#isDescribedByItemMass"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByTotalAirConditioningMass"/>
+        <ObjectProperty IRI="#isDescribedByItemMass"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByTotalElectricalSystemMass"/>
+        <ObjectProperty IRI="#isDescribedByItemMass"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByTotalEquipmentMass"/>
+        <ObjectProperty IRI="#isDescribedByItemMass"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByTotalFurnishingsMass"/>
+        <ObjectProperty IRI="#isDescribedByItemMass"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByTotalHydraulicMass"/>
+        <ObjectProperty IRI="#isDescribedByItemMass"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByTotalInstrumentsMass"/>
+        <ObjectProperty IRI="#isDescribedByItemMass"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByTotalNacellesMass"/>
+        <ObjectProperty IRI="#isDescribedByItemMass"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByTotalPassengerCount"/>
+        <ObjectProperty IRI="#isDescribedByCount"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByTotalPylonsMass"/>
+        <ObjectProperty IRI="#isDescribedByItemMass"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByTotalStructureMass"/>
+        <ObjectProperty IRI="#isDescribedByItemMass"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByTotalSurfaceControlsMass"/>
+        <ObjectProperty IRI="#isDescribedByItemMass"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByTotalSystemsMass"/>
+        <ObjectProperty IRI="#isDescribedByItemMass"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByTrack"/>
+        <ObjectProperty IRI="#isDescribedByDistance"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByTrolleyCount"/>
+        <ObjectProperty IRI="#isDescribedByCount"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByTyreDiameter"/>
+        <ObjectProperty IRI="#isDescribedByDiameter"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByTyreWidth"/>
+        <ObjectProperty IRI="#isDescribedByWidth"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByUsableFuelCapacityCorrection"/>
+        <ObjectProperty IRI="#isDescribedByRelativeParameter"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByVolume"/>
+        <ObjectProperty IRI="#isDescribedByParameter"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByWettedArea"/>
+        <ObjectProperty IRI="#isDescribedByArea"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByWheelBase"/>
+        <ObjectProperty IRI="#isDescribedByBase"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByWheelCount"/>
+        <ObjectProperty IRI="#isDescribedByCount"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByWheelTrack"/>
+        <ObjectProperty IRI="#isDescribedByTrack"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByWidth"/>
+        <ObjectProperty IRI="#isDescribedByDistance"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByWingSweep"/>
+        <ObjectProperty IRI="#isDescribedByAngle"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDescribedByZeroFuelWeight"/>
+        <ObjectProperty IRI="#isDescribedByOperatingWeight"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDirectPartOf"/>
+        <ObjectProperty IRI="#isPartOf"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isDoorOf"/>
+        <ObjectProperty IRI="#isDirectPartOf"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isElectricalPowerConnectedTo"/>
+        <ObjectProperty IRI="#isPowerConnectedTo"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isElevatorOf"/>
+        <ObjectProperty IRI="#isDirectPartOf"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isEngineOf"/>
+        <ObjectProperty IRI="#isDirectPartOf"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isFinOf"/>
+        <ObjectProperty IRI="#isDirectPartOf"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isForwardNonConstantSectionOf"/>
+        <ObjectProperty IRI="#isDirectPartOf"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isFuelTankOf"/>
+        <ObjectProperty IRI="#isDirectPartOf"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isFuselageOf"/>
+        <ObjectProperty IRI="#isDirectPartOf"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isHorizontalStabilizerOf"/>
+        <ObjectProperty IRI="#isDirectPartOf"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isMainLandingGearOf"/>
+        <ObjectProperty IRI="#isDirectPartOf"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isMechanicalPowerConnectedTo"/>
+        <ObjectProperty IRI="#isPowerConnectedTo"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isNacelleOf"/>
+        <ObjectProperty IRI="#isDirectPartOf"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isNoseLandingGearOf"/>
+        <ObjectProperty IRI="#isDirectPartOf"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isPowerConnectedTo"/>
+        <ObjectProperty IRI="#isConnectedTo"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isPropulsionOf"/>
+        <ObjectProperty IRI="#isDirectPartOf"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isPylonOf"/>
+        <ObjectProperty IRI="#isDirectPartOf"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isRudderOf"/>
+        <ObjectProperty IRI="#isDirectPartOf"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isShaftPowerConnectedTo"/>
+        <ObjectProperty IRI="#isMechanicalPowerConnectedTo"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isStabilatorOf"/>
+        <ObjectProperty IRI="#isDirectPartOf"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isStructurallyConnectedTo"/>
+        <ObjectProperty IRI="#isConnectedTo"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isTailplaneOf"/>
+        <ObjectProperty IRI="#isDirectPartOf"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isTankSystemOf"/>
+        <ObjectProperty IRI="#isDirectPartOf"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isVerticalStabilizerOf"/>
+        <ObjectProperty IRI="#isDirectPartOf"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isWingOf"/>
+        <ObjectProperty IRI="#isDirectPartOf"/>
+    </SubObjectPropertyOf>
+    <SubObjectPropertyOf>
+        <ObjectProperty IRI="#isWingletOf"/>
+        <ObjectProperty IRI="#isDirectPartOf"/>
+    </SubObjectPropertyOf>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#hasAftNonConstantSection"/>
+        <ObjectProperty IRI="#isAftNonConstantSectionOf"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#hasCabin"/>
+        <ObjectProperty IRI="#isCabinOf"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#hasCabinSection"/>
+        <ObjectProperty IRI="#isCabinSectionOf"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#hasConstantSection"/>
+        <ObjectProperty IRI="#isConstantSectionOf"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#hasDirectPart"/>
+        <ObjectProperty IRI="#isDirectPartOf"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#hasElevator"/>
+        <ObjectProperty IRI="#isElevatorOf"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#hasEngine"/>
+        <ObjectProperty IRI="#isEngineOf"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#hasFin"/>
+        <ObjectProperty IRI="#isFinOf"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#hasForwardNonConstantSection"/>
+        <ObjectProperty IRI="#isForwardNonConstantSectionOf"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#hasFuelTank"/>
+        <ObjectProperty IRI="#isFuelTankOf"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#hasFuselage"/>
+        <ObjectProperty IRI="#isFuselageOf"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#hasHorizontalStabilizer"/>
+        <ObjectProperty IRI="#isHorizontalStabilizerOf"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#hasMainLandingGear"/>
+        <ObjectProperty IRI="#isMainLandingGearOf"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#hasNacelle"/>
+        <ObjectProperty IRI="#isNacelleOf"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#hasNoseLandingGear"/>
+        <ObjectProperty IRI="#isNoseLandingGearOf"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#hasPart"/>
+        <ObjectProperty IRI="#isPartOf"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#hasPropulsion"/>
+        <ObjectProperty IRI="#isPropulsionOf"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#hasPylon"/>
+        <ObjectProperty IRI="#isPylonOf"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#hasRudder"/>
+        <ObjectProperty IRI="#isRudderOf"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#hasStabilator"/>
+        <ObjectProperty IRI="#isStabilatorOf"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#hasTailplane"/>
+        <ObjectProperty IRI="#isTailplaneOf"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#hasTankSystem"/>
+        <ObjectProperty IRI="#isTankSystemOf"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#hasVerticalStabilizer"/>
+        <ObjectProperty IRI="#isVerticalStabilizerOf"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#hasWing"/>
+        <ObjectProperty IRI="#isWingOf"/>
+    </InverseObjectProperties>
+    <InverseObjectProperties>
+        <ObjectProperty IRI="#hasWinglet"/>
+        <ObjectProperty IRI="#isWingletOf"/>
+    </InverseObjectProperties>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#aircraftMission"/>
+    </FunctionalObjectProperty>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#aircraftProcess"/>
+    </FunctionalObjectProperty>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#isDirectPartOf"/>
+    </FunctionalObjectProperty>
+    <FunctionalObjectProperty>
+        <ObjectProperty IRI="#process"/>
+    </FunctionalObjectProperty>
+    <InverseFunctionalObjectProperty>
+        <ObjectProperty IRI="#hasDirectPart"/>
+    </InverseFunctionalObjectProperty>
+    <SymmetricObjectProperty>
+        <ObjectProperty IRI="#isConnectedTo"/>
+    </SymmetricObjectProperty>
+    <SymmetricObjectProperty>
+        <ObjectProperty IRI="#isStructurallyConnectedTo"/>
+    </SymmetricObjectProperty>
+    <AsymmetricObjectProperty>
+        <ObjectProperty IRI="#hasDirectAspect"/>
+    </AsymmetricObjectProperty>
+    <AsymmetricObjectProperty>
+        <ObjectProperty IRI="#hasDirectPart"/>
+    </AsymmetricObjectProperty>
+    <AsymmetricObjectProperty>
+        <ObjectProperty IRI="#isDescribedByParameter"/>
+    </AsymmetricObjectProperty>
+    <AsymmetricObjectProperty>
+        <ObjectProperty IRI="#isDirectPartOf"/>
+    </AsymmetricObjectProperty>
+    <AsymmetricObjectProperty>
+        <ObjectProperty IRI="#state"/>
+    </AsymmetricObjectProperty>
+    <TransitiveObjectProperty>
+        <ObjectProperty IRI="#hasAspect"/>
+    </TransitiveObjectProperty>
+    <TransitiveObjectProperty>
+        <ObjectProperty IRI="#hasPart"/>
+    </TransitiveObjectProperty>
+    <TransitiveObjectProperty>
+        <ObjectProperty IRI="#isPartOf"/>
+    </TransitiveObjectProperty>
+    <IrreflexiveObjectProperty>
+        <ObjectProperty IRI="#hasDirectAspect"/>
+    </IrreflexiveObjectProperty>
+    <IrreflexiveObjectProperty>
+        <ObjectProperty IRI="#hasDirectPart"/>
+    </IrreflexiveObjectProperty>
+    <IrreflexiveObjectProperty>
+        <ObjectProperty IRI="#isDescribedByParameter"/>
+    </IrreflexiveObjectProperty>
+    <IrreflexiveObjectProperty>
+        <ObjectProperty IRI="#isDirectPartOf"/>
+    </IrreflexiveObjectProperty>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#aircraftProcess"/>
+        <Class IRI="#Parameter"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasAftNonConstantSection"/>
+        <Class IRI="#Fuselage"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasAspect"/>
+        <ObjectUnionOf>
+            <Class IRI="#Aircraft"/>
+            <Class IRI="#AircraftAspect"/>
+        </ObjectUnionOf>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasCabin"/>
+        <Class IRI="#Fuselage"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasCabinSection"/>
+        <Class IRI="#Cabin"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasConstantSection"/>
+        <Class IRI="#Fuselage"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasElevator"/>
+        <Class IRI="#Tailplane"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasEngine"/>
+        <Class IRI="#Aircraft"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasEngineMember"/>
+        <Class IRI="#PropulsionGroup"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasFin"/>
+        <Class IRI="#Aircraft"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasForwardNonConstantSection"/>
+        <Class IRI="#Fuselage"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasFuelTank"/>
+        <Class IRI="#TankSystem"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasFuselage"/>
+        <Class IRI="#Aircraft"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasHorizontalStabilizer"/>
+        <Class IRI="#Tailplane"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasLandingGearSystem"/>
+        <ObjectUnionOf>
+            <Class IRI="#MainLandingGear"/>
+            <Class IRI="#NoseLandingGear"/>
+        </ObjectUnionOf>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasMainLandingGear"/>
+        <Class IRI="#Aircraft"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasMainLandingGearMember"/>
+        <Class IRI="#UndercarriageGroup"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasNacelle"/>
+        <Class IRI="#Engine"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasNoseLandingGear"/>
+        <Class IRI="#Aircraft"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasNoseLandingGearMember"/>
+        <Class IRI="#UndercarriageGroup"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasPropulsion"/>
+        <Class IRI="#Aircraft"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasPropulsionGroupAspect"/>
+        <Class IRI="#Aircraft"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasPylon"/>
+        <Class IRI="#Engine"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasRudder"/>
+        <Class IRI="#Fin"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasStabilator"/>
+        <Class IRI="#Tailplane"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasTailplane"/>
+        <Class IRI="#Aircraft"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasTankGroupAspect"/>
+        <Class IRI="#Aircraft"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasTankSystem"/>
+        <Class IRI="#AircraftComponent"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasTankSystemMember"/>
+        <Class IRI="#TankGroup"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasUndercarriageGroupAspect"/>
+        <Class IRI="#Aircraft"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasVerticalStabilizer"/>
+        <Class IRI="#Fin"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasWing"/>
+        <Class IRI="#Aircraft"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#hasWinglet"/>
+        <Class IRI="#Wing"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#process"/>
+        <Class IRI="#Parameter"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyDomain>
+        <ObjectProperty IRI="#state"/>
+        <Class IRI="#Parameter"/>
+    </ObjectPropertyDomain>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#aircraftProcess"/>
+        <Class IRI="#AircraftProcess"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasAftNonConstantSection"/>
+        <Class IRI="#AftNonConstantSection"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasAspect"/>
+        <ObjectUnionOf>
+            <Class IRI="#AircraftAspect"/>
+            <Class IRI="#AircraftComponent"/>
+        </ObjectUnionOf>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasCabin"/>
+        <Class IRI="#Cabin"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasCabinSection"/>
+        <Class IRI="#CabinSection"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasConstantSection"/>
+        <Class IRI="#ConstantSection"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasElevator"/>
+        <Class IRI="#Elevator"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasEngine"/>
+        <Class IRI="#Engine"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasEngineMember"/>
+        <Class IRI="#Engine"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasFin"/>
+        <Class IRI="#Fin"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasForwardNonConstantSection"/>
+        <Class IRI="#ForwardNonConstantSection"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasFuelTank"/>
+        <Class IRI="#FuelTank"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasFuselage"/>
+        <Class IRI="#Fuselage"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasHorizontalStabilizer"/>
+        <Class IRI="#HorizontalStabilizer"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasLandingGearSystem"/>
+        <Class IRI="#SingleLandingGearSystem"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasMainLandingGear"/>
+        <Class IRI="#MainLandingGear"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasMainLandingGearMember"/>
+        <Class IRI="#MainLandingGear"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasNacelle"/>
+        <Class IRI="#Nacelle"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasNoseLandingGear"/>
+        <Class IRI="#NoseLandingGear"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasNoseLandingGearMember"/>
+        <Class IRI="#NoseLandingGear"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasPropulsionGroupAspect"/>
+        <Class IRI="#PropulsionGroup"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasPylon"/>
+        <Class IRI="#Pylon"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasRudder"/>
+        <Class IRI="#Rudder"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasStabilator"/>
+        <Class IRI="#Stabilator"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasTailplane"/>
+        <Class IRI="#Tailplane"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasTankGroupAspect"/>
+        <Class IRI="#TankGroup"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasTankSystem"/>
+        <Class IRI="#TankSystem"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasTankSystemMember"/>
+        <Class IRI="#TankSystem"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasUndercarriageGroupAspect"/>
+        <Class IRI="#UndercarriageGroup"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasVerticalStabilizer"/>
+        <Class IRI="#VerticalStabilizer"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasWing"/>
+        <Class IRI="#Wing"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#hasWinglet"/>
+        <Class IRI="#Winglet"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#isDescribedByAngle"/>
+        <Class IRI="#AngleParameter"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#isDescribedByArea"/>
+        <Class IRI="#AreaParameter"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#isDescribedByDensity"/>
+        <Class IRI="#DensityParameter"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#isDescribedByDimensionlessParameter"/>
+        <Class IRI="#DimensionlessParameter"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#isDescribedByEnergyDensity"/>
+        <Class IRI="#EnergyDensityParameter"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#isDescribedByForce"/>
+        <Class IRI="#ForceParameter"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#isDescribedByMass"/>
+        <Class IRI="#MassParameter"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#isDescribedByVolume"/>
+        <Class IRI="#VolumeParameter"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#process"/>
+        <Class IRI="#Process"/>
+    </ObjectPropertyRange>
+    <ObjectPropertyRange>
+        <ObjectProperty IRI="#state"/>
+        <Class IRI="#State"/>
+    </ObjectPropertyRange>
+    <DisjointObjectProperties>
+        <ObjectProperty IRI="#process"/>
+        <ObjectProperty IRI="#state"/>
+    </DisjointObjectProperties>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#AftNonConstantSection</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">the &quot;tail&quot; of the aircraft</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Aircraft</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">A typical fixed wing passenger aircraft, i.e. an A320
+Its main components are the fuselage, wing, horizontally and vertically stabilizing and control structures (tailplane and fin), propulsion system and undercarriage.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#AircraftAspect</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">an aircraft component group is not a component in itself, but comprises several components into a group, i.e. it is somewhat like a perpective / view on an aircraft regarding certain aspects.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#AircraftAspect</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">components in a component group do not follow a strict part-of relation to that group, instead they follow a less strict belongs-to relation (no exiistential dependency, i.e. if a group is &quot;dismissed&quot;, the components that belong to it may still continue to exist</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#AircraftComponent</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">components which build up an aircraft;
+top-down classification, with only as much detail as currently needed</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#ConstantSection</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">the middle part of the fuselage between the &quot;nose&quot; and the &quot;tail&quot; that has a constant form</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#DualMountedMainLandingGear</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">a MainLandingGear that is mounted to the wing and to the fuselage (e.g. A340, A380)</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Fin</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">the vertical stabilizing structure of a plane, constisting of the fixed vertical stabilizer and the rudder (control structure for &quot;yaw&quot;)</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#ForwardNonConstantSection</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">the &quot;nose&quot; of the aircraft</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Pylon</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">a structure to connect an engine to the wing or the fuselage</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#SingleLandingGearSystem</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">a single landing gear system, i.e. a strut with damper and its wheels;
+a typical minimal nose landing gear has a single landing gear system, the main landing gear of an A320 has 2 single landing gear systems</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Stabilator</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">a moveable horizontal stabilizer that also functions as an elevator</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#Tailplane</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">the horizontally stabilizing lifting surface at the tail of an aircraft</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:seeAlso"/>
+        <IRI>#Tailplane</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#anyURI">http://en.wikipedia.org/wiki/Horizontal_stabiliser</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#TankSystem</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">a TankSystem can be a part of other aircraft components, thus TankSystemSubComponent may not be disjoint with other sub components (or at least only with components it will never be a part of)</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#TankSystem</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">a tank group that consist of several directly connected fuel tanks in a component</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#TankSystemSubComponent</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">a TankSystem can be a part of other aircraft components, thus TankSystemSubComponent may not be disjoint with other sub components (or at least only with components it will never be a part of)</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#hasAspect</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">building property for aircraft component groups</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#hasDirectAspect</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">not inverse functional, since a component may be member of several differnt groups</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#hasDirectPart</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">inverse of &quot;isDirectPartOf&quot;</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#hasPart</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">inverse of &quot;isPartOf&quot;</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:seeAlso"/>
+        <IRI>#hasPart</IRI>
+        <IRI>#isPartOf</IRI>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#hasTankSystem</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">intentionally less restrictive regarding the domain, since several different components can have a TankGroup</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#isConnectedTo</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">defines a direct connection of one thing to another</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty IRI="http://purl.org/dc/elements/1.1/source"/>
+        <IRI>#isDescribedByAerodynamicCenter</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">PACE</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#isDescribedByAerodynamicCenter</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">describes the aerodynamic center relative to an internal coordinate system</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty IRI="http://purl.org/dc/elements/1.1/source"/>
+        <IRI>#isDescribedByAuxiliaryPowerUnitMass</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">PACE</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#isDescribedByBasicManufacturerWeightEmpty</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">@synonym: basic empty weight (bew)</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty IRI="http://purl.org/dc/elements/1.1/source"/>
+        <IRI>#isDescribedByBodysideYPosition</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">describes the position of a component relative to an internal coordinate system on the y axis (parallel to the fuselage length)</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty IRI="http://purl.org/dc/elements/1.1/source"/>
+        <IRI>#isDescribedByCabinChangesMass</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">SIMCAD</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty IRI="http://purl.org/dc/elements/1.1/source"/>
+        <IRI>#isDescribedByCenterOfGravity</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">PACE</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#isDescribedByCenterOfGravity</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">describes the center of gravity relative to an internal coordinate system (in percent)</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty IRI="http://purl.org/dc/elements/1.1/source"/>
+        <IRI>#isDescribedByContainerPalletMass</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">SIMCAD</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty IRI="http://purl.org/dc/elements/1.1/source"/>
+        <IRI>#isDescribedByDeliverableWeightEmpty</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">PACE</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty IRI="http://purl.org/dc/elements/1.1/source"/>
+        <IRI>#isDescribedByDryEngineMass</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">PACE</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#isDescribedByEquipmentCenterOfGravity</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">the center of gravity resulting from the equipment, i.e. furnishings, electrical systems etc.</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty IRI="http://purl.org/dc/elements/1.1/source"/>
+        <IRI>#isDescribedByFanCowlingLength</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">PACE</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#isDescribedByFanXPosition</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">describes the fan position of an engine relative to an internal coordinate system; the x axis runs orthogonal to the fuselage, &quot;parallel&quot; to the wings</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty IRI="http://purl.org/dc/elements/1.1/source"/>
+        <IRI>#isDescribedByFloorZOffset</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">PACE</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#isDescribedByFloorZOffset</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">the offset of the floor relative to the centerline of the fuselage</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#isDescribedByFuelCapacity</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">the maximum fuel capacity</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#isDescribedByFuelVolume</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">the loaded fuel volume</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty IRI="http://purl.org/dc/elements/1.1/source"/>
+        <IRI>#isDescribedByGasGeneratorExposedLength</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">PACE</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty IRI="http://purl.org/dc/elements/1.1/source"/>
+        <IRI>#isDescribedByGasGeneratorLength</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">PACE</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#isDescribedByGeometricMeanChord</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">@synonym: standard mean chord (smc)</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty IRI="http://purl.org/dc/elements/1.1/source"/>
+        <IRI>#isDescribedByKinkChord</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">PACE</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#isDescribedByKinkChord</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">unnamed &quot;chord&quot; in the PACE model</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#isDescribedByKinkYPosition</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">describes the position of the kink of a wing relative to an internal coordinate system; the y axis runs parallel to the fuselage</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty IRI="http://purl.org/dc/elements/1.1/source"/>
+        <IRI>#isDescribedByLengthToYKink</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">PACE</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#isDescribedByLengthToYKink</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">described the length of the distance to the kink of a wing from the root of the wing</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty IRI="http://purl.org/dc/elements/1.1/source"/>
+        <IRI>#isDescribedByLiftingArea</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">PACE (as further unnamed &quot;Area&quot;)</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#isDescribedByLiftingArea</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">the projected area of a lifting surface</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#isDescribedByMaximumPayload</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">describes the maximum payload that the structure can handle</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#isDescribedByOperatingPressureRatio</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">@synonym: jet engine compression ratio</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#isDescribedByOperationalItemsCenterOfGravity</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">the center of gravity resulting from the operational items</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty IRI="http://purl.org/dc/elements/1.1/source"/>
+        <IRI>#isDescribedByPlanformArea</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">PACE</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty IRI="http://purl.org/dc/elements/1.1/source"/>
+        <IRI>#isDescribedByPlugExposedLength</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">PACE</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty IRI="http://purl.org/dc/elements/1.1/source"/>
+        <IRI>#isDescribedByRatioVolume</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">SIMCAD model: volume (dimensionless)</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty IRI="http://purl.org/dc/elements/1.1/source"/>
+        <IRI>#isDescribedByReferenceThrust</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">PACE</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty IRI="http://purl.org/dc/elements/1.1/source"/>
+        <IRI>#isDescribedBySafetyEquipmentPerPassengerMass</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">PACE</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty IRI="http://purl.org/dc/elements/1.1/source"/>
+        <IRI>#isDescribedBySingleLandingGearSystemCount</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">PACE</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#isDescribedByStructuralCenterOfGravity</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">the center of gravity resulting from the empty structural airframe</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty IRI="http://purl.org/dc/elements/1.1/source"/>
+        <IRI>#isDescribedBySuppliesPerPassengerMass</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">PACE</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty IRI="http://purl.org/dc/elements/1.1/source"/>
+        <IRI>#isDescribedByTotalAdjustmentsMass</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">SIMCAD</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty IRI="http://purl.org/dc/elements/1.1/source"/>
+        <IRI>#isDescribedByTotalAirConditioningMass</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">PACE</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty IRI="http://purl.org/dc/elements/1.1/source"/>
+        <IRI>#isDescribedByTotalElectricalSystemMass</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">PACE</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty IRI="http://purl.org/dc/elements/1.1/source"/>
+        <IRI>#isDescribedByTotalHydraulicMass</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">PACE</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty IRI="http://purl.org/dc/elements/1.1/source"/>
+        <IRI>#isDescribedByTotalInstrumentsMass</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">PACE</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty IRI="http://purl.org/dc/elements/1.1/source"/>
+        <IRI>#isDescribedByTotalSurfaceControlsMass</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">PACE</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty IRI="http://purl.org/dc/elements/1.1/source"/>
+        <IRI>#isDescribedByUsableFuelCapacityCorrection</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">PACE</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty IRI="http://purl.org/dc/elements/1.1/source"/>
+        <IRI>#isDescribedByZeroFuelWeight</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">PACE</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#isDirectPartOf</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">defines a direct part-of relationship to one other Thing</Literal>
+    </AnnotationAssertion>
+    <AnnotationAssertion>
+        <AnnotationProperty abbreviatedIRI="rdfs:comment"/>
+        <IRI>#isPartOf</IRI>
+        <Literal datatypeIRI="http://www.w3.org/2001/XMLSchema#string">defines a transitive part-of relationship</Literal>
+    </AnnotationAssertion>
+</Ontology>
+
+
+
+<!-- Generated by the OWL API (version 4.2.5.20160517-0735) https://github.com/owlcs/owlapi -->
+

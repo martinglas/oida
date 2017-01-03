@@ -10,7 +10,7 @@ public class TestPluginTest {
 	
 	@Test
 	public void test(OIDAOntologyService ontologyService) {
-		//ontologyService.initialize(URI.createURI("http://model.owl"));
+		
 		TotalObserver observ2 = new TotalObserver();
         observ2.doStuff();
 		fail("Not yet implemented");
