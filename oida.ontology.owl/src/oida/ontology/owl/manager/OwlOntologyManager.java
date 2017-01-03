@@ -401,7 +401,7 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 
 	@Override
 	public OntologyClass getClass(String name) {
-		long i=ontology.classesInSignature().count();
+		
 		Optional<OWLClass> opt = ontology.classesInSignature().filter(cl -> cl.getIRI().toString().substring(cl.getIRI().toString().indexOf(HASHTAG) + 1).equals(name)).findFirst();
 
 		if (opt.isPresent()) {
