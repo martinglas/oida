@@ -9,8 +9,8 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import org.semanticweb.owlapi.apibinding.OWLManager;
-import org.semanticweb.owlapi.formats.OWLXMLDocumentFormat;
 import org.semanticweb.owlapi.formats.PrefixDocumentFormat;
+import org.semanticweb.owlapi.formats.RDFXMLDocumentFormat;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLDataFactory;
@@ -29,33 +29,18 @@ import oida.ontology.manager.OntologyManagerException;
 import oida.ontologyMgr.LocalOntologyEntry;
 
 public class OwlOntologyManager extends AbstractOntologyManager {
+	public static String STR_EMPTY = "";
 	public static String HASHTAG = "#";
 
 	private HashMap<OntologyItem, OWLObject> internal2apiMap;
 	private HashMap<OWLObject, OntologyItem> api2internalMap;
-
+	
 	private OWLOntologyManager manager;
 	private OWLOntology ontology;
 	private OWLDataFactory factory;
 	private PrefixDocumentFormat prefixMgr;
 
 	//private OWLReasoner reasoner;
-
-	public void addPrefix(String prefixName, String prefix, boolean setDefault) {
-		String prefInternal = prefix;
-
-		if (!prefInternal.endsWith(HASHTAG))
-			prefInternal = prefInternal.concat(HASHTAG);
-
-		if (setDefault)
-			prefixMgr.setDefaultPrefix(prefInternal);
-		else
-			prefixMgr.setPrefix(prefixName, prefInternal);
-	}
-
-	public void addPrefix(String prefixName, String prefix) {
-		addPrefix(prefixName, prefix, false);
-	}
 
 	OwlOntologyManager() {
 		internal2apiMap = new HashMap<OntologyItem, OWLObject>();
@@ -75,18 +60,6 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 	// manager.getIRIMappers().add(new SimpleIRIMapper(IRI.create(iri),
 	// IRI.create(local)));
 	// }
-	//
-	//
-	//
-	// public void declareAsSubClass(String subClassName, String superClass) {
-	// OWLClass subClass = getClassByName(subClassName);
-	//
-	// if (subClass == null)
-	// subClass = createClassInternal(subClassName);
-	//
-	// declareAsSubClassInternal(subClass, getClassByName(superClass));
-	// }
-	//
 	// public String[] getDeclaredClasses() {
 	// return ontology.classesInSignature().map(c ->
 	// c.getIRI().toString()).collect(Collectors.toList()).toArray(new
@@ -130,15 +103,7 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 	// restriction));
 	// }
 	//
-	// public void createIndividualOfClass(String individualName, String
-	// className) {
-	// OWLNamedIndividual individual =
-	// factory.getOWLNamedIndividual(individualName, prefixMgr);
-	//
-	// manager.addAxiom(ontology,
-	// factory.getOWLClassAssertionAxiom(getClassByName(className),
-	// individual));
-	// }
+
 	//
 	// public String[] getIndividualsOfClass(String className) {
 	// ArrayList<String> ret = new ArrayList<String>();
@@ -277,16 +242,6 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 	// ontology.objectPropertyAssertionAxioms(getIndividualByName(individualName)).collect(Collectors.toList()).toArray(new
 	// OWLObjectPropertyAssertionAxiom[0]);
 	// }
-	//
-	//
-	// private OWLClass createClassInternal(String name) {
-	// OWLClass newClass = factory.getOWLClass(name, prefixMgr);
-	// OWLAxiom declareNewClass = factory.getOWLDeclarationAxiom(newClass);
-	//
-	// manager.addAxiom(ontology, declareNewClass);
-	//
-	// return newClass;
-	// }
 
 	@Override
 	public Ontology createOntology(LocalOntologyEntry entry) throws OntologyManagerException {
@@ -294,8 +249,8 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 		
 		try {
 			ontology = manager.createOntology();
-			factory = manager.getOWLDataFactory();
-			prefixMgr = new OWLXMLDocumentFormat();
+			factory = manager.getOWLDataFactory();			
+			prefixMgr = new RDFXMLDocumentFormat();
 
 			Ontology o = OntologyFactory.eINSTANCE.createOntology();
 			setOntology(o);
@@ -351,7 +306,7 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 				
 				return o;
 			} catch (Exception e) {
-				throw new OntologyManagerException("Error while loading ontology from file '" + file.getName() + "'");
+				throw new OntologyManagerException("Error while loading ontology from file '" + file.getName() + "': " + e.getMessage(), e);
 			}	
 		} else {
 			return createOntology(entry);
@@ -360,48 +315,99 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 
 	@Override
 	public void saveOntology() throws OntologyManagerException {
-		File file = new File(getOntologyEntry().getPath());
+		File file = new File(getOntologyEntry().getPath() + getOntologyEntry().getFile());
 		
 		try { 
 			FileOutputStream outputStream = new FileOutputStream(file);
-			manager.saveOntology(ontology, outputStream);
+			manager.saveOntology(ontology, prefixMgr, outputStream);
 		} catch (FileNotFoundException e) {
-			throw new OntologyManagerException("Error while saving ontology to file '" + file.getName() + "'", e);
+			throw new OntologyManagerException("Error while saving ontology to file '" + file.getName() + "': " + e.getMessage(), e);
 		} catch (Exception e) {
-			throw new OntologyManagerException("Error while saving ontology to file '" + file.getName() + "'");
+			throw new OntologyManagerException("Error while saving ontology to file '" + file.getName() + "': " + e.getMessage(), e);
 		}
-			
-//		} catch (OWLOntologyStorageException e) {
-//			throw new OntologyManagerException("Error while saving ontology to file '" + file.getName() + "'", e);
-//		}
+	}
+	
+	@Override
+	public void addNamespace(String prefixName, String prefix) {
+		addNamespace(prefixName, prefix, false);
+	}
+	
+	@Override
+	public void addNamespace(String prefixName, String prefix, boolean setDefault) {
+		String prefInternal = prefix;
+
+		if (!prefInternal.endsWith(HASHTAG))
+			prefInternal = prefInternal.concat(HASHTAG);
+
+		prefixMgr.setPrefix(prefixName, prefInternal);
+		
+		if (setDefault)
+			prefixMgr.setDefaultPrefix(prefInternal);
+	}
+	
+	@Override
+	public boolean isNamespaceExisting(String prefix) {
+		return prefixMgr.containsPrefixMapping(prefix);
+	}
+	
+	@Override
+	public String getNamespace(String prefix) {
+		if (isNamespaceExisting(prefix))
+			return prefixMgr.getPrefix(prefix);
+		else
+			return STR_EMPTY;
 	}
 
+	
 	@Override
 	public OntologyClass createClass(String name) {
-		OWLClass newClass = factory.getOWLClass(name, prefixMgr);
-		OWLAxiom declareNewClass = factory.getOWLDeclarationAxiom(newClass);
-
-		manager.addAxiom(ontology, declareNewClass);
-
-		OntologyClass clazz = OntologyFactory.eINSTANCE.createOntologyClass();
-
-		// TODO copy properties
-
-		toMap(newClass, clazz);
-
-		return clazz;
+		return createClass(name, "");
 	}
 
 	@Override
 	public OntologyClass createClass(String name, String prefix) {
-		// TODO Auto-generated method stub
-		return null;
+		String fullClassName = buildFullEntityString(name, prefix);
+
+		OWLClass newClass = factory.getOWLClass(fullClassName, prefixMgr);
+		OWLAxiom declareNewClass = factory.getOWLDeclarationAxiom(newClass);
+		
+		manager.addAxiom(ontology, declareNewClass);
+		
+		OntologyClass clazz = OntologyFactory.eINSTANCE.createOntologyClass();
+		clazz.setName(name);
+		
+		if (!prefix.isEmpty())
+			clazz.setPrefix(prefixMgr.getPrefix(prefix));
+		
+		clazz.setContainingOntology(getOntology());
+		
+		toMap(newClass, clazz);
+		
+		return clazz;
 	}
 
 	@Override
-	public OntologyClass getClass(String name) {
-		Optional<OWLClass> opt = ontology.classesInSignature().filter(cl -> cl.getIRI().toString().substring(cl.getIRI().toString().indexOf(HASHTAG) + 1).equals(name)).findFirst();
+	public void assignSubClassToSuperClass(OntologyClass subClass, OntologyClass superClass) {
+		manager.addAxiom(ontology, factory.getOWLSubClassOfAxiom(getOWLClass(subClass), getOWLClass(superClass)));
+		
+		subClass.getSuperClasses().add(superClass);
+		superClass.getSubClasses().add(subClass);
+	}
 
+	@Override
+	public OntologyClass getClass(final String name) {
+		return getClass(name, STR_EMPTY);
+	}
+
+	@Override
+	public OntologyClass getClass(final String name, final String prefix) {
+		Optional<OWLClass> opt;
+		
+		if (!prefix.isEmpty())
+			opt = ontology.classesInSignature().filter(cl -> cl.getIRI().toString().equals(prefix + ":" + name)).findFirst();
+		else
+			opt = ontology.classesInSignature().filter(cl -> cl.getIRI().toString().equals(name)).findFirst();
+			
 		if (opt.isPresent()) {
 			return (OntologyClass)api2internalMap.get(opt.get());
 		}
@@ -410,37 +416,123 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 	}
 
 	@Override
-	public OntologyClass getClass(String name, String prefix) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
 	public Stream<OntologyClass> getAllClasses() {
-		// TODO Auto-generated method stub
-		return null;
+		return api2internalMap.values().stream().filter(obj -> obj instanceof OntologyClass).map(c -> (OntologyClass)c);
 	}
 
 	@Override
-	public OntologyIndividual createIndividual(String name) {
-		// TODO Auto-generated method stub
-		return null;
+	public OntologyIndividual createIndividual(final String name) {
+		return createIndividual(name, STR_EMPTY);
 	}
 
 	@Override
-	public OntologyIndividual createIndividual(String name, String prefix) {
-		// TODO Auto-generated method stub
-		return null;
+	public OntologyIndividual createIndividual(final String name, final String prefix) {
+		String fullIndividualName = buildFullEntityString(name, prefix);
+		
+		OWLNamedIndividual individual = factory.getOWLNamedIndividual(fullIndividualName, prefixMgr);
+		OWLAxiom declareNewIndividual = factory.getOWLDeclarationAxiom(individual);
+		
+		manager.addAxiom(ontology, declareNewIndividual);
+		
+		OntologyIndividual ind = OntologyFactory.eINSTANCE.createOntologyIndividual();
+		ind.setName(name);
+		
+		if (!prefix.isEmpty())
+			ind.setPrefix(prefixMgr.getPrefix(prefix));
+		
+		ind.setContainingOntology(getOntology());
+		
+		toMap(individual, ind);
+		
+		return ind;
 	}
 
 	@Override
 	public void assignIndividualToClass(OntologyIndividual individual, OntologyClass clazz) {
-		// TODO Auto-generated method stub
-
+		manager.addAxiom(ontology, factory.getOWLClassAssertionAxiom(getOWLClass(clazz), getOWLIndividual(individual)));
+		
+		clazz.getIndividuals().add(individual);
+		individual.getTypes().add(clazz);
+	}
+	
+	@Override
+	public OntologyIndividual getIndividual(String name) {
+		return getIndividual(name, STR_EMPTY);
 	}
 
+	@Override
+	public OntologyIndividual getIndividual(String name, String prefix) {
+		Optional<OWLNamedIndividual> opt;
+		
+		if (!prefix.isEmpty())
+			opt = ontology.individualsInSignature().filter(ind -> ind.getIRI().toString().equals(prefix + ":" + name)).findFirst();
+		else
+			opt = ontology.individualsInSignature().filter(ind -> ind.getIRI().toString().equals(name)).findFirst();
+			
+		if (opt.isPresent()) {
+			return (OntologyIndividual)api2internalMap.get(opt.get());
+		}
+
+		return null;
+	}
+
+	@Override
+	public Stream<OntologyIndividual> getAllIndividuals() {
+		return api2internalMap.values().stream().filter(obj -> obj instanceof OntologyIndividual).map(i -> (OntologyIndividual)i);
+	}
+
+	/**
+	 * Internal helper method to retrieve an OWLClass of the internal map.
+	 * 
+	 * @param c The OntologyClass object, for which the appropriate OWL-object should be found.
+	 * @return The OWLClass object, or null if it is not existing.
+	 */
+	private OWLClass getOWLClass(OntologyClass c) {
+		OWLObject obj = internal2apiMap.get(c);
+		
+		if (obj instanceof OWLClass)
+			return (OWLClass)obj;
+		else
+			return null;
+	}
+	
+	/**
+	 * Internal helper method to retrieve an OWLNamedIndividual of the internal map.
+	 * 
+	 * @param i The OntologyIndividual object, for which the appropriate OWL-object should be found.
+	 * @return The OWLNamedIndividual object, or null if it is not existing.
+	 */
+	private OWLNamedIndividual getOWLIndividual(OntologyIndividual i) {
+		OWLObject obj = internal2apiMap.get(i);
+		
+		if (obj instanceof OWLNamedIndividual)
+			return (OWLNamedIndividual)obj;
+		else
+			return null;
+	}
+	
+	/**
+	 * Puts an OWLObject and an internal API-object in the internal maps.
+	 * 
+	 * @param apiObj The OWL-API-object.
+	 * @param internalObj The internal API-object.
+	 */
 	private void toMap(OWLObject apiObj, OntologyItem internalObj) {
 		internal2apiMap.put(internalObj, apiObj);
 		api2internalMap.put(apiObj, internalObj);
+	}
+	
+	/**
+	 * Builds the full name of an entity, consisting of an optional prefix, followed by a colon and the short name.
+	 * 
+	 * @param name The name of the entity.
+	 * @param prefix The prefix of the entity or an empty string.
+	 * @return The concatinated full name string.
+	 */
+	private String buildFullEntityString(final String name, final String prefix) {
+		if (prefix.isEmpty())
+			return name;
+		else
+			return prefix.concat(":" + name);
 	}
 }

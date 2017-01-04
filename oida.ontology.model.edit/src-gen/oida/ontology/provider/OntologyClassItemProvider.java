@@ -44,6 +44,8 @@ public class OntologyClassItemProvider extends OntologyEntityItemProvider {
 			super.getPropertyDescriptors(object);
 
 			addIndividualsPropertyDescriptor(object);
+			addSuperClassesPropertyDescriptor(object);
+			addSubClassesPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -62,6 +64,50 @@ public class OntologyClassItemProvider extends OntologyEntityItemProvider {
 				 getString("_UI_OntologyClass_individuals_feature"),
 				 getString("_UI_PropertyDescriptor_description", "_UI_OntologyClass_individuals_feature", "_UI_OntologyClass_type"),
 				 OntologyPackage.Literals.ONTOLOGY_CLASS__INDIVIDUALS,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Super Classes feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addSuperClassesPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_OntologyClass_superClasses_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_OntologyClass_superClasses_feature", "_UI_OntologyClass_type"),
+				 OntologyPackage.Literals.ONTOLOGY_CLASS__SUPER_CLASSES,
+				 true,
+				 false,
+				 true,
+				 null,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Sub Classes feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addSubClassesPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_OntologyClass_subClasses_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_OntologyClass_subClasses_feature", "_UI_OntologyClass_type"),
+				 OntologyPackage.Literals.ONTOLOGY_CLASS__SUB_CLASSES,
 				 true,
 				 false,
 				 true,

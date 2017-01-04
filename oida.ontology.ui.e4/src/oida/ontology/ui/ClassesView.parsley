@@ -20,14 +20,25 @@ module oida.ontology.ui.ClassesView {
 	featuresProvider {
 		features {
 			Ontology -> classes
-			OntologyClass -> name
+			OntologyClass -> subClasses
 		}
 	}
-	
+
+	viewerContentProvider {
+		elements {
+			Ontology -> classes
+		}
+		children{
+			Ontology -> classes
+			OntologyClass -> individuals
+		}
+	}
+
 	labelProvider {
 		text {
 			Ontology o -> o.name
 			OntologyClass c -> c.name
+			OntologyIndividual i -> i.name
 		}
 	}
 }

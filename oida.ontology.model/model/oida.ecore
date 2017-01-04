@@ -30,6 +30,10 @@
     <eClassifiers xsi:type="ecore:EClass" name="OntologyClass" eSuperTypes="#//ontology/OntologyEntity">
       <eStructuralFeatures xsi:type="ecore:EReference" name="individuals" upperBound="-1"
           eType="#//ontology/OntologyIndividual"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="superClasses" upperBound="-1"
+          eType="#//ontology/OntologyClass"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="subClasses" upperBound="-1"
+          eType="#//ontology/OntologyClass"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="OntologyEntity" eSuperTypes="#//ontology/OntologyItem">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="prefix" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>

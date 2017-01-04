@@ -152,6 +152,24 @@ public class OntologyPackageImpl extends EPackageImpl implements OntologyPackage
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
+	public EReference getOntologyClass_SuperClasses() {
+		return (EReference)ontologyClassEClass.getEStructuralFeatures().get(1);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	public EReference getOntologyClass_SubClasses() {
+		return (EReference)ontologyClassEClass.getEStructuralFeatures().get(2);
+	}
+
+	/**
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
 	public EClass getOntologyEntity() {
 		return ontologyEntityEClass;
 	}
@@ -294,6 +312,8 @@ public class OntologyPackageImpl extends EPackageImpl implements OntologyPackage
 		// Create classes and their features
 		ontologyClassEClass = createEClass(ONTOLOGY_CLASS);
 		createEReference(ontologyClassEClass, ONTOLOGY_CLASS__INDIVIDUALS);
+		createEReference(ontologyClassEClass, ONTOLOGY_CLASS__SUPER_CLASSES);
+		createEReference(ontologyClassEClass, ONTOLOGY_CLASS__SUB_CLASSES);
 
 		ontologyEntityEClass = createEClass(ONTOLOGY_ENTITY);
 		createEAttribute(ontologyEntityEClass, ONTOLOGY_ENTITY__PREFIX);
@@ -352,6 +372,8 @@ public class OntologyPackageImpl extends EPackageImpl implements OntologyPackage
 		// Initialize classes, features, and operations; add parameters
 		initEClass(ontologyClassEClass, OntologyClass.class, "OntologyClass", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEReference(getOntologyClass_Individuals(), this.getOntologyIndividual(), null, "individuals", null, 0, -1, OntologyClass.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getOntologyClass_SuperClasses(), this.getOntologyClass(), null, "superClasses", null, 0, -1, OntologyClass.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
+		initEReference(getOntologyClass_SubClasses(), this.getOntologyClass(), null, "subClasses", null, 0, -1, OntologyClass.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_COMPOSITE, IS_RESOLVE_PROXIES, !IS_UNSETTABLE, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);
 
 		initEClass(ontologyEntityEClass, OntologyEntity.class, "OntologyEntity", !IS_ABSTRACT, !IS_INTERFACE, IS_GENERATED_INSTANCE_CLASS);
 		initEAttribute(getOntologyEntity_Prefix(), ecorePackage.getEString(), "prefix", null, 0, 1, OntologyEntity.class, !IS_TRANSIENT, !IS_VOLATILE, IS_CHANGEABLE, !IS_UNSETTABLE, !IS_ID, IS_UNIQUE, !IS_DERIVED, IS_ORDERED);

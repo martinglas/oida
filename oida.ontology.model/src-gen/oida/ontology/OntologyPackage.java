@@ -195,13 +195,31 @@ public interface OntologyPackage extends EPackage {
 	int ONTOLOGY_CLASS__INDIVIDUALS = ONTOLOGY_ENTITY_FEATURE_COUNT + 0;
 
 	/**
+	 * The feature id for the '<em><b>Super Classes</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ONTOLOGY_CLASS__SUPER_CLASSES = ONTOLOGY_ENTITY_FEATURE_COUNT + 1;
+
+	/**
+	 * The feature id for the '<em><b>Sub Classes</b></em>' reference list.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 * @ordered
+	 */
+	int ONTOLOGY_CLASS__SUB_CLASSES = ONTOLOGY_ENTITY_FEATURE_COUNT + 2;
+
+	/**
 	 * The number of structural features of the '<em>Class</em>' class.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 * @ordered
 	 */
-	int ONTOLOGY_CLASS_FEATURE_COUNT = ONTOLOGY_ENTITY_FEATURE_COUNT + 1;
+	int ONTOLOGY_CLASS_FEATURE_COUNT = ONTOLOGY_ENTITY_FEATURE_COUNT + 3;
 
 	/**
 	 * The number of operations of the '<em>Class</em>' class.
@@ -379,6 +397,28 @@ public interface OntologyPackage extends EPackage {
 	 * @generated
 	 */
 	EReference getOntologyClass_Individuals();
+
+	/**
+	 * Returns the meta object for the reference list '{@link oida.ontology.OntologyClass#getSuperClasses <em>Super Classes</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Super Classes</em>'.
+	 * @see oida.ontology.OntologyClass#getSuperClasses()
+	 * @see #getOntologyClass()
+	 * @generated
+	 */
+	EReference getOntologyClass_SuperClasses();
+
+	/**
+	 * Returns the meta object for the reference list '{@link oida.ontology.OntologyClass#getSubClasses <em>Sub Classes</em>}'.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @return the meta object for the reference list '<em>Sub Classes</em>'.
+	 * @see oida.ontology.OntologyClass#getSubClasses()
+	 * @see #getOntologyClass()
+	 * @generated
+	 */
+	EReference getOntologyClass_SubClasses();
 
 	/**
 	 * Returns the meta object for class '{@link oida.ontology.OntologyEntity <em>Entity</em>}'.
@@ -559,6 +599,22 @@ public interface OntologyPackage extends EPackage {
 		 * @generated
 		 */
 		EReference ONTOLOGY_CLASS__INDIVIDUALS = eINSTANCE.getOntologyClass_Individuals();
+
+		/**
+		 * The meta object literal for the '<em><b>Super Classes</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ONTOLOGY_CLASS__SUPER_CLASSES = eINSTANCE.getOntologyClass_SuperClasses();
+
+		/**
+		 * The meta object literal for the '<em><b>Sub Classes</b></em>' reference list feature.
+		 * <!-- begin-user-doc -->
+		 * <!-- end-user-doc -->
+		 * @generated
+		 */
+		EReference ONTOLOGY_CLASS__SUB_CLASSES = eINSTANCE.getOntologyClass_SubClasses();
 
 		/**
 		 * The meta object literal for the '{@link oida.ontology.impl.OntologyEntityImpl <em>Entity</em>}' class.

@@ -49,6 +49,18 @@ public abstract class AbstractOntologyManager implements IOntologyManager {
 		
 		return file;
 	}
+	
+	@Override
+	public OntologyClass createSubClass(String name, OntologyClass superClass) {
+		return createSubClass(name, "", superClass);
+	}
+
+	@Override
+	public OntologyClass createSubClass(String name, String prefix, OntologyClass superClass) {
+		OntologyClass subClass = createClass(name, prefix);
+		assignSubClassToSuperClass(subClass, superClass);
+		return subClass;
+	}
 
 	@Override
 	public OntologyIndividual createIndividualOfClass(String individualName, String className) {
