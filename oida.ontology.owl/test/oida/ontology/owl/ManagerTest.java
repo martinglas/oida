@@ -1,5 +1,6 @@
 package oida.ontology.owl;
 
+import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertNotNull;
 import static org.junit.Assert.assertTrue;
 import static org.junit.Assert.fail;
@@ -18,6 +19,7 @@ import oida.ontology.manager.OntologyManagerException;
 import oida.ontology.owl.manager.OwlOntologyManagerFactory;
 import oida.ontologyMgr.LocalOntologyEntry;
 import oida.ontologyMgr.OntologyMgrFactory;
+import oida.test.util.OntologyTestHelper;
 
 public class ManagerTest {
 	private final String TESTPATH = "C:\\Users\\Michael\\Desktop\\ontology\\";
@@ -36,11 +38,11 @@ public class ManagerTest {
 		manager = factory.getNewManager();
 		
 		testFileEntry = OntologyMgrFactory.eINSTANCE.createLocalOntologyEntry();
-		testFileEntry.setPath(TESTPATH);
+		testFileEntry.setPath(OntologyTestHelper.getTestOntologyPath());
 		testFileEntry.setFile(TESTFILE);
 		
 		loadingTestFileEntry = OntologyMgrFactory.eINSTANCE.createLocalOntologyEntry();
-		loadingTestFileEntry.setPath(TESTPATH);
+		loadingTestFileEntry.setPath(OntologyTestHelper.getTestOntologyPath());
 		loadingTestFileEntry.setFile(TEST_LOADFILE);
 	}
 	
@@ -65,6 +67,7 @@ public class ManagerTest {
 		try {
 			Ontology ontology = manager.loadOntology(loadingTestFileEntry, false);
 			assertNotNull(ontology);
+			
 		} catch (OntologyManagerException e) {
 			e.printStackTrace();
 			fail(e.getMessage());
@@ -93,6 +96,8 @@ public class ManagerTest {
 			manager.addNamespace("air", "https://www.airbus.com");
 			
 			OntologyClass aircraft = manager.createClass("Aircraft");
+			assertNotNull(manager.getClass("Aircraft"));
+			
 			OntologyClass cLiner = manager.createClass("C-Liner", "bhl");
 			OntologyClass a320_bhl = manager.createClass("A320", "bhl");
 			OntologyClass a320_air = manager.createSubClass("A320", "air", aircraft);
@@ -100,12 +105,12 @@ public class ManagerTest {
 			manager.assignSubClassToSuperClass(cLiner, aircraft);
 			manager.assignSubClassToSuperClass(a320_bhl, aircraft);
 			
-			manager.createIndividual("Class-less Aircraft");
-			OntologyIndividual ind = manager.createIndividual("Common Aircraft", "bhl");
+			manager.createIndividual("Class-less_Aircraft");
+			OntologyIndividual ind = manager.createIndividual("Common_Aircraft", "bhl");
 			manager.assignIndividualToClass(ind, a320_air);
 			
-			manager.createIndividualOfClass("Real C-Liner", cLiner);
-			manager.createIndividualOfClass("Real A320 BHL", "bhl", "A320", "bhl");		
+			manager.createIndividualOfClass("Real_C-Liner", cLiner);
+			manager.createIndividualOfClass("Real_A320_BHL", "bhl", "A320", "bhl");		
 			
 			manager.saveOntology();
 		} catch (OntologyManagerException e) {
@@ -116,7 +121,19 @@ public class ManagerTest {
 
 	@Test
 	public void testGetClassString() {
-		fail("Not yet implemented");
+		try {
+			Ontology ontology = manager.loadOntology(loadingTestFileEntry, false);
+			assertNotNull(ontology);
+			
+			OntologyClass aircraftOntologyClass = manager.getClass("http://www.semanticweb.org/michael.shamiyeh/ontologies/2016/7/untitled-ontology-69#Aircraft");
+			assertNotNull(aircraftOntologyClass);
+			assertEquals("Aircraft", aircraftOntologyClass.getName());
+			
+			
+		} catch (OntologyManagerException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
 	}
 
 	@Test
@@ -126,6 +143,16 @@ public class ManagerTest {
 
 	@Test
 	public void testGetAllClasses() {
-		fail("Not yet implemented");
+		try {
+			Ontology ontology = manager.loadOntology(loadingTestFileEntry, false);
+			assertNotNull(ontology);
+			
+			assertEquals(120,manager.getAllClasses().count());
+			
+			
+		} catch (OntologyManagerException e) {
+			e.printStackTrace();
+			fail(e.getMessage());
+		}
 	}
 }

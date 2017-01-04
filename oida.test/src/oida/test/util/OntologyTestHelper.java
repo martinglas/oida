@@ -7,7 +7,7 @@ import oida.util.OidaHelper;
 public class OntologyTestHelper {
 
 	public static String getTestOntologyPath() {
-		return OidaHelper.getPluginFilePath("oida.bridge.test")+"ontologies/";
+		return OidaHelper.getPluginFilePath("oida.test")+"testfiles/";
 		
 	}
 
