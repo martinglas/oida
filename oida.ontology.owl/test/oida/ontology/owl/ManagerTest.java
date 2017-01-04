@@ -140,6 +140,16 @@ public class ManagerTest {
 	public void testGetClassStringString() {
 		fail("Not yet implemented");
 	}
+	
+	@Test
+	public void testRemoveClassStringString() {
+		fail("Not yet implemented");
+	}
+	
+	@Test
+	public void testRemoveIndividualStringString() {
+		fail("Not yet implemented");
+	}
 
 	@Test
 	public void testGetAllClasses() {
@@ -155,4 +165,7 @@ public class ManagerTest {
 			fail(e.getMessage());
 		}
 	}
+	
+	
+	
 }
