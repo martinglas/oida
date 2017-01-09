@@ -38,6 +38,11 @@ public class ChangeHandler {
 		if (notification.getNewValue() instanceof EObject) {
 			EObject rootContainer =SymoHelper.getRootContainer((EObject) notification.getNewValue());
 			String ModelOntologyName = SymoHelper.getElementName(rootContainer);
+			//GetModelManager
+			//GetClass named after the eClass of the eObject
+			
+			//GetOntology named after the root container
+			//GetClass
 			
 			
 		}

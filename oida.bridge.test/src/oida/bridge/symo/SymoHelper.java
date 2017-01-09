@@ -1,5 +1,7 @@
 package oida.bridge.symo;
 
+import java.util.Optional;
+
 import org.eclipse.emf.ecore.EObject;
 
 import de.symo.model.element.ElementPackage;
@@ -41,13 +43,11 @@ public class SymoHelper {
 		switch (rootContainer.eClass().getClassifierID()) {
 			case  SymoPackage.PROJECT_REPOSITORY: {
 				ProjectRepository projectRepository= (ProjectRepository) rootContainer;
-				for (MetaData metadata:projectRepository.getMetaData()){
-					if (metadata.getName().contains("name")){
-						return metadata.getValue();
-					}
+				Optional<MetaData> containerNameTag=projectRepository.getMetaData().parallelStream().filter(nmd -> nmd.getName().contains("name")).findFirst();
+				if (containerNameTag.isPresent()){
+					return containerNameTag.get().getValue();
 				}
 				
-				//projectRepository.getMetaData().stream().filter(nmd -> {return nmd.getName().contains("name");}).findFirst().get().getValue();
 				
 			}break;
 			
