@@ -10,6 +10,8 @@ public class TestReferenceModelObject {
 	public void test() {
 		
 		//Select object leftWing
+		
+		
 		//Get individual leftWing from Model Ontology
 		//Get recommended OntologyClasses from ReferenceOntology based on Taxonomy and other recommenders (Name similarity)
 		//Select ReferenceOntologyClass rLeftWing

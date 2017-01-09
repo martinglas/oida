@@ -39,7 +39,7 @@ public class TotalObserver {
 		//TODO get path to local reference ontology
 		
 		
-		String testOntologyPath=OntologyTestHelper.getTestOntologyPath();
+		String testOntologyPath=OntologyTestHelper.getTestOntologyFilePath();
 		entry.setPath(testOntologyPath);
 		entry.setFile("aircraft.owl");
 		

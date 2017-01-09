@@ -1,9 +1,11 @@
 package oida.bridge.test;
 
 import org.eclipse.emf.common.notify.Notification;
+import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
 import de.symo.model.base.ANameItem;
+import oida.bridge.symo.SymoHelper;
 
 import static org.eclipse.emf.common.notify.Notification.ADD;
 import static org.eclipse.emf.common.notify.Notification.ADD_MANY;
@@ -30,7 +32,22 @@ public class ChangeHandler {
 		if (notification.getNewValue() instanceof ANameItem) {
 			newElementName=((ANameItem) notification.getNewValue()).getName();
 		}
-		System.out.println("Element"+ newElementName+ " has been created"); 
+		System.out.println("Element "+ newElementName+ " has been created");
+		
+		//Get root container
+		if (notification.getNewValue() instanceof EObject) {
+			EObject rootContainer =SymoHelper.getRootContainer((EObject) notification.getNewValue());
+			String ModelOntologyName = SymoHelper.getElementName(rootContainer);
+			
+			
+		}
+		
+		
+		//Get model ontology
+		
+		//Add element to root ontology
+		
+		
 	}
 	break;
 	

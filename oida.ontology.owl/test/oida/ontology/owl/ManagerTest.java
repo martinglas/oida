@@ -21,10 +21,12 @@ import oida.ontologyMgr.LocalOntologyEntry;
 import oida.ontologyMgr.OntologyMgrFactory;
 import oida.test.util.OntologyTestHelper;
 
+
+
 public class ManagerTest {
-	private final String TESTPATH = "C:\\Users\\Michael\\Desktop\\ontology\\";
+	
 	private final String TESTFILE = "TestOntology.owl";
-	private final String TEST_LOADFILE = "SYMO4PDReference.owl";
+	
 	
 	private IOntologyManagerFactory factory;
 	private IOntologyManager manager;
@@ -38,12 +40,12 @@ public class ManagerTest {
 		manager = factory.getNewManager();
 		
 		testFileEntry = OntologyMgrFactory.eINSTANCE.createLocalOntologyEntry();
-		testFileEntry.setPath(OntologyTestHelper.getTestOntologyPath());
+		testFileEntry.setPath(OntologyTestHelper.getTestOntologyFilePath());
 		testFileEntry.setFile(TESTFILE);
 		
 		loadingTestFileEntry = OntologyMgrFactory.eINSTANCE.createLocalOntologyEntry();
-		loadingTestFileEntry.setPath(OntologyTestHelper.getTestOntologyPath());
-		loadingTestFileEntry.setFile(TEST_LOADFILE);
+		loadingTestFileEntry.setPath(OntologyTestHelper.getTestOntologyFilePath());
+		loadingTestFileEntry.setFile(OntologyTestHelper.getTestReferenceOntologyFileName());
 	}
 	
 	@Test
@@ -80,7 +82,7 @@ public class ManagerTest {
 			manager.createOntology(testFileEntry);
 			manager.saveOntology();
 			
-			assertTrue(new File(TESTPATH + TESTFILE).exists());
+			assertTrue(new File(OntologyTestHelper.getTestOntologyFilePath() + TESTFILE).exists());
 		} catch (OntologyManagerException e) {
 			e.printStackTrace();
 			fail(e.getMessage());
