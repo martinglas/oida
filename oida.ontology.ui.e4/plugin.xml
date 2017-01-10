@@ -24,5 +24,12 @@
             name="Ontology Manager"
             restorable="true">
       </view>
+      <view
+            category="org.eclipse.emf.parsley"
+            class="oida.ontology.ui.e4.E4ExecutableExtensionFactory:oida.ontology.ui.e4.OntologyLibraryView"
+            id="oida.ontology.ui.e4"
+            name="Ontology Library"
+            restorable="true">
+      </view>
    </extension>
 </plugin>

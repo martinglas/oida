@@ -6,7 +6,7 @@
   <fragments xsi:type="fragment:StringModelFragment" xmi:id="_HMEoYKXFEeac7pLqBaVU8A" featurename="handlers" parentElementId="de.symo.application.e4.application">
     <elements xsi:type="commands:Handler" xmi:id="_Ik6qoKXFEeac7pLqBaVU8A" elementId="oida.ontology.ui.e4.handler.0" contributionURI="bundleclass://oida.ontology.ui.e4/oida.ontology.ui.e4.handler.SaveOntologyLibrary" command="_FOPpwKXFEeac7pLqBaVU8A"/>
   </fragments>
-  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_vY7MkLJXEeaw4puSHi5CMg" featurename="children" parentElementId="org.eclipse.ui.ide.perspectivestack">
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_vY7MkLJXEeaw4puSHi5CMg" featurename="children" parentElementId="org.eclipse.ui.ide.perspectivestack" positionInList="2">
     <elements xsi:type="advanced:Perspective" xmi:id="_7j3fcLJXEeaw4puSHi5CMg" elementId="oida.ontology.ui.e4.perspective" label="Knowledge" iconURI="platform:/plugin/oida.ontology.ui.e4/icons/OntologyLibrary_16.png">
       <children xsi:type="basic:PartSashContainer" xmi:id="_I-8_8Jq8EeaelOAnCMy4mw" elementId="de.symo.application.partsashcontainer.2" horizontal="true">
         <children xsi:type="basic:PartSashContainer" xmi:id="_GHPPIJrAEeaelOAnCMy4mw" elementId="de.symo.application.partsashcontainer.3" containerData="20">
