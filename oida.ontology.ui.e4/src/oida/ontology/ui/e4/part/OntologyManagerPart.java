@@ -3,8 +3,12 @@ package oida.ontology.ui.e4.part;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
+import org.eclipse.e4.ui.workbench.modeling.ESelectionService;
 import org.eclipse.emf.parsley.viewers.ViewerFactory;
-import org.eclipse.jface.viewers.ArrayContentProvider;
+import org.eclipse.jface.databinding.viewers.ObservableListContentProvider;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
@@ -12,15 +16,25 @@ import org.eclipse.swt.widgets.Composite;
 import com.google.inject.Injector;
 
 import oida.ontology.OntologyPackage;
-import oida.ontology.service.OIDAOntologyService;
+import oida.ontology.service.IOIDAOntologyService;
 import oida.ontology.ui.OntologyManagerView.OntologyManagerViewInjectorProvider;
 
+/**
+ * 
+ * @since 2016-11-08
+ * @author Michael.Shamiyeh
+ *
+ */
 public class OntologyManagerPart {
-
+	public static final String PART_ID = "oida.ontology.ui.e4.part.ontologymanager";
+	
 	private TableViewer tableViewer;
 	
 	@Inject
-	OIDAOntologyService ontologyService;
+	IOIDAOntologyService oidaService;
+	
+	@Inject
+	ESelectionService selectionService;
 
 	@PostConstruct
 	public void postConstruct(Composite parent) {
@@ -29,12 +43,16 @@ public class OntologyManagerPart {
 		
 		ViewerFactory viewerFactory = injector.getInstance(ViewerFactory.class);
 		
-		tableViewer = viewerFactory.createTableViewer(parent,  SWT.NONE, OntologyPackage.eINSTANCE.getOntology());
+		tableViewer = viewerFactory.createTableViewer(parent, SWT.FULL_SELECTION, OntologyPackage.eINSTANCE.getOntology());
+		tableViewer.setContentProvider(new ObservableListContentProvider());
+		tableViewer.setInput(oidaService.getManagedOntologies());
 		
-		tableViewer.setContentProvider(ArrayContentProvider.getInstance());
-		tableViewer.setInput(ontologyService.getManagedOntologies());
-		
-		// update the composite
-		//treeFormComposite.update(ontologyService.getResource());
+		tableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+	        @Override
+	        public void selectionChanged(SelectionChangedEvent event) {
+	                IStructuredSelection selection = tableViewer.getStructuredSelection();
+	                selectionService.setSelection(selection.getFirstElement());
+	        }
+		});
 	}
 }

@@ -1,9 +1,11 @@
 package oida.ontology.service;
 
 import java.io.File;
-import java.util.Hashtable;
-import java.util.Set;
 
+import javax.inject.Inject;
+
+import org.eclipse.core.databinding.observable.list.IObservableList;
+import org.eclipse.core.databinding.observable.list.WritableList;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -27,24 +29,19 @@ import oida.ontologyMgr.provider.OntologyMgrItemProviderAdapterFactory;
 /**
  * 
  * @author Michael.Shamiyeh
- * @since
+ * @since 13.12.2016
  *
  */
 public class OIDAOntologyService extends AbstractOIDAOntologyService implements INotifyChangedListener {
-	private Hashtable<Ontology, IOntologyManager> managedOntologies;
-
 	private EditingDomain editingDomain;
-	
 	private Resource resource;
-
+	
 	private IOntologyManagerFactory managerFactory;
+	
+	private WritableList<Ontology> managedOntologies;
 
-	public OIDAOntologyService(IOntologyManagerFactory managerFactory) {
+	public OIDAOntologyService() {
 		super();
-		
-		this.managerFactory = managerFactory;
-		
-		managedOntologies = new Hashtable<Ontology, IOntologyManager>();
 
 		OntologyMgrItemProviderAdapterFactory adapterFactory = new OntologyMgrItemProviderAdapterFactory();
 		//adapterFactory.addListener(this);
@@ -54,24 +51,39 @@ public class OIDAOntologyService extends AbstractOIDAOntologyService implements 
 		composedAdapterFactory.addListener(this);
 		
 		editingDomain = new InjectableAdapterFactoryEditingDomain(composedAdapterFactory);
+		managedOntologies = new WritableList<Ontology>();
 	}
 
-	public void initialize(URI uri) {
-		loadExistingOIDAOntologyServiceData(uri);
+	public void initialize(IOntologyManagerFactory managerFactory) {
+		managedOntologies.clear();
+		
+		if (managerFactory != null)
+			this.managerFactory = managerFactory;
+		else
+			System.out.println("OIDA Ontology Service: Initialized without an Ontology Manager Factory!");
+		
+		if (getLibrary().getReferenceOntology() != null)
+			addOntologyManager(getLibrary().getReferenceOntology(), true);
+	}
+	
+	public void initialize(URI oidaServiceDataFileURI, IOntologyManagerFactory managerFactory) {
+		loadExistingOIDAServiceData(oidaServiceDataFileURI);
 
 		if (resource == null || resource.getContents().isEmpty())
-			initializeNewOIDAOntologyServiceData(uri);
+			initializeNewOIDAServiceData(oidaServiceDataFileURI);
 		
 		resource.getResourceSet().eAdapters().add(this);
+		
+		initialize(managerFactory);
 	}
 
-	public void loadExistingOIDAOntologyServiceData(URI uri) {
-		if (uri.isFile() && new File(uri.toFileString()).exists())
-			resource = editingDomain.loadResource(uri.toString());
+	public void loadExistingOIDAServiceData(URI oidaServiceDataFileURI) {
+		if (oidaServiceDataFileURI.isFile() && new File(oidaServiceDataFileURI.toFileString()).exists())
+			resource = editingDomain.loadResource(oidaServiceDataFileURI.toString());
 	}
 
-	public void initializeNewOIDAOntologyServiceData(URI uri) {
-		resource = editingDomain.createResource(uri.toString());
+	public void initializeNewOIDAServiceData(URI oidaDataFileURI) {
+		resource = editingDomain.createResource(oidaDataFileURI.toString());
 		resource.getContents().add(OntologyMgrFactory.eINSTANCE.createLibrary());
 	}
 
@@ -91,43 +103,62 @@ public class OIDAOntologyService extends AbstractOIDAOntologyService implements 
 		return editingDomain;
 	}
 
-	public Resource getResource() {
+	public Resource getLibraryResource() {
 		return resource;
 	}
 
-	public IOntologyManager addManagedOntology(LocalOntologyEntry localOntology) throws OntologyManagerException {
-		IOntologyManager mgr = managerFactory.getNewManager();
+//	public IOntologyManager addManagedOntology(LocalOntologyEntry localOntology) throws OntologyManagerException {
+//		IOntologyManager mgr = managerFactory.getNewManager();
+//
+//		Ontology ontologyObj = mgr.loadOntology(localOntology, true);
+//
+//		managedOntologies.put(ontologyObj, mgr);
+//
+//		return mgr;
+//	}
 
-		Ontology ontologyObj = mgr.loadOntology(localOntology, true);
+//	public IOntologyManager getManagedOntology(String ontologyName) throws OntologyManagerException {
+//		if (managedOntologies.containsKey(ontologyName))
+//			return managedOntologies.get(ontologyName);
+//		else
+//			throw new OntologyManagerException("An ontology with the name '" + ontologyName + "' does not exist.");
+//	}
 
-		managedOntologies.put(ontologyObj, mgr);
-
-		return mgr;
-	}
-
-	public IOntologyManager getManagedOntology(String ontologyName) throws OntologyManagerException {
-		if (managedOntologies.containsKey(ontologyName))
-			return managedOntologies.get(ontologyName);
-		else
-			throw new OntologyManagerException("An ontology with the name '" + ontologyName + "' does not exist.");
-	}
-
-	public Set<Ontology> getManagedOntologies() {
-		return managedOntologies.keySet();
+//	public List<IOntologyManager> getManagedOntologies() {
+//		return managedOntologies.keySet();
+//	}
+	
+	@Inject
+	public IOntologyManager createNewOntologyManager(IOntologyManagerFactory factory) {
+		return factory.getNewManager();
 	}
 
 	@Override
 	public void notifyChanged(Notification notification) {
 		if (notification.getFeature() != null) {
 			if (notification.getFeature() == OntologyMgrPackage.eINSTANCE.getLibrary_ReferenceOntology()) {
-				IOntologyManager mgr = managerFactory.getNewManager();
-				try {
-					mgr.loadOntology((LocalOntologyEntry)notification.getNewValue(), true);
-					managedOntologies.put(mgr.getOntology(), mgr);
-				} catch (OntologyManagerException e) {
-					e.printStackTrace();
-				}
+				addOntologyManager((LocalOntologyEntry)notification.getNewValue(), true);
 			}
 		}
+	}
+	
+	@Override
+	public IObservableList<Ontology> getManagedOntologies() {
+		return managedOntologies;
+	}
+
+	@Override
+	public IOntologyManager addOntologyManager(LocalOntologyEntry entry, boolean createIfNotExisting) {
+		IOntologyManager mgr = managerFactory.getNewManager();
+		
+		try {
+			mgr.loadOntology(entry, createIfNotExisting);
+			managedOntologies.add(mgr.getOntology());
+			
+		} catch (OntologyManagerException e) {
+			e.printStackTrace();
+		}
+		
+		return mgr;
 	}
 }

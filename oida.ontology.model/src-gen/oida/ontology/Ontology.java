@@ -15,7 +15,8 @@ import org.eclipse.emf.common.util.EList;
  * The following features are supported:
  * </p>
  * <ul>
- *   <li>{@link oida.ontology.Ontology#getEntities <em>Entities</em>}</li>
+ *   <li>{@link oida.ontology.Ontology#getClasses <em>Classes</em>}</li>
+ *   <li>{@link oida.ontology.Ontology#getIndividuals <em>Individuals</em>}</li>
  *   <li>{@link oida.ontology.Ontology#getNrOfClasses <em>Nr Of Classes</em>}</li>
  *   <li>{@link oida.ontology.Ontology#getNrOfIndividuals <em>Nr Of Individuals</em>}</li>
  *   <li>{@link oida.ontology.Ontology#getOntologyEntry <em>Ontology Entry</em>}</li>
@@ -27,22 +28,36 @@ import org.eclipse.emf.common.util.EList;
  */
 public interface Ontology extends OntologyItem {
 	/**
-	 * Returns the value of the '<em><b>Entities</b></em>' containment reference list.
-	 * The list contents are of type {@link oida.ontology.OntologyEntity}.
-	 * It is bidirectional and its opposite is '{@link oida.ontology.OntologyEntity#getContainingOntology <em>Containing Ontology</em>}'.
+	 * Returns the value of the '<em><b>Classes</b></em>' containment reference list.
+	 * The list contents are of type {@link oida.ontology.OntologyClass}.
 	 * <!-- begin-user-doc -->
 	 * <p>
-	 * If the meaning of the '<em>Entities</em>' containment reference list isn't clear,
+	 * If the meaning of the '<em>Classes</em>' containment reference list isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Entities</em>' containment reference list.
-	 * @see oida.ontology.OntologyPackage#getOntology_Entities()
-	 * @see oida.ontology.OntologyEntity#getContainingOntology
-	 * @model opposite="containingOntology" containment="true"
+	 * @return the value of the '<em>Classes</em>' containment reference list.
+	 * @see oida.ontology.OntologyPackage#getOntology_Classes()
+	 * @model containment="true"
 	 * @generated
 	 */
-	EList<OntologyEntity> getEntities();
+	EList<OntologyClass> getClasses();
+
+	/**
+	 * Returns the value of the '<em><b>Individuals</b></em>' containment reference list.
+	 * The list contents are of type {@link oida.ontology.OntologyIndividual}.
+	 * <!-- begin-user-doc -->
+	 * <p>
+	 * If the meaning of the '<em>Individuals</em>' containment reference list isn't clear,
+	 * there really should be more of a description here...
+	 * </p>
+	 * <!-- end-user-doc -->
+	 * @return the value of the '<em>Individuals</em>' containment reference list.
+	 * @see oida.ontology.OntologyPackage#getOntology_Individuals()
+	 * @model containment="true"
+	 * @generated
+	 */
+	EList<OntologyIndividual> getIndividuals();
 
 	/**
 	 * Returns the value of the '<em><b>Nr Of Classes</b></em>' attribute.
@@ -53,12 +68,12 @@ public interface Ontology extends OntologyItem {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Nr Of Classes</em>' attribute.
-	 * @see #setNrOfClasses(int)
+	 * @see #setNrOfClasses(long)
 	 * @see oida.ontology.OntologyPackage#getOntology_NrOfClasses()
 	 * @model
 	 * @generated
 	 */
-	int getNrOfClasses();
+	long getNrOfClasses();
 
 	/**
 	 * Sets the value of the '{@link oida.ontology.Ontology#getNrOfClasses <em>Nr Of Classes</em>}' attribute.
@@ -68,7 +83,7 @@ public interface Ontology extends OntologyItem {
 	 * @see #getNrOfClasses()
 	 * @generated
 	 */
-	void setNrOfClasses(int value);
+	void setNrOfClasses(long value);
 
 	/**
 	 * Returns the value of the '<em><b>Nr Of Individuals</b></em>' attribute.
@@ -79,12 +94,12 @@ public interface Ontology extends OntologyItem {
 	 * </p>
 	 * <!-- end-user-doc -->
 	 * @return the value of the '<em>Nr Of Individuals</em>' attribute.
-	 * @see #setNrOfIndividuals(int)
+	 * @see #setNrOfIndividuals(long)
 	 * @see oida.ontology.OntologyPackage#getOntology_NrOfIndividuals()
 	 * @model
 	 * @generated
 	 */
-	int getNrOfIndividuals();
+	long getNrOfIndividuals();
 
 	/**
 	 * Sets the value of the '{@link oida.ontology.Ontology#getNrOfIndividuals <em>Nr Of Individuals</em>}' attribute.
@@ -94,7 +109,7 @@ public interface Ontology extends OntologyItem {
 	 * @see #getNrOfIndividuals()
 	 * @generated
 	 */
-	void setNrOfIndividuals(int value);
+	void setNrOfIndividuals(long value);
 
 	/**
 	 * Returns the value of the '<em><b>Ontology Entry</b></em>' reference.

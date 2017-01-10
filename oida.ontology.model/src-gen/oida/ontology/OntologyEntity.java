@@ -48,28 +48,26 @@ public interface OntologyEntity extends OntologyItem {
 	void setPrefix(String value);
 
 	/**
-	 * Returns the value of the '<em><b>Containing Ontology</b></em>' container reference.
-	 * It is bidirectional and its opposite is '{@link oida.ontology.Ontology#getEntities <em>Entities</em>}'.
+	 * Returns the value of the '<em><b>Containing Ontology</b></em>' reference.
 	 * <!-- begin-user-doc -->
 	 * <p>
 	 * If the meaning of the '<em>Containing Ontology</em>' container reference isn't clear,
 	 * there really should be more of a description here...
 	 * </p>
 	 * <!-- end-user-doc -->
-	 * @return the value of the '<em>Containing Ontology</em>' container reference.
+	 * @return the value of the '<em>Containing Ontology</em>' reference.
 	 * @see #setContainingOntology(Ontology)
 	 * @see oida.ontology.OntologyPackage#getOntologyEntity_ContainingOntology()
-	 * @see oida.ontology.Ontology#getEntities
-	 * @model opposite="entities" required="true" transient="false"
+	 * @model
 	 * @generated
 	 */
 	Ontology getContainingOntology();
 
 	/**
-	 * Sets the value of the '{@link oida.ontology.OntologyEntity#getContainingOntology <em>Containing Ontology</em>}' container reference.
+	 * Sets the value of the '{@link oida.ontology.OntologyEntity#getContainingOntology <em>Containing Ontology</em>}' reference.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
-	 * @param value the new value of the '<em>Containing Ontology</em>' container reference.
+	 * @param value the new value of the '<em>Containing Ontology</em>' reference.
 	 * @see #getContainingOntology()
 	 * @generated
 	 */

@@ -1,0 +1,44 @@
+import oida.ontology.Ontology
+import oida.ontology.OntologyClass
+import oida.ontology.OntologyIndividual
+import oida.ontology.ui.view.ClassesView
+
+/**
+ * 
+ * @since 2016-11-08
+ * @author Michael.Shamiyeh
+ * 
+ */
+module oida.ontology.ui.ClassesView {
+	parts {
+		viewpart oida.ontology.ui.view.OntologyView {
+			viewname "Classes"
+			viewclass ClassesView
+		}
+	}
+	
+	featuresProvider {
+		features {
+			Ontology -> classes
+			OntologyClass -> subClasses
+		}
+	}
+
+	viewerContentProvider {
+		elements {
+			Ontology -> classes
+		}
+		children{
+			Ontology -> classes
+			OntologyClass -> individuals
+		}
+	}
+
+	labelProvider {
+		text {
+			Ontology o -> o.name
+			OntologyClass c -> c.name
+			OntologyIndividual i -> i.name
+		}
+	}
+}

@@ -46,6 +46,7 @@ public class OntologyEntityItemProvider extends OntologyItemItemProvider {
 			super.getPropertyDescriptors(object);
 
 			addPrefixPropertyDescriptor(object);
+			addContainingOntologyPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
 	}
@@ -68,6 +69,28 @@ public class OntologyEntityItemProvider extends OntologyItemItemProvider {
 				 false,
 				 false,
 				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
+				 null,
+				 null));
+	}
+
+	/**
+	 * This adds a property descriptor for the Containing Ontology feature.
+	 * <!-- begin-user-doc -->
+	 * <!-- end-user-doc -->
+	 * @generated
+	 */
+	protected void addContainingOntologyPropertyDescriptor(Object object) {
+		itemPropertyDescriptors.add
+			(createItemPropertyDescriptor
+				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
+				 getResourceLocator(),
+				 getString("_UI_OntologyEntity_containingOntology_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_OntologyEntity_containingOntology_feature", "_UI_OntologyEntity_type"),
+				 OntologyPackage.Literals.ONTOLOGY_ENTITY__CONTAINING_ONTOLOGY,
+				 true,
+				 false,
+				 true,
+				 null,
 				 null,
 				 null));
 	}

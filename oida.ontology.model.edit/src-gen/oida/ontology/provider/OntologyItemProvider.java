@@ -133,7 +133,8 @@ public class OntologyItemProvider extends OntologyItemItemProvider {
 	public Collection<? extends EStructuralFeature> getChildrenFeatures(Object object) {
 		if (childrenFeatures == null) {
 			super.getChildrenFeatures(object);
-			childrenFeatures.add(OntologyPackage.Literals.ONTOLOGY__ENTITIES);
+			childrenFeatures.add(OntologyPackage.Literals.ONTOLOGY__CLASSES);
+			childrenFeatures.add(OntologyPackage.Literals.ONTOLOGY__INDIVIDUALS);
 		}
 		return childrenFeatures;
 	}
@@ -193,7 +194,8 @@ public class OntologyItemProvider extends OntologyItemItemProvider {
 			case OntologyPackage.ONTOLOGY__NR_OF_INDIVIDUALS:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
-			case OntologyPackage.ONTOLOGY__ENTITIES:
+			case OntologyPackage.ONTOLOGY__CLASSES:
+			case OntologyPackage.ONTOLOGY__INDIVIDUALS:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), true, false));
 				return;
 		}
@@ -213,17 +215,12 @@ public class OntologyItemProvider extends OntologyItemItemProvider {
 
 		newChildDescriptors.add
 			(createChildParameter
-				(OntologyPackage.Literals.ONTOLOGY__ENTITIES,
-				 OntologyFactory.eINSTANCE.createOntologyEntity()));
-
-		newChildDescriptors.add
-			(createChildParameter
-				(OntologyPackage.Literals.ONTOLOGY__ENTITIES,
+				(OntologyPackage.Literals.ONTOLOGY__CLASSES,
 				 OntologyFactory.eINSTANCE.createOntologyClass()));
 
 		newChildDescriptors.add
 			(createChildParameter
-				(OntologyPackage.Literals.ONTOLOGY__ENTITIES,
+				(OntologyPackage.Literals.ONTOLOGY__INDIVIDUALS,
 				 OntologyFactory.eINSTANCE.createOntologyIndividual()));
 	}
 

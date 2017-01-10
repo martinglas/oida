@@ -23,7 +23,12 @@
         </children>
         <children xsi:type="basic:PartStack" xmi:id="_K7oIAJq8EeaelOAnCMy4mw" elementId="de.symo.application.partstack.2" containerData="60"/>
         <children xsi:type="basic:PartSashContainer" xmi:id="_SgSKsKaNEea4d_GmOhDBEg" elementId="de.symo.application.partsashcontainer.4" containerData="20">
-          <children xsi:type="basic:PartStack" xmi:id="_T3-WYKaNEea4d_GmOhDBEg" elementId="de.symo.application.partstack.0"/>
+          <children xsi:type="basic:PartStack" xmi:id="_T3-WYKaNEea4d_GmOhDBEg" elementId="de.symo.application.partstack.0">
+            <children xsi:type="basic:Part" xmi:id="_8KWA4MXwEeacHtEzKgG6Vg" elementId="oida.ontology.ui.e4.part.classesView" contributionURI="bundleclass://oida.ontology.ui.e4/oida.ontology.ui.e4.part.ClassesViewPart" label="Classes"/>
+          </children>
+          <children xsi:type="basic:PartStack" xmi:id="_I973wMdoEea9gboS3tekbQ" elementId="oida.ontology.ui.e4.partstack.0">
+            <children xsi:type="basic:Part" xmi:id="_JnEUUMdoEea9gboS3tekbQ" elementId="oida.ontology.ui.e4.part.individualsView" contributionURI="bundleclass://oida.ontology.ui.e4/oida.ontology.ui.e4.part.IndividualsViewPart" label="Individuals"/>
+          </children>
         </children>
       </children>
     </elements>

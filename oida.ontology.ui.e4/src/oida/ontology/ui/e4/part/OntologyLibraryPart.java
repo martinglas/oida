@@ -18,7 +18,7 @@ import org.eclipse.swt.widgets.Composite;
 
 import com.google.inject.Injector;
 
-import oida.ontology.service.OIDAOntologyService;
+import oida.ontology.service.IOIDAOntologyService;
 import oida.ontology.ui.OntologyLibraryView.OntologyLibraryViewInjectorProvider;
 
 /**
@@ -32,7 +32,7 @@ public class OntologyLibraryPart {
 	private TreeFormComposite treeFormComposite;
 
 	@Inject
-	OIDAOntologyService ontologyService;
+	IOIDAOntologyService oidaService;
 
 	@Inject
 	MDirtyable dirty;
@@ -53,13 +53,13 @@ public class OntologyLibraryPart {
 		ViewerDragAndDropHelper dragAndDropHelper = injector.getInstance(ViewerDragAndDropHelper.class);
 
 		// set context menu and drag and drop
-		contextMenuHelper.addViewerContextMenu(treeFormComposite.getViewer(), ontologyService.getEditingDomain());
-		dragAndDropHelper.addDragAndDrop(treeFormComposite.getViewer(), ontologyService.getEditingDomain());
+		contextMenuHelper.addViewerContextMenu(treeFormComposite.getViewer(), oidaService.getEditingDomain());
+		dragAndDropHelper.addDragAndDrop(treeFormComposite.getViewer(), oidaService.getEditingDomain());
 
 		// update the composite
-		treeFormComposite.update(ontologyService.getResource());
+		treeFormComposite.update(oidaService.getLibraryResource());
 		
-		ontologyService.getEditingDomain().getCommandStack().addCommandStackListener(new CommandStackListener() {
+		oidaService.getEditingDomain().getCommandStack().addCommandStackListener(new CommandStackListener() {
 			public void commandStackChanged(EventObject event) {
 				if (dirty != null)
 					dirty.setDirty(true);
@@ -69,7 +69,7 @@ public class OntologyLibraryPart {
 
 	@Persist
 	public void save(MDirtyable dirty) throws IOException {
-		ontologyService.getResource().save(null);
+		oidaService.getLibraryResource().save(null);
 		if (dirty != null) {
 			dirty.setDirty(false);
 		}
