@@ -17,35 +17,33 @@ import oida.ontology.manager.IOntologyManager;
 import oida.ontology.manager.IOntologyManagerFactory;
 import oida.ontology.manager.OntologyManagerException;
 import oida.ontology.owl.manager.OwlOntologyManagerFactory;
-import oida.ontologyMgr.LocalOntologyEntry;
+import oida.ontologyMgr.OntologyFile;
 import oida.ontologyMgr.OntologyMgrFactory;
 import oida.test.util.OntologyTestHelper;
 
 
 
 public class ManagerTest {
-	
 	private final String TESTFILE = "TestOntology.owl";
-	
 	
 	private IOntologyManagerFactory factory;
 	private IOntologyManager manager;
 	
-	private LocalOntologyEntry testFileEntry;
-	private LocalOntologyEntry loadingTestFileEntry;
+	private OntologyFile testFileEntry;
+	private OntologyFile loadingTestFileEntry;
 
 	@Before
 	public void setUp() throws Exception {
 		factory = new OwlOntologyManagerFactory();
 		manager = factory.getNewManager();
 		
-		testFileEntry = OntologyMgrFactory.eINSTANCE.createLocalOntologyEntry();
+		testFileEntry = OntologyMgrFactory.eINSTANCE.createOntologyFile();
 		testFileEntry.setPath(OntologyTestHelper.getTestOntologyFilePath());
-		testFileEntry.setFile(TESTFILE);
+		testFileEntry.setFileName(TESTFILE);
 		
-		loadingTestFileEntry = OntologyMgrFactory.eINSTANCE.createLocalOntologyEntry();
+		loadingTestFileEntry = OntologyMgrFactory.eINSTANCE.createOntologyFile();
 		loadingTestFileEntry.setPath(OntologyTestHelper.getTestOntologyFilePath());
-		loadingTestFileEntry.setFile(OntologyTestHelper.getTestReferenceOntologyFileName());
+		loadingTestFileEntry.setFileName(OntologyTestHelper.getTestReferenceOntologyFileName());
 	}
 	
 	@Test

@@ -1,7 +1,7 @@
 import oida.ontology.ui.view.OntologyLibraryView
 import oida.ontologyMgr.GitRepoOntologyEntry
 import oida.ontologyMgr.Library
-import oida.ontologyMgr.LocalOntologyEntry
+import oida.ontologyMgr.LocalReferenceOntologyFileSet
 import org.eclipse.emf.parsley.edit.IEditingStrategy
 import org.eclipse.emf.parsley.edit.UndoableEditingStrategy
 import org.eclipse.swt.SWT
@@ -28,20 +28,20 @@ module oida.ontology.ui.OntologyLibraryView {
 	featuresProvider {
 		features {
 			Library -> owner, creationDate, referenceOntology
-			LocalOntologyEntry -> path, file, maintenanceFile
-			GitRepoOntologyEntry -> path, file, maintenanceFile, repoURL, gitUsername, gitPassword
+			LocalReferenceOntologyFileSet -> path, fileName, maintenanceFileName
+			GitRepoOntologyEntry -> path, fileName, maintenanceFileName, repoURL, gitUsername, gitPassword
 		}
 	}
 
 	labelProvider {
 		text {
 			Library -> "Library"
-			LocalOntologyEntry e -> e.file
-			GitRepoOntologyEntry e -> e.file
+			LocalReferenceOntologyFileSet e -> e.fileName
+			GitRepoOntologyEntry e -> e.fileName
 		}
 		image {
 			Library -> "OntologyLibrary_16.png"
-			LocalOntologyEntry -> "OntologyLocal_16.png"
+			LocalReferenceOntologyFileSet -> "OntologyLocal_16.png"
 			GitRepoOntologyEntry -> "OntologyRepository_16.png"
 		}
 	}
@@ -51,13 +51,13 @@ module oida.ontology.ui.OntologyLibraryView {
 			Library : owner -> "Owner: "
 			Library : creationDate -> "Created on: "
 
-			LocalOntologyEntry : path -> "Path: "
-			LocalOntologyEntry : file -> "File: "
-			LocalOntologyEntry : maintenanceFile -> "Maintenance Ontology: "
+			LocalReferenceOntologyFileSet : path -> "Path: "
+			LocalReferenceOntologyFileSet : fileName -> "File: "
+			LocalReferenceOntologyFileSet : maintenanceFileName -> "Maintenance Ontology: "
 
 			GitRepoOntologyEntry : path -> "Path: "
-			GitRepoOntologyEntry : file -> "File: "
-			GitRepoOntologyEntry : maintenanceFile -> "Maintenance Ontology: "
+			GitRepoOntologyEntry : fileName -> "File: "
+			GitRepoOntologyEntry : maintenanceFileName -> "Maintenance Ontology: "
 			GitRepoOntologyEntry : repoURL -> "Git Repository URL: "
 			GitRepoOntologyEntry : gitUsername -> "Username: "
 			GitRepoOntologyEntry : gitPassword -> "Password: "
@@ -92,7 +92,7 @@ module oida.ontology.ui.OntologyLibraryView {
 	
 	menuBuilder {
 		emfMenus {
-			LocalOntologyEntry lOnt -> #[
+			LocalReferenceOntologyFileSet lOnt -> #[
 				actionChange("Set as Reference", lOnt.eContainer as Library,
 					[
 						library |

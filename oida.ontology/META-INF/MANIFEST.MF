@@ -17,11 +17,13 @@ Require-Bundle: javax.inject,
  oida.ontology.model;bundle-version="0.1.0",
  org.eclipse.equinox.util;bundle-version="1.0.500",
  org.eclipse.equinox.ds;bundle-version="1.4.400",
- org.eclipse.osgi.services;bundle-version="3.5.100",
  org.eclipse.core.resources,
- oida.ontology.model.edit
+ oida.ontology.model.edit,
+ org.eclipse.jface.databinding,
+ org.eclipse.swt
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: javax.annotation;version="1.2.0",
+ org.eclipse.core.databinding.observable,
  org.eclipse.core.databinding.observable.list,
  org.eclipse.core.databinding.observable.map,
  org.eclipse.core.databinding.observable.set,
@@ -30,7 +32,8 @@ Import-Package: javax.annotation;version="1.2.0",
  org.eclipse.emf.edit.provider.resource,
  org.eclipse.emf.edit.ui.provider,
  org.eclipse.emf.parsley.edit.domain,
- org.eclipse.emf.parsley.resource
+ org.eclipse.emf.parsley.resource,
+ org.osgi.service.component.annotations;version="1.2.0"
 Bundle-ActivationPolicy: lazy
 Export-Package: oida.ontology.manager,
  oida.ontology.service

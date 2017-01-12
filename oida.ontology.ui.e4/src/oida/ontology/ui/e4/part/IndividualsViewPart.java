@@ -3,6 +3,8 @@ package oida.ontology.ui.e4.part;
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
+import org.eclipse.core.databinding.observable.list.IObservableList;
+import org.eclipse.core.databinding.observable.list.WritableList;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.e4.ui.workbench.modeling.ESelectionService;
 import org.eclipse.e4.ui.workbench.modeling.ISelectionListener;
@@ -14,6 +16,7 @@ import org.eclipse.swt.widgets.Composite;
 
 import com.google.inject.Injector;
 
+import oida.ontology.Ontology;
 import oida.ontology.OntologyClass;
 import oida.ontology.OntologyPackage;
 import oida.ontology.service.IOIDAOntologyService;
@@ -38,7 +41,11 @@ public class IndividualsViewPart implements ISelectionListener {
 
 		tableViewer = viewerFactory.createTableViewer(parent, SWT.FULL_SELECTION, OntologyPackage.eINSTANCE.getOntology());
 		tableViewer.setContentProvider(new ObservableListContentProvider());
-		tableViewer.setInput(oidaService.getManagedOntologies());
+		
+		IObservableList<Ontology> observableList = new WritableList<Ontology>();
+		observableList.addAll(oidaService.getManagedOntologies());
+		
+		tableViewer.setInput(observableList);
 	}
 
 	@Override

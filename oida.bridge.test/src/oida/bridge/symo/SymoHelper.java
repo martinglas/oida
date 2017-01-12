@@ -6,9 +6,7 @@ import org.eclipse.emf.ecore.EObject;
 
 import de.symo.model.element.ElementPackage;
 import de.symo.model.element.MetaData;
-import de.symo.model.symo.ComponentRepository;
 import de.symo.model.symo.ProjectRepository;
-import de.symo.model.symo.SymoFactory;
 import de.symo.model.symo.SymoPackage;
 
 public class SymoHelper {

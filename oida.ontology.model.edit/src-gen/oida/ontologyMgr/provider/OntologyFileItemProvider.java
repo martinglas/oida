@@ -6,7 +6,7 @@ package oida.ontologyMgr.provider;
 import java.util.Collection;
 import java.util.List;
 
-import oida.ontologyMgr.LocalOntologyEntry;
+import oida.ontologyMgr.OntologyFile;
 import oida.ontologyMgr.OntologyMgrPackage;
 
 import org.eclipse.emf.common.notify.AdapterFactory;
@@ -26,12 +26,12 @@ import org.eclipse.emf.edit.provider.ItemProviderAdapter;
 import org.eclipse.emf.edit.provider.ViewerNotification;
 
 /**
- * This is the item provider adapter for a {@link oida.ontologyMgr.LocalOntologyEntry} object.
+ * This is the item provider adapter for a {@link oida.ontologyMgr.OntologyFile} object.
  * <!-- begin-user-doc -->
  * <!-- end-user-doc -->
  * @generated
  */
-public class LocalOntologyEntryItemProvider 
+public class OntologyFileItemProvider 
 	extends ItemProviderAdapter
 	implements
 		IEditingDomainItemProvider,
@@ -45,7 +45,7 @@ public class LocalOntologyEntryItemProvider
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	public LocalOntologyEntryItemProvider(AdapterFactory adapterFactory) {
+	public OntologyFileItemProvider(AdapterFactory adapterFactory) {
 		super(adapterFactory);
 	}
 
@@ -61,8 +61,7 @@ public class LocalOntologyEntryItemProvider
 			super.getPropertyDescriptors(object);
 
 			addPathPropertyDescriptor(object);
-			addFilePropertyDescriptor(object);
-			addMaintenanceFilePropertyDescriptor(object);
+			addFileNamePropertyDescriptor(object);
 			addManagedOntologyPropertyDescriptor(object);
 		}
 		return itemPropertyDescriptors;
@@ -79,9 +78,9 @@ public class LocalOntologyEntryItemProvider
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_LocalOntologyEntry_path_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_LocalOntologyEntry_path_feature", "_UI_LocalOntologyEntry_type"),
-				 OntologyMgrPackage.Literals.LOCAL_ONTOLOGY_ENTRY__PATH,
+				 getString("_UI_OntologyFile_path_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_OntologyFile_path_feature", "_UI_OntologyFile_type"),
+				 OntologyMgrPackage.Literals.ONTOLOGY_FILE__PATH,
 				 true,
 				 false,
 				 false,
@@ -91,41 +90,19 @@ public class LocalOntologyEntryItemProvider
 	}
 
 	/**
-	 * This adds a property descriptor for the File feature.
+	 * This adds a property descriptor for the File Name feature.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
-	protected void addFilePropertyDescriptor(Object object) {
+	protected void addFileNamePropertyDescriptor(Object object) {
 		itemPropertyDescriptors.add
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_LocalOntologyEntry_file_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_LocalOntologyEntry_file_feature", "_UI_LocalOntologyEntry_type"),
-				 OntologyMgrPackage.Literals.LOCAL_ONTOLOGY_ENTRY__FILE,
-				 true,
-				 false,
-				 false,
-				 ItemPropertyDescriptor.GENERIC_VALUE_IMAGE,
-				 null,
-				 null));
-	}
-
-	/**
-	 * This adds a property descriptor for the Maintenance File feature.
-	 * <!-- begin-user-doc -->
-	 * <!-- end-user-doc -->
-	 * @generated
-	 */
-	protected void addMaintenanceFilePropertyDescriptor(Object object) {
-		itemPropertyDescriptors.add
-			(createItemPropertyDescriptor
-				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
-				 getResourceLocator(),
-				 getString("_UI_LocalOntologyEntry_maintenanceFile_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_LocalOntologyEntry_maintenanceFile_feature", "_UI_LocalOntologyEntry_type"),
-				 OntologyMgrPackage.Literals.LOCAL_ONTOLOGY_ENTRY__MAINTENANCE_FILE,
+				 getString("_UI_OntologyFile_fileName_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_OntologyFile_fileName_feature", "_UI_OntologyFile_type"),
+				 OntologyMgrPackage.Literals.ONTOLOGY_FILE__FILE_NAME,
 				 true,
 				 false,
 				 false,
@@ -145,9 +122,9 @@ public class LocalOntologyEntryItemProvider
 			(createItemPropertyDescriptor
 				(((ComposeableAdapterFactory)adapterFactory).getRootAdapterFactory(),
 				 getResourceLocator(),
-				 getString("_UI_LocalOntologyEntry_managedOntology_feature"),
-				 getString("_UI_PropertyDescriptor_description", "_UI_LocalOntologyEntry_managedOntology_feature", "_UI_LocalOntologyEntry_type"),
-				 OntologyMgrPackage.Literals.LOCAL_ONTOLOGY_ENTRY__MANAGED_ONTOLOGY,
+				 getString("_UI_OntologyFile_managedOntology_feature"),
+				 getString("_UI_PropertyDescriptor_description", "_UI_OntologyFile_managedOntology_feature", "_UI_OntologyFile_type"),
+				 OntologyMgrPackage.Literals.ONTOLOGY_FILE__MANAGED_ONTOLOGY,
 				 true,
 				 false,
 				 true,
@@ -157,14 +134,14 @@ public class LocalOntologyEntryItemProvider
 	}
 
 	/**
-	 * This returns LocalOntologyEntry.gif.
+	 * This returns OntologyFile.gif.
 	 * <!-- begin-user-doc -->
 	 * <!-- end-user-doc -->
 	 * @generated
 	 */
 	@Override
 	public Object getImage(Object object) {
-		return overlayImage(object, getResourceLocator().getImage("full/obj16/LocalOntologyEntry"));
+		return overlayImage(object, getResourceLocator().getImage("full/obj16/OntologyFile"));
 	}
 
 	/**
@@ -175,10 +152,10 @@ public class LocalOntologyEntryItemProvider
 	 */
 	@Override
 	public String getText(Object object) {
-		String label = ((LocalOntologyEntry)object).getPath();
+		String label = ((OntologyFile)object).getFileName();
 		return label == null || label.length() == 0 ?
-			getString("_UI_LocalOntologyEntry_type") :
-			getString("_UI_LocalOntologyEntry_type") + " " + label;
+			getString("_UI_OntologyFile_type") :
+			getString("_UI_OntologyFile_type") + " " + label;
 	}
 	
 
@@ -193,10 +170,9 @@ public class LocalOntologyEntryItemProvider
 	public void notifyChanged(Notification notification) {
 		updateChildren(notification);
 
-		switch (notification.getFeatureID(LocalOntologyEntry.class)) {
-			case OntologyMgrPackage.LOCAL_ONTOLOGY_ENTRY__PATH:
-			case OntologyMgrPackage.LOCAL_ONTOLOGY_ENTRY__FILE:
-			case OntologyMgrPackage.LOCAL_ONTOLOGY_ENTRY__MAINTENANCE_FILE:
+		switch (notification.getFeatureID(OntologyFile.class)) {
+			case OntologyMgrPackage.ONTOLOGY_FILE__PATH:
+			case OntologyMgrPackage.ONTOLOGY_FILE__FILE_NAME:
 				fireNotifyChanged(new ViewerNotification(notification, notification.getNotifier(), false, true));
 				return;
 		}

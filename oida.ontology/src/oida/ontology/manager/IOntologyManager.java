@@ -5,7 +5,7 @@ import java.util.stream.Stream;
 import oida.ontology.Ontology;
 import oida.ontology.OntologyClass;
 import oida.ontology.OntologyIndividual;
-import oida.ontologyMgr.LocalOntologyEntry;
+import oida.ontologyMgr.OntologyFile;
 
 /**
  * 
@@ -15,10 +15,10 @@ import oida.ontologyMgr.LocalOntologyEntry;
  */
 public interface IOntologyManager {
 	Ontology getOntology();
-	LocalOntologyEntry getOntologyEntry();
+	OntologyFile getOntologyEntry();
 	
-	Ontology createOntology(LocalOntologyEntry entry) throws OntologyManagerException;
-	Ontology loadOntology(LocalOntologyEntry entry, boolean createIfNotExisting) throws OntologyManagerException;
+	Ontology createOntology(OntologyFile ontologyFile) throws OntologyManagerException;
+	Ontology loadOntology(OntologyFile ontologyFile, boolean createIfNotExisting) throws OntologyManagerException;
 	void saveOntology() throws OntologyManagerException;
 	
 	void initializeReasoner();

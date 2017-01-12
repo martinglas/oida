@@ -5,12 +5,18 @@ import java.io.File;
 import oida.ontology.Ontology;
 import oida.ontology.OntologyClass;
 import oida.ontology.OntologyIndividual;
-import oida.ontologyMgr.LocalOntologyEntry;
+import oida.ontologyMgr.OntologyFile;
 
+/**
+ * 
+ * @author Michael.Shamiyeh
+ * @since 2016-11-23
+ *
+ */
 public abstract class AbstractOntologyManager implements IOntologyManager {
 	
 	private Ontology ontology;
-	private LocalOntologyEntry ontologyEntry;
+	private OntologyFile ontologyFile;
 	
 	public Ontology getOntology() {
 		return ontology;
@@ -21,29 +27,29 @@ public abstract class AbstractOntologyManager implements IOntologyManager {
 	}
 	
 	@Override
-	public LocalOntologyEntry getOntologyEntry() {
-		return ontologyEntry;
+	public OntologyFile getOntologyEntry() {
+		return ontologyFile;
 	}
 
-	protected void setOntologyEntry(LocalOntologyEntry entry) {
-		this.ontologyEntry = entry;
+	protected void setOntologyEntry(OntologyFile ontologyFile) {
+		this.ontologyFile = ontologyFile;
 	}
 	
-	protected File getOntologyFile(LocalOntologyEntry entry) {
-		if (entry.getPath() == null) {
-			System.out.println("Loading the Ontology failed: Path is not set.");
+	protected File getOntologyFile(OntologyFile ontologyFile) {
+		if (ontologyFile.getPath() == null) {
+			System.out.println("SYMO4PD Ontology Manager: Loading the Ontology failed: Path is not set.");
 			return null;
 		}
 		
-		if (entry.getFile() == null) {
-			System.out.println("Loading the Ontology failed: Filename is not set.");
+		if (ontologyFile.getFileName() == null) {
+			System.out.println("SYMO4PD Ontology Manager: Loading the Ontology failed: Filename is not set.");
 			return null;
 		}
 		
-		File file = new File(entry.getPath() + entry.getFile());
+		File file = new File(ontologyFile.getPath() + ontologyFile.getFileName());
 		
 		if (!file.exists()) {
-			System.out.println("Loading the Ontology failed: File '" + file.getAbsolutePath() + "' doesn't exist.");
+			System.out.println("SYMO4PD Ontology Manager: Loading the Ontology failed: File '" + file.getAbsolutePath() + "' doesn't exist.");
 			return null;
 		}
 		

@@ -36,6 +36,7 @@ public class Activator implements BundleActivator {
 	 * BundleContext)
 	 */
 	public void start(BundleContext bundleContext) throws Exception {
+		System.out.println("SYMO4PD OIDA Service: Initialization started.");
 		Activator.context = bundleContext;
 
 		ServiceReference<?> serviceReference = context.getServiceReference(IExtensionRegistry.class.getName());
@@ -47,10 +48,11 @@ public class Activator implements BundleActivator {
 			IConfigurationElement[] config = registry.getConfigurationElementsFor(ONTOLOGYMANAGERFACTORY_EXTENSIONPOINT_ID);
 			try {
 				for (IConfigurationElement e : config) {
-					System.out.println("Evaluating extension");
+					System.out.println("SYMO4PD OIDA Service: Evaluating ontology manager extensions.");
 					final Object o = e.createExecutableExtension("class");
 					if (o instanceof IOntologyManagerFactory) {
 						oidaService.initialize(uri, (IOntologyManagerFactory)o);
+						System.out.println("SYMO4PD OIDA Service: Initialized with manager '" + o.getClass().getName() + "'.");
 						break;
 					}
 				}
@@ -60,7 +62,7 @@ public class Activator implements BundleActivator {
 		}
 
 		context.registerService(IOIDAOntologyService.class.getName(), oidaService, null);
-		System.out.println("OIDA Service registered.");
+		System.out.println("SYMO4PD OIDA Service: Service registered.");
 	}
 
 	/*

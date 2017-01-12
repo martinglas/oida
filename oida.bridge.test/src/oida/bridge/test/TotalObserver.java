@@ -1,11 +1,8 @@
 package oida.bridge.test;
 
-import java.net.URL;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.EList;
 import org.eclipse.emf.ecore.util.EContentAdapter;
-import org.osgi.framework.BundleContext;
 
 import de.symo.model.element.ElementFactory;
 import de.symo.model.element.Parameter;
@@ -20,10 +17,9 @@ import oida.ontology.OntologyClass;
 import oida.ontology.manager.IOntologyManager;
 import oida.ontology.manager.OntologyManagerException;
 import oida.ontology.owl.manager.OwlOntologyManagerFactory;
-import oida.ontologyMgr.LocalOntologyEntry;
+import oida.ontologyMgr.OntologyFile;
 import oida.ontologyMgr.OntologyMgrFactory;
 import oida.test.util.OntologyTestHelper;
-import oida.util.OidaHelper;
 
 public class TotalObserver {
 	private OwlOntologyManagerFactory managerFactory;
@@ -35,13 +31,13 @@ public class TotalObserver {
 	public TotalObserver() {
 		managerFactory = new OwlOntologyManagerFactory();
 		
-		LocalOntologyEntry entry = OntologyMgrFactory.eINSTANCE.createLocalOntologyEntry();
+		OntologyFile entry = OntologyMgrFactory.eINSTANCE.createOntologyFile();
 		//TODO get path to local reference ontology
 		
 		
 		String testOntologyPath=OntologyTestHelper.getTestOntologyFilePath();
 		entry.setPath(testOntologyPath);
-		entry.setFile("aircraft.owl");
+		entry.setFileName("aircraft.owl");
 		
 		
 		

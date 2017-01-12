@@ -1,6 +1,6 @@
 package oida.bridge.test;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.fail;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.util.EContentAdapter;
@@ -9,15 +9,13 @@ import org.junit.Test;
 
 import de.symo.model.element.ElementFactory;
 import de.symo.model.element.MetaData;
-import de.symo.model.element.Parameter;
-import de.symo.model.symo.ComponentRepository;
 import de.symo.model.symo.ProjectRepository;
 import de.symo.model.symo.SymoFactory;
 import de.symo.model.symo.SystemElement;
 import oida.ontology.manager.IOntologyManager;
 import oida.ontology.manager.IOntologyManagerFactory;
 import oida.ontology.owl.manager.OwlOntologyManagerFactory;
-import oida.ontologyMgr.LocalOntologyEntry;
+import oida.ontologyMgr.OntologyFile;
 import oida.ontologyMgr.OntologyMgrFactory;
 import oida.test.util.OntologyTestHelper;
 
@@ -25,8 +23,8 @@ import oida.test.util.OntologyTestHelper;
 public class TestProvideModelOntology {
 
 	private IOntologyManager ontologyManager;
-	private LocalOntologyEntry testFileEntry;
-	private LocalOntologyEntry loadingTestFileEntry;
+	private OntologyFile testFileEntry;
+	private OntologyFile loadingTestFileEntry;
 	
 	private ProjectRepository projectRepository;
 	
@@ -37,13 +35,13 @@ public class TestProvideModelOntology {
 		IOntologyManagerFactory ontologyManagerFactory = new OwlOntologyManagerFactory();
 		ontologyManager = ontologyManagerFactory.getNewManager();
 		
-		testFileEntry = OntologyMgrFactory.eINSTANCE.createLocalOntologyEntry();
+		testFileEntry = OntologyMgrFactory.eINSTANCE.createOntologyFile();
 		testFileEntry.setPath(OntologyTestHelper.getTestOntologyFilePath());
-		testFileEntry.setFile(MODEL_ONTOLOGY_TEST_FILE_NAME);
+		testFileEntry.setFileName(MODEL_ONTOLOGY_TEST_FILE_NAME);
 		
-		loadingTestFileEntry = OntologyMgrFactory.eINSTANCE.createLocalOntologyEntry();
+		loadingTestFileEntry = OntologyMgrFactory.eINSTANCE.createOntologyFile();
 		loadingTestFileEntry.setPath(OntologyTestHelper.getTestOntologyFilePath());
-		loadingTestFileEntry.setFile(OntologyTestHelper.getTestReferenceOntologyFileName());
+		loadingTestFileEntry.setFileName(OntologyTestHelper.getTestReferenceOntologyFileName());
 		
 		//Create ProjectRepository and meta data
 		projectRepository=SymoFactory.eINSTANCE.createProjectRepository();
@@ -87,7 +85,7 @@ public class TestProvideModelOntology {
 		
 
 		
-		//Notification ADD object named “leftWing”
+		//Notification ADD object named "leftWing"
 		//Get ontology name from project container (Assumption: objects can only be part of one project)
 		//Get OntologyClass SystemElement of ModelClass of leftWing and create Individual leftWing as instance of SystemElement Class
 

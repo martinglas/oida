@@ -26,8 +26,13 @@ import oida.ontology.OntologyIndividual;
 import oida.ontology.OntologyItem;
 import oida.ontology.manager.AbstractOntologyManager;
 import oida.ontology.manager.OntologyManagerException;
-import oida.ontologyMgr.LocalOntologyEntry;
+import oida.ontologyMgr.OntologyFile;
 
+/**
+ * 
+ * @author Michael.Shamiyeh
+ *
+ */
 public class OwlOntologyManager extends AbstractOntologyManager {
 	public static String STR_EMPTY = "";
 	public static String HASHTAG = "#";
@@ -244,8 +249,8 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 	// }
 
 	@Override
-	public Ontology createOntology(LocalOntologyEntry entry) throws OntologyManagerException {
-		setOntologyEntry(entry);
+	public Ontology createOntology(OntologyFile ontologyFile) throws OntologyManagerException {
+		setOntologyEntry(ontologyFile);
 		
 		try {
 			ontology = manager.createOntology();
@@ -263,16 +268,16 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 	}
 
 	@Override
-	public Ontology loadOntology(LocalOntologyEntry entry, boolean createIfNotExisting) throws OntologyManagerException {
-		if (entry == null)
+	public Ontology loadOntology(OntologyFile ontologyFile, boolean createIfNotExisting) throws OntologyManagerException {
+		if (ontologyFile == null)
 			return null;
 		
-		File file = getOntologyFile(entry);
+		File file = getOntologyFile(ontologyFile);
 		
 		if (file == null)
 			return null;
 		
-		setOntologyEntry(entry);
+		setOntologyEntry(ontologyFile);
 
 		if (file.exists()) {
 			try {
@@ -280,7 +285,7 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 
 				factory = manager.getOWLDataFactory();
 				prefixMgr = (PrefixDocumentFormat)manager.getOntologyFormat(ontology);
-				System.out.println("Ontology loaded: '" + file.getName() + "'");
+				System.out.println("SYMO4PD OWL Ontology Manager: Ontology loaded: '" + file.getName() + "'");
 				
 				Ontology o = OntologyFactory.eINSTANCE.createOntology();
 				o.setName(file.getName());
@@ -307,15 +312,15 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 				return o;
 			} catch (Exception e) {
 				throw new OntologyManagerException("Error while loading ontology from file '" + file.getName() + "': " + e.getMessage(), e);
-			}	
+			}
 		} else {
-			return createOntology(entry);
+			return createOntology(ontologyFile);
 		}
 	}
 
 	@Override
 	public void saveOntology() throws OntologyManagerException {
-		File file = new File(getOntologyEntry().getPath() + getOntologyEntry().getFile());
+		File file = new File(getOntologyEntry().getPath() + getOntologyEntry().getFileName());
 		
 		try { 
 			FileOutputStream outputStream = new FileOutputStream(file);

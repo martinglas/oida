@@ -1,13 +1,14 @@
 package oida.ontology.service;
 
-import org.eclipse.core.databinding.observable.list.IObservableList;
+import java.util.List;
+
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.domain.EditingDomain;
 
 import oida.ontology.Ontology;
 import oida.ontology.manager.IOntologyManager;
 import oida.ontologyMgr.Library;
-import oida.ontologyMgr.LocalOntologyEntry;
+import oida.ontologyMgr.OntologyFile;
 
 /**
  * 
@@ -20,9 +21,9 @@ public interface IOIDAOntologyService {
 
 	public Resource getLibraryResource();
 
-	public IObservableList<Ontology> getManagedOntologies();
+	public List<Ontology> getManagedOntologies();
 
 	public EditingDomain getEditingDomain();
 
-	public IOntologyManager addOntologyManager(LocalOntologyEntry entry, boolean createIfNotExisting);
+	public IOntologyManager addOntologyManager(OntologyFile entry, boolean createIfNotExisting);
 }
