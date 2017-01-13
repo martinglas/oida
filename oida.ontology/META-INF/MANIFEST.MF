@@ -6,7 +6,6 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: oida.ontology.Activator
 Bundle-Vendor: Bauhaus Luftfahrt e.V.
 Require-Bundle: javax.inject,
- org.eclipse.osgi,
  org.eclipse.jface,
  org.eclipse.e4.ui.model.workbench,
  org.eclipse.e4.ui.di,
@@ -14,13 +13,11 @@ Require-Bundle: javax.inject,
  org.eclipse.e4.core.di,
  org.eclipse.e4.core.di.annotations,
  org.eclipse.core.runtime,
- oida.ontology.model;bundle-version="0.1.0",
- org.eclipse.equinox.util;bundle-version="1.0.500",
- org.eclipse.equinox.ds;bundle-version="1.4.400",
  org.eclipse.core.resources,
- oida.ontology.model.edit,
  org.eclipse.jface.databinding,
- org.eclipse.swt
+ org.eclipse.swt,
+ oida.ontology.model,
+ oida.ontology.model.edit
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: javax.annotation;version="1.2.0",
  org.eclipse.core.databinding.observable,
@@ -32,8 +29,7 @@ Import-Package: javax.annotation;version="1.2.0",
  org.eclipse.emf.edit.provider.resource,
  org.eclipse.emf.edit.ui.provider,
  org.eclipse.emf.parsley.edit.domain,
- org.eclipse.emf.parsley.resource,
- org.osgi.service.component.annotations;version="1.2.0"
+ org.eclipse.emf.parsley.resource
 Bundle-ActivationPolicy: lazy
 Export-Package: oida.ontology.manager,
  oida.ontology.service
