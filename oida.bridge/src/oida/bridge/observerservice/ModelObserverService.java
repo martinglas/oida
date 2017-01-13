@@ -39,7 +39,8 @@ public class ModelObserverService extends EContentAdapter implements IModelObser
 	}
 
 	@Override
-	public void notifyChanged(Notification msg) {
-		System.out.println("OIDA Bridge: Notfication received from the data model '" + msg.getNotifier().toString() + "'. Data model has changed!!!");
+	public void notifyChanged(Notification notification) {
+		//System.out.println("OIDA Bridge: Notfication received from the data model '" + notification.getNotifier().toString() + "'. Data model has changed!!!");
+		ChangeHandler.handle(notification);
 	}
 }

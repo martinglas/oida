@@ -12,6 +12,7 @@ import de.symo.model.element.MetaData;
 import de.symo.model.symo.ProjectRepository;
 import de.symo.model.symo.SymoFactory;
 import de.symo.model.symo.SystemElement;
+import oida.bridge.observerservice.ChangeHandler;
 import oida.ontology.manager.IOntologyManager;
 import oida.ontology.manager.IOntologyManagerFactory;
 import oida.ontology.owl.manager.OwlOntologyManagerFactory;

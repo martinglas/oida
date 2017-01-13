@@ -12,6 +12,7 @@ import de.symo.model.symo.ComponentRepository;
 import de.symo.model.symo.StateMaschine;
 import de.symo.model.symo.SymoFactory;
 import de.symo.model.symo.SystemElement;
+import oida.bridge.observerservice.ChangeHandler;
 import oida.ontology.Ontology;
 import oida.ontology.OntologyClass;
 import oida.ontology.manager.IOntologyManager;
