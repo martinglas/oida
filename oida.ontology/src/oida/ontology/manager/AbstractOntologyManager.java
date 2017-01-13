@@ -1,6 +1,7 @@
 package oida.ontology.manager;
 
 import java.io.File;
+import java.io.IOException;
 
 import oida.ontology.Ontology;
 import oida.ontology.OntologyClass;
@@ -36,24 +37,36 @@ public abstract class AbstractOntologyManager implements IOntologyManager {
 	}
 	
 	protected File getOntologyFile(OntologyFile ontologyFile) {
+		return getOntologyFile(ontologyFile, false);
+	}
+	
+	protected File getOntologyFile(OntologyFile ontologyFile, boolean createIfNotExisting) {
 		if (ontologyFile.getPath() == null) {
-			System.out.println("SYMO4PD Ontology Manager: Loading the Ontology failed: Path is not set.");
+			System.out.println("SYMO4PD OIDA Ontology Manager [getOntologyFile]: Ontology file path is not set.");
 			return null;
 		}
 		
 		if (ontologyFile.getFileName() == null) {
-			System.out.println("SYMO4PD Ontology Manager: Loading the Ontology failed: Filename is not set.");
+			System.out.println("SYMO4PD OIDA Ontology Manager [getOntologyFile]: Ontology filename is not set.");
 			return null;
 		}
 		
 		File file = new File(ontologyFile.getPath() + ontologyFile.getFileName());
 		
-		if (!file.exists()) {
-			System.out.println("SYMO4PD Ontology Manager: Loading the Ontology failed: File '" + file.getAbsolutePath() + "' doesn't exist.");
+		if (!file.exists() && createIfNotExisting) {
+			try {
+				file.createNewFile();
+				System.out.println("SYMO4PD OIDA Ontology Manager [getOntologyFile]: Ontology file '" + file.getAbsolutePath() + "' has been created.");
+			} catch (IOException e) {
+				e.printStackTrace();
+			}
+			
+			return file;
+		}
+		else {
+			System.out.println("SYMO4PD OIDA Ontology Manager [getOntologyFile]: Ontology file '" + file.getAbsolutePath() + "' doesn't exist and has NOT been created.");
 			return null;
 		}
-		
-		return file;
 	}
 	
 	@Override

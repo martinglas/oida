@@ -31,6 +31,14 @@ import oida.ontologyMgr.provider.OntologyMgrItemProviderAdapterFactory;
  *
  */
 public class OIDAOntologyService extends AbstractOIDAOntologyService implements INotifyChangedListener {
+	private static OIDAOntologyService instance;
+	public static OIDAOntologyService getInstance() {
+		if (instance == null)
+			instance = new OIDAOntologyService();
+		
+		return instance;
+	}
+	
 	private EditingDomain editingDomain;
 	private Resource resource;
 
@@ -38,7 +46,7 @@ public class OIDAOntologyService extends AbstractOIDAOntologyService implements 
 
 	private List<Ontology> managedOntologies;
 
-	public OIDAOntologyService() {
+	private OIDAOntologyService() {
 		super();
 		
 		OntologyMgrItemProviderAdapterFactory adapterFactory = new OntologyMgrItemProviderAdapterFactory();
@@ -163,6 +171,7 @@ public class OIDAOntologyService extends AbstractOIDAOntologyService implements 
 		try {
 			mgr.loadOntology(ontologyFile, createIfNotExisting);
 			managedOntologies.add(mgr.getOntology());
+			System.out.println("SYMO4PD OIDA Service: Added new ontology manager for: " + ontologyFile.getFileName() + ".");
 		} catch (OntologyManagerException e) {
 			e.printStackTrace();
 		}

@@ -11,6 +11,7 @@ import java.util.stream.Stream;
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.formats.PrefixDocumentFormat;
 import org.semanticweb.owlapi.formats.RDFXMLDocumentFormat;
+import org.semanticweb.owlapi.model.IRI;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLDataFactory;
@@ -253,17 +254,27 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 		setOntologyEntry(ontologyFile);
 		
 		try {
-			ontology = manager.createOntology();
-			factory = manager.getOWLDataFactory();			
-			prefixMgr = new RDFXMLDocumentFormat();
+			File file = getOntologyFile(ontologyFile, true);
+			
+			if (file != null) {
+				ontology = manager.createOntology(IRI.create(file));
+				factory = manager.getOWLDataFactory();			
+				prefixMgr = new RDFXMLDocumentFormat();
 
-			Ontology o = OntologyFactory.eINSTANCE.createOntology();
-			setOntology(o);
-			toMap(ontology, o);
-
-			return o;
+				Ontology o = OntologyFactory.eINSTANCE.createOntology();
+				setOntology(o);
+				toMap(ontology, o);
+				
+				manager.saveOntology(ontology);
+				System.out.println("SYMO4PD OWL Ontology Manager: Ontology created: '" + file.getName() + "'");
+				
+				return o;
+			}
+			else {
+				return null;
+			}
 		} catch (Exception e) {
-			throw new OntologyManagerException("Ontology creation failed.");
+			throw new OntologyManagerException("Ontology creation failed: " + e.getMessage());
 		}
 	}
 
@@ -272,14 +283,8 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 		if (ontologyFile == null)
 			return null;
 		
-		File file = getOntologyFile(ontologyFile);
-		
-		if (file == null)
-			return null;
-		
-		setOntologyEntry(ontologyFile);
-
-		if (file.exists()) {
+		File file = getOntologyFile(ontologyFile);	
+		if (file != null) {
 			try {
 				ontology = manager.loadOntologyFromOntologyDocument(file);
 
@@ -306,6 +311,7 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 					o.getIndividuals().add(oI);
 				}
 				
+				setOntologyEntry(ontologyFile);
 				setOntology(o);
 				toMap(ontology, o);
 				
