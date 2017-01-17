@@ -1,5 +1,6 @@
 package oida.ontology.manager;
 
+import java.util.Map;
 import java.util.stream.Stream;
 
 import oida.ontology.Ontology;
@@ -14,14 +15,19 @@ import oida.ontologyMgr.OntologyFile;
  * 
  */
 public interface IOntologyManager {
+	public static String STR_EMPTY = "";
+	public static String HASHTAG = "#";
+	
 	Ontology getOntology();
-	OntologyFile getOntologyEntry();
 	
 	Ontology createOntology(OntologyFile ontologyFile) throws OntologyManagerException;
+	Ontology loadOntology(OntologyFile ontologyFile) throws OntologyManagerException;
 	Ontology loadOntology(OntologyFile ontologyFile, boolean createIfNotExisting) throws OntologyManagerException;
 	void saveOntology() throws OntologyManagerException;
 	
 	void initializeReasoner();
+	
+	void addGlobalIRIToLocalPathMapping(String iri, String localPath);
 	
 	void addNamespace(String prefix, String namespace);
 	void addNamespace(String prefix, String namespace, boolean setDefault);
@@ -29,6 +35,8 @@ public interface IOntologyManager {
 	boolean isNamespaceExisting(String prefix);
 	
 	String getNamespace(String prefix);
+	
+	Map<String, String> getAllNamespaces();
 	
 	/**
 	 * Creates a class within the default namespace of the ontology.

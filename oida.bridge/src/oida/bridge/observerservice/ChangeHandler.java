@@ -47,7 +47,6 @@ public class ChangeHandler {
 
 				// GetOntology named after the root container
 				// GetClass
-
 			}
 
 			// Get model ontology

@@ -17,7 +17,8 @@ Require-Bundle: javax.inject,
  org.eclipse.jface.databinding,
  org.eclipse.swt,
  oida.ontology.model,
- oida.ontology.model.edit
+ oida.ontology.model.edit,
+ org.eclipse.emf.ecore
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: javax.annotation;version="1.2.0",
  org.eclipse.core.databinding.observable,

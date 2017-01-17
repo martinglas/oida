@@ -41,13 +41,15 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="containingOntology" eType="#//ontology/Ontology"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="Ontology" eSuperTypes="#//ontology/OntologyItem">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="includes" upperBound="-1"
+          eType="#//ontology/Ontology" containment="true" resolveProxies="false"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="classes" upperBound="-1"
           eType="#//ontology/OntologyClass" containment="true" resolveProxies="false"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="individuals" upperBound="-1"
           eType="#//ontology/OntologyIndividual" containment="true" resolveProxies="false"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="nrOfClasses" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="nrOfIndividuals" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="ontologyEntry" eType="#//ontologyMgr/LocalReferenceOntologyFileSet"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="ontologyEntry" eType="#//ontologyMgr/OntologyFile"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="OntologyIndividual" eSuperTypes="#//ontology/OntologyEntity">
       <eStructuralFeatures xsi:type="ecore:EReference" name="types" upperBound="-1"
