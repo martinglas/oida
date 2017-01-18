@@ -37,16 +37,24 @@
           eType="#//ontology/OntologyClass"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="OntologyEntity" eSuperTypes="#//ontology/OntologyItem">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="prefix" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="containingOntology" eType="#//ontology/Ontology"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="annotations" upperBound="-1"
+          eType="#//ontology/OntologyAnnotation" containment="true"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="Ontology" eSuperTypes="#//ontology/OntologyItem">
+    <eClassifiers xsi:type="ecore:EClass" name="Ontology">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="includes" upperBound="-1"
           eType="#//ontology/Ontology" containment="true" resolveProxies="false"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="classes" upperBound="-1"
           eType="#//ontology/OntologyClass" containment="true" resolveProxies="false"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="individuals" upperBound="-1"
           eType="#//ontology/OntologyIndividual" containment="true" resolveProxies="false"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="objectproperties" upperBound="-1"
+          eType="#//ontology/OntologyObjectProperty" containment="true" resolveProxies="false"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="annotationproperties"
+          upperBound="-1" eType="#//ontology/OntologyAnnotationProperty" containment="true"
+          resolveProxies="false"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="nrOfClasses" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="nrOfIndividuals" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="ontologyEntry" eType="#//ontologyMgr/OntologyFile"/>
@@ -56,7 +64,16 @@
           eType="#//ontology/OntologyClass"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="OntologyItem">
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="containingOntology" eType="#//ontology/Ontology"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="OntologyObjectProperty" eSuperTypes="#//ontology/OntologyEntity">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="range" eType="#//ontology/OntologyClass"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="domain" eType="#//ontology/OntologyClass"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="OntologyAnnotationProperty" eSuperTypes="#//ontology/OntologyEntity"/>
+    <eClassifiers xsi:type="ecore:EClass" name="OntologyAnnotation" eSuperTypes="#//ontology/OntologyItem">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="annotationproperty" eType="#//ontology/OntologyAnnotationProperty"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eClassifiers>
   </eSubpackages>
 </ecore:EPackage>
