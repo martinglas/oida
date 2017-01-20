@@ -1,7 +1,7 @@
 Manifest-Version: 1.0
 Bundle-ManifestVersion: 2
 Bundle-Name: OIDA Bridge
-Bundle-SymbolicName: oida.bridge
+Bundle-SymbolicName: oida.bridge;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.common;bundle-version="2.12.0",
@@ -17,4 +17,5 @@ Bundle-ActivationPolicy: lazy
 Import-Package: oida.ontology.manager,
  org.eclipse.emf.ecore
 Bundle-Activator: oida.bridge.Activator
-Export-Package: oida.bridge.observerservice
+Export-Package: oida.bridge.observerservice,
+ oida.bridge.observerservice.changehandler
