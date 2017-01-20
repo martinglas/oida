@@ -12,7 +12,6 @@ import de.symo.model.symo.ComponentRepository;
 import de.symo.model.symo.StateMaschine;
 import de.symo.model.symo.SymoFactory;
 import de.symo.model.symo.SystemElement;
-import oida.bridge.observerservice.ChangeHandler;
 import oida.ontology.Ontology;
 import oida.ontology.OntologyClass;
 import oida.ontology.manager.IOntologyManager;
@@ -68,7 +67,7 @@ public class TotalObserver {
 		EContentAdapter adapter = new EContentAdapter() {
 			public void notifyChanged(Notification notification) {
 				super.notifyChanged(notification);
-				ChangeHandler.handle(notification);
+				//ChangeHandler.handle(notification);
 				// System.out.println("Notification received from the data model.
 				// Data model has changed!!!");
 			}
