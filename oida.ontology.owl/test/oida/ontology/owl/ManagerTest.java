@@ -157,7 +157,7 @@ public class ManagerTest {
 			Ontology ontology = manager.loadOntology(loadingTestFileEntry, false);
 			assertNotNull(ontology);
 			
-			assertEquals(120,manager.getAllClasses().count());
+			assertEquals(376, manager.getAllClasses().count());
 			
 			
 		} catch (OntologyManagerException e) {

@@ -4,8 +4,11 @@ import java.util.Map;
 import java.util.stream.Stream;
 
 import oida.ontology.Ontology;
+import oida.ontology.OntologyAnnotation;
+import oida.ontology.OntologyAnnotationProperty;
 import oida.ontology.OntologyClass;
 import oida.ontology.OntologyIndividual;
+import oida.ontology.OntologyObjectProperty;
 import oida.ontologyMgr.OntologyFile;
 
 /**
@@ -77,4 +80,20 @@ public interface IOntologyManager {
 	OntologyClass getClass(String name);
 	OntologyClass getClass(String name, String prefix);
 	Stream<OntologyClass> getAllClasses();
+	
+	OntologyObjectProperty createObjectProperty(String propertyName);
+	OntologyObjectProperty createObjectProperty(String propertyName, OntologyClass range);
+	OntologyObjectProperty createObjectProperty(String propertyName, OntologyClass range, OntologyClass domain);
+	
+	OntologyObjectProperty createObjectProperty(String propertyName, String prefix);
+	OntologyObjectProperty createObjectProperty(String propertyName, String prefix, OntologyClass range);
+	OntologyObjectProperty createObjectProperty(String propertyName, String prefix, OntologyClass range, OntologyClass domain);
+	
+	void assignObjectPropertyRange(OntologyObjectProperty property, OntologyClass range);
+	void assignObjectPropertyDomain(OntologyObjectProperty property, OntologyClass domain);
+	
+	OntologyAnnotationProperty createAnnotationProperty(String propertyName);
+	OntologyAnnotationProperty createAnnotationProperty(String propertyName, String prefix);
+	
+	OntologyAnnotation annotateClass(OntologyAnnotationProperty property, String annotationValue, OntologyClass clazz);
 }

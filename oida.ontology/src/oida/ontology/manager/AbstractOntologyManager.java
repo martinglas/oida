@@ -7,9 +7,13 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.util.EContentAdapter;
 
 import oida.ontology.Ontology;
+import oida.ontology.OntologyAnnotation;
+import oida.ontology.OntologyAnnotationProperty;
 import oida.ontology.OntologyClass;
+import oida.ontology.OntologyEntity;
 import oida.ontology.OntologyFactory;
 import oida.ontology.OntologyIndividual;
+import oida.ontology.OntologyObjectProperty;
 import oida.ontology.OntologyPackage;
 import oida.ontologyMgr.OntologyFile;
 
@@ -95,7 +99,7 @@ public abstract class AbstractOntologyManager extends EContentAdapter implements
 	
 	@Override
 	public OntologyClass createSubClass(String name, OntologyClass superClass) {
-		return createSubClass(name, "", superClass);
+		return createSubClass(name, STR_EMPTY, superClass);
 	}
 
 	@Override
@@ -129,6 +133,44 @@ public abstract class AbstractOntologyManager extends EContentAdapter implements
 		return individual;
 	}
 	
+	@Override
+	public OntologyObjectProperty createObjectProperty(String propertyName) {
+		return createObjectProperty(propertyName, STR_EMPTY);
+	}
+	
+	@Override
+	public OntologyObjectProperty createObjectProperty(String propertyName, OntologyClass range) {
+		return createObjectProperty(propertyName, STR_EMPTY, range);
+	}
+	
+	@Override
+	public OntologyObjectProperty createObjectProperty(String propertyName, OntologyClass range, OntologyClass domain) {
+		return createObjectProperty(propertyName, STR_EMPTY, range, domain);
+	}
+	
+	@Override
+	public OntologyObjectProperty createObjectProperty(String propertyName, String prefix, OntologyClass range) {
+		return createObjectProperty(propertyName, STR_EMPTY, range, null);
+	}
+	
+	@Override
+	public OntologyObjectProperty createObjectProperty(String propertyName, String prefix, OntologyClass range, OntologyClass domain) {
+		OntologyObjectProperty property = createObjectProperty(propertyName, prefix);
+		
+		if (range != null)
+			assignObjectPropertyRange(property, range);
+		
+		if (domain != null)
+			assignObjectPropertyDomain(property, domain);
+		
+		return property;
+	}
+	
+	@Override
+	public OntologyAnnotationProperty createAnnotationProperty(String propertyName) {
+		return createAnnotationProperty(propertyName, STR_EMPTY);
+	}
+	
 	protected Ontology generateInternalOntologyObject(OntologyFile file, String name, long nrOfClasses, long nrOfIndividuals) {
 		Ontology newOntology = OntologyFactory.eINSTANCE.createOntology();
 		newOntology.setOntologyEntry(file);
@@ -140,10 +182,7 @@ public abstract class AbstractOntologyManager extends EContentAdapter implements
 	
 	protected OntologyClass generateInternalClassObject(Ontology ontology, String prefix, String className) {
 		OntologyClass newClass = OntologyFactory.eINSTANCE.createOntologyClass();
-		newClass.setContainingOntology(ontology);
-		newClass.setPrefix(prefix);
-		newClass.setName(className);
-		
+		setOntologyEntityData(newClass, ontology, className, prefix);
 		ontology.getClasses().add(newClass);
 
 		return newClass;
@@ -151,12 +190,38 @@ public abstract class AbstractOntologyManager extends EContentAdapter implements
 	
 	protected OntologyIndividual generateInternalIndividualObject(Ontology ontology, String prefix, String individualName) {
 		OntologyIndividual newIndividual = OntologyFactory.eINSTANCE.createOntologyIndividual();
-		newIndividual.setContainingOntology(ontology);
-		newIndividual.setPrefix(prefix);
-		newIndividual.setName(individualName);
-		
+		setOntologyEntityData(newIndividual, ontology, individualName, prefix);
 		ontology.getIndividuals().add(newIndividual);
 		
 		return newIndividual;
+	}
+	
+	protected OntologyObjectProperty generateInternalObjectPropertyObject(Ontology ontology, String prefix, String propertyName) {
+		OntologyObjectProperty property = OntologyFactory.eINSTANCE.createOntologyObjectProperty();
+		setOntologyEntityData(property, ontology, propertyName, prefix);
+		
+		return property;
+	}
+	
+	protected OntologyAnnotationProperty generateInternalAnnotationPropertyObject(Ontology ontology, String prefix, String propertyName) {
+		OntologyAnnotationProperty property = OntologyFactory.eINSTANCE.createOntologyAnnotationProperty();
+		setOntologyEntityData(property, ontology, propertyName, prefix);
+		
+		return property;
+	}
+	
+	protected OntologyAnnotation generateInternalAnnotationObject(Ontology ontology, OntologyAnnotationProperty property, String value) {
+		OntologyAnnotation annotation = OntologyFactory.eINSTANCE.createOntologyAnnotation();
+		annotation.setContainingOntology(ontology);
+		annotation.setAnnotationproperty(property);
+		annotation.setValue(value);
+		
+		return annotation;
+	}
+	
+	private void setOntologyEntityData(OntologyEntity entity, Ontology ontology, String name, String prefix) {
+		entity.setContainingOntology(ontology);
+		entity.setName(name);
+		entity.setPrefix(prefix);
 	}
 }
