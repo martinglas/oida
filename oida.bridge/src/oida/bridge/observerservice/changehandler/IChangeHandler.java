@@ -27,5 +27,7 @@ public interface IChangeHandler {
 	void handleUnset(Notification notification);
 
 	void setOntologyManager(IOntologyManager owlOntologyManager);
+	
+	
 
 }
