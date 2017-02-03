@@ -22,14 +22,14 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
-import oida.model.integration.model.extractor.Extractor;
+import de.symo.oida.changehandler.modelhelper.Extractor;
 import oida.model.integration.transformation.typemapping.BaseUnitType;
 import oida.model.integration.transformation.typemapping.ProductUnitType;
 import oida.model.integration.transformation.typemapping.TransformedUnitType;
 import oida.model.integration.transformation.typemapping.UnitType;
 import oida.model.integration.transformation.util.TransformatorHelper;
-import oida.ontology.model.OntologyModel;
-import oida.ontology.util.OntologyHelper;
+import oida.ontology.OntologyClass;
+import oida.ontology.manager.IOntologyManager;
 
 /**
  * This class generates an OWL ontology form a given EMF Model. It generates
@@ -39,8 +39,10 @@ import oida.ontology.util.OntologyHelper;
  * 
  */
 public class OntologyGenerator {
-	private OntologyModel ontologyModel;
-	private Ontology targetOntology;
+	private IOntologyManager ontologyMgr;
+	
+//	private OntologyModel ontologyModel;
+//	private Ontology targetOntology;
 	private Extractor extractor;
 	private Renamer renamer;
 
@@ -56,29 +58,26 @@ public class OntologyGenerator {
 	 * @param renamerStrategy
 	 *            the renamer strategy mapping model to ontology names
 	 */
-	public OntologyGenerator(URI targetOntologyURI, EObject rootEObject,
-			RenamerStrategy renamerStrategy) {
-		setRenamer(new Renamer(rootEObject));
-		getRenamer().setRenamerStrategy(renamerStrategy);
-		getRenamer().isUnabiguous();
+	public OntologyGenerator(IOntologyManager ontologyMgr, EObject rootEObject, RenamerStrategy renamerStrategy) {
+		this.ontologyMgr = ontologyMgr;
+		
+//		setRenamer(new Renamer(rootEObject));
+//		getRenamer().setRenamerStrategy(renamerStrategy);
+//		getRenamer().isUnabiguous();
 
 		extractor = new Extractor(rootEObject);
-		ontologyModel = OntologyModel.getInstance();
 
-		this.targetOntology = ontologyModel.addOntology(targetOntologyURI);
-		OntologyHelper.importMerology(targetOntology);
+//		this.targetOntology = ontologyModel.addOntology(targetOntologyURI);
+//		OntologyHelper.importMerology(targetOntology);
 
-		TypeMapper.getInstance().registerDatatype(UnitType.theUnitType);
-		TypeMapper.getInstance().registerDatatype(BaseUnitType.theBaseUnitType);
-		TypeMapper.getInstance().registerDatatype(
-				ProductUnitType.theProductUnitType);
-		TypeMapper.getInstance().registerDatatype(
-				TransformedUnitType.theTransformedUnitType);
+//		TypeMapper.getInstance().registerDatatype(UnitType.theUnitType);
+//		TypeMapper.getInstance().registerDatatype(BaseUnitType.theBaseUnitType);
+//		TypeMapper.getInstance().registerDatatype(ProductUnitType.theProductUnitType);
+//		TypeMapper.getInstance().registerDatatype(TransformedUnitType.theTransformedUnitType);
 	}
 
 	private void setRenamer(Renamer renamer) {
 		this.renamer = renamer;
-
 	}
 
 	/**
@@ -92,144 +91,6 @@ public class OntologyGenerator {
 
 	}
 
-	/**
-	 * This methods generates ontology classes representing model classes which
-	 * have instance objects in the model.
-	 */
-	public void generateOntClasses() {
-		List<EClass> classesOfInstances = extractor
-				.getAllClassesOfInstanceEObjects();
-		// Create all classes which have instances in the model
-		for (EClass eClass : classesOfInstances) {
-			URI newClassURI = OntologyHelper.generateURI(targetOntology,
-					eClass.getName());
-			if (!ontologyModel.containsClass(newClassURI)) {
-				ontologyModel.addOntClass(newClassURI);
-			}
-
-		}
-
-		// Create taxonomy between classes
-		for (EClass eClass : classesOfInstances) {
-			URI classURI = OntologyHelper.generateURI(targetOntology,
-					renamer.getEClassName(eClass));
-			if (!eClass.getESuperTypes().isEmpty()) {
-				for (EClass eSuperType : eClass.getESuperTypes()) {
-					URI superClassURI = OntologyHelper.generateURI(
-							targetOntology, eSuperType.getName());
-					OntClass ontologySuperClass = ontologyModel
-							.getOntologyClass(superClassURI);
-					if (!ontologyModel.getOntologyClass(classURI)
-							.hasSuperClass(ontologySuperClass)) {
-						ontologyModel.getOntologyClass(classURI).addSuperClass(
-								ontologySuperClass);
-					}
-
-				}
-
-			}
-
-		}
-
-	}
-
-	/**
-	 * This method extracts instances as individuals in the tree under a given
-	 * EObject.
-	 * 
-	 */
-	public void generateIndividuals() {
-
-		List<EObject> comprisedEObjects = extractor.getInstanceEObjects();
-
-		// Create Individuals
-		for (EObject eObject : comprisedEObjects) {
-
-			URI individualURI = OntologyHelper.generateURI(targetOntology,
-					renamer.getEObjectName(eObject));
-			if (!ontologyModel.containsIndividual(individualURI)) {
-				URI classURI = OntologyHelper.generateURI(targetOntology,
-						renamer.getEClassName(eObject.eClass()));
-				if (!ontologyModel.containsClass(classURI)) {
-					ontologyModel.addOntClass(classURI);
-				}
-				OntClass ontologyClass = ontologyModel
-						.getOntologyClass(classURI);
-				ontologyModel.addIndividual(individualURI, ontologyClass);
-
-			}
-
-		}
-
-		// Create properties between individuals
-		for (EObject eObject : comprisedEObjects) {
-
-			URI individualURI = OntologyHelper.generateURI(targetOntology,
-					renamer.getEObjectName(eObject));
-
-			for (EStructuralFeature eStructuralFeature : eObject.eClass()
-					.getEAllStructuralFeatures()) {
-
-				if (eStructuralFeature instanceof EReference) {
-					EReference eReference = (EReference) eStructuralFeature;
-
-					URI objectPropertyURI = OntologyHelper.generateURI(
-							targetOntology,
-							renamer.getEStructuralFeatureName(eReference));
-					Object referenceTargetObject = eObject.eGet(eReference);
-					// Handle reference with cardinality greater 1
-					if (referenceTargetObject instanceof EList) {
-						@SuppressWarnings("unchecked")
-						EList<EObject> referenceObjectList = (EList<EObject>) referenceTargetObject;
-						for (EObject targetEObject : referenceObjectList) {
-							URI targetIndividualURI = OntologyHelper
-									.generateURI(targetOntology, renamer
-											.getEObjectName(targetEObject));
-
-							ontologyModel.addObjectPropertyInstance(
-									individualURI, objectPropertyURI,
-									targetIndividualURI);
-
-						}
-					}
-					// Handle reference with cardinality 1
-					else if (referenceTargetObject instanceof EObject) {
-						EObject referenceEObject = (EObject) referenceTargetObject;
-						URI targetIndividualURI = OntologyHelper.generateURI(
-								targetOntology,
-								renamer.getEObjectName(referenceEObject));
-
-						ontologyModel.addObjectPropertyInstance(individualURI,
-								objectPropertyURI, targetIndividualURI);
-
-					}
-				}
-				// Handle attribute
-				else if (eStructuralFeature instanceof EAttribute) {
-					EAttribute eAttribute = (EAttribute) eStructuralFeature;
-					Object eAttributeValue = "";
-					if (eObject.eGet(eAttribute) != null) {
-						eAttributeValue = eObject.eGet(eAttribute);
-					}
-
-					URI datatypePropertyURI = OntologyHelper.generateURI(
-							targetOntology,
-							renamer.getEStructuralFeatureName(eAttribute));
-
-					Literal literal = ontologyModel.getOntologyModel()
-							.createTypedLiteral(eAttributeValue);
-					// ontologyModel.addDatatypePropertyInstance(individualURI,
-					// datatypePropertyURI, eAttributeValue);
-					ontologyModel.addDatatypePropertyInstance(individualURI,
-							datatypePropertyURI, literal);
-
-				}
-
-			}
-
-		}
-
-	}
 
 	/**
 	 * This method scans a given model for references in its metamodel and
@@ -252,7 +113,7 @@ public class OntologyGenerator {
 
 			if ((!ontologyModel.containsProperty(objectPropertyURI))) {
 				// Ensure that domain class exist
-				if (!ontologyModel.containsClass(domainClassURI)) {
+				if (!ontologyModel.isClassExisting(domainClassURI)) {
 					ontologyModel.addOntClass(domainClassURI);
 
 				}
@@ -262,7 +123,7 @@ public class OntologyGenerator {
 						targetClassifier.getName());
 
 				// Ensure that range class exists
-				if (!ontologyModel.containsClass(rangeClassURI)) {
+				if (!ontologyModel.isClassExisting(rangeClassURI)) {
 					ontologyModel.addOntClass(rangeClassURI);
 
 				}
@@ -292,14 +153,13 @@ public class OntologyGenerator {
 			URI domainClassURI = OntologyHelper.generateURI(targetOntology,
 					sourceClass.getName());
 
-			URI datatypePropertyURI = OntologyHelper.generateURI(
-					targetOntology,
+			URI datatypePropertyURI = OntologyHelper.generateURI(targetOntology,
 					renamer.getEStructuralFeatureName(eAttribute));
 
 			if ((!ontologyModel.containsProperty(datatypePropertyURI))) {
 
 				// Ensure that the domain class exists in the ontology
-				if (!ontologyModel.containsClass(domainClassURI)) {
+				if (!ontologyModel.isClassExisting(domainClassURI)) {
 					ontologyModel.addOntClass(domainClassURI);
 				}
 

@@ -4,6 +4,6 @@ Bundle-Name: Test
 Bundle-SymbolicName: oida.test
 Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Require-Bundle: org.eclipse.equinox.registry
 Export-Package: oida.test.util,
  oida.util
+Require-Bundle: org.eclipse.equinox.registry

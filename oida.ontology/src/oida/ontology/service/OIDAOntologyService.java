@@ -169,11 +169,17 @@ public class OIDAOntologyService extends AbstractOIDAOntologyService implements 
 		IOntologyManager mgr = managerFactory.getNewManager();
 
 		try {
-			mgr.loadOntology(ontologyFile, createIfNotExisting);
+			mgr.loadOntology(ontologyFile);
 			managedOntologies.add(mgr.getOntology());
 			System.out.println("SYMO4PD OIDA Service: Added new ontology manager for: " + ontologyFile.getFileName() + ".");
 		} catch (OntologyManagerException e) {
-			e.printStackTrace();
+			try {
+				// TODO
+				mgr.createOntology("http://de.oida/" + ontologyFile.getFileName().replace(".owl", "").replace("\\", ""));
+				mgr.setOntologyFile(ontologyFile);
+			} catch (OntologyManagerException e1) {
+				e1.printStackTrace();
+			}
 		}
 
 		return mgr;

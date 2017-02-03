@@ -2,6 +2,8 @@ package oida.ontology.manager;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Optional;
+import java.util.stream.Stream;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.util.EContentAdapter;
@@ -24,7 +26,6 @@ import oida.ontologyMgr.OntologyFile;
  *
  */
 public abstract class AbstractOntologyManager extends EContentAdapter implements IOntologyManager {
-	
 	private Ontology ontology;
 	
 	public Ontology getOntology() {
@@ -49,17 +50,29 @@ public abstract class AbstractOntologyManager extends EContentAdapter implements
 
 	protected void setOntology(Ontology ontology) {
 		if (this.ontology != null)
-			this.ontology.eResource().eAdapters().remove(this);
+			this.ontology.eAdapters().remove(this);
 		
 		this.ontology = ontology;
 		this.ontology.eAdapters().add(this);
 	}
 	
-	protected File getOntologyFile(OntologyFile ontologyFile) {
-		return getOntologyFile(ontologyFile, false);
+	public void setOntologyFile(OntologyFile file) {
+		if (this.ontology != null)
+			this.ontology.setOntologyEntry(file);		
 	}
 	
-	protected File getOntologyFile(OntologyFile ontologyFile, boolean createIfNotExisting) {
+	public OntologyFile getOntologyFile() {
+		if (this.ontology != null)
+			return this.ontology.getOntologyEntry();
+		else
+			return null;
+	}
+	
+	protected File getOntologyFileObject(OntologyFile ontologyFile) {
+		return getOntologyFileObject(ontologyFile, false);
+	}
+	
+	protected File getOntologyFileObject(OntologyFile ontologyFile, boolean createIfNotExisting) {
 		if (ontologyFile.getPath() == null) {
 			System.out.println("OIDA Ontology Manager [getOntologyFile]: Ontology file path is not set.");
 			return null;
@@ -93,8 +106,14 @@ public abstract class AbstractOntologyManager extends EContentAdapter implements
 	}
 	
 	@Override
-	public Ontology loadOntology(OntologyFile ontologyFile) throws OntologyManagerException {
-		return loadOntology(ontologyFile, false);
+	public void saveOntology(OntologyFile ontologyFile) throws OntologyManagerException {
+		setOntologyFile(ontologyFile);
+		saveOntology();
+	}
+
+	@Override
+	public OntologyClass createClass(String name) {
+		return createClass(name, STR_EMPTY);
 	}
 	
 	@Override
@@ -131,6 +150,56 @@ public abstract class AbstractOntologyManager extends EContentAdapter implements
 		OntologyIndividual individual = createIndividual(individualName, individualPrefix);
 		assignIndividualToClass(individual, clazz);
 		return individual;
+	}
+	
+	@Override
+	public OntologyClass getClass(final String name) {
+		return getClass(name, STR_EMPTY);
+	}
+	
+	@Override
+	public OntologyClass getClass(final String name, final String prefix) {
+		Optional<OntologyClass> opt = ontology.getClasses().stream().filter(cl -> cl.getName().equals(name) && cl.getPrefix().equals(prefix)).findFirst();
+		
+		if (opt.isPresent())
+			return opt.get();
+		else
+			return null;
+	}
+	
+	@Override
+	public Stream<OntologyClass> getAllClasses() {
+		return ontology.getClasses().stream();
+	}
+	
+	@Override
+	public OntologyIndividual getIndividual(String name) {
+		return getIndividual(name, STR_EMPTY);
+	}
+
+	@Override
+	public OntologyIndividual getIndividual(String name, String prefix) {
+		Optional<OntologyIndividual> opt = ontology.getIndividuals().stream().filter(cl -> cl.getName().equals(name) && cl.getPrefix().equals(prefix)).findFirst();
+		
+		if (opt.isPresent())
+			return opt.get();
+		else
+			return null;
+	}
+
+	@Override
+	public Stream<OntologyIndividual> getAllIndividuals() {
+		return ontology.getIndividuals().stream();
+	}
+	
+	@Override
+	public boolean isClassExisting(String name) {
+		return isClassExisting(name, STR_EMPTY);
+	}
+
+	@Override
+	public boolean isClassExisting(String name, String prefix) {
+		return getClass(name, prefix) != null;
 	}
 	
 	@Override
@@ -171,15 +240,14 @@ public abstract class AbstractOntologyManager extends EContentAdapter implements
 		return createAnnotationProperty(propertyName, STR_EMPTY);
 	}
 	
-	protected Ontology generateInternalOntologyObject(OntologyFile file, String name, long nrOfClasses, long nrOfIndividuals) {
+	protected Ontology generateInternalOntologyObject(String name, long nrOfClasses, long nrOfIndividuals) {
 		Ontology newOntology = OntologyFactory.eINSTANCE.createOntology();
-		newOntology.setOntologyEntry(file);
 		newOntology.setName(name);
 		newOntology.setNrOfClasses(nrOfClasses);
 		newOntology.setNrOfIndividuals(nrOfIndividuals);
 		return newOntology;
 	}
-	
+		
 	protected OntologyClass generateInternalClassObject(Ontology ontology, String prefix, String className) {
 		OntologyClass newClass = OntologyFactory.eINSTANCE.createOntologyClass();
 		setOntologyEntityData(newClass, ontology, className, prefix);

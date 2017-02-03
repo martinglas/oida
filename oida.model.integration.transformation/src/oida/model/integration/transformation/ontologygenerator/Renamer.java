@@ -17,7 +17,7 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
-import oida.model.integration.modelprovider.ModelProviderHelper;
+import de.symo.oida.changehandler.modelhelper.ModelProviderHelper;
 
 /**
  * This class renames model elements in order to avoid naming conflicts.

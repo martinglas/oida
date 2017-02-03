@@ -20,6 +20,7 @@ import org.eclipse.emf.ecore.util.EContentAdapter;
 
 import oida.bridge.observerservice.changehandler.IChangeHandler;
 import oida.ontology.manager.IOntologyManager;
+import oida.ontology.manager.OntologyManagerException;
 
 /**
  * 
@@ -50,6 +51,15 @@ public class ModelObserverService extends EContentAdapter implements IModelObser
 	}
 
 	public void addModelForObservation(EObject componentRepository, IOntologyManager ontologyManager) {
+		changeHandler.initializeModelOntology(componentRepository, ontologyManager);
+		
+		try {
+			ontologyManager.saveOntology();
+		} catch (OntologyManagerException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		
 		componentRepository.eResource().eAdapters().add(this);
 
 		System.out.println("OIDA Bridge: Model '" + componentRepository.toString() + "' observed.");
@@ -59,36 +69,38 @@ public class ModelObserverService extends EContentAdapter implements IModelObser
 
 	@Override
 	public void notifyChanged(Notification notification) {
+		IOntologyManager modelOntologyManager = modelOntologies.get(notification.getNotifier());
+		
 		switch (notification.getEventType()) {
 		case ADD:
-			changeHandler.handleAdd(notification);
+			changeHandler.handleAdd(notification, modelOntologyManager);
 			break;
 		case ADD_MANY:
-			changeHandler.handleAddMany(notification);
+			changeHandler.handleAddMany(notification, modelOntologyManager);
 			break;
 		case MOVE:
-			changeHandler.handleMove(notification);
+			changeHandler.handleMove(notification, modelOntologyManager);
 			break;
 		case NO_INDEX:
-			changeHandler.handleNoIndex(notification);
+			changeHandler.handleNoIndex(notification, modelOntologyManager);
 			break;
 		case REMOVE:
-			changeHandler.handleRemove(notification);
+			changeHandler.handleRemove(notification, modelOntologyManager);
 			break;
 		case REMOVE_MANY:
-			changeHandler.handleRemoveMany(notification);
+			changeHandler.handleRemoveMany(notification, modelOntologyManager);
 			break;
 		case REMOVING_ADAPTER:
-			changeHandler.handleRemovingAdapter(notification);
+			changeHandler.handleRemovingAdapter(notification, modelOntologyManager);
 			break;
 		case RESOLVE:
-			changeHandler.handleResolve(notification);
+			changeHandler.handleResolve(notification, modelOntologyManager);
 			break;
 		case SET:
-			changeHandler.handleSet(notification);
+			changeHandler.handleSet(notification, modelOntologyManager);
 			break;
 		case UNSET:
-			changeHandler.handleUnset(notification);
+			changeHandler.handleUnset(notification, modelOntologyManager);
 			break;
 		default:
 			System.out.println("Uncovered notification type: " + notification.getEventType());

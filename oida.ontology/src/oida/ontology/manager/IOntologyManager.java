@@ -23,10 +23,13 @@ public interface IOntologyManager {
 	
 	Ontology getOntology();
 	
-	Ontology createOntology(OntologyFile ontologyFile) throws OntologyManagerException;
+	Ontology createOntology(String ontologyIRI) throws OntologyManagerException;
 	Ontology loadOntology(OntologyFile ontologyFile) throws OntologyManagerException;
-	Ontology loadOntology(OntologyFile ontologyFile, boolean createIfNotExisting) throws OntologyManagerException;
 	void saveOntology() throws OntologyManagerException;
+	void saveOntology(OntologyFile ontologyFile) throws OntologyManagerException;
+	
+	void setOntologyFile(OntologyFile ontologyFile);
+	OntologyFile getOntologyFile();
 	
 	void initializeReasoner();
 	
@@ -37,6 +40,7 @@ public interface IOntologyManager {
 	
 	boolean isNamespaceExisting(String prefix);
 	
+	String getDefaultNamespace();
 	String getNamespace(String prefix);
 	
 	Map<String, String> getAllNamespaces();
@@ -80,6 +84,9 @@ public interface IOntologyManager {
 	OntologyClass getClass(String name);
 	OntologyClass getClass(String name, String prefix);
 	Stream<OntologyClass> getAllClasses();
+	
+	boolean isClassExisting(String name);
+	boolean isClassExisting(String name, String prefix);
 	
 	OntologyObjectProperty createObjectProperty(String propertyName);
 	OntologyObjectProperty createObjectProperty(String propertyName, OntologyClass range);

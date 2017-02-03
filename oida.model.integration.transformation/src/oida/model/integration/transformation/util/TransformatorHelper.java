@@ -35,7 +35,7 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
-import oida.model.integration.modelprovider.ModelProviderHelper;
+import de.symo.oida.changehandler.modelhelper.ModelProviderHelper;
 import oida.model.integration.transformation.mapping.AttributeMapping;
 import oida.model.integration.transformation.mapping.EClassMapping;
 import oida.model.integration.transformation.mapping.MappingFactory;

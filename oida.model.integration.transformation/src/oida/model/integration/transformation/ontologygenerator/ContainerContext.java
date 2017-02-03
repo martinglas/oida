@@ -7,7 +7,7 @@ package oida.model.integration.transformation.ontologygenerator;
 
 import org.eclipse.emf.ecore.EObject;
 
-import oida.model.integration.modelprovider.ModelProviderHelper;
+import de.symo.oida.changehandler.modelhelper.ModelProviderHelper;
 
 public class ContainerContext extends SimpleObjectName {
 

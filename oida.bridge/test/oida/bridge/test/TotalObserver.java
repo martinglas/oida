@@ -44,7 +44,7 @@ public class TotalObserver {
 		
 		ontologyManager = managerFactory.getNewManager();
 		try {
-			Ontology testOntology=ontologyManager.loadOntology(entry, true);
+			Ontology testOntology=ontologyManager.loadOntology(entry);
 			EList<OntologyClass> ontologyClasses=testOntology.getClasses();
 			
 			
