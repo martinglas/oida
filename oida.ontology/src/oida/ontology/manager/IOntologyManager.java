@@ -7,6 +7,7 @@ import oida.ontology.Ontology;
 import oida.ontology.OntologyAnnotation;
 import oida.ontology.OntologyAnnotationProperty;
 import oida.ontology.OntologyClass;
+import oida.ontology.OntologyEntity;
 import oida.ontology.OntologyIndividual;
 import oida.ontology.OntologyObjectProperty;
 import oida.ontologyMgr.OntologyFile;
@@ -80,6 +81,8 @@ public interface IOntologyManager {
 	OntologyIndividual createIndividualOfClass(String individualName, String individualPrefix, String className, String classPrefix);
 	OntologyIndividual createIndividualOfClass(String individualName, OntologyClass clazz);
 	OntologyIndividual createIndividualOfClass(String individualName, String individualPrefix, OntologyClass clazz);
+	
+	void renameEntity(OntologyEntity entity, String newName);
 	
 	OntologyClass getClass(String name);
 	OntologyClass getClass(String name, String prefix);

@@ -12,6 +12,7 @@ import org.junit.Before;
 import org.junit.Test;
 
 import oida.ontology.Ontology;
+import oida.ontology.OntologyClass;
 import oida.ontology.manager.IOntologyManager;
 import oida.ontology.manager.IOntologyManagerFactory;
 import oida.ontology.manager.OntologyManagerException;
@@ -123,6 +124,19 @@ public class OwlManagerTest {
 		manager.assignSubClassToSuperClass(manager.getClass(CLASSNAME_FIXEDWING), manager.getClass(CLASSNAME_AIRCRAFT));
 		
 		assertEquals(manager.getClass(CLASSNAME_FIXEDWING), manager.getClass(CLASSNAME_AIRCRAFT).getSubClasses().get(0));
+	}
+	
+	@Test
+	public void testRenameFunctionality() {
+		OntologyClass aClass = manager.createClass("A");
+		OntologyClass cClass = manager.createSubClass("C", aClass);
+		
+		assertNotNull(manager.getClass("A"));
+		
+		manager.renameEntity(aClass, "B");
+		
+		assertNotNull(manager.getClass("B"));
+		assertEquals(aClass, cClass.getSuperClasses().get(0));
 	}
 
 	@Test

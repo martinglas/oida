@@ -44,7 +44,6 @@ public class Activator implements BundleActivator {
 				System.out.println(ex.getMessage());
 			}
 		}
-
 	}
 
 	@Override

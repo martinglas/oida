@@ -3,7 +3,10 @@ package oida.ontology.owl.manager;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
 
@@ -17,23 +20,27 @@ import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLDeclarationAxiom;
+import org.semanticweb.owlapi.model.OWLEntity;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLObjectPropertyDomainAxiom;
 import org.semanticweb.owlapi.model.OWLObjectPropertyRangeAxiom;
 import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLOntologyChange;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.PrefixManager;
 import org.semanticweb.owlapi.model.parameters.Imports;
 import org.semanticweb.owlapi.util.DefaultPrefixManager;
+import org.semanticweb.owlapi.util.OWLEntityRenamer;
 import org.semanticweb.owlapi.util.SimpleIRIMapper;
 
 import oida.ontology.Ontology;
 import oida.ontology.OntologyAnnotation;
 import oida.ontology.OntologyAnnotationProperty;
 import oida.ontology.OntologyClass;
+import oida.ontology.OntologyEntity;
 import oida.ontology.OntologyIndividual;
 import oida.ontology.OntologyItem;
 import oida.ontology.OntologyObjectProperty;
@@ -197,7 +204,7 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 				Ontology o = generateInternalOntologyObject(ontology.toString(), ontology.classesInSignature(Imports.INCLUDED).count(), ontology.individualsInSignature().count());
 				setOntology(o);
 				setOntologyFile(ontologyFile);
-				
+
 				for (OWLClass owlClass : ontology.classesInSignature(Imports.INCLUDED).collect(Collectors.toList()))
 					toMap(owlClass, generateInternalClassObject(o, owlClass.getIRI().getNamespace(), owlClass.getIRI().getShortForm()));
 
@@ -266,7 +273,7 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 	public String getDefaultNamespace() {
 		return prefixManager.getDefaultPrefix().replace("#", STR_EMPTY);
 	}
-	
+
 	@Override
 	public String getNamespace(String prefix) {
 		if (isNamespaceExisting(prefix))
@@ -330,6 +337,21 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 		toMap(individual, ind);
 
 		return ind;
+	}
+	
+	@Override
+	public void renameEntity(OntologyEntity entity, String newName) {
+		Collection<OWLOntology> c = new ArrayList<OWLOntology>();
+		c.add(ontology);
+		
+		OWLEntityRenamer renamer = new OWLEntityRenamer(manager, c);
+		
+		OWLEntity renameEntity = getOWLEntity(entity);
+		List<OWLOntologyChange> changes = renamer.changeIRI(renameEntity, IRI.create(renameEntity.getIRI().toString().replace(entity.getName(), newName)));
+		
+		entity.setName(newName);
+		
+		manager.applyChanges(changes);
 	}
 
 	@Override
@@ -435,6 +457,15 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 
 		if (owlObj instanceof OWLNamedIndividual)
 			return (OWLNamedIndividual)owlObj;
+		else
+			return null;
+	}
+	
+	private OWLEntity getOWLEntity(OntologyEntity i) {
+		OWLObject owlObj = internal2apiMap.get(i);
+
+		if (owlObj instanceof OWLEntity)
+			return (OWLEntity)owlObj;
 		else
 			return null;
 	}

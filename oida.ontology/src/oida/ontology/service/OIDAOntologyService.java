@@ -120,36 +120,6 @@ public class OIDAOntologyService extends AbstractOIDAOntologyService implements 
 		return resource;
 	}
 
-	// public IOntologyManager addManagedOntology(LocalOntologyEntry
-	// localOntology) throws OntologyManagerException {
-	// IOntologyManager mgr = managerFactory.getNewManager();
-	//
-	// Ontology ontologyObj = mgr.loadOntology(localOntology, true);
-	//
-	// managedOntologies.put(ontologyObj, mgr);
-	//
-	// return mgr;
-	// }
-
-	// public IOntologyManager getManagedOntology(String ontologyName) throws
-	// OntologyManagerException {
-	// if (managedOntologies.containsKey(ontologyName))
-	// return managedOntologies.get(ontologyName);
-	// else
-	// throw new OntologyManagerException("An ontology with the name '" +
-	// ontologyName + "' does not exist.");
-	// }
-
-	// public List<IOntologyManager> getManagedOntologies() {
-	// return managedOntologies.keySet();
-	// }
-
-	// To Delete
-//	@Inject
-//	public IOntologyManager createNewOntologyManager(IOntologyManagerFactory factory) {
-//		return factory.getNewManager();
-//	}
-
 	@Override
 	public void notifyChanged(Notification notification) {
 		if (notification.getFeature() != null) {

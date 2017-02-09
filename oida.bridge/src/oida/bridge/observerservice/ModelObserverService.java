@@ -106,11 +106,5 @@ public class ModelObserverService extends EContentAdapter implements IModelObser
 			System.out.println("Uncovered notification type: " + notification.getEventType());
 			break;
 		}
-		// ChangeHandler.setOntologyManager(mgr);
-
-		// System.out.println("OIDA Bridge: Notfication received from the data
-		// model '" + notification.getNotifier().toString() + "'. Data model has
-		// changed!!!");
-		// ChangeHandler.handle(notification);
 	}
 }
