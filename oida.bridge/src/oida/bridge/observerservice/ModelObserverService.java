@@ -14,6 +14,8 @@ import static org.eclipse.emf.common.notify.Notification.UNSET;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.inject.Inject;
+
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.util.EContentAdapter;
@@ -21,6 +23,7 @@ import org.eclipse.emf.ecore.util.EContentAdapter;
 import oida.bridge.observerservice.changehandler.IChangeHandler;
 import oida.ontology.manager.IOntologyManager;
 import oida.ontology.manager.OntologyManagerException;
+import oida.ontology.service.IOIDAOntologyService;
 
 /**
  * 
@@ -37,6 +40,9 @@ public class ModelObserverService extends EContentAdapter implements IModelObser
 
 		return instance;
 	}
+	
+	@Inject
+	IOIDAOntologyService oidaService;
 
 	private IChangeHandler changeHandler;
 	

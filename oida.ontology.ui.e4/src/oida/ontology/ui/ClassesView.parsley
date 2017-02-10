@@ -1,6 +1,5 @@
 import oida.ontology.Ontology
 import oida.ontology.OntologyClass
-import oida.ontology.OntologyIndividual
 import oida.ontology.ui.view.ClassesView
 
 /**
@@ -30,7 +29,6 @@ module oida.ontology.ui.ClassesView {
 		}
 		children{
 			Ontology -> classes
-			OntologyClass -> individuals
 		}
 	}
 
@@ -38,7 +36,6 @@ module oida.ontology.ui.ClassesView {
 		text {
 			Ontology o -> o.name
 			OntologyClass c -> c.name
-			OntologyIndividual i -> i.name
 		}
 	}
 }

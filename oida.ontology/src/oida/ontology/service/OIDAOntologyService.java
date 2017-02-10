@@ -1,8 +1,6 @@
 package oida.ontology.service;
 
 import java.io.File;
-import java.util.ArrayList;
-import java.util.List;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.URI;
@@ -14,7 +12,6 @@ import org.eclipse.emf.edit.provider.INotifyChangedListener;
 import org.eclipse.emf.edit.provider.resource.ResourceItemProviderAdapterFactory;
 import org.eclipse.emf.parsley.edit.domain.InjectableAdapterFactoryEditingDomain;
 
-import oida.ontology.Ontology;
 import oida.ontology.manager.IOntologyManager;
 import oida.ontology.manager.IOntologyManagerFactory;
 import oida.ontology.manager.OntologyManagerException;
@@ -40,11 +37,11 @@ public class OIDAOntologyService extends AbstractOIDAOntologyService implements 
 	}
 	
 	private EditingDomain editingDomain;
-	private Resource resource;
+	private Resource libraryResource;
 
 	private IOntologyManagerFactory managerFactory;
 
-	private List<Ontology> managedOntologies;
+	private Resource managedOntologyResource;
 
 	private OIDAOntologyService() {
 		super();
@@ -57,13 +54,9 @@ public class OIDAOntologyService extends AbstractOIDAOntologyService implements 
 		composedAdapterFactory.addListener(this);
 
 		editingDomain = new InjectableAdapterFactoryEditingDomain(composedAdapterFactory);
-
-		managedOntologies = new ArrayList<Ontology>();
 	}
 
-	public void initialize(IOntologyManagerFactory managerFactory) {
-		managedOntologies.clear();
-
+	private void initialize(IOntologyManagerFactory managerFactory) {
 		if (managerFactory != null)
 			this.managerFactory = managerFactory;
 		else
@@ -77,13 +70,14 @@ public class OIDAOntologyService extends AbstractOIDAOntologyService implements 
 			System.out.println("SYMO4PD OIDA Service: No reference ontology set.");
 	}
 
-	public void initialize(URI oidaServiceDataFileURI, IOntologyManagerFactory managerFactory) {
-		resource = loadExistingOIDAServiceData(oidaServiceDataFileURI);
+	public void initialize(URI oidaServiceDataFileURI, URI oidaManagerDataFileURI, IOntologyManagerFactory managerFactory) {
+		libraryResource = loadExistingOIDAServiceData(oidaServiceDataFileURI);
+		managedOntologyResource = editingDomain.createResource(oidaManagerDataFileURI.toString());
 
-		if (resource == null || resource.getContents().isEmpty())
+		if (libraryResource == null || libraryResource.getContents().isEmpty())
 			initializeNewOIDAServiceData(oidaServiceDataFileURI);
 
-		resource.getResourceSet().eAdapters().add(this);
+		libraryResource.getResourceSet().eAdapters().add(this);
 
 		initialize(managerFactory);
 	}
@@ -96,16 +90,16 @@ public class OIDAOntologyService extends AbstractOIDAOntologyService implements 
 	}
 
 	public void initializeNewOIDAServiceData(URI oidaDataFileURI) {
-		resource = editingDomain.createResource(oidaDataFileURI.toString());
-		resource.getContents().add(OntologyMgrFactory.eINSTANCE.createLibrary());
+		libraryResource = editingDomain.createResource(oidaDataFileURI.toString());
+		libraryResource.getContents().add(OntologyMgrFactory.eINSTANCE.createLibrary());
 	}
 
 	@Override
 	public Library getLibrary() {
-		if (resource == null || resource.getContents().isEmpty())
+		if (libraryResource == null || libraryResource.getContents().isEmpty())
 			return null;
 
-		EObject root = resource.getContents().get(0);
+		EObject root = libraryResource.getContents().get(0);
 		if (root instanceof Library)
 			return (Library)root;
 
@@ -117,7 +111,7 @@ public class OIDAOntologyService extends AbstractOIDAOntologyService implements 
 	}
 
 	public Resource getLibraryResource() {
-		return resource;
+		return libraryResource;
 	}
 
 	@Override
@@ -130,8 +124,8 @@ public class OIDAOntologyService extends AbstractOIDAOntologyService implements 
 	}
 
 	@Override
-	public List<Ontology> getManagedOntologies() {
-		return managedOntologies;
+	public Resource getManagedOntologiesResource() {
+		return managedOntologyResource;
 	}
 
 	@Override
@@ -140,7 +134,8 @@ public class OIDAOntologyService extends AbstractOIDAOntologyService implements 
 
 		try {
 			mgr.loadOntology(ontologyFile);
-			managedOntologies.add(mgr.getOntology());
+			managedOntologyResource.getContents().add(mgr.getOntology());
+
 			System.out.println("SYMO4PD OIDA Service: Added new ontology manager for: " + ontologyFile.getFileName() + ".");
 		} catch (OntologyManagerException e) {
 			try {

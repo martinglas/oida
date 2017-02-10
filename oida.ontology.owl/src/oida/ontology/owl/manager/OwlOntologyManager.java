@@ -89,86 +89,6 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 		manager.getIRIMappers().add(new SimpleIRIMapper(IRI.create(iri), IRI.create(localPath)));
 	}
 
-	// public void createRestriction(String propertyName, String individualName,
-	// String className) {
-	// OWLObjectProperty property = getObjectPropertyByName(propertyName);
-	// OWLNamedIndividual individual = getIndividualByName(individualName);
-	// OWLClass clazz = getClassByName(className);
-	//
-	// Set<OWLEntity> entities=new HashSet<OWLEntity>();
-	// entities.add(individual);
-	//
-	// OWLObjectOneOf individualCollection =
-	// factory.getOWLObjectOneOf(individual);
-	//
-	// OWLObjectAllValuesFrom restriction =
-	// factory.getOWLObjectAllValuesFrom(property, individualCollection);
-	// manager.addAxiom(ontology, factory.getOWLSubClassOfAxiom(clazz,
-	// restriction));
-	// }
-	//
-	// public String[] getSubjectsOfObjectPropertyOfClass(String propertyName,
-	// String individualName) {
-	// ArrayList<String> ret = new ArrayList<String>();
-	//
-	// OWLObjectProperty property = getObjectPropertyByName(propertyName);
-	//
-	// for(OWLObjectPropertyAssertionAxiom a :
-	// getObjectPropertyAssertionsInternal(propertyName, individualName)) {
-	// if (a.getProperty().getNamedProperty().equals(property))
-	// ret.add(a.getObject().toStringID());
-	// }
-	//
-	// return ret.toArray(new String[0]);
-	// }
-	//
-	// public boolean isTypeOf(String individualName, String className) {
-	// OWLNamedIndividual individual = getIndividualByName(individualName);
-	// OWLClass cl = getClassByName(className);
-	//
-	// EntitySearcher.getTypes(individual, ontology);
-	//
-	// return reasoner.getTypes(individual).containsEntity(cl);
-	// }
-	//
-	// public void assertDataTypePropertyToIndividual(String propertyName,
-	// String individualName, String value) {
-	// OWLDataProperty dataProperty = getDataPropertyByName(propertyName);
-	// OWLIndividual individual = getIndividualByName(individualName);
-	//
-	// OWLDataPropertyAssertionAxiom axiom =
-	// factory.getOWLDataPropertyAssertionAxiom(dataProperty, individual,
-	// value);
-	// manager.addAxiom(ontology, axiom);
-	// }
-
-	// public void createDataTypeProperty(String name, String domainName) {
-	// OWLDataProperty property = factory.getOWLDataProperty(name, prefixMgr);
-	// manager.addAxiom(ontology,
-	// factory.getOWLDataPropertyDomainAxiom(property,
-	// getClassByName(domainName)));
-	// }
-	//
-	// private OWLObjectProperty getObjectPropertyByName(String name) {
-	// for (OWLObjectProperty p :
-	// ontology.objectPropertiesInSignature().collect(Collectors.toList())) {
-	// if
-	// (p.getIRI().toString().substring(p.getIRI().toString().indexOf(HASHTAG) +
-	// 1).equals(name))
-	// return p;
-	// }
-	//
-	// return null;
-	// }
-	//
-	// private OWLObjectPropertyAssertionAxiom[]
-	// getObjectPropertyAssertionsInternal(String propertyName, String
-	// individualName) {
-	// return
-	// ontology.objectPropertyAssertionAxioms(getIndividualByName(individualName)).collect(Collectors.toList()).toArray(new
-	// OWLObjectPropertyAssertionAxiom[0]);
-	// }
-
 	@Override
 	public Ontology createOntology(String iri) throws OntologyManagerException {
 		try {
@@ -178,7 +98,12 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 
 			Ontology o = generateInternalOntologyObject(iri, ontology.classesInSignature().count(), ontology.individualsInSignature().count());
 			setOntology(o);
-
+			
+			// create thing-class in oida internal model:
+			OWLClass thingClass = dataFactory.getOWLThing();
+			OntologyClass thingOClass = generateInternalClassObject(o, thingClass.getIRI().getNamespace(), thingClass.getIRI().getShortForm());
+			toMap(thingClass, thingOClass);
+			
 			System.out.println(MESSAGE_PREFIX + "Ontology created: '" + iri + "'");
 
 			return o;

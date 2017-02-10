@@ -23,7 +23,8 @@ public class Activator implements BundleActivator {
 
 	private static BundleContext context;
 
-	private URI uri = URI.createFileURI(ResourcesPlugin.getWorkspace().getRoot().getLocation().toString() + "OntLib.onl");
+	private URI uriLibrary = URI.createFileURI(ResourcesPlugin.getWorkspace().getRoot().getLocation().toString() + "OntLib.onl");
+	private URI uriManager = URI.createFileURI(ResourcesPlugin.getWorkspace().getRoot().getLocation().toString() + "OntMgr.onl");
 
 	static BundleContext getContext() {
 		return context;
@@ -49,7 +50,7 @@ public class Activator implements BundleActivator {
 					System.out.println("SYMO4PD OIDA Service: Evaluating ontology manager extensions.");
 					final Object o = e.createExecutableExtension("class");
 					if (o instanceof IOntologyManagerFactory) {
-						OIDAOntologyService.getInstance().initialize(uri, (IOntologyManagerFactory)o);
+						OIDAOntologyService.getInstance().initialize(uriLibrary, uriManager, (IOntologyManagerFactory)o);
 						System.out.println("SYMO4PD OIDA Service: Initialized with manager '" + o.getClass().getName() + "'.");
 						break;
 					}

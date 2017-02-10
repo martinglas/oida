@@ -1,5 +1,6 @@
 import oida.ontology.OntologyIndividual
 import oida.ontology.ui.view.IndividualsView
+import oida.ontology.OntologyClass
 
 /**
  * 
@@ -17,18 +18,19 @@ module oida.ontology.ui.IndividualsView {
 	
 	featuresProvider {
 		features {
+			OntologyClass -> individuals
 			OntologyIndividual -> name, prefix
 		}
 	}
 
-//	viewerContentProvider{
-//		elements{
-//			Ontology -> classes
-//		}
-//		children {
-//			Ontology -> classes
-//		}
-//	}
+	viewerContentProvider {
+		elements {
+			OntologyClass -> individuals
+		}
+		children{
+			OntologyClass -> individuals
+		}
+	}
 
 	labelProvider {
 		text {

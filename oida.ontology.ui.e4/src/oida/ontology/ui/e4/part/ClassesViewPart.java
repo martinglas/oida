@@ -1,22 +1,21 @@
 package oida.ontology.ui.e4.part;
 
 import javax.annotation.PostConstruct;
+import javax.inject.Inject;
 
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.e4.ui.workbench.modeling.ESelectionService;
 import org.eclipse.e4.ui.workbench.modeling.ISelectionListener;
-import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.ecore.resource.ResourceSet;
-import org.eclipse.emf.ecore.resource.impl.ResourceImpl;
-import org.eclipse.emf.ecore.resource.impl.ResourceSetImpl;
 import org.eclipse.emf.parsley.viewers.ViewerFactory;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.widgets.Composite;
 
 import com.google.inject.Injector;
 
-import oida.ontology.Ontology;
+import oida.ontology.service.IOIDAOntologyService;
 import oida.ontology.ui.ClassesView.ClassesViewInjectorProvider;
 
 
@@ -32,10 +31,8 @@ public class ClassesViewPart implements ISelectionListener {
 	private TreeViewer treeViewer;
 	private ViewerFactory viewerFactory;
 	
-	private Ontology currentOntology;
-	public Ontology getCurrentOntology() {
-		return null;
-	}
+	@Inject
+	IOIDAOntologyService oidaService;
 
 	@PostConstruct
 	public void postConstruct(Composite parent, ESelectionService selectionService) {
@@ -46,18 +43,19 @@ public class ClassesViewPart implements ISelectionListener {
 		viewerFactory = injector.getInstance(ViewerFactory.class);
 
 		treeViewer = new TreeViewer(parent);
+		treeViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+			@Override
+			public void selectionChanged(SelectionChangedEvent event) {
+				IStructuredSelection selection = treeViewer.getStructuredSelection();
+
+				if (!selection.isEmpty())
+					selectionService.setSelection(selection.getFirstElement());
+			}
+		});
 	}
 
 	@Override
 	public void selectionChanged(MPart part, Object selection) {
-		ResourceSet rs = new ResourceSetImpl();
-		Resource r = new ResourceImpl();
-		r.getContents().add((EObject)selection);
-		
-		rs.getResources().add(r);
-		
-		//currentOntology.
-		
-		viewerFactory.initialize(treeViewer, r);
+		viewerFactory.initialize(treeViewer, selection);
 	}
 }

@@ -1,11 +1,8 @@
 package oida.ontology.service;
 
-import java.util.List;
-
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.domain.EditingDomain;
 
-import oida.ontology.Ontology;
 import oida.ontology.manager.IOntologyManager;
 import oida.ontologyMgr.Library;
 import oida.ontologyMgr.OntologyFile;
@@ -21,7 +18,7 @@ public interface IOIDAOntologyService {
 
 	public Resource getLibraryResource();
 
-	public List<Ontology> getManagedOntologies();
+	public Resource getManagedOntologiesResource();
 
 	public EditingDomain getEditingDomain();
 
