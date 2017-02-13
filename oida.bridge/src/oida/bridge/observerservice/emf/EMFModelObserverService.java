@@ -1,4 +1,4 @@
-package oida.bridge.observerservice;
+package oida.bridge.observerservice.emf;
 
 import static org.eclipse.emf.common.notify.Notification.ADD;
 import static org.eclipse.emf.common.notify.Notification.ADD_MANY;
@@ -18,7 +18,6 @@ import javax.inject.Inject;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.emf.ecore.util.EContentAdapter;
 
 import oida.bridge.observerservice.changehandler.IChangeHandler;
 import oida.ontology.manager.IOntologyManager;
@@ -31,52 +30,54 @@ import oida.ontology.service.IOIDAOntologyService;
  * @since 2017-01-13
  *
  */
-public class ModelObserverService extends EContentAdapter implements IModelObserverService {
-	private static ModelObserverService instance;
+public class EMFModelObserverService extends AbstractEMFModelObserverService {
 
-	public static ModelObserverService getInstance() {
+	// Singleton:
+	private static EMFModelObserverService instance;
+
+	public static EMFModelObserverService getInstance() {
 		if (instance == null)
-			instance = new ModelObserverService();
+			instance = new EMFModelObserverService();
 
 		return instance;
 	}
-	
+
+	private EMFModelObserverService() {
+		modelOntologies = new HashMap<EObject, IOntologyManager>();
+	}
+
 	@Inject
 	IOIDAOntologyService oidaService;
 
 	private IChangeHandler changeHandler;
-	
+
 	public void setChangeHandler(IChangeHandler changeHandler) {
 		this.changeHandler = changeHandler;
 	}
 
 	private Map<EObject, IOntologyManager> modelOntologies;
 
-	private ModelObserverService() {
-		modelOntologies = new HashMap<EObject, IOntologyManager>();
-	}
+	@Override
+	public void addEMFModelForObservation(EObject modelRootComponent, IOntologyManager ontologyManager) {
+		changeHandler.initializeModelOntology(modelRootComponent, ontologyManager);
 
-	public void addModelForObservation(EObject componentRepository, IOntologyManager ontologyManager) {
-		changeHandler.initializeModelOntology(componentRepository, ontologyManager);
-		
 		try {
 			ontologyManager.saveOntology();
 		} catch (OntologyManagerException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
-		
-		componentRepository.eResource().eAdapters().add(this);
 
-		System.out.println("OIDA Bridge: Model '" + componentRepository.toString() + "' observed.");
+		modelRootComponent.eResource().eAdapters().add(this);
 
-		modelOntologies.put(componentRepository, ontologyManager);
+		System.out.println("OIDA Bridge: Model '" + modelRootComponent.toString() + "' observed.");
+
+		modelOntologies.put(modelRootComponent, ontologyManager);
 	}
 
 	@Override
 	public void notifyChanged(Notification notification) {
 		IOntologyManager modelOntologyManager = modelOntologies.get(notification.getNotifier());
-		
+
 		switch (notification.getEventType()) {
 		case ADD:
 			changeHandler.handleAdd(notification, modelOntologyManager);

@@ -8,8 +8,8 @@ import org.osgi.framework.BundleContext;
 import org.osgi.framework.ServiceReference;
 
 import oida.bridge.observerservice.IModelObserverService;
-import oida.bridge.observerservice.ModelObserverService;
 import oida.bridge.observerservice.changehandler.IChangeHandler;
+import oida.bridge.observerservice.emf.EMFModelObserverService;
 
 /**
  * 
@@ -22,7 +22,7 @@ public class Activator implements BundleActivator {
 
 	@Override
 	public void start(BundleContext context) throws Exception {
-		context.registerService(IModelObserverService.class.getName(), ModelObserverService.getInstance(), null);
+		context.registerService(IModelObserverService.class.getName(), EMFModelObserverService.getInstance(), null);
 		System.out.println("OIDA Bridge: Service registered.");
 		
 		ServiceReference<?> serviceReference = context.getServiceReference(IExtensionRegistry.class.getName());
@@ -35,7 +35,7 @@ public class Activator implements BundleActivator {
 					System.out.println("OIDA Bridge: Evaluating model change handler extensions.");
 					final Object o = e.createExecutableExtension("class");
 					if (o instanceof IChangeHandler) {
-						ModelObserverService.getInstance().setChangeHandler((IChangeHandler)o);
+						EMFModelObserverService	.getInstance().setChangeHandler((IChangeHandler)o);
 						System.out.println("OIDA Bridge: Change handler set: '" + o.getClass().getName() + "'.");
 						break;
 					}
