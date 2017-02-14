@@ -18,6 +18,7 @@ import javax.inject.Inject;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
 
 import oida.bridge.observerservice.changehandler.IChangeHandler;
 import oida.ontology.manager.IOntologyManager;
@@ -43,7 +44,7 @@ public class EMFModelObserverService extends AbstractEMFModelObserverService {
 	}
 
 	private EMFModelObserverService() {
-		modelOntologies = new HashMap<EObject, IOntologyManager>();
+		modelOntologies = new HashMap<Resource, IOntologyManager>();
 	}
 
 	@Inject
@@ -55,7 +56,7 @@ public class EMFModelObserverService extends AbstractEMFModelObserverService {
 		this.changeHandler = changeHandler;
 	}
 
-	private Map<EObject, IOntologyManager> modelOntologies;
+	private Map<Resource, IOntologyManager> modelOntologies;
 
 	@Override
 	public void addEMFModelForObservation(EObject modelRootComponent, IOntologyManager ontologyManager) {
@@ -71,12 +72,17 @@ public class EMFModelObserverService extends AbstractEMFModelObserverService {
 
 		System.out.println("OIDA Bridge: Model '" + modelRootComponent.toString() + "' observed.");
 
-		modelOntologies.put(modelRootComponent, ontologyManager);
+		modelOntologies.put(modelRootComponent.eResource(), ontologyManager);
 	}
 
 	@Override
 	public void notifyChanged(Notification notification) {
-		IOntologyManager modelOntologyManager = modelOntologies.get(notification.getNotifier());
+		IOntologyManager modelOntologyManager;
+		
+		if (notification.getNotifier() instanceof Resource)
+			modelOntologyManager = modelOntologies.get(notification.getNotifier());
+		else
+			modelOntologyManager = modelOntologies.get(((EObject)notification.getNotifier()).eResource());
 
 		switch (notification.getEventType()) {
 		case ADD:

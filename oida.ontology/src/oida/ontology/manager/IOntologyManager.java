@@ -20,7 +20,8 @@ import oida.ontologyMgr.OntologyFile;
  */
 public interface IOntologyManager {
 	public static String STR_EMPTY = "";
-	public static String HASHTAG = "#";
+	public static String STR_HASHTAG = "#";
+	public static String STR_COLON = ":";
 	
 	Ontology getOntology();
 	

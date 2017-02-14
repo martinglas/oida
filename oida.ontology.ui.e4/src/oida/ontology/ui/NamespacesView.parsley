@@ -1,0 +1,32 @@
+import oida.ontology.Ontology
+import oida.ontology.ui.view.NamespacesView
+
+/**
+ * 
+ * @since 2016-11-08
+ * @author Michael.Shamiyeh
+ * 
+ */
+module oida.ontology.ui.NamespacesView {
+	parts {
+		viewpart oida.ontology.ui.view.NamespacesView {
+			viewname "NamespacesView"
+			viewclass NamespacesView
+		}
+	}
+	
+	featuresProvider {
+		features {
+			Ontology -> namespaces
+		}
+	}
+
+	viewerContentProvider {
+		elements {
+			Ontology -> namespaces
+		}
+		children{
+			Ontology -> namespaces
+		}
+	}
+}

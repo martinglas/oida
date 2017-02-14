@@ -46,6 +46,8 @@
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="includes" upperBound="-1"
           eType="#//ontology/Ontology" containment="true" resolveProxies="false"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="namespaces" upperBound="-1"
+          eType="#//ontology/OntologyNamespace" containment="true" resolveProxies="false"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="classes" upperBound="-1"
           eType="#//ontology/OntologyClass" containment="true" resolveProxies="false"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="individuals" upperBound="-1"
@@ -75,5 +77,6 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="annotationproperty" eType="#//ontology/OntologyAnnotationProperty"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="value" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="OntologyNamespace" eSuperTypes="#//ontology/OntologyEntity"/>
   </eSubpackages>
 </ecore:EPackage>

@@ -22,5 +22,5 @@ public interface IOIDAOntologyService {
 
 	public EditingDomain getEditingDomain();
 
-	public IOntologyManager addOntologyManager(OntologyFile entry, boolean createIfNotExisting);
+	public IOntologyManager getOntologyManager(OntologyFile entry, boolean createIfNotExisting);
 }

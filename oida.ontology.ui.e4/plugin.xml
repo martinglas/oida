@@ -38,5 +38,12 @@
             name="Individuals"
             restorable="true">
       </view>
+      <view
+            category="org.eclipse.emf.parsley"
+            class="oida.ontology.ui.NamespacesView.NamespacesViewExecutableExtensionFactory:oida.ontology.ui.view.NamespacesView"
+            id="oida.ontology.ui.view.NamespacesView"
+            name="NamespacesView"
+            restorable="true">
+      </view>
    </extension>
 </plugin>

@@ -15,6 +15,7 @@ import oida.ontology.OntologyClass;
 import oida.ontology.OntologyEntity;
 import oida.ontology.OntologyFactory;
 import oida.ontology.OntologyIndividual;
+import oida.ontology.OntologyNamespace;
 import oida.ontology.OntologyObjectProperty;
 import oida.ontology.OntologyPackage;
 import oida.ontologyMgr.OntologyFile;
@@ -246,6 +247,14 @@ public abstract class AbstractOntologyManager extends EContentAdapter implements
 		newOntology.setNrOfClasses(nrOfClasses);
 		newOntology.setNrOfIndividuals(nrOfIndividuals);
 		return newOntology;
+	}
+	
+	protected OntologyNamespace generateInternalNamespaceObject(Ontology ontology, String prefix, String nsName) {
+		OntologyNamespace newNS = OntologyFactory.eINSTANCE.createOntologyNamespace();
+		setOntologyEntityData(newNS, ontology, nsName, prefix);
+		ontology.getNamespaces().add(newNS);
+
+		return newNS;
 	}
 		
 	protected OntologyClass generateInternalClassObject(Ontology ontology, String prefix, String className) {
