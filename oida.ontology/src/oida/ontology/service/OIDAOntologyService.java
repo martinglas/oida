@@ -163,4 +163,10 @@ public class OIDAOntologyService extends AbstractOIDAOntologyService implements 
 
 		return mgr;
 	}
+
+	@Override
+	public OntologyFile getOntologyFile(File file) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }

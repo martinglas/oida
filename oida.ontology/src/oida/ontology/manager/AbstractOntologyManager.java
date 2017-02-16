@@ -167,7 +167,7 @@ public abstract class AbstractOntologyManager extends EContentAdapter implements
 		else
 			return null;
 	}
-	
+
 	@Override
 	public Stream<OntologyClass> getAllClasses() {
 		return ontology.getClasses().stream();

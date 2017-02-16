@@ -1,5 +1,7 @@
 package oida.ontology.service;
 
+import java.io.File;
+
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.domain.EditingDomain;
 
@@ -22,5 +24,8 @@ public interface IOIDAOntologyService {
 
 	public EditingDomain getEditingDomain();
 
+	public OntologyFile getOntologyFile(File file);
+	public OntologyFile getOntologyFile(String path, String fileName);
+	
 	public IOntologyManager getOntologyManager(OntologyFile entry, boolean createIfNotExisting);
 }
