@@ -8,6 +8,7 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Map.Entry;
 import java.util.stream.Collectors;
 
 import org.semanticweb.owlapi.apibinding.OWLManager;
@@ -133,7 +134,7 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 				
 				System.out.println(MESSAGE_PREFIX + "Ontology loaded: '" + file.getName() + "'");
 
-				Ontology o = generateInternalOntologyObject(owlOntology.getOntologyID().getOntologyIRI().toString(), owlOntology.classesInSignature(Imports.INCLUDED).count(), owlOntology.individualsInSignature().count());
+				Ontology o = generateInternalOntologyObject(owlOntology.getOntologyID().getOntologyIRI().get().toString(), owlOntology.classesInSignature(Imports.INCLUDED).count(), owlOntology.individualsInSignature().count());
 				setOntology(o);
 				setOntologyFile(ontologyFile);
 
@@ -141,10 +142,10 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 					generateInternalNamespaceObject(o, prefixName, owlPrefixManager.getPrefixName2PrefixMap().get(prefixName));
 				
 				for (OWLClass owlClass : owlOntology.classesInSignature(Imports.INCLUDED).collect(Collectors.toList()))
-					toMap(owlClass, generateInternalClassObject(o, owlPrefixManager.getPrefixName2PrefixMap().get(owlClass.getIRI().getNamespace()), owlClass.getIRI().getShortForm()));
+					toMap(owlClass, generateInternalClassObject(o, getPrefixOfNamespace(owlClass.getIRI().getNamespace()), owlClass.getIRI().getShortForm()));
 
 				for (OWLNamedIndividual owlIndividual : owlOntology.individualsInSignature(Imports.INCLUDED).collect(Collectors.toList())) {
-					OntologyIndividual individual = generateInternalIndividualObject(o, owlIndividual.getIRI().getNamespace(), owlIndividual.getIRI().getShortForm());
+					OntologyIndividual individual = generateInternalIndividualObject(o, getPrefixOfNamespace(owlIndividual.getIRI().getNamespace()), owlIndividual.getIRI().getShortForm());
 					toMap(owlIndividual, individual);
 
 					for (OWLClassAssertionAxiom a : owlOntology.classAssertionAxioms(owlIndividual).collect(Collectors.toList())) {
@@ -167,6 +168,15 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 		}
 	}
 
+	private String getPrefixOfNamespace(String namespace) {
+		for (Entry<String, String> entry : owlPrefixManager.getPrefixName2PrefixMap().entrySet()) {
+			if (entry.getValue().equals(namespace))
+				return entry.getKey().substring(0,  entry.getKey().length() - 1);
+		}
+		
+		return STR_EMPTY;
+	}
+	
 	@Override
 	public void saveOntology() throws OntologyManagerException {
 		File file = new File(getOntology().getOntologyEntry().getPath() + getOntology().getOntologyEntry().getFileName());
@@ -228,7 +238,7 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 	
 	@Override
 	public OntologyClass createClass(String name, String prefix) {
-		OntologyClass clazz = getClass(name, owlPrefixManager.getPrefix(prefix + STR_COLON));
+		OntologyClass clazz = getClass(name, prefix);
 		if (clazz != null)
 			return clazz;
 
@@ -264,16 +274,20 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 
 	@Override
 	public OntologyIndividual createIndividual(final String name, final String prefix) {
+		OntologyIndividual individual = getIndividual(name, prefix);
+		if (individual != null)
+			return individual;
+		
 		String fullIndividualName = buildFullEntityString(name, prefix);
 
-		OWLNamedIndividual individual = owlDataFactory.getOWLNamedIndividual(fullIndividualName, owlPrefixManager);
-		OWLAxiom declareNewIndividual = owlDataFactory.getOWLDeclarationAxiom(individual);
+		OWLNamedIndividual owlIndividual = owlDataFactory.getOWLNamedIndividual(fullIndividualName, owlPrefixManager);
+		OWLAxiom declareNewIndividual = owlDataFactory.getOWLDeclarationAxiom(owlIndividual);
 
 		owlOntologyManager.addAxiom(owlOntology, declareNewIndividual);
 
 		OntologyIndividual ind = generateInternalIndividualObject(getOntology(), prefix, name);
 
-		toMap(individual, ind);
+		toMap(owlIndividual, ind);
 
 		return ind;
 	}
