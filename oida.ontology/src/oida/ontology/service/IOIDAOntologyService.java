@@ -1,3 +1,8 @@
+/*******************************************************************************
+ * <copyright> Copyright (c) 2009-2017 Bauhaus Luftfahrt e.V.. All rights reserved. This program and the accompanying
+ * materials are made available under the terms of the Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html </copyright>
+ ******************************************************************************/
 package oida.ontology.service;
 
 import java.io.File;
@@ -16,11 +21,11 @@ import oida.ontologyMgr.OntologyFile;
  *
  */
 public interface IOIDAOntologyService {
-	public Library getLibrary();
+	Library getLibrary();
 
-	public Resource getLibraryResource();
+	Resource getLibraryResource();
 
-	public Resource getManagedOntologiesResource();
+	Resource getManagedOntologiesResource();
 
 	public EditingDomain getEditingDomain();
 
