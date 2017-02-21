@@ -1,3 +1,8 @@
+/*******************************************************************************
+ * <copyright> Copyright (c) 2009-2017 Bauhaus Luftfahrt e.V.. All rights reserved. This program and the accompanying
+ * materials are made available under the terms of the Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html </copyright>
+ ******************************************************************************/
 package oida.ontology.manager;
 
 import java.io.File;
@@ -29,6 +34,10 @@ import oida.ontologyMgr.OntologyFile;
 public abstract class AbstractOntologyManager extends EContentAdapter implements IOntologyManager {
 	private Ontology ontology;
 
+	/**
+	 * This is a getter returns the Ontology of the OntologyManager.
+	 * @return the Ontology of the OntologyManager
+	 */
 	public Ontology getOntology() {
 		return ontology;
 	}

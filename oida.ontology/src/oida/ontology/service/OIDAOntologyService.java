@@ -1,3 +1,8 @@
+/*******************************************************************************
+ * <copyright> Copyright (c) 2009-2017 Bauhaus Luftfahrt e.V.. All rights reserved. This program and the accompanying
+ * materials are made available under the terms of the Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html </copyright>
+ ******************************************************************************/
 package oida.ontology.service;
 
 import java.io.File;
@@ -29,7 +34,7 @@ import oida.ontologyMgr.provider.OntologyMgrItemProviderAdapterFactory;
  * @since 13.12.2016
  *
  */
-public class OIDAOntologyService extends AbstractOIDAOntologyService implements INotifyChangedListener {
+public final class OIDAOntologyService extends AbstractOIDAOntologyService implements INotifyChangedListener {
 	private static OIDAOntologyService instance;
 
 	public static OIDAOntologyService getInstance() {
@@ -64,10 +69,11 @@ public class OIDAOntologyService extends AbstractOIDAOntologyService implements 
 	}
 
 	private void initialize(IOntologyManagerFactory managerFactory) {
-		if (managerFactory != null)
+		if (managerFactory != null) {
 			this.managerFactory = managerFactory;
-		else
+		} else {
 			System.out.println("SYMO4PD OIDA Service: Initialized without an Ontology Manager Factory.");
+		}
 
 		if (getLibrary().getReferenceOntology() != null) {
 			System.out.println("SYMO4PD OIDA Service: Loading reference ontology...");
