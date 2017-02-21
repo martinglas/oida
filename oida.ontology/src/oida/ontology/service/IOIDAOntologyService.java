@@ -1,11 +1,10 @@
 package oida.ontology.service;
 
-import java.io.File;
-
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.domain.EditingDomain;
 
 import oida.ontology.manager.IOntologyManager;
+import oida.ontology.manager.OntologyManagerException;
 import oida.ontologyMgr.Library;
 import oida.ontologyMgr.OntologyFile;
 
@@ -23,9 +22,8 @@ public interface IOIDAOntologyService {
 	public Resource getManagedOntologiesResource();
 
 	public EditingDomain getEditingDomain();
-
-	public OntologyFile getOntologyFile(File file);
-	public OntologyFile getOntologyFile(String path, String fileName);
 	
 	public IOntologyManager getOntologyManager(OntologyFile entry, boolean createIfNotExisting);
+	
+	public IOntologyManager getMereology() throws OntologyManagerException;
 }

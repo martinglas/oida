@@ -47,6 +47,9 @@ public interface IOntologyManager {
 	
 	Map<String, String> getAllNamespaces();
 	
+	void addImportDeclaration(String importOntologyIRI) throws OntologyManagerException;
+	void addImportDeclaration(Ontology importOntology) throws OntologyManagerException;
+	
 	/**
 	 * Creates a class within the default namespace of the ontology.
 	 * 
@@ -99,6 +102,19 @@ public interface IOntologyManager {
 	OntologyObjectProperty createObjectProperty(String propertyName, String prefix);
 	OntologyObjectProperty createObjectProperty(String propertyName, String prefix, OntologyClass range);
 	OntologyObjectProperty createObjectProperty(String propertyName, String prefix, OntologyClass range, OntologyClass domain);
+	
+	void assignSubObjectPropertyToSuperObjectProperty(OntologyObjectProperty subProperty, OntologyObjectProperty superProperty);
+	void assignInverseObjectProperty(OntologyObjectProperty property, OntologyObjectProperty inverseProperty);
+	
+	void makeObjectPropertyFunctional(OntologyObjectProperty property);
+	void makeObjectPropertyInverseFunctional(OntologyObjectProperty property);
+	void makeObjectPropertyTransitive(OntologyObjectProperty property);
+	void makeObjectPropertySymmetric(OntologyObjectProperty property);
+	void makeObjectPropertyAsymmetric(OntologyObjectProperty property);
+	void makeObjectPropertyReflexive(OntologyObjectProperty property);
+	void makeObjectPropertyIrreflexive(OntologyObjectProperty property);
+	
+	void setObjectPropertyCharacteristics(OntologyObjectProperty property, boolean functional, boolean inverseFunctional, boolean transitive, boolean symmetric, boolean asymmetric, boolean reflexive, boolean irreflexive);
 	
 	void assignObjectPropertyRange(OntologyObjectProperty property, OntologyClass range);
 	void assignObjectPropertyDomain(OntologyObjectProperty property, OntologyClass domain);

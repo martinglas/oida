@@ -1,6 +1,5 @@
 package oida.ontology;
 
-import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionRegistry;
@@ -12,6 +11,7 @@ import org.osgi.framework.ServiceReference;
 import oida.ontology.manager.IOntologyManagerFactory;
 import oida.ontology.service.IOIDAOntologyService;
 import oida.ontology.service.OIDAOntologyService;
+import oida.util.OIDAUtil;
 
 /**
  * 
@@ -23,8 +23,8 @@ public class Activator implements BundleActivator {
 
 	private static BundleContext context;
 
-	private URI uriLibrary = URI.createFileURI(ResourcesPlugin.getWorkspace().getRoot().getLocation().toString() + "OntLib.onl");
-	private URI uriManager = URI.createFileURI(ResourcesPlugin.getWorkspace().getRoot().getLocation().toString() + "OntMgr.onl");
+	private URI uriLibrary = URI.createFileURI(OIDAUtil.getOIDAWorkPath() + OIDAUtil.ONTOLOGY_LIBRARY_FILE);
+	private URI uriManager = URI.createFileURI(OIDAUtil.getOIDAWorkPath() + OIDAUtil.ONTOLOGY_MANAGER_FILE);
 
 	static BundleContext getContext() {
 		return context;

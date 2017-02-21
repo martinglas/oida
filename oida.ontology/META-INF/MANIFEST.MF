@@ -34,4 +34,4 @@ Import-Package: javax.annotation;version="1.2.0",
 Bundle-ActivationPolicy: lazy
 Export-Package: oida.ontology.manager,
  oida.ontology.service,
- oida.ontology.util
+ oida.util

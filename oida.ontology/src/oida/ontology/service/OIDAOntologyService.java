@@ -31,25 +31,26 @@ import oida.ontologyMgr.provider.OntologyMgrItemProviderAdapterFactory;
  */
 public class OIDAOntologyService extends AbstractOIDAOntologyService implements INotifyChangedListener {
 	private static OIDAOntologyService instance;
+
 	public static OIDAOntologyService getInstance() {
 		if (instance == null)
 			instance = new OIDAOntologyService();
-		
+
 		return instance;
 	}
-	
+
 	private EditingDomain editingDomain;
 	private Resource libraryResource;
 
 	private IOntologyManagerFactory managerFactory;
 
 	private Map<OntologyFile, IOntologyManager> managedOntologies;
-	
+
 	private Resource managedOntologyResource;
 
 	private OIDAOntologyService() {
 		super();
-		
+
 		OntologyMgrItemProviderAdapterFactory adapterFactory = new OntologyMgrItemProviderAdapterFactory();
 		// adapterFactory.addListener(this);
 
@@ -58,7 +59,7 @@ public class OIDAOntologyService extends AbstractOIDAOntologyService implements 
 		composedAdapterFactory.addListener(this);
 
 		editingDomain = new InjectableAdapterFactoryEditingDomain(composedAdapterFactory);
-		
+
 		managedOntologies = new HashMap<OntologyFile, IOntologyManager>();
 	}
 
@@ -71,8 +72,7 @@ public class OIDAOntologyService extends AbstractOIDAOntologyService implements 
 		if (getLibrary().getReferenceOntology() != null) {
 			System.out.println("SYMO4PD OIDA Service: Loading reference ontology...");
 			getOntologyManager(getLibrary().getReferenceOntology(), true);
-		}
-		else
+		} else
 			System.out.println("SYMO4PD OIDA Service: No reference ontology set.");
 	}
 
@@ -91,7 +91,7 @@ public class OIDAOntologyService extends AbstractOIDAOntologyService implements 
 	public Resource loadExistingOIDAServiceData(URI oidaServiceDataFileURI) {
 		if (oidaServiceDataFileURI.isFile() && new File(oidaServiceDataFileURI.toFileString()).exists())
 			return editingDomain.loadResource(oidaServiceDataFileURI.toString());
-		
+
 		return null;
 	}
 
@@ -138,7 +138,7 @@ public class OIDAOntologyService extends AbstractOIDAOntologyService implements 
 	public IOntologyManager getOntologyManager(OntologyFile ontologyFile, boolean createIfNotExisting) {
 		if (managedOntologies.containsKey(ontologyFile))
 			return managedOntologies.get(ontologyFile);
-		
+
 		IOntologyManager mgr = managerFactory.getNewManager();
 
 		try {
@@ -147,26 +147,28 @@ public class OIDAOntologyService extends AbstractOIDAOntologyService implements 
 			managedOntologies.put(ontologyFile, mgr);
 
 			System.out.println("SYMO4PD OIDA Service: Added new ontology manager for: " + ontologyFile.getFileName() + ".");
+			return mgr;
 		} catch (OntologyManagerException e) {
-			try {
-				// TODO
-				mgr.createOntology("http://de.oida/" + ontologyFile.getFileName().replace(".owl", "").replace("\\", ""));
-				mgr.setOntologyFile(ontologyFile);
-				managedOntologyResource.getContents().add(mgr.getOntology());
-				managedOntologies.put(ontologyFile, mgr);
-				
-				System.out.println("SYMO4PD OIDA Service: Added new ontology manager for: " + ontologyFile.getFileName() + ".");
-			} catch (OntologyManagerException e1) {
-				e1.printStackTrace();
+			if (createIfNotExisting) {
+				try {
+					// TODO
+					mgr.createOntology("http://de.oida/" + ontologyFile.getFileName().replace(".owl", "").replace("\\", ""));
+					mgr.setOntologyFile(ontologyFile);
+					managedOntologyResource.getContents().add(mgr.getOntology());
+					managedOntologies.put(ontologyFile, mgr);
+
+					System.out.println("SYMO4PD OIDA Service: Added new ontology manager for: " + ontologyFile.getFileName() + ".");
+					return mgr;
+					
+				} catch (OntologyManagerException e1) {
+					e1.printStackTrace();
+				}
 			}
+			else
+				return null;
 		}
-
-		return mgr;
-	}
-
-	@Override
-	public OntologyFile getOntologyFile(File file) {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
+
 }

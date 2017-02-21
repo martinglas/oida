@@ -10,5 +10,4 @@ public class BridgeHelper {
 	public static String getModelOntologyName(String rootContainerName) {
 		return rootContainerName + ".owl";
 	}
-
 }
