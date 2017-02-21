@@ -14,8 +14,8 @@ import oida.ontologyMgr.OntologyMgrFactory;
 public class OntologyFileUtil {
 	public static OntologyFile createOntologyFileObject(File file) {
 		OntologyFile ontologyFileObject = OntologyMgrFactory.eINSTANCE.createOntologyFile();
-		
-		ontologyFileObject.setPath(file.getAbsolutePath());
+
+		ontologyFileObject.setPath(file.getAbsolutePath().substring(0, file.getAbsolutePath().lastIndexOf(file.getName())));
 		ontologyFileObject.setFileName(file.getName());
 		
 		return ontologyFileObject;
