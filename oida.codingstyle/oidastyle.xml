@@ -5,7 +5,7 @@
     This configuration file was written by the eclipse-cs plugin configuration editor
 -->
 <!--
-    Checkstyle-Configuration: oidastyle
+    Checkstyle-Configuration: OIDA Coding Style
     Description: none
 -->
 <module name="Checker">
@@ -36,6 +36,7 @@
     <module name="UnusedImports"/>
     <module name="LineLength">
       <property name="severity" value="ignore"/>
+      <property name="max" value="160"/>
       <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
     </module>
     <module name="MethodLength"/>
@@ -79,23 +80,10 @@
     </module>
     <module name="ModifierOrder"/>
     <module name="RedundantModifier"/>
-    <module name="AvoidNestedBlocks">
-      <property name="severity" value="ignore"/>
-      <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
-    </module>
-    <module name="EmptyBlock">
-      <property name="severity" value="ignore"/>
-      <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
-    </module>
-    <module name="LeftCurly">
-      <property name="severity" value="ignore"/>
-      <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
-    </module>
-    <module name="NeedBraces"/>
-    <module name="RightCurly">
-      <property name="severity" value="ignore"/>
-      <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
-    </module>
+    <module name="AvoidNestedBlocks"/>
+    <module name="EmptyBlock"/>
+    <module name="LeftCurly"/>
+    <module name="RightCurly"/>
     <module name="AvoidInlineConditionals">
       <property name="severity" value="ignore"/>
       <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
@@ -180,6 +168,9 @@
     <module name="PackageHtml">
       <property name="severity" value="ignore"/>
       <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
+    </module>
+    <module name="NeedBraces">
+      <property name="allowSingleLineStatement" value="true"/>
     </module>
   </module>
   <module name="FileLength">

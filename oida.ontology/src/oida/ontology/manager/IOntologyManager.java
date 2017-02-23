@@ -24,9 +24,9 @@ import oida.ontologyMgr.OntologyFile;
  * 
  */
 public interface IOntologyManager {
-	static String STR_EMPTY = "";
-	static String STR_HASHTAG = "#";
-	static String STR_COLON = ":";
+	String STR_EMPTY = "";
+	String STR_HASHTAG = "#";
+	String STR_COLON = ":";
 	
 	Ontology getOntology();
 	

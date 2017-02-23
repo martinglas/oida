@@ -18,17 +18,18 @@ module oida.ontology.ui.ClassesView {
 	
 	featuresProvider {
 		features {
-			Ontology -> classes
+			Ontology -> classHierarchy
 			OntologyClass -> subClasses
 		}
 	}
 
 	viewerContentProvider {
 		elements {
-			Ontology -> classes
+			Ontology -> classHierarchy
 		}
-		children{
-			Ontology -> classes
+		children {
+			Ontology -> classHierarchy
+			OntologyClass c -> c.subClasses
 		}
 	}
 

@@ -33,9 +33,10 @@ import oida.ontologyMgr.OntologyFile;
  */
 public abstract class AbstractOntologyManager extends EContentAdapter implements IOntologyManager {
 	private Ontology ontology;
-
+	
 	/**
 	 * This is a getter returns the Ontology of the OntologyManager.
+	 * 
 	 * @return the Ontology of the OntologyManager
 	 */
 	public Ontology getOntology() {
@@ -44,32 +45,38 @@ public abstract class AbstractOntologyManager extends EContentAdapter implements
 
 	@Override
 	public void notifyChanged(Notification notification) {
-		if (notification.getFeature().equals(OntologyPackage.eINSTANCE.getOntology_Individuals()))
+		if (notification.getFeature().equals(OntologyPackage.eINSTANCE.getOntology_Individuals())) {
 			ontology.setNrOfIndividuals(ontology.getIndividuals().size());
-		if (notification.getFeature().equals(OntologyPackage.eINSTANCE.getOntology_Classes()))
+		}
+		if (notification.getFeature().equals(OntologyPackage.eINSTANCE.getOntology_Classes())) {
 			ontology.setNrOfClasses(ontology.getClasses().size());
-		if (notification.getFeature().equals(OntologyPackage.eINSTANCE.getOntology_Objectproperties()))
+		}
+		if (notification.getFeature().equals(OntologyPackage.eINSTANCE.getOntology_Objectproperties())) {
 			ontology.setNrOfObjectProperties(ontology.getObjectproperties().size());
+		}
 	}
 
 	protected void setOntology(Ontology ontology) {
-		if (this.ontology != null)
+		if (this.ontology != null) {
 			this.ontology.eAdapters().remove(this);
+		}
 
 		this.ontology = ontology;
 		this.ontology.eAdapters().add(this);
 	}
 
 	public void setOntologyFile(OntologyFile file) {
-		if (this.ontology != null)
+		if (this.ontology != null) {
 			this.ontology.setOntologyFile(file);
+		}
 	}
 
 	public OntologyFile getOntologyFile() {
-		if (this.ontology != null)
+		if (this.ontology != null) {
 			return this.ontology.getOntologyFile();
-		else
+		} else {
 			return null;
+		}
 	}
 
 	protected File getOntologyFileObject(OntologyFile ontologyFile) {
@@ -103,8 +110,9 @@ public abstract class AbstractOntologyManager extends EContentAdapter implements
 				System.out.println("OIDA Ontology Manager [getOntologyFile]: Ontology file '" + file.getAbsolutePath() + "' doesn't exist and has NOT been created.");
 				return null;
 			}
-		} else
+		} else {
 			return file;
+		}
 	}
 
 	@Override
@@ -163,10 +171,11 @@ public abstract class AbstractOntologyManager extends EContentAdapter implements
 	public OntologyClass getClass(final String name, final String prefix) {
 		Optional<OntologyClass> opt = ontology.getClasses().stream().filter(cl -> cl.getName().equals(name) && cl.getPrefix().equals(prefix)).findFirst();
 
-		if (opt.isPresent())
+		if (opt.isPresent()) {
 			return opt.get();
-		else
+		} else {
 			return null;
+		}
 	}
 
 	@Override
@@ -183,10 +192,11 @@ public abstract class AbstractOntologyManager extends EContentAdapter implements
 	public OntologyIndividual getIndividual(String name, String prefix) {
 		Optional<OntologyIndividual> opt = ontology.getIndividuals().stream().filter(cl -> cl.getName().equals(name) && cl.getPrefix().equals(prefix)).findFirst();
 
-		if (opt.isPresent())
+		if (opt.isPresent()) {
 			return opt.get();
-		else
+		} else {
 			return null;
+		}
 	}
 
 	@Override
@@ -228,11 +238,13 @@ public abstract class AbstractOntologyManager extends EContentAdapter implements
 	public OntologyObjectProperty createObjectProperty(String propertyName, String prefix, OntologyClass range, OntologyClass domain) {
 		OntologyObjectProperty property = createObjectProperty(propertyName, prefix);
 
-		if (range != null)
+		if (range != null) {
 			assignObjectPropertyRange(property, range);
+		}
 
-		if (domain != null)
+		if (domain != null) {
 			assignObjectPropertyDomain(property, domain);
+		}
 
 		return property;
 	}
@@ -240,26 +252,33 @@ public abstract class AbstractOntologyManager extends EContentAdapter implements
 	@Override
 	public void setObjectPropertyCharacteristics(OntologyObjectProperty property, boolean functional, boolean inverseFunctional, boolean transitive, boolean symmetric, boolean asymmetric,
 			boolean reflexive, boolean irreflexive) {
-		if (functional)
+		if (functional) {
 			makeObjectPropertyFunctional(property);
+		}
 
-		if (inverseFunctional)
+		if (inverseFunctional) {
 			makeObjectPropertyInverseFunctional(property);
+		}
 
-		if (transitive)
+		if (transitive) {
 			makeObjectPropertyTransitive(property);
+		}
 
-		if (symmetric)
+		if (symmetric) {
 			makeObjectPropertySymmetric(property);
+		}
 
-		if (asymmetric)
+		if (asymmetric) {
 			makeObjectPropertyAsymmetric(property);
+		}
 
-		if (reflexive)
+		if (reflexive) {
 			makeObjectPropertyReflexive(property);
+		}
 
-		if (irreflexive)
+		if (irreflexive) {
 			makeObjectPropertyIrreflexive(property);
+		}
 	}
 
 	@Override
@@ -283,10 +302,15 @@ public abstract class AbstractOntologyManager extends EContentAdapter implements
 		return newNS;
 	}
 
-	protected OntologyClass generateInternalClassObject(Ontology ontology, String prefix, String className) {
+	protected OntologyClass generateInternalClassObject(Ontology ontology, OntologyClass superClass, String prefix, String className) {
 		OntologyClass newClass = OntologyFactory.eINSTANCE.createOntologyClass();
 		setOntologyEntityData(newClass, ontology, className, prefix);
 		ontology.getClasses().add(newClass);
+		
+		if (superClass != null) {
+			superClass.getSubClasses().add(newClass);
+			newClass.getSuperClasses().add(superClass);
+		}
 
 		return newClass;
 	}

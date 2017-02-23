@@ -165,15 +165,14 @@ public final class OIDAOntologyService extends AbstractOIDAOntologyService imple
 
 					System.out.println("SYMO4PD OIDA Service: Added new ontology manager for: " + ontologyFile.getFileName() + ".");
 					return mgr;
-					
+
 				} catch (OntologyManagerException e1) {
 					e1.printStackTrace();
 				}
-			}
-			else
+			} else
 				return null;
 		}
-		
+
 		return null;
 	}
 

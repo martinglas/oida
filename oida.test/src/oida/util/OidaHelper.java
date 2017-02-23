@@ -12,12 +12,15 @@ import java.net.URL;
 import org.eclipse.core.runtime.FileLocator;
 
 public class OidaHelper {
-	
-	private OidaHelper(){}
+
+	private OidaHelper() {
+	}
+
 	/**
 	 * This method returns the path of the current workspace as string.
 	 * 
-	 * @param pluginID the ID of the plug-in
+	 * @param pluginID
+	 *            the ID of the plug-in
 	 * @return the file path to the current workspace as string
 	 */
 	public static URL getPluginFileURL(String pluginID) {
@@ -33,9 +36,10 @@ public class OidaHelper {
 		}
 		return null;
 	}
+
 	public static String getPluginFilePath(String pluginID) {
-		URL pluginPathURL=OidaHelper.getPluginFileURL(pluginID);
-		
+		URL pluginPathURL = OidaHelper.getPluginFileURL(pluginID);
+
 		return pluginPathURL.getFile();
 	}
 
