@@ -36,7 +36,7 @@ import oida.ontology.service.IOIDAOntologyService;
  * @since 2017-01-13
  *
  */
-public class EMFModelObserverService extends AbstractEMFModelObserverService {
+public final class EMFModelObserverService extends AbstractEMFModelObserverService {
 
 	// Singleton:
 	private static EMFModelObserverService instance;

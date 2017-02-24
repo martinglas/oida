@@ -23,6 +23,8 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
 import de.symo.oida.changehandler.modelhelper.Extractor;
+import oida.bridge.observerservice.renamer.Renamer;
+import oida.bridge.observerservice.renamer.RenamerStrategy;
 import oida.model.integration.transformation.typemapping.BaseUnitType;
 import oida.model.integration.transformation.typemapping.ProductUnitType;
 import oida.model.integration.transformation.typemapping.TransformedUnitType;

@@ -36,6 +36,8 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import de.symo.oida.changehandler.modelhelper.ModelProviderHelper;
+import oida.bridge.observerservice.renamer.Renamer;
+import oida.bridge.observerservice.renamer.RenamerStrategy;
 import oida.model.integration.transformation.mapping.AttributeMapping;
 import oida.model.integration.transformation.mapping.EClassMapping;
 import oida.model.integration.transformation.mapping.MappingFactory;
@@ -43,8 +45,6 @@ import oida.model.integration.transformation.mapping.ReferenceMapping;
 import oida.model.integration.transformation.modelgenerator.GeneratorHelper;
 import oida.model.integration.transformation.modelgenerator.Metamodel;
 import oida.model.integration.transformation.ontologygenerator.ContainerContext;
-import oida.model.integration.transformation.ontologygenerator.Renamer;
-import oida.model.integration.transformation.ontologygenerator.RenamerStrategy;
 import oida.ontology.io.Owl;
 import oida.ontology.model.OntologyModel;
 import oida.ontology.util.OntologyHelper;

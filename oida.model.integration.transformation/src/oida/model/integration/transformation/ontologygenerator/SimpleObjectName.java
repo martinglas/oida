@@ -10,6 +10,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
 import de.symo.oida.changehandler.modelhelper.ModelProviderHelper;
+import oida.bridge.observerservice.renamer.RenamerStrategy;
 
 public class SimpleObjectName implements RenamerStrategy {
 	protected EObject rootEObject;

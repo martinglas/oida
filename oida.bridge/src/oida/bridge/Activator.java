@@ -23,13 +23,13 @@ import oida.bridge.observerservice.emf.EMFModelObserverService;
  *
  */
 public class Activator implements BundleActivator {
-	static String OIDABRIDGE_CHANGEHANDLER_EXTENSIONPOINT_ID = "oida.bridge.changehandler";
+	private final String OIDABRIDGE_CHANGEHANDLER_EXTENSIONPOINT_ID = "oida.bridge.changehandler";
 
 	@Override
 	public void start(BundleContext context) throws Exception {
 		context.registerService(IModelObserverService.class.getName(), EMFModelObserverService.getInstance(), null);
 		System.out.println("OIDA Bridge: Service registered.");
-		
+
 		ServiceReference<?> serviceReference = context.getServiceReference(IExtensionRegistry.class.getName());
 		IExtensionRegistry registry = (IExtensionRegistry)context.getService(serviceReference);
 
@@ -40,7 +40,7 @@ public class Activator implements BundleActivator {
 					System.out.println("OIDA Bridge: Evaluating model change handler extensions.");
 					final Object o = e.createExecutableExtension("class");
 					if (o instanceof IChangeHandler) {
-						EMFModelObserverService	.getInstance().setChangeHandler((IChangeHandler)o);
+						EMFModelObserverService.getInstance().setChangeHandler((IChangeHandler)o);
 						System.out.println("OIDA Bridge: Change handler set: '" + o.getClass().getName() + "'.");
 						break;
 					}

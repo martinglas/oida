@@ -3,12 +3,17 @@
  *  materials are made available under the terms of the Eclipse Public License v1.0 which accompanies this distribution,
  *  and is available at http://www.eclipse.org/legal/epl-v10.html </copyright>
  ******************************************************************************/
-package oida.model.integration.transformation.ontologygenerator;
+package oida.bridge.observerservice.renamer;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
+/**
+ * 
+ * @author Martin Glas
+ *
+ */
 public interface RenamerStrategy {
 
 	public String getEObjectName(EObject eObject);

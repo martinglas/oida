@@ -9,8 +9,8 @@ import org.eclipse.emf.common.command.AbstractCommand;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 
+import oida.bridge.observerservice.renamer.RenamerStrategy;
 import oida.model.integration.transformation.ontologygenerator.OntologyGenerator;
-import oida.model.integration.transformation.ontologygenerator.RenamerStrategy;
 
 /**
  * This is a command which is supposed to extract an ontology from an Exchange
