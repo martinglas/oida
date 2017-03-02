@@ -27,6 +27,7 @@ import oida.ontologyMgr.OntologyFile;
 import oida.ontologyMgr.OntologyMgrFactory;
 import oida.ontologyMgr.OntologyMgrPackage;
 import oida.ontologyMgr.provider.OntologyMgrItemProviderAdapterFactory;
+import oida.util.OIDAUtil;
 
 /**
  * 
@@ -69,6 +70,8 @@ public final class OIDAOntologyService extends AbstractOIDAOntologyService imple
 	}
 
 	private void initialize(IOntologyManagerFactory managerFactory) {
+		OIDAUtil.createOIDAWorkDirectory();
+		
 		if (managerFactory != null) {
 			this.managerFactory = managerFactory;
 		} else {

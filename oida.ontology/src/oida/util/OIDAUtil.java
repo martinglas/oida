@@ -25,6 +25,13 @@ public class OIDAUtil {
 		return ResourcesPlugin.getWorkspace().getRoot().getLocation().toString() + OIDA_WORK_SUBDIRECTORY;
 	}
 	
+	public static void createOIDAWorkDirectory() {
+		File f = new File(getOIDAWorkPath());
+		
+		if (!f.exists())
+			f.mkdir();
+	}
+	
 	public static OntologyFile getOntologyFile(String path, String fileName) {
 		String fullPath = path;
 		if (!path.endsWith("\\"))
