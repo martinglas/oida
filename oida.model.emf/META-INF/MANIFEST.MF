@@ -5,4 +5,8 @@ Bundle-SymbolicName: oida.model.emf
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: SYMO4PD
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Import-Package: org.eclipse.emf.ecore
+Import-Package: oida.bridge,
+ org.eclipse.emf.ecore
+Require-Bundle: org.eclipse.emf.ecore;bundle-version="2.12.0",
+ oida.bridge
+Export-Package: oida.model.emf

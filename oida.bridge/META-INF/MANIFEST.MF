@@ -17,6 +17,6 @@ Bundle-ActivationPolicy: lazy
 Import-Package: oida.ontology.manager,
  org.eclipse.emf.ecore
 Bundle-Activator: oida.bridge.Activator
-Export-Package: oida.bridge.observerservice,
- oida.bridge.observerservice.changehandler,
- oida.bridge.observerservice.emf
+Export-Package: oida.bridge,
+ oida.bridge.model.changereporter,
+ oida.bridge.observerservice.changehandler
