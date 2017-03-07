@@ -1,0 +1,18 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: OIDA Bridge
+Bundle-SymbolicName: oida.bridge;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: oida.bridge.Activator
+Require-Bundle: org.eclipse.core.runtime,
+ org.eclipse.e4.core.di;bundle-version="1.6.0",
+ org.eclipse.emf.ecore,
+ oida.ontology.model,
+ oida.ontology
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-ActivationPolicy: lazy
+Export-Package: oida.bridge.model,
+ oida.bridge.model.renamer,
+ oida.bridge.service
+Import-Package: oida.ontology.manager,
+ org.eclipse.emf.edit.provider
