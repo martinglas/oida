@@ -9,8 +9,17 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.eclipse.emf.ecore.EObject;
+import javax.inject.Inject;
+import javax.inject.Singleton;
 
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IExtensionRegistry;
+import org.eclipse.e4.core.di.annotations.Creatable;
+import org.eclipse.emf.ecore.EObject;
+import org.osgi.framework.ServiceReference;
+
+import oida.bridge.Activator;
 import oida.bridge.model.IModelChangeHandler;
 import oida.bridge.model.ModelChangeHandler;
 import oida.bridge.model.renamer.IRenamerStrategy;
@@ -25,24 +34,44 @@ import oida.util.OIDAUtil;
  * @since 2017-03-03
  *
  */
-public class OIDABridge implements IOIDABridge {
+@Creatable
+@Singleton
+public final class OIDABridge implements IOIDABridge {
 	private Map<EObject, IModelChangeHandler> modelHandlerMap = new HashMap<EObject, IModelChangeHandler>();
 	
 	private IRenamerStrategy renamerStrategy;
 
-	private IOIDAOntologyService oidaService;
+	@Inject IOIDAOntologyService oidaService;
 
-	private static IOIDABridge instance;
-
-	public static IOIDABridge getInstance() {
-		if (instance == null)
-			instance = new OIDABridge();
-
-		return instance;
-	}
-
-	private OIDABridge() {
+	public OIDABridge() {
 		modelHandlerMap.clear();
+		
+		renamerStrategy = loadRenamerStrategyExtension();
+		
+		System.out.println("OIDA Bridge: Service registered.");
+	}
+	
+	private IRenamerStrategy loadRenamerStrategyExtension() {
+		ServiceReference<?> serviceReference = Activator.getBundleContext().getServiceReference(IExtensionRegistry.class.getName());
+		IExtensionRegistry registry = (IExtensionRegistry)Activator.getBundleContext().getService(serviceReference);
+
+		if (registry != null) {
+			IConfigurationElement[] config = registry.getConfigurationElementsFor(Activator.OIDA_MODEL_CHANGEHANDLER_RENAMER_EXTENSIONPOINT_ID);
+			try {
+				for (IConfigurationElement e : config) {
+					System.out.println("OIDA Bridge: Evaluating model change handler renamer strategy extensions.");
+					final Object o = e.createExecutableExtension("class");
+					if (o instanceof IRenamerStrategy) {
+						System.out.println("OIDA Bridge: Renamer strategy set: '" + o.getClass().getName() + "'.");
+						return (IRenamerStrategy)o;
+					}
+				}
+			} catch (CoreException ex) {
+				System.out.println(ex.getMessage());
+			}
+		}
+
+		return null;
 	}
 
 	@Override

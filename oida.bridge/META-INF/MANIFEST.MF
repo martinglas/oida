@@ -8,7 +8,9 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.e4.core.di;bundle-version="1.6.0",
  org.eclipse.emf.ecore,
  oida.ontology.model,
- oida.ontology
+ oida.ontology,
+ org.eclipse.osgi.services;bundle-version="3.5.100",
+ org.eclipse.e4.core.di.annotations
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Export-Package: oida.bridge.model,

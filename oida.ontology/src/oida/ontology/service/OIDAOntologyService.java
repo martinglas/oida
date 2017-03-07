@@ -9,6 +9,12 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
 
+import javax.inject.Singleton;
+
+import org.eclipse.core.runtime.CoreException;
+import org.eclipse.core.runtime.IConfigurationElement;
+import org.eclipse.core.runtime.IExtensionRegistry;
+import org.eclipse.e4.core.di.annotations.Creatable;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
@@ -18,7 +24,9 @@ import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.provider.INotifyChangedListener;
 import org.eclipse.emf.edit.provider.resource.ResourceItemProviderAdapterFactory;
 import org.eclipse.emf.parsley.edit.domain.InjectableAdapterFactoryEditingDomain;
+import org.osgi.framework.ServiceReference;
 
+import oida.ontology.Activator;
 import oida.ontology.manager.IOntologyManager;
 import oida.ontology.manager.IOntologyManagerFactory;
 import oida.ontology.manager.OntologyManagerException;
@@ -35,17 +43,13 @@ import oida.util.OIDAUtil;
  * @since 13.12.2016
  *
  */
+@Creatable
+@Singleton
 public final class OIDAOntologyService extends AbstractOIDAOntologyService implements INotifyChangedListener {
 	public static final String OIDAONTOLOGY_SERVICE_NAME = "OIDA Ontology Service";
-	
-	private static OIDAOntologyService instance;
 
-	public static OIDAOntologyService getInstance() {
-		if (instance == null)
-			instance = new OIDAOntologyService();
-
-		return instance;
-	}
+	private URI uriLibrary = URI.createFileURI(OIDAUtil.getOIDAWorkPath() + OIDAUtil.ONTOLOGY_LIBRARY_FILE);
+	private URI uriManager = URI.createFileURI(OIDAUtil.getOIDAWorkPath() + OIDAUtil.ONTOLOGY_MANAGER_FILE);
 
 	private EditingDomain editingDomain;
 	private Resource libraryResource;
@@ -56,8 +60,10 @@ public final class OIDAOntologyService extends AbstractOIDAOntologyService imple
 
 	private Resource managedOntologyResource;
 
-	private OIDAOntologyService() {
+	public OIDAOntologyService() {
 		super();
+
+		System.out.println(OIDAOntologyService.OIDAONTOLOGY_SERVICE_NAME + ": Initialization started.");
 
 		OntologyMgrItemProviderAdapterFactory adapterFactory = new OntologyMgrItemProviderAdapterFactory();
 		// adapterFactory.addListener(this);
@@ -69,11 +75,19 @@ public final class OIDAOntologyService extends AbstractOIDAOntologyService imple
 		editingDomain = new InjectableAdapterFactoryEditingDomain(composedAdapterFactory);
 
 		managedOntologies = new HashMap<OntologyFile, IOntologyManager>();
-	}
 
-	private void initialize(IOntologyManagerFactory managerFactory) {
+		libraryResource = loadExistingOIDAServiceData(uriLibrary);
+		managedOntologyResource = editingDomain.createResource(uriManager.toString());
+
+		if (libraryResource == null || libraryResource.getContents().isEmpty())
+			initializeNewOIDAServiceData(uriLibrary);
+
+		libraryResource.getResourceSet().eAdapters().add(this);
+
 		OIDAUtil.createOIDAWorkDirectory();
-		
+
+		IOntologyManagerFactory managerFactory = loadManagerFactoryExtension();
+
 		if (managerFactory != null) {
 			this.managerFactory = managerFactory;
 		} else {
@@ -85,18 +99,31 @@ public final class OIDAOntologyService extends AbstractOIDAOntologyService imple
 			getOntologyManager(getLibrary().getReferenceOntology(), true);
 		} else
 			System.out.println(OIDAONTOLOGY_SERVICE_NAME + ": No reference ontology set.");
+
+		System.out.println(OIDAOntologyService.OIDAONTOLOGY_SERVICE_NAME + ": Service registered.");
 	}
 
-	public void initialize(URI oidaServiceDataFileURI, URI oidaManagerDataFileURI, IOntologyManagerFactory managerFactory) {
-		libraryResource = loadExistingOIDAServiceData(oidaServiceDataFileURI);
-		managedOntologyResource = editingDomain.createResource(oidaManagerDataFileURI.toString());
+	private IOntologyManagerFactory loadManagerFactoryExtension() {
+		ServiceReference<?> serviceReference = Activator.getBundleContext().getServiceReference(IExtensionRegistry.class.getName());
+		IExtensionRegistry registry = (IExtensionRegistry)Activator.getBundleContext().getService(serviceReference);
 
-		if (libraryResource == null || libraryResource.getContents().isEmpty())
-			initializeNewOIDAServiceData(oidaServiceDataFileURI);
+		if (registry != null) {
+			IConfigurationElement[] config = registry.getConfigurationElementsFor(Activator.ONTOLOGYMANAGERFACTORY_EXTENSIONPOINT_ID);
+			try {
+				for (IConfigurationElement e : config) {
+					System.out.println(OIDAOntologyService.OIDAONTOLOGY_SERVICE_NAME + ": Evaluating ontology manager extensions.");
+					final Object o = e.createExecutableExtension("class");
+					if (o instanceof IOntologyManagerFactory) {
+						System.out.println(OIDAOntologyService.OIDAONTOLOGY_SERVICE_NAME + ": Initialized with manager '" + o.getClass().getName() + "'.");
+						return (IOntologyManagerFactory)o;
+					}
+				}
+			} catch (CoreException ex) {
+				System.out.println(ex.getMessage());
+			}
+		}
 
-		libraryResource.getResourceSet().eAdapters().add(this);
-
-		initialize(managerFactory);
+		return null;
 	}
 
 	public Resource loadExistingOIDAServiceData(URI oidaServiceDataFileURI) {
