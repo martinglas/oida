@@ -36,6 +36,8 @@ import oida.util.OIDAUtil;
  *
  */
 public final class OIDAOntologyService extends AbstractOIDAOntologyService implements INotifyChangedListener {
+	public static final String OIDAONTOLOGY_SERVICE_NAME = "OIDA Ontology Service";
+	
 	private static OIDAOntologyService instance;
 
 	public static OIDAOntologyService getInstance() {
@@ -75,14 +77,14 @@ public final class OIDAOntologyService extends AbstractOIDAOntologyService imple
 		if (managerFactory != null) {
 			this.managerFactory = managerFactory;
 		} else {
-			System.out.println("SYMO4PD OIDA Service: Initialized without an Ontology Manager Factory.");
+			System.out.println(OIDAONTOLOGY_SERVICE_NAME + ": Initialized without an Ontology Manager Factory.");
 		}
 
 		if (getLibrary().getReferenceOntology() != null) {
-			System.out.println("SYMO4PD OIDA Service: Loading reference ontology...");
+			System.out.println(OIDAONTOLOGY_SERVICE_NAME + ": Loading reference ontology...");
 			getOntologyManager(getLibrary().getReferenceOntology(), true);
 		} else
-			System.out.println("SYMO4PD OIDA Service: No reference ontology set.");
+			System.out.println(OIDAONTOLOGY_SERVICE_NAME + ": No reference ontology set.");
 	}
 
 	public void initialize(URI oidaServiceDataFileURI, URI oidaManagerDataFileURI, IOntologyManagerFactory managerFactory) {
@@ -155,7 +157,7 @@ public final class OIDAOntologyService extends AbstractOIDAOntologyService imple
 			managedOntologyResource.getContents().add(mgr.getOntology());
 			managedOntologies.put(ontologyFile, mgr);
 
-			System.out.println("SYMO4PD OIDA Service: Added new ontology manager for: " + ontologyFile.getFileName() + ".");
+			System.out.println(OIDAONTOLOGY_SERVICE_NAME + ": Added new ontology manager for: " + ontologyFile.getFileName() + ".");
 			return mgr;
 		} catch (OntologyManagerException e) {
 			if (createIfNotExisting) {
@@ -166,7 +168,7 @@ public final class OIDAOntologyService extends AbstractOIDAOntologyService imple
 					managedOntologyResource.getContents().add(mgr.getOntology());
 					managedOntologies.put(ontologyFile, mgr);
 
-					System.out.println("SYMO4PD OIDA Service: Added new ontology manager for: " + ontologyFile.getFileName() + ".");
+					System.out.println(OIDAONTOLOGY_SERVICE_NAME + ": Added new ontology manager for: " + ontologyFile.getFileName() + ".");
 					return mgr;
 
 				} catch (OntologyManagerException e1) {
