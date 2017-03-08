@@ -21,6 +21,8 @@ import oida.ontology.service.IOIDAOntologyService;
 public interface IOIDABridge {
 	void setOntologyService(IOIDAOntologyService ontologyService);
 	
+	void invokeModelObservation(Object modelObject, File modelOntologyDirectory) throws OIDABridgeException;
+	
 	void addChangeHandler(Object modelObject, File modelOntologyFile) throws OIDABridgeException;
 	void removeChangeHandler(Object modelObject);
 	

@@ -15,11 +15,15 @@ import javax.inject.Singleton;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionRegistry;
+import org.eclipse.e4.core.contexts.ContextInjectionFactory;
 import org.eclipse.e4.core.di.annotations.Creatable;
+import org.eclipse.e4.core.internal.contexts.EclipseContext;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.osgi.internal.framework.ContextFinder;
 import org.osgi.framework.ServiceReference;
 
 import oida.bridge.Activator;
+import oida.bridge.di.annotation.PostModelOpened;
 import oida.bridge.model.IModelChangeHandler;
 import oida.bridge.model.ModelChangeHandler;
 import oida.bridge.model.renamer.IRenamerStrategy;
@@ -49,6 +53,33 @@ public final class OIDABridge implements IOIDABridge {
 		renamerStrategy = loadRenamerStrategyExtension();
 		
 		System.out.println("OIDA Bridge: Service registered.");
+	}
+
+	@Override
+	public void invokeModelObservation(Object modelObject, File modelOntologyDirectory) throws OIDABridgeException {
+		if (!(modelObject instanceof EObject))
+			throw new OIDABridgeException("Object is not of type 'EObject'.");
+
+		try {
+			OntologyFile modelOntologyfile = OIDAUtil.getOntologyFile(modelOntologyDirectory);
+			IOntologyManager modelOntologyManager = oidaService.getOntologyManager(modelOntologyfile, false);
+
+			if (modelOntologyManager == null) {
+				modelOntologyManager = oidaService.getOntologyManager(modelOntologyfile, true);
+				modelOntologyManager.addImportDeclaration(oidaService.getMereology().getOntology());
+			}
+
+			IModelChangeHandler changeHandler = new ModelChangeHandler();
+			changeHandler.setModelOntologyManager(modelOntologyManager);
+			changeHandler.initializeModelOntology((EObject)modelObject, renamerStrategy);
+
+			changeHandler.registerRenamerStrategy(renamerStrategy);
+			modelHandlerMap.put(changeHandler.getModelObject(), changeHandler);
+			
+			//ContextInjectionFactory.invoke(changeHandler, PostModelOpened.class, EclipseContext.ACTIVE_CHILD);
+		} catch (OntologyManagerException e) {
+			throw new OIDABridgeException("OIDA bridge could not create a model ontology.", e);
+		}
 	}
 	
 	private IRenamerStrategy loadRenamerStrategyExtension() {

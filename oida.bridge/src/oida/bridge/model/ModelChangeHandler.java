@@ -6,6 +6,7 @@ import java.util.List;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
+import oida.bridge.di.annotation.PostModelOpened;
 import oida.bridge.model.helper.Extractor;
 import oida.bridge.model.helper.ModelProviderHelper;
 import oida.bridge.model.helper.Renamer;
@@ -30,6 +31,7 @@ public class ModelChangeHandler extends AbstractModelChangeHandler {
 	}	
 	
 	@Override
+	@PostModelOpened
 	public void initializeModelOntology(EObject modelObject, IRenamerStrategy renamerStrategy) {
 		this.modelObject = modelObject;
 
