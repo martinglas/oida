@@ -14,10 +14,33 @@ package oida.bridge.service;
 public class OIDABridgeException extends Exception {
 	private static final long serialVersionUID = 1L;
 
+	/**
+	 * Standard constructor.
+	 */
+	public OIDABridgeException() {
+		super();
+	}
+
+	/**
+	 * Constructor, which takes an exception message.
+	 * 
+	 * @param message
+	 *            The exception message.
+	 */
 	public OIDABridgeException(String message) {
 		super(message);
 	}
-	
+
+	/**
+	 * Constructor, which takes an exception message as well as an inner
+	 * exception.
+	 * 
+	 * @param message
+	 *            The exception message.
+	 * @param inner
+	 *            The inner exception.
+	 */
 	public OIDABridgeException(String message, Exception inner) {
+		super(message, inner);
 	}
 }
