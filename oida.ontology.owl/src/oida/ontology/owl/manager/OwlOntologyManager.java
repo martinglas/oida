@@ -158,7 +158,7 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 		}
 
 		File file = getOntologyFileObject(ontologyFile);
-		if (file != null) {
+		if (file != null && file.exists()) {
 			try {
 				owlPrefixManager.clear();
 				owlOntology = owlOntologyManager.loadOntologyFromOntologyDocument(file);

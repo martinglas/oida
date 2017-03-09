@@ -15,15 +15,11 @@ import javax.inject.Singleton;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.core.runtime.IConfigurationElement;
 import org.eclipse.core.runtime.IExtensionRegistry;
-import org.eclipse.e4.core.contexts.ContextInjectionFactory;
 import org.eclipse.e4.core.di.annotations.Creatable;
-import org.eclipse.e4.core.internal.contexts.EclipseContext;
 import org.eclipse.emf.ecore.EObject;
-import org.eclipse.osgi.internal.framework.ContextFinder;
 import org.osgi.framework.ServiceReference;
 
 import oida.bridge.Activator;
-import oida.bridge.di.annotation.PostModelOpened;
 import oida.bridge.model.IModelChangeHandler;
 import oida.bridge.model.ModelChangeHandler;
 import oida.bridge.model.renamer.IRenamerStrategy;
@@ -75,8 +71,6 @@ public final class OIDABridge implements IOIDABridge {
 
 			changeHandler.registerRenamerStrategy(renamerStrategy);
 			modelHandlerMap.put(changeHandler.getModelObject(), changeHandler);
-			
-			//ContextInjectionFactory.invoke(changeHandler, PostModelOpened.class, EclipseContext.ACTIVE_CHILD);
 		} catch (OntologyManagerException e) {
 			throw new OIDABridgeException("OIDA bridge could not create a model ontology.", e);
 		}
@@ -138,7 +132,8 @@ public final class OIDABridge implements IOIDABridge {
 	@Override
 	public void saveModelOntology(EObject modelObject) {
 		try {
-			modelHandlerMap.get(modelObject).getModelOntologyManager().saveOntology();
+			if (modelHandlerMap.containsKey(modelObject))
+				modelHandlerMap.get(modelObject).getModelOntologyManager().saveOntology();
 		} catch (OntologyManagerException e) {
 			e.printStackTrace();
 		}
