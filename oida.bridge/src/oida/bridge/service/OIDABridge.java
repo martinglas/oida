@@ -48,9 +48,21 @@ public final class OIDABridge implements IOIDABridge {
 	private IOIDAOntologyService oidaOntologyService;
 
 	public OIDABridge() {
+		System.out.println(MSG_PREFIX + "Initializing service...");
 		modelHandlerMap.clear();
 		
-		renamerStrategy = loadRenamerStrategyExtension();
+		System.out.println(MSG_PREFIX + "Evaluating model change handler renamer strategy extensions.");
+		try {
+			renamerStrategy = loadRenamerStrategyExtension();
+			
+			if (renamerStrategy != null)
+				System.out.println(MSG_PREFIX + "Renamer strategy set: '" + renamerStrategy.getClass().getName() + "'.");
+			else
+				System.out.println(MSG_PREFIX + "No renamer strategy found.");
+		} catch (CoreException e) {
+			System.out.println(MSG_PREFIX + "Error while evaluating renamer strategy extension point.");
+			e.printStackTrace();
+		}
 		
 		System.out.println(MSG_PREFIX + "Service registered.");
 	}
@@ -88,36 +100,6 @@ public final class OIDABridge implements IOIDABridge {
 			throw new OIDABridgeException(MSG_PREFIX + "Could not create a model ontology.", e);
 		}
 	}
-	
-	private String generateModelOntologyFileName(String modelObjectId) throws OIDABridgeException {
-		if (oidaOntologyService.getLibrary().getReferenceOntology() == null)
-			throw new OIDABridgeException(MSG_PREFIX + "No reference ontology set. Model won't be observed.");
-		
-		return modelObjectId + "_" + oidaOntologyService.getLibrary().getReferenceOntology().getFileName();
-	}
-
-	private IRenamerStrategy loadRenamerStrategyExtension() {
-		ServiceReference<?> serviceReference = Activator.getBundleContext().getServiceReference(IExtensionRegistry.class.getName());
-		IExtensionRegistry registry = (IExtensionRegistry)Activator.getBundleContext().getService(serviceReference);
-
-		if (registry != null) {
-			IConfigurationElement[] config = registry.getConfigurationElementsFor(Activator.OIDA_MODEL_CHANGEHANDLER_RENAMER_EXTENSIONPOINT_ID);
-			try {
-				for (IConfigurationElement e : config) {
-					System.out.println("OIDA Bridge: Evaluating model change handler renamer strategy extensions.");
-					final Object o = e.createExecutableExtension("class");
-					if (o instanceof IRenamerStrategy) {
-						System.out.println("OIDA Bridge: Renamer strategy set: '" + o.getClass().getName() + "'.");
-						return (IRenamerStrategy)o;
-					}
-				}
-			} catch (CoreException ex) {
-				System.out.println(ex.getMessage());
-			}
-		}
-
-		return null;
-	}
 
 	@Override
 	public void saveModelOntology(final EObject modelObject) {
@@ -133,5 +115,28 @@ public final class OIDABridge implements IOIDABridge {
 	public void stopModelObservation(final EObject modelObject) {
 		modelHandlerMap.get(modelObject).closeModelOntology();
 		modelHandlerMap.remove(modelObject);
+	}
+	
+	private String generateModelOntologyFileName(String modelObjectId) throws OIDABridgeException {
+		if (oidaOntologyService.getLibrary().getReferenceOntology() == null)
+			throw new OIDABridgeException(MSG_PREFIX + "No reference ontology set. Model won't be observed.");
+		
+		return modelObjectId + "_" + oidaOntologyService.getLibrary().getReferenceOntology().getFileName();
+	}
+
+	private IRenamerStrategy loadRenamerStrategyExtension() throws CoreException {
+		ServiceReference<?> serviceReference = Activator.getBundleContext().getServiceReference(IExtensionRegistry.class.getName());
+		IExtensionRegistry registry = (IExtensionRegistry)Activator.getBundleContext().getService(serviceReference);
+
+		if (registry != null) {
+			IConfigurationElement[] config = registry.getConfigurationElementsFor(Activator.OIDA_MODEL_CHANGEHANDLER_RENAMER_EXTENSIONPOINT_ID);
+			for (IConfigurationElement e : config) {
+					final Object o = e.createExecutableExtension("class");
+					if (o instanceof IRenamerStrategy)
+						return (IRenamerStrategy)o;
+			}
+		}
+
+		return null;
 	}
 }
