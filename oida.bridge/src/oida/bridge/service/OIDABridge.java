@@ -30,6 +30,7 @@ import oida.ontologyMgr.OntologyFile;
 import oida.util.OIDAUtil;
 
 /**
+ * 
  * @author Michael.Shamiyeh
  * @since 2017-03-03
  *
@@ -37,32 +38,44 @@ import oida.util.OIDAUtil;
 @Creatable
 @Singleton
 public final class OIDABridge implements IOIDABridge {
-	private Map<EObject, IModelChangeHandler> modelHandlerMap = new HashMap<EObject, IModelChangeHandler>();
+	private final String MSG_PREFIX = "OIDA Bridge: ";
 	
+	private Map<EObject, IModelChangeHandler> modelHandlerMap = new HashMap<EObject, IModelChangeHandler>();
+
 	private IRenamerStrategy renamerStrategy;
 
-	@Inject IOIDAOntologyService oidaService;
+	@Inject
+	private IOIDAOntologyService oidaOntologyService;
 
 	public OIDABridge() {
 		modelHandlerMap.clear();
 		
 		renamerStrategy = loadRenamerStrategyExtension();
 		
-		System.out.println("OIDA Bridge: Service registered.");
+		System.out.println(MSG_PREFIX + "Service registered.");
 	}
 
 	@Override
-	public void invokeModelObservation(Object modelObject, File modelOntologyDirectory) throws OIDABridgeException {
-		if (!(modelObject instanceof EObject))
-			throw new OIDABridgeException("Object is not of type 'EObject'.");
+	public void invokeModelObservation(final EObject modelObject, final File modelOntologyDirectory, final String modelObjectId) throws OIDABridgeException {
+		if (renamerStrategy == null)
+			throw new OIDABridgeException(MSG_PREFIX + "No renamer strategy found. Model won't be observed.");
+		
+		if (modelOntologyDirectory == null)
+			throw new OIDABridgeException(MSG_PREFIX + "No directory for a model ontology has been passed. Model won't be observed.");
 
+		if (!modelOntologyDirectory.exists())
+			 if (!modelOntologyDirectory.mkdirs())
+				 throw new OIDABridgeException(MSG_PREFIX + "The directory for the model ontology doesn't exist/could not be created ['" + modelOntologyDirectory.toString() + "']. Model won't be observed.");
+		
+		File modelOntologyFile = new File(modelOntologyDirectory, generateModelOntologyFileName(modelObjectId));
+		
 		try {
-			OntologyFile modelOntologyfile = OIDAUtil.getOntologyFile(modelOntologyDirectory);
-			IOntologyManager modelOntologyManager = oidaService.getOntologyManager(modelOntologyfile, false);
+			OntologyFile ontologyfile = OIDAUtil.getOntologyFile(modelOntologyFile);
+			IOntologyManager modelOntologyManager = oidaOntologyService.getOntologyManager(ontologyfile, false);
 
 			if (modelOntologyManager == null) {
-				modelOntologyManager = oidaService.getOntologyManager(modelOntologyfile, true);
-				modelOntologyManager.addImportDeclaration(oidaService.getMereology().getOntology());
+				modelOntologyManager = oidaOntologyService.getOntologyManager(ontologyfile, true);
+				modelOntologyManager.addImportDeclaration(oidaOntologyService.getMereology().getOntology());
 			}
 
 			IModelChangeHandler changeHandler = new ModelChangeHandler();
@@ -72,10 +85,17 @@ public final class OIDABridge implements IOIDABridge {
 			changeHandler.registerRenamerStrategy(renamerStrategy);
 			modelHandlerMap.put(changeHandler.getModelObject(), changeHandler);
 		} catch (OntologyManagerException e) {
-			throw new OIDABridgeException("OIDA bridge could not create a model ontology.", e);
+			throw new OIDABridgeException(MSG_PREFIX + "Could not create a model ontology.", e);
 		}
 	}
 	
+	private String generateModelOntologyFileName(String modelObjectId) throws OIDABridgeException {
+		if (oidaOntologyService.getLibrary().getReferenceOntology() == null)
+			throw new OIDABridgeException(MSG_PREFIX + "No reference ontology set. Model won't be observed.");
+		
+		return modelObjectId + "_" + oidaOntologyService.getLibrary().getReferenceOntology().getFileName();
+	}
+
 	private IRenamerStrategy loadRenamerStrategyExtension() {
 		ServiceReference<?> serviceReference = Activator.getBundleContext().getServiceReference(IExtensionRegistry.class.getName());
 		IExtensionRegistry registry = (IExtensionRegistry)Activator.getBundleContext().getService(serviceReference);
@@ -100,37 +120,7 @@ public final class OIDABridge implements IOIDABridge {
 	}
 
 	@Override
-	public void registerRenamerStrategy(IRenamerStrategy renamerStrategy) {
-		this.renamerStrategy = renamerStrategy;
-	}
-
-	@Override
-	public void addChangeHandler(Object modelObject, File modelOntologyFile) throws OIDABridgeException {
-		if (!(modelObject instanceof EObject))
-			throw new OIDABridgeException("Object is not of type 'EObject'.");
-
-		try {
-			OntologyFile modelOntologyfile = OIDAUtil.getOntologyFile(modelOntologyFile);
-			IOntologyManager modelOntologyManager = oidaService.getOntologyManager(modelOntologyfile, false);
-
-			if (modelOntologyManager == null) {
-				modelOntologyManager = oidaService.getOntologyManager(modelOntologyfile, true);
-				modelOntologyManager.addImportDeclaration(oidaService.getMereology().getOntology());
-			}
-
-			IModelChangeHandler changeHandler = new ModelChangeHandler();
-			changeHandler.setModelOntologyManager(modelOntologyManager);
-			changeHandler.initializeModelOntology((EObject)modelObject, renamerStrategy);
-
-			changeHandler.registerRenamerStrategy(renamerStrategy);
-			modelHandlerMap.put(changeHandler.getModelObject(), changeHandler);
-		} catch (OntologyManagerException e) {
-			throw new OIDABridgeException("OIDA bridge could not create a model ontology.", e);
-		}
-	}
-
-	@Override
-	public void saveModelOntology(EObject modelObject) {
+	public void saveModelOntology(final EObject modelObject) {
 		try {
 			if (modelHandlerMap.containsKey(modelObject))
 				modelHandlerMap.get(modelObject).getModelOntologyManager().saveOntology();
@@ -140,13 +130,8 @@ public final class OIDABridge implements IOIDABridge {
 	}
 
 	@Override
-	public void removeChangeHandler(Object modelObject) {
+	public void stopModelObservation(final EObject modelObject) {
 		modelHandlerMap.get(modelObject).closeModelOntology();
 		modelHandlerMap.remove(modelObject);
-	}
-
-	@Override
-	public void setOntologyService(IOIDAOntologyService ontologyService) {
-		this.oidaService = ontologyService;
 	}
 }
