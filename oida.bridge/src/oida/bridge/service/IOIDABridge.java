@@ -9,24 +9,47 @@ import java.io.File;
 
 import org.eclipse.emf.ecore.EObject;
 
-import oida.bridge.model.renamer.IRenamerStrategy;
-import oida.ontology.service.IOIDAOntologyService;
-
 /**
+ * The OIDA bridge is the interface for model handling applications to OIDA.
  * 
- * @author Michael.Shamiyeh
+ * @author Michael Shamiyeh
  * @since 2017-03-03
  *
  */
 public interface IOIDABridge {
-	void setOntologyService(IOIDAOntologyService ontologyService);
-	
-	void invokeModelObservation(Object modelObject, File modelOntologyDirectory) throws OIDABridgeException;
-	
-	void addChangeHandler(Object modelObject, File modelOntologyFile) throws OIDABridgeException;
-	void removeChangeHandler(Object modelObject);
-	
-	void registerRenamerStrategy(IRenamerStrategy renamerStrategy);
-	
-	void saveModelOntology(EObject newEObject);
+	/**
+	 * Starts the OIDA model ontology management for a passed model object.
+	 * 
+	 * @param modelObject
+	 *            The model object, which should be observed and mapped to the
+	 *            current reference ontology.
+	 * @param modelOntologyDirectory
+	 *            A directory, where OIDA can store the model ontology file.
+	 * @param modelObjectId
+	 *            An id of the model object, which is used for the file name
+	 *            generation of the model ontology file.
+	 * @throws OIDABridgeException
+	 *             If 1) the model ontology directory is invalid, 2) no renamer
+	 *             strategy has been registered, or 3) no reference ontology is
+	 *             set at the moment. If the exception is thrown, the model
+	 *             element is not observed.
+	 */
+	void invokeModelObservation(final EObject modelObject, final File modelOntologyDirectory, final String modelObjectId) throws OIDABridgeException;
+
+	/**
+	 * Saves the model ontology in the current state, if the model object is
+	 * observed.
+	 * 
+	 * @param modelObject
+	 *            The model object, which's ontology should be saved.
+	 */
+	void saveModelOntology(final EObject modelObject);
+
+	/**
+	 * Stops the model ontology management for the passed model object.
+	 * 
+	 * @param modelObject
+	 *            The model object, which should not be observed any more.
+	 */
+	void stopModelObservation(final EObject modelObject);
 }
