@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="bridgemodel" nsURI="http://net/bauhaus-luftfahrt/oida/bridgemodel"
+    nsPrefix="net.bauhaus-luftfahrt.oida.bridgemodel">
+  <eClassifiers xsi:type="ecore:EClass" name="RecommendationSet">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="entity" lowerBound="1"
+        eType="ecore:EClass ../../oida.ontology.model/model/oida.ecore#//ontology/OntologyEntity"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="recommendations" upperBound="-1"
+        eType="#//Recommendation" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Recommendation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="recommendedEntity" lowerBound="1"
+        eType="ecore:EClass ../../oida.ontology.model/model/oida.ecore#//ontology/OntologyEntity"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="recommenderName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="recommenderMessage" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
+</ecore:EPackage>
