@@ -2,5 +2,6 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension-point id="oida.bridge.model.changehandler.renamer" name="Model Renamer Strategy" schema="schema/oida.bridge.model.changehandler.renamer.exsd"/>
+   <extension-point id="oida.bridge.recommender" name="Recommender Extension point" schema="schema/oida.bridge.recommender.exsd"/>
 
 </plugin>

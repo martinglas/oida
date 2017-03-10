@@ -6,7 +6,9 @@
 package oida.bridge.service;
 
 import java.io.File;
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 import javax.inject.Inject;
@@ -23,6 +25,7 @@ import oida.bridge.Activator;
 import oida.bridge.model.IModelChangeHandler;
 import oida.bridge.model.ModelChangeHandler;
 import oida.bridge.model.renamer.IRenamerStrategy;
+import oida.bridge.recommend.IRecommender;
 import oida.ontology.manager.IOntologyManager;
 import oida.ontology.manager.OntologyManagerException;
 import oida.ontology.service.IOIDAOntologyService;
@@ -42,6 +45,8 @@ public final class OIDABridge implements IOIDABridge {
 	
 	private Map<EObject, IModelChangeHandler> modelHandlerMap = new HashMap<EObject, IModelChangeHandler>();
 
+	private List<IRecommender> recommender;
+	
 	private IRenamerStrategy renamerStrategy;
 
 	@Inject
@@ -63,6 +68,11 @@ public final class OIDABridge implements IOIDABridge {
 			System.out.println(MSG_PREFIX + "Error while evaluating renamer strategy extension point.");
 			e.printStackTrace();
 		}
+		
+		recommender = loadRecommenderExtensions();
+		
+		for (IRecommender r : recommender)
+			System.out.println(MSG_PREFIX + "Recommender registered: " + r.toString() + ".");
 		
 		System.out.println(MSG_PREFIX + "Service registered.");
 	}
@@ -138,5 +148,28 @@ public final class OIDABridge implements IOIDABridge {
 		}
 
 		return null;
+	}
+	
+	private List<IRecommender> loadRecommenderExtensions() {
+		List<IRecommender> recommenderList = new ArrayList<IRecommender>();
+		
+		ServiceReference<?> serviceReference = Activator.getBundleContext().getServiceReference(IExtensionRegistry.class.getName());
+		IExtensionRegistry registry = (IExtensionRegistry)Activator.getBundleContext().getService(serviceReference);
+		
+		if (registry != null) {
+			IConfigurationElement[] config = registry.getConfigurationElementsFor(Activator.OIDA_RECOMMENDER_EXTENSIONPOINT_ID);
+			for (IConfigurationElement e : config) {
+				try {
+					final Object o = e.createExecutableExtension("class");
+					if (o instanceof IRecommender)
+						recommenderList.add((IRecommender)o);
+				}
+				catch(CoreException coreEx) {
+					coreEx.printStackTrace();
+				}
+			}
+		}
+
+		return recommenderList;
 	}
 }

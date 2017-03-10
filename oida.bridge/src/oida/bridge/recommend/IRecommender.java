@@ -1,7 +1,5 @@
 package oida.bridge.recommend;
 
-import org.eclipse.emf.ecore.EObject;
-
 import oida.ontology.Ontology;
 import oida.ontology.OntologyEntity;
 
@@ -17,7 +15,7 @@ public interface IRecommender {
 	 * @param model The observed model.
 	 * @param 
 	 */
-	void initializeRecommenderForModel(final EObject observedModel, final Ontology referenceOntology);
+	void initializeRecommenderForModel(final Ontology observedModelOntology, final Ontology referenceOntology);
 	
 	/**
 	 * Invokes a search for ontology element mapping recommendations based on the selected model element.
@@ -25,5 +23,5 @@ public interface IRecommender {
 	 * @param selectedModelElement The currently selected model element for which the mapping recommendations should be found.
 	 * @return Potential ontology entities, which can be mapped.
 	 */
-	OntologyEntity findRecommendationsForSelectedModelElement(final EObject selectedModelElement);
+	OntologyEntity findRecommendationsForSelectedModelElement(final OntologyEntity selectedModelElement);
 }

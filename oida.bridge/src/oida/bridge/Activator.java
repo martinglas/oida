@@ -9,6 +9,7 @@ import oida.bridge.service.OIDABridge;
 
 public class Activator implements BundleActivator {
 	public final static String OIDA_MODEL_CHANGEHANDLER_RENAMER_EXTENSIONPOINT_ID = "oida.bridge.model.changehandler.renamer";
+	public final static String OIDA_RECOMMENDER_EXTENSIONPOINT_ID = "oida.bridge.recommender";
 	
 	private static BundleContext context;
 
