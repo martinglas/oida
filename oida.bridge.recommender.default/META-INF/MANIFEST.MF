@@ -1,0 +1,10 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Default Recommender
+Bundle-SymbolicName: oida.bridge.recommender.default
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: Bauhaus Luftfahrt e.V.
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Import-Package: oida.bridge.recommend,
+ oida.ontology,
+ org.eclipse.emf.ecore
