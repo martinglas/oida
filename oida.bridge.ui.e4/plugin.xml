@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            category="org.eclipse.emf.parsley"
+            class="oida.bridge.ui.e4.E4ExecutableExtensionFactory:oida.bridge.ui.view.RecommendationsView"
+            id="oida.bridge.ui.e4"
+            name="OIDA Recommendations"
+            restorable="true">
+      </view>
+   </extension>
+   <extension
+         id="oida.bridge.ui.e4.fragment"
+         point="org.eclipse.e4.workbench.model">
+      <fragment
+            uri="fragment.e4xmi">
+      </fragment>
+   </extension>
+</plugin>

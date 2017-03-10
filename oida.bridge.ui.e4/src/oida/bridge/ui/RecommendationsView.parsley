@@ -1,0 +1,21 @@
+import bridgemodel.BridgemodelPackage
+import oida.bridge.ui.view.RecommendationsView
+
+/* oida.bridge.ui.e4 Emf Parsley Dsl Module file */
+module oida.bridge.ui.e4 {
+	
+	parts {
+		viewpart oida.bridge.ui.e4 {
+			viewname "OIDA Recommendations"
+			viewclass RecommendationsView
+		}
+	}
+	
+	configurator {
+		eClass {
+			RecommendationsView -> {
+				BridgemodelPackage.eINSTANCE.recommendation
+			}
+		}
+	}
+}
