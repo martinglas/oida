@@ -52,4 +52,14 @@ public interface IOIDABridge {
 	 *            The model object, which should not be observed any more.
 	 */
 	void stopModelObservation(final EObject modelObject);
+
+	/**
+	 * Can be called by external editors or other parts, if the selected model
+	 * element changes. This triggers the bridge to find new mapping
+	 * recommendations.
+	 * 
+	 * @param modelObject The observed model.
+	 * @param firstSelectedElement The first selected model element.
+	 */
+	void reportModelSelectionChanged(EObject modelObject, Object firstSelectedElement);
 }

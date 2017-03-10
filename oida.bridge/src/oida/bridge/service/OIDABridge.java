@@ -127,6 +127,11 @@ public final class OIDABridge implements IOIDABridge {
 		modelHandlerMap.remove(modelObject);
 	}
 	
+	@Override
+	public void reportModelSelectionChanged(EObject modelObject, Object firstSelectedElement) {
+		System.out.println(MSG_PREFIX + "TODO... Selection changed!");
+	}
+	
 	private String generateModelOntologyFileName(String modelObjectId) throws OIDABridgeException {
 		if (oidaOntologyService.getLibrary().getReferenceOntology() == null)
 			throw new OIDABridgeException(MSG_PREFIX + "No reference ontology set. Model won't be observed.");
