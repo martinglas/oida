@@ -54,10 +54,6 @@
 	<classpathentry kind="lib" path="lib/owlapi-parsers-5.0.4.jar"/>
 	<classpathentry kind="lib" path="lib/owlapi-rio-5.0.4.jar"/>
 	<classpathentry kind="lib" path="lib/owlapi-tools-5.0.4.jar"/>
-	<classpathentry kind="lib" path="lib/pellet-core-ignazio1977-2.4.0-ignazio1977.jar"/>
-	<classpathentry kind="lib" path="lib/pellet-jena-ignazio1977-2.4.0-ignazio1977.jar"/>
-	<classpathentry kind="lib" path="lib/pellet-owlapi-ignazio1977-2.4.0-ignazio1977.jar"/>
-	<classpathentry kind="lib" path="lib/pellet-query-ignazio1977-2.4.0-ignazio1977.jar"/>
 	<classpathentry kind="lib" path="lib/semargl-core-0.6.1.jar"/>
 	<classpathentry kind="lib" path="lib/semargl-rdf-0.6.1.jar"/>
 	<classpathentry kind="lib" path="lib/semargl-rdfa-0.6.1.jar"/>
