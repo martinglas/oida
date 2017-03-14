@@ -1,5 +1,6 @@
 package oida.bridge.model.helper;
 
+import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
 import oida.bridge.model.renamer.IRenamerStrategy;
@@ -23,6 +24,10 @@ public class Renamer {
 	public String getEObjectName(EObject eObject) {
 		// TODO Add null pointer handling
 		return renamerStrategy.getEObjectName(eObject);
+	}
+	
+	public String getEClassName(EClass eClass) {
+		return renamerStrategy.getEClassName(eClass);
 	}
 
 	// public boolean isUnabiguous() {

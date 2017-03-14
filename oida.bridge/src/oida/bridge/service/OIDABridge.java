@@ -25,6 +25,7 @@ import oida.bridge.Activator;
 import oida.bridge.model.IModelChangeHandler;
 import oida.bridge.model.ModelChangeHandler;
 import oida.bridge.model.renamer.IRenamerStrategy;
+import oida.bridge.model.renamer.IStructuringStrategy;
 import oida.bridge.recommend.IRecommender;
 import oida.ontology.manager.IOntologyManager;
 import oida.ontology.manager.OntologyManagerException;
@@ -48,6 +49,7 @@ public final class OIDABridge implements IOIDABridge {
 	private List<IRecommender> recommender;
 	
 	private IRenamerStrategy renamerStrategy;
+	private IStructuringStrategy structuringStrategy;
 
 	@Inject
 	private IOIDAOntologyService oidaOntologyService;
@@ -58,7 +60,7 @@ public final class OIDABridge implements IOIDABridge {
 		
 		System.out.println(MSG_PREFIX + "Evaluating model change handler renamer strategy extensions.");
 		try {
-			renamerStrategy = loadRenamerStrategyExtension();
+			renamerStrategy = Activator.loadSingleExtension(IRenamerStrategy.class, Activator.OIDA_MODEL_RENAMERSTRATEGY);
 			
 			if (renamerStrategy != null)
 				System.out.println(MSG_PREFIX + "Renamer strategy set: '" + renamerStrategy.getClass().getName() + "'.");
@@ -66,6 +68,19 @@ public final class OIDABridge implements IOIDABridge {
 				System.out.println(MSG_PREFIX + "No renamer strategy found.");
 		} catch (CoreException e) {
 			System.out.println(MSG_PREFIX + "Error while evaluating renamer strategy extension point.");
+			e.printStackTrace();
+		}
+		
+		System.out.println(MSG_PREFIX + "Evaluating model change handler structuring strategy extensions.");
+		try {
+			structuringStrategy = Activator.loadSingleExtension(IStructuringStrategy.class, Activator.OIDA_MODEL_STRUCTURINGSTRATEGY);
+			
+			if (structuringStrategy != null)
+				System.out.println(MSG_PREFIX + "Structuring strategy set: '" + structuringStrategy.getClass().getName() + "'.");
+			else
+				System.out.println(MSG_PREFIX + "No structuring strategy found.");
+		} catch (CoreException e) {
+			System.out.println(MSG_PREFIX + "Error while evaluating structuring strategy extension point.");
 			e.printStackTrace();
 		}
 		
@@ -102,9 +117,9 @@ public final class OIDABridge implements IOIDABridge {
 
 			IModelChangeHandler changeHandler = new ModelChangeHandler();
 			changeHandler.setModelOntologyManager(modelOntologyManager);
-			changeHandler.initializeModelOntology((EObject)modelObject, renamerStrategy);
+			changeHandler.initializeModelOntology((EObject)modelObject, renamerStrategy, structuringStrategy);
 
-			changeHandler.registerRenamerStrategy(renamerStrategy);
+			changeHandler.setRenamerStrategy(renamerStrategy);
 			modelHandlerMap.put(changeHandler.getModelObject(), changeHandler);
 		} catch (OntologyManagerException e) {
 			throw new OIDABridgeException(MSG_PREFIX + "Could not create a model ontology.", e);
@@ -139,21 +154,37 @@ public final class OIDABridge implements IOIDABridge {
 		return modelObjectId + "_" + oidaOntologyService.getLibrary().getReferenceOntology().getFileName();
 	}
 
-	private IRenamerStrategy loadRenamerStrategyExtension() throws CoreException {
-		ServiceReference<?> serviceReference = Activator.getBundleContext().getServiceReference(IExtensionRegistry.class.getName());
-		IExtensionRegistry registry = (IExtensionRegistry)Activator.getBundleContext().getService(serviceReference);
-
-		if (registry != null) {
-			IConfigurationElement[] config = registry.getConfigurationElementsFor(Activator.OIDA_MODEL_CHANGEHANDLER_RENAMER_EXTENSIONPOINT_ID);
-			for (IConfigurationElement e : config) {
-					final Object o = e.createExecutableExtension("class");
-					if (o instanceof IRenamerStrategy)
-						return (IRenamerStrategy)o;
-			}
-		}
-
-		return null;
-	}
+//	private IRenamerStrategy loadRenamerStrategyExtension() throws CoreException {
+//		ServiceReference<?> serviceReference = Activator.getBundleContext().getServiceReference(IExtensionRegistry.class.getName());
+//		IExtensionRegistry registry = (IExtensionRegistry)Activator.getBundleContext().getService(serviceReference);
+//
+//		if (registry != null) {
+//			IConfigurationElement[] config = registry.getConfigurationElementsFor(Activator.OIDA_MODEL_RENAMERSTRATEGY);
+//			for (IConfigurationElement e : config) {
+//					final Object o = e.createExecutableExtension("class");
+//					if (o instanceof IRenamerStrategy)
+//						return (IRenamerStrategy)o;
+//			}
+//		}
+//
+//		return null;
+//	}
+//	
+//	private IStructuringStrategy loadStructuringStrategyExtension() throws CoreException {
+//		ServiceReference<?> serviceReference = Activator.getBundleContext().getServiceReference(IExtensionRegistry.class.getName());
+//		IExtensionRegistry registry = (IExtensionRegistry)Activator.getBundleContext().getService(serviceReference);
+//
+//		if (registry != null) {
+//			IConfigurationElement[] config = registry.getConfigurationElementsFor(Activator.OIDA_MODEL_RENAMERSTRATEGY);
+//			for (IConfigurationElement e : config) {
+//					final Object o = e.createExecutableExtension("class");
+//					if (o instanceof IStructuringStrategy)
+//						return (IStructuringStrategy)o;
+//			}
+//		}
+//
+//		return null;
+//	}
 	
 	private List<IRecommender> loadRecommenderExtensions() {
 		List<IRecommender> recommenderList = new ArrayList<IRecommender>();
