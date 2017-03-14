@@ -14,6 +14,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.semanticweb.owlapi.apibinding.OWLManager;
@@ -44,6 +45,7 @@ import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyChange;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
+import org.semanticweb.owlapi.model.OWLOntologyStorageException;
 import org.semanticweb.owlapi.model.OWLReflexiveObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 import org.semanticweb.owlapi.model.OWLSubObjectPropertyOfAxiom;
@@ -53,9 +55,6 @@ import org.semanticweb.owlapi.model.parameters.Imports;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 import org.semanticweb.owlapi.util.OWLEntityRenamer;
 import org.semanticweb.owlapi.util.SimpleIRIMapper;
-
-import com.clarkparsia.pellet.owlapiv3.PelletReasoner;
-import com.clarkparsia.pellet.owlapiv3.PelletReasonerFactory;
 
 import oida.ontology.Ontology;
 import oida.ontology.OntologyAnnotation;
@@ -103,10 +102,10 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 
 	@Override
 	public void initializeReasoner() {
-		reasoner = PelletReasonerFactory.getInstance().createReasoner(owlOntology);
-
-		((PelletReasoner)reasoner).getKB().realize();
-		((PelletReasoner)reasoner).getKB().printClassTree();
+//		reasoner = PelletReasonerFactory.getInstance().createReasoner(owlOntology);
+//
+//		((PelletReasoner)reasoner).getKB().realize();
+//		((PelletReasoner)reasoner).getKB().printClassTree();
 	}
 
 	@Override
@@ -162,6 +161,7 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 			try {
 				owlPrefixManager.clear();
 				owlOntology = owlOntologyManager.loadOntologyFromOntologyDocument(file);
+				
 				owlPrefixManager.copyPrefixesFrom(owlOntologyManager.getOntologyFormat(owlOntology).asPrefixOWLDocumentFormat());
 
 				Ontology o = generateInternalOntologyObject(owlOntology.getOntologyID().getOntologyIRI().get().toString(), owlOntology.classesInSignature(Imports.INCLUDED).count(),
@@ -201,7 +201,7 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 				System.out.println(MESSAGE_PREFIX + "Ontology loaded: '" + file.getName() + "'");
 				
 				return o;
-			} catch (Exception e) {
+			} catch (OWLOntologyCreationException e) {
 				throw new OntologyManagerException(MESSAGE_PREFIX + "Error while loading ontology from file '" + file.getName() + "': " + e.getMessage(), e);
 			}
 		} else {
@@ -280,7 +280,7 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 			owlOntologyManager.saveOntology(owlOntology, owlPrefixManager, outputStream);
 		} catch (FileNotFoundException e) {
 			throw new OntologyManagerException(MESSAGE_PREFIX + "Error while saving ontology to file '" + file.getName() + "': " + e.getMessage(), e);
-		} catch (Exception e) {
+		} catch (OWLOntologyStorageException e) {
 			throw new OntologyManagerException(MESSAGE_PREFIX + "Error while saving ontology to file '" + file.getName() + "': " + e.getMessage(), e);
 		}
 	}
@@ -421,10 +421,12 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 
 		OWLEntity renameEntity = getOWLEntity(entity);
 		List<OWLOntologyChange> changes = renamer.changeIRI(renameEntity, IRI.create(renameEntity.getIRI().toString().replace(entity.getName(), newName)));
-
-		entity.setName(newName);
-
 		owlOntologyManager.applyChanges(changes);
+		
+		entity.setName(newName);
+		Optional<OWLEntity> optEntity = changes.get(1).signature().findFirst();
+		if (optEntity.isPresent())
+			toMap(optEntity.get(), entity);
 	}
 
 	@Override
