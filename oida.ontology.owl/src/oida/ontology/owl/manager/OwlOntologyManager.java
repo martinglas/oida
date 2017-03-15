@@ -39,6 +39,7 @@ import org.semanticweb.owlapi.model.OWLIrreflexiveObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
+import org.semanticweb.owlapi.model.OWLObjectPropertyAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLObjectPropertyDomainAxiom;
 import org.semanticweb.owlapi.model.OWLObjectPropertyRangeAxiom;
 import org.semanticweb.owlapi.model.OWLOntology;
@@ -56,6 +57,7 @@ import org.semanticweb.owlapi.reasoner.OWLReasoner;
 import org.semanticweb.owlapi.util.OWLEntityRenamer;
 import org.semanticweb.owlapi.util.SimpleIRIMapper;
 
+import oida.core.constants.StringConstants;
 import oida.ontology.Ontology;
 import oida.ontology.OntologyAnnotation;
 import oida.ontology.OntologyAnnotationProperty;
@@ -64,6 +66,7 @@ import oida.ontology.OntologyEntity;
 import oida.ontology.OntologyIndividual;
 import oida.ontology.OntologyItem;
 import oida.ontology.OntologyObjectProperty;
+import oida.ontology.OntologyObjectPropertyAssertion;
 import oida.ontology.manager.AbstractOntologyManager;
 import oida.ontology.manager.OntologyManagerException;
 import oida.ontologyMgr.OntologyFile;
@@ -268,7 +271,7 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 			}
 		}
 
-		return STR_EMPTY;
+		return StringConstants.EMPTY;
 	}
 
 	@Override
@@ -294,13 +297,13 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 	public void addNamespace(String prefixName, String prefix, boolean setDefault) {
 		String prefInternal = prefix;
 
-		if (!prefInternal.endsWith(STR_HASHTAG)) {
-			prefInternal = prefInternal.concat(STR_HASHTAG);
+		if (!prefInternal.endsWith(StringConstants.HASHTAG)) {
+			prefInternal = prefInternal.concat(StringConstants.HASHTAG);
 		}
 
 		if (setDefault) {
 			owlPrefixManager.setDefaultPrefix(prefInternal);
-			generateInternalNamespaceObject(getOntology(), STR_EMPTY, prefInternal);
+			generateInternalNamespaceObject(getOntology(), StringConstants.EMPTY, prefInternal);
 		} else {
 			owlPrefixManager.setPrefix(prefixName, prefInternal);
 			generateInternalNamespaceObject(getOntology(), prefixName, prefInternal);
@@ -309,20 +312,20 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 
 	@Override
 	public boolean isNamespaceExisting(String prefix) {
-		return owlPrefixManager.containsPrefixMapping(prefix + ":");
+		return owlPrefixManager.containsPrefixMapping(prefix + StringConstants.COLON);
 	}
 
 	@Override
 	public String getDefaultNamespace() {
-		return owlPrefixManager.getDefaultPrefix().replace(STR_HASHTAG, STR_EMPTY);
+		return owlPrefixManager.getDefaultPrefix().replace(StringConstants.HASHTAG, StringConstants.EMPTY);
 	}
 
 	@Override
 	public String getNamespace(String prefix) {
 		if (isNamespaceExisting(prefix)) {
-			return owlPrefixManager.getPrefix(prefix + STR_COLON).replace(STR_HASHTAG, STR_EMPTY);
+			return owlPrefixManager.getPrefix(prefix + StringConstants.COLON).replace(StringConstants.HASHTAG, StringConstants.EMPTY);
 		} else {
-			return STR_EMPTY;
+			return StringConstants.EMPTY;
 		}
 	}
 
@@ -388,7 +391,7 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 
 	@Override
 	public OntologyIndividual createIndividual(final String name) {
-		return createIndividual(name, STR_EMPTY);
+		return createIndividual(name, StringConstants.EMPTY);
 	}
 
 	@Override
@@ -436,15 +439,6 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 		clazz.getIndividuals().add(individual);
 		individual.getTypes().add(clazz);
 	}
-
-	// public void createClassAnnotationProperty(String name, String domainName)
-	// {
-	// OWLAnnotationProperty property = factory.getOWLAnnotationProperty(name,
-	// prefixMgr);
-	// manager.addAxiom(ontology, property);
-	// //factory.getOWLAnnotationPropertyDomainAxiom(property,
-	// getClassByName(domainName).getIRI()));
-	// }
 
 	@Override
 	public OntologyObjectProperty createObjectProperty(String propertyName, String prefix) {
@@ -562,6 +556,21 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 		owlOntologyManager.addAxiom(owlOntology, owlAxiom);
 
 		property.setDomain(domain);
+	}
+	
+	@Override
+	public OntologyObjectPropertyAssertion createObjectPropertyAssertion(OntologyObjectProperty property, OntologyIndividual individual, OntologyIndividual object) {
+		OWLObjectProperty owlObjectProperty = getOWLObjectProperty(property);
+		OWLNamedIndividual owlIndividual = getOWLIndividual(individual);
+		OWLNamedIndividual owlObject = getOWLIndividual(object);
+		
+		OWLObjectPropertyAssertionAxiom owlAssertionAxiom = owlDataFactory.getOWLObjectPropertyAssertionAxiom(owlObjectProperty, owlIndividual, owlObject);
+		owlOntologyManager.addAxiom(owlOntology, owlAssertionAxiom);
+		
+		OntologyObjectPropertyAssertion assertion = generateInternalObjectPropertyAssertionObject(getOntology(), property, object);
+		individual.getObjectPropertyAssertions().add(assertion);
+		
+		return assertion;
 	}
 
 	@Override
@@ -720,7 +729,7 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 		if (prefix.isEmpty()) {
 			return name;
 		} else {
-			return prefix.concat(":" + name);
+			return prefix.concat(StringConstants.COLON + name);
 		}
 	}
 }

@@ -13,6 +13,7 @@ import java.util.stream.Stream;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.util.EContentAdapter;
 
+import oida.core.constants.StringConstants;
 import oida.ontology.Ontology;
 import oida.ontology.OntologyAnnotation;
 import oida.ontology.OntologyAnnotationProperty;
@@ -22,6 +23,7 @@ import oida.ontology.OntologyFactory;
 import oida.ontology.OntologyIndividual;
 import oida.ontology.OntologyNamespace;
 import oida.ontology.OntologyObjectProperty;
+import oida.ontology.OntologyObjectPropertyAssertion;
 import oida.ontology.OntologyPackage;
 import oida.ontologyMgr.OntologyFile;
 
@@ -123,12 +125,12 @@ public abstract class AbstractOntologyManager extends EContentAdapter implements
 
 	@Override
 	public OntologyClass createClass(String name) {
-		return createClass(name, STR_EMPTY);
+		return createClass(name, StringConstants.EMPTY);
 	}
 
 	@Override
 	public OntologyClass createSubClass(String name, OntologyClass superClass) {
-		return createSubClass(name, STR_EMPTY, superClass);
+		return createSubClass(name, StringConstants.EMPTY, superClass);
 	}
 
 	@Override
@@ -164,7 +166,7 @@ public abstract class AbstractOntologyManager extends EContentAdapter implements
 
 	@Override
 	public OntologyClass getClass(final String name) {
-		return getClass(name, STR_EMPTY);
+		return getClass(name, StringConstants.EMPTY);
 	}
 
 	@Override
@@ -185,7 +187,7 @@ public abstract class AbstractOntologyManager extends EContentAdapter implements
 
 	@Override
 	public OntologyIndividual getIndividual(String name) {
-		return getIndividual(name, STR_EMPTY);
+		return getIndividual(name, StringConstants.EMPTY);
 	}
 
 	@Override
@@ -206,7 +208,7 @@ public abstract class AbstractOntologyManager extends EContentAdapter implements
 
 	@Override
 	public boolean isClassExisting(String name) {
-		return isClassExisting(name, STR_EMPTY);
+		return isClassExisting(name, StringConstants.EMPTY);
 	}
 
 	@Override
@@ -216,22 +218,22 @@ public abstract class AbstractOntologyManager extends EContentAdapter implements
 
 	@Override
 	public OntologyObjectProperty createObjectProperty(String propertyName) {
-		return createObjectProperty(propertyName, STR_EMPTY);
+		return createObjectProperty(propertyName, StringConstants.EMPTY);
 	}
 
 	@Override
 	public OntologyObjectProperty createObjectProperty(String propertyName, OntologyClass range) {
-		return createObjectProperty(propertyName, STR_EMPTY, range);
+		return createObjectProperty(propertyName, StringConstants.EMPTY, range);
 	}
 
 	@Override
 	public OntologyObjectProperty createObjectProperty(String propertyName, OntologyClass range, OntologyClass domain) {
-		return createObjectProperty(propertyName, STR_EMPTY, range, domain);
+		return createObjectProperty(propertyName, StringConstants.EMPTY, range, domain);
 	}
 
 	@Override
 	public OntologyObjectProperty createObjectProperty(String propertyName, String prefix, OntologyClass range) {
-		return createObjectProperty(propertyName, STR_EMPTY, range, null);
+		return createObjectProperty(propertyName, StringConstants.EMPTY, range, null);
 	}
 
 	@Override
@@ -283,7 +285,7 @@ public abstract class AbstractOntologyManager extends EContentAdapter implements
 
 	@Override
 	public OntologyAnnotationProperty createAnnotationProperty(String propertyName) {
-		return createAnnotationProperty(propertyName, STR_EMPTY);
+		return createAnnotationProperty(propertyName, StringConstants.EMPTY);
 	}
 
 	protected Ontology generateInternalOntologyObject(String name, long nrOfClasses, long nrOfIndividuals) {
@@ -344,6 +346,15 @@ public abstract class AbstractOntologyManager extends EContentAdapter implements
 		annotation.setValue(value);
 
 		return annotation;
+	}
+	
+	protected OntologyObjectPropertyAssertion generateInternalObjectPropertyAssertionObject(Ontology ontology, OntologyObjectProperty objectProperty, OntologyIndividual individual) {
+		OntologyObjectPropertyAssertion assertion = OntologyFactory.eINSTANCE.createOntologyObjectPropertyAssertion();
+		assertion.setContainingOntology(ontology);
+		assertion.setObjectProperty(objectProperty);
+		assertion.setObject(individual);
+		
+		return assertion;
 	}
 
 	private void setOntologyEntityData(OntologyEntity entity, Ontology ontology, String name, String prefix) {

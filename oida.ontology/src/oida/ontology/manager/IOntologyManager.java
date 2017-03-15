@@ -15,6 +15,7 @@ import oida.ontology.OntologyClass;
 import oida.ontology.OntologyEntity;
 import oida.ontology.OntologyIndividual;
 import oida.ontology.OntologyObjectProperty;
+import oida.ontology.OntologyObjectPropertyAssertion;
 import oida.ontologyMgr.OntologyFile;
 
 /**
@@ -24,10 +25,6 @@ import oida.ontologyMgr.OntologyFile;
  * 
  */
 public interface IOntologyManager {
-	String STR_EMPTY = "";
-	String STR_HASHTAG = "#";
-	String STR_COLON = ":";
-	
 	Ontology getOntology();
 	
 	Ontology createOntology(String ontologyIRI) throws OntologyManagerException;
@@ -123,6 +120,8 @@ public interface IOntologyManager {
 	
 	void assignObjectPropertyRange(OntologyObjectProperty property, OntologyClass range);
 	void assignObjectPropertyDomain(OntologyObjectProperty property, OntologyClass domain);
+	
+	OntologyObjectPropertyAssertion createObjectPropertyAssertion(OntologyObjectProperty property, OntologyIndividual individual1, OntologyIndividual individual2);
 	
 	OntologyAnnotationProperty createAnnotationProperty(String propertyName);
 	OntologyAnnotationProperty createAnnotationProperty(String propertyName, String prefix);
