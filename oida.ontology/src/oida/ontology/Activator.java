@@ -6,9 +6,9 @@
 package oida.ontology;
 
 import org.eclipse.e4.core.di.InjectorFactory;
-import org.osgi.framework.BundleActivator;
 import org.osgi.framework.BundleContext;
 
+import oida.core.util.bundle.AbstractOIDAActivator;
 import oida.ontology.service.IOIDAOntologyService;
 import oida.ontology.service.OIDAOntologyService;
 
@@ -17,17 +17,11 @@ import oida.ontology.service.OIDAOntologyService;
  * @author Michael.Shamiyeh
  * @since
  */
-public class Activator implements BundleActivator {
+public class Activator extends AbstractOIDAActivator {
 	/**
 	 * This is the ID of the extension point which exposes the Ontology Manager.
 	 */
 	public static final String ONTOLOGYMANAGERFACTORY_EXTENSIONPOINT_ID = "oida.ontology.managerFactory";
-
-	private static BundleContext context;
-
-	public static BundleContext getBundleContext() {
-		return context;
-	}
 
 	/*
 	 * (non-Javadoc)
@@ -36,17 +30,8 @@ public class Activator implements BundleActivator {
 	 * BundleContext)
 	 */
 	public void start(BundleContext bundleContext) throws Exception {
-		Activator.context = bundleContext;
+		super.start(bundleContext);
+		
 		InjectorFactory.getDefault().addBinding(IOIDAOntologyService.class).implementedBy(OIDAOntologyService.class);
-	}
-
-	/*
-	 * (non-Javadoc)
-	 * 
-	 * @see
-	 * org.osgi.framework.BundleActivator#stop(org.osgi.framework.BundleContext)
-	 */
-	public void stop(BundleContext bundleContext) throws Exception {
-		Activator.context = null;
 	}
 }
