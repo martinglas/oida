@@ -23,12 +23,12 @@ import oida.bridge.model.ModelChangeHandler;
 import oida.bridge.model.renamer.IRenamerStrategy;
 import oida.bridge.model.renamer.IStructuringStrategy;
 import oida.bridge.recommend.IRecommender;
-import oida.core.util.ExtensionPointUtil;
-import oida.core.util.OIDAUtil;
 import oida.ontology.manager.IOntologyManager;
 import oida.ontology.manager.OntologyManagerException;
 import oida.ontology.service.IOIDAOntologyService;
 import oida.ontologyMgr.OntologyFile;
+import oida.util.ExtensionPointUtil;
+import oida.util.OIDAUtil;
 
 /**
  * 

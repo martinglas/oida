@@ -22,9 +22,9 @@ Require-Bundle: javax.inject,
  oida.ontology.model.edit
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: javax.annotation;version="1.2.0",
- oida.core.constants,
- oida.core.util,
- oida.core.util.bundle,
+ oida.util.constants,
+ oida.util.bundle,
+ oida.util,
  org.eclipse.core.databinding.observable,
  org.eclipse.core.databinding.observable.list,
  org.eclipse.core.databinding.observable.map,

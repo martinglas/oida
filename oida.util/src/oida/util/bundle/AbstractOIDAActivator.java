@@ -1,4 +1,4 @@
-package oida.core.util.bundle;
+package oida.util.bundle;
 
 import org.eclipse.core.runtime.IExtensionRegistry;
 import org.osgi.framework.BundleActivator;

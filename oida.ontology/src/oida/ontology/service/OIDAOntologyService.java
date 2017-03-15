@@ -23,10 +23,8 @@ import org.eclipse.emf.edit.provider.INotifyChangedListener;
 import org.eclipse.emf.edit.provider.resource.ResourceItemProviderAdapterFactory;
 import org.eclipse.emf.parsley.edit.domain.InjectableAdapterFactoryEditingDomain;
 
-import oida.core.constants.FileConstants;
-import oida.core.constants.StringConstants;
-import oida.core.util.ExtensionPointUtil;
-import oida.core.util.OIDAUtil;
+import oida.util.constants.FileConstants;
+import oida.util.constants.StringConstants;
 import oida.ontology.Activator;
 import oida.ontology.manager.IOntologyManager;
 import oida.ontology.manager.IOntologyManagerFactory;
@@ -36,6 +34,8 @@ import oida.ontologyMgr.OntologyFile;
 import oida.ontologyMgr.OntologyMgrFactory;
 import oida.ontologyMgr.OntologyMgrPackage;
 import oida.ontologyMgr.provider.OntologyMgrItemProviderAdapterFactory;
+import oida.util.ExtensionPointUtil;
+import oida.util.OIDAUtil;
 
 /**
  * 

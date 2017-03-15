@@ -1,4 +1,4 @@
-package oida.core.constants;
+package oida.util.constants;
 
 /**
  * 

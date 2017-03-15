@@ -5,7 +5,7 @@ import org.osgi.framework.BundleContext;
 
 import oida.bridge.service.IOIDABridge;
 import oida.bridge.service.OIDABridge;
-import oida.core.util.bundle.AbstractOIDAActivator;
+import oida.util.bundle.AbstractOIDAActivator;
 
 public class Activator extends AbstractOIDAActivator {
 	public final static String OIDA_MODEL_RENAMERSTRATEGY = "oida.bridge.model.renamerstrategy";

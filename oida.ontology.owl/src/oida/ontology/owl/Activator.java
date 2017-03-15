@@ -5,7 +5,7 @@
  ******************************************************************************/
 package oida.ontology.owl;
 
-import oida.core.util.bundle.AbstractOIDAActivator;
+import oida.util.bundle.AbstractOIDAActivator;
 
 /**
  * 

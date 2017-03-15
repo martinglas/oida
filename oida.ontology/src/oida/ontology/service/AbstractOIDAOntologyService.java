@@ -7,12 +7,12 @@ package oida.ontology.service;
 
 import org.eclipse.emf.ecore.util.EContentAdapter;
 
-import oida.core.constants.FileConstants;
-import oida.core.util.OIDAUtil;
+import oida.util.constants.FileConstants;
 import oida.ontology.OntologyObjectProperty;
 import oida.ontology.manager.IOntologyManager;
 import oida.ontology.manager.OntologyManagerException;
 import oida.ontologyMgr.OntologyFile;
+import oida.util.OIDAUtil;
 
 /**
  * 

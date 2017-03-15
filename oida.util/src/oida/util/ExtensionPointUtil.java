@@ -1,4 +1,4 @@
-package oida.core.util;
+package oida.util;
 
 import java.util.ArrayList;
 import java.util.List;

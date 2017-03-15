@@ -8,9 +8,9 @@ package oida.ontology;
 import org.eclipse.e4.core.di.InjectorFactory;
 import org.osgi.framework.BundleContext;
 
-import oida.core.util.bundle.AbstractOIDAActivator;
 import oida.ontology.service.IOIDAOntologyService;
 import oida.ontology.service.OIDAOntologyService;
+import oida.util.bundle.AbstractOIDAActivator;
 
 /**
  * 

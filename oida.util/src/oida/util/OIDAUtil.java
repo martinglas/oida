@@ -1,11 +1,11 @@
-package oida.core.util;
+package oida.util;
 
 import java.io.File;
 
 import org.eclipse.core.resources.ResourcesPlugin;
 
-import oida.core.constants.FileConstants;
-import oida.core.constants.StringConstants;
+import oida.util.constants.FileConstants;
+import oida.util.constants.StringConstants;
 import oida.ontologyMgr.OntologyFile;
 import oida.ontologyMgr.OntologyMgrFactory;
 

@@ -8,6 +8,7 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
 
 import oida.bridge.model.helper.Extractor;
 import oida.bridge.model.helper.Renamer;
@@ -16,6 +17,7 @@ import oida.bridge.model.renamer.IStructuringStrategy;
 import oida.ontology.OntologyClass;
 import oida.ontology.OntologyEntity;
 import oida.ontology.OntologyIndividual;
+import oida.ontology.OntologyObjectProperty;
 import oida.ontology.manager.IOntologyManager;
 import oida.ontology.manager.OntologyManagerException;
 
@@ -87,64 +89,6 @@ public class ModelChangeHandler extends AbstractModelChangeHandler {
 			OntologyClass oCl = (OntologyClass)emfToOntologyMap.get(eObject.eClass());
 			createIndividualForModelElement(oCl, eObject, getModelOntologyManager());
 		}
-
-		// // Create properties between individuals
-		// for (EObject eObject : comprisedEObjects) {
-		// OntologyIndividual currentIndividual = emfToOntologyMap.get(eObject);
-		// //URI individualURI = OntologyHelper.generateURI(targetOntology,
-		// renamer.getEObjectName(eObject));
-		//
-		// for (EStructuralFeature eStructuralFeature :
-		// eObject.eClass().getEAllStructuralFeatures()) {
-		//
-		// if (eStructuralFeature instanceof EReference) {
-		// EReference eReference = (EReference)eStructuralFeature;
-		//
-		// URI objectPropertyURI = OntologyHelper.generateURI(targetOntology,
-		// renamer.getEStructuralFeatureName(eReference));
-		// Object referenceTargetObject = eObject.eGet(eReference);
-		// // Handle reference with cardinality greater 1
-		// if (referenceTargetObject instanceof EList) {
-		// EList<EObject> referenceObjectList =
-		// (EList<EObject>)referenceTargetObject;
-		// for (EObject targetEObject : referenceObjectList) {
-		// URI targetIndividualURI = OntologyHelper.generateURI(targetOntology,
-		// renamer.getEObjectName(targetEObject));
-		//
-		// ontologyModel.addObjectPropertyInstance(individualURI,
-		// objectPropertyURI, targetIndividualURI);
-		// }
-		// }
-		// // Handle reference with cardinality 1
-		// else if (referenceTargetObject instanceof EObject) {
-		// EObject referenceEObject = (EObject)referenceTargetObject;
-		// URI targetIndividualURI = OntologyHelper.generateURI(targetOntology,
-		// renamer.getEObjectName(referenceEObject));
-		//
-		// ontologyModel.addObjectPropertyInstance(individualURI,
-		// objectPropertyURI, targetIndividualURI);
-		// }
-		// }
-		// // Handle attribute
-		// else if (eStructuralFeature instanceof EAttribute) {
-		// EAttribute eAttribute = (EAttribute)eStructuralFeature;
-		// Object eAttributeValue = "";
-		// if (eObject.eGet(eAttribute) != null) {
-		// eAttributeValue = eObject.eGet(eAttribute);
-		// }
-		//
-		// URI datatypePropertyURI = OntologyHelper.generateURI(targetOntology,
-		// renamer.getEStructuralFeatureName(eAttribute));
-		//
-		// Literal literal =
-		// ontologyModel.getOntologyModel().createTypedLiteral(eAttributeValue);
-		// // ontologyModel.addDatatypePropertyInstance(individualURI,
-		// // datatypePropertyURI, eAttributeValue);
-		// ontologyModel.addDatatypePropertyInstance(individualURI,
-		// datatypePropertyURI, literal);
-		// }
-		// }
-		// }
 	}
 
 	@Override
@@ -154,9 +98,12 @@ public class ModelChangeHandler extends AbstractModelChangeHandler {
 		switch (notification.getEventType()) {
 		case Notification.ADD:
 			OntologyIndividual ontologyIndividual = createIndividualAndClassesForModelObject((EObject)notification.getNewValue());
+			OntologyIndividual object = (OntologyIndividual)emfToOntologyMap.get(notification.getNotifier());
 			
-			getStructuringStrategy().determineObjectPropertyRelation((EObject)notification.getNewValue());
+			OntologyObjectProperty objectProperty = getStructuringStrategy().determineObjectPropertyRelation((EStructuralFeature)notification.getFeature());
 			
+			if (objectProperty != null)
+				getModelOntologyManager().createObjectPropertyAssertion(objectProperty, ontologyIndividual, object);
 			break;
 		case Notification.SET:
 			if (notification.getFeature() instanceof EAttribute) {
