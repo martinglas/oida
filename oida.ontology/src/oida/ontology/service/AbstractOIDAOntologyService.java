@@ -21,7 +21,7 @@ import oida.ontologyMgr.OntologyFile;
  *
  */
 public abstract class AbstractOIDAOntologyService extends EContentAdapter implements IOIDAOntologyService {
-	public static final String OIDAONTOLOGY_SERVICE_NAME = "OIDA Ontology Service";
+	public static final String MSG_PREFIX = "OIDA Ontology Service: ";
 
 	public static final String MEREOLOGY_NAMESPACE = "http://www.bauhaus-luftfahrt.net/ontologies/merology.owl";
 	public static final String MEREOLOGY_PREFIX = "mer";
@@ -29,19 +29,12 @@ public abstract class AbstractOIDAOntologyService extends EContentAdapter implem
 	private OntologyObjectProperty partOfDirectlyObjectProperty;
 	private OntologyObjectProperty hasPartDirectlyObjectProperty;
 	
-	private IOntologyManager mereology;
+	protected IOntologyManager mereology;
 	
 	public AbstractOIDAOntologyService() {
-		try {
-			mereology = generateMereology();
-			System.out.println(OIDAONTOLOGY_SERVICE_NAME + ": Mereology successfully generated.");
-		} catch (OntologyManagerException e) {
-			System.out.println(OIDAONTOLOGY_SERVICE_NAME + ": Mereology couldn't be generated.");
-			e.printStackTrace();
-		}
 	}
 	
-	private IOntologyManager generateMereology() throws OntologyManagerException {
+	protected IOntologyManager generateMereology() throws OntologyManagerException {
 		OntologyFile mereologyFile = OIDAUtil.getOntologyFile(OIDAUtil.getOIDAWorkPath(), FileConstants.MEREOLOGY_FILENAME);
 		
 		IOntologyManager mereologyOntology = getOntologyManager(mereologyFile, true);
