@@ -1,9 +1,11 @@
-package oida.util;
+package oida.core.util;
 
 import java.io.File;
 
 import org.eclipse.core.resources.ResourcesPlugin;
 
+import oida.core.constants.FileConstants;
+import oida.core.constants.StringConstants;
 import oida.ontologyMgr.OntologyFile;
 import oida.ontologyMgr.OntologyMgrFactory;
 
@@ -14,15 +16,8 @@ import oida.ontologyMgr.OntologyMgrFactory;
  *
  */
 public class OIDAUtil {
-	public static final String OIDA_WORK_SUBDIRECTORY = "\\.oida\\";
-	
-	public static final String ONTOLOGY_LIBRARY_FILE = "OntLib.xmi";
-	public static final String ONTOLOGY_MANAGER_FILE = "OntMgr.xmi";
-	
-	public static final String MEREOLOGY_FILENAME = "mereology.owl";
-	
 	public static String getOIDAWorkPath() {
-		return ResourcesPlugin.getWorkspace().getRoot().getLocation().toString() + OIDA_WORK_SUBDIRECTORY;
+		return ResourcesPlugin.getWorkspace().getRoot().getLocation().toString() + FileConstants.OIDA_WORK_SUBDIRECTORY;
 	}
 	
 	public static void createOIDAWorkDirectory() {
@@ -34,8 +29,8 @@ public class OIDAUtil {
 	
 	public static OntologyFile getOntologyFile(String path, String fileName) {
 		String fullPath = path;
-		if (!path.endsWith("\\"))
-			fullPath = path + "\\";
+		if (!path.endsWith(StringConstants.BACKSLASH))
+			fullPath = path + StringConstants.BACKSLASH;
 		
 		fullPath = fullPath + fileName;
 		

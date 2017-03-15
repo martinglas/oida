@@ -22,6 +22,9 @@ Require-Bundle: javax.inject,
  oida.ontology.model.edit
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: javax.annotation;version="1.2.0",
+ oida.core.constants,
+ oida.core.util,
+ oida.core.util.bundle,
  org.eclipse.core.databinding.observable,
  org.eclipse.core.databinding.observable.list,
  org.eclipse.core.databinding.observable.map,
@@ -34,5 +37,4 @@ Import-Package: javax.annotation;version="1.2.0",
  org.eclipse.emf.parsley.resource
 Bundle-ActivationPolicy: lazy
 Export-Package: oida.ontology.manager,
- oida.ontology.service,
- oida.util
+ oida.ontology.service

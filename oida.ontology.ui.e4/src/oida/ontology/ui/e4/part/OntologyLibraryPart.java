@@ -37,10 +37,10 @@ public class OntologyLibraryPart {
 	private TreeFormComposite treeFormComposite;
 
 	@Inject
-	IOIDAOntologyService oidaService;
+	private IOIDAOntologyService oidaService;
 
 	@Inject
-	MDirtyable dirty;
+	private MDirtyable dirty;
 
 	@PostConstruct
 	public void postConstruct(Composite parent) {

@@ -8,6 +8,7 @@ package oida.ontology.service;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.domain.EditingDomain;
 
+import oida.ontology.OntologyObjectProperty;
 import oida.ontology.manager.IOntologyManager;
 import oida.ontology.manager.OntologyManagerException;
 import oida.ontologyMgr.Library;
@@ -31,4 +32,6 @@ public interface IOIDAOntologyService {
 	public IOntologyManager getOntologyManager(OntologyFile entry, boolean createIfNotExisting);
 	
 	public IOntologyManager getMereology() throws OntologyManagerException;
+	public OntologyObjectProperty getPartOfProperty();
+	public OntologyObjectProperty getHasPartProperty();
 }

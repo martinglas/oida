@@ -26,6 +26,9 @@ import org.eclipse.emf.edit.provider.resource.ResourceItemProviderAdapterFactory
 import org.eclipse.emf.parsley.edit.domain.InjectableAdapterFactoryEditingDomain;
 import org.osgi.framework.ServiceReference;
 
+import oida.core.constants.FileConstants;
+import oida.core.constants.StringConstants;
+import oida.core.util.OIDAUtil;
 import oida.ontology.Activator;
 import oida.ontology.manager.IOntologyManager;
 import oida.ontology.manager.IOntologyManagerFactory;
@@ -35,7 +38,6 @@ import oida.ontologyMgr.OntologyFile;
 import oida.ontologyMgr.OntologyMgrFactory;
 import oida.ontologyMgr.OntologyMgrPackage;
 import oida.ontologyMgr.provider.OntologyMgrItemProviderAdapterFactory;
-import oida.util.OIDAUtil;
 
 /**
  * 
@@ -46,10 +48,8 @@ import oida.util.OIDAUtil;
 @Creatable
 @Singleton
 public final class OIDAOntologyService extends AbstractOIDAOntologyService implements INotifyChangedListener {
-	public static final String OIDAONTOLOGY_SERVICE_NAME = "OIDA Ontology Service";
-
-	private URI uriLibrary = URI.createFileURI(OIDAUtil.getOIDAWorkPath() + OIDAUtil.ONTOLOGY_LIBRARY_FILE);
-	private URI uriManager = URI.createFileURI(OIDAUtil.getOIDAWorkPath() + OIDAUtil.ONTOLOGY_MANAGER_FILE);
+	private URI uriLibrary = URI.createFileURI(OIDAUtil.getOIDAWorkPath() + FileConstants.ONTOLOGY_LIBRARY_FILE);
+	private URI uriManager = URI.createFileURI(OIDAUtil.getOIDAWorkPath() + FileConstants.ONTOLOGY_MANAGER_FILE);
 
 	private EditingDomain editingDomain;
 	private Resource libraryResource;
@@ -62,7 +62,7 @@ public final class OIDAOntologyService extends AbstractOIDAOntologyService imple
 
 	public OIDAOntologyService() {
 		super();
-
+		
 		System.out.println(OIDAOntologyService.OIDAONTOLOGY_SERVICE_NAME + ": Initialization started.");
 
 		OntologyMgrItemProviderAdapterFactory adapterFactory = new OntologyMgrItemProviderAdapterFactory();
@@ -190,7 +190,7 @@ public final class OIDAOntologyService extends AbstractOIDAOntologyService imple
 			if (createIfNotExisting) {
 				try {
 					// TODO
-					mgr.createOntology("http://de.oida/" + ontologyFile.getFileName().replace(".owl", "").replace("\\", ""));
+					mgr.createOntology("http://de.oida/" + ontologyFile.getFileName().replace(".owl", StringConstants.EMPTY).replace("\\", StringConstants.EMPTY));
 					mgr.setOntologyFile(ontologyFile);
 					managedOntologyResource.getContents().add(mgr.getOntology());
 					managedOntologies.put(ontologyFile, mgr);
@@ -207,5 +207,4 @@ public final class OIDAOntologyService extends AbstractOIDAOntologyService imple
 
 		return null;
 	}
-
 }

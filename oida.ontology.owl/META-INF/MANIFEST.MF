@@ -10,7 +10,9 @@ Require-Bundle: org.eclipse.core.runtime,
  org.junit
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
-Import-Package: oida.ontology.manager
+Import-Package: oida.core.constants,
+ oida.core.util.bundle,
+ oida.ontology.manager
 Bundle-ClassPath: lib/antlr-2.7.7.jar,
  lib/antlr-runtime-3.4.jar,
  lib/aopalliance-1.0.jar,

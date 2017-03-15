@@ -3,6 +3,8 @@ package oida.bridge.model.renamer;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 
+import oida.ontology.OntologyObjectProperty;
+
 /**
  * 
  * @author Michael.Shamiyeh
@@ -15,4 +17,6 @@ public interface IStructuringStrategy {
 	StructuringAdvice determineStructuringAdviceAfterCreate(EObject createdModelElement);
 	
 	StructuringAdvice determineStructuringAdviceAfterSet(EAttribute changedAttribute);
+
+	OntologyObjectProperty determineObjectPropertyRelation(EObject newValue);
 }

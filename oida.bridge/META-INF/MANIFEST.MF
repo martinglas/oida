@@ -20,6 +20,8 @@ Export-Package: oida.bridge.model,
  oida.bridge.model.renamer,
  oida.bridge.recommend,
  oida.bridge.service
-Import-Package: oida.ontology.manager,
+Import-Package: oida.core.util,
+ oida.core.util.bundle,
+ oida.ontology.manager,
  org.eclipse.emf.edit.provider
 Bundle-Vendor: Bauhaus Luftfahrt e.V.

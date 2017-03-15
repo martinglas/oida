@@ -20,6 +20,8 @@ import oida.ontology.manager.IOntologyManager;
 import oida.ontology.manager.OntologyManagerException;
 
 public class ModelChangeHandler extends AbstractModelChangeHandler {
+	private final String MSG_PREFIX = "OIDA Model change handler: ";
+	
 	private final String SYMO_MODELONT_NS = "http://oida.local.";
 	private final String MODELONT_PREFIX = "modont";
 
@@ -148,10 +150,13 @@ public class ModelChangeHandler extends AbstractModelChangeHandler {
 	@Override
 	public void notifyChanged(Notification notification) {
 		super.notifyChanged(notification);
-
+		
 		switch (notification.getEventType()) {
 		case Notification.ADD:
-			createIndividualAndClassesForModelObject((EObject)notification.getNewValue());
+			OntologyIndividual ontologyIndividual = createIndividualAndClassesForModelObject((EObject)notification.getNewValue());
+			
+			getStructuringStrategy().determineObjectPropertyRelation((EObject)notification.getNewValue());
+			
 			break;
 		case Notification.SET:
 			if (notification.getFeature() instanceof EAttribute) {
@@ -159,11 +164,11 @@ public class ModelChangeHandler extends AbstractModelChangeHandler {
 				
 				switch (getStructuringStrategy().determineStructuringAdviceAfterSet(attr)) {
 				case CHANGE_DATATYPEPROPERTY:
-					System.out.println("ToDo: Change property!" + notification.getFeature().toString());
+					System.out.println(MSG_PREFIX + "ToDo: Change property!" + notification.getFeature().toString());
 					break;
 				case RENAME_INDIVIDUAL:
 					getModelOntologyManager().renameEntity(emfToOntologyMap.get(notification.getNotifier()), renamer.getEObjectName((EObject)notification.getNotifier()));
-					System.out.println("Renamed individual: " + notification.getNotifier().toString());
+					System.out.println(MSG_PREFIX + "Renamed individual: " + notification.getNotifier().toString());
 					break;
 				default:
 					break;
@@ -174,7 +179,7 @@ public class ModelChangeHandler extends AbstractModelChangeHandler {
 			
 			break;
 		case Notification.REMOVE:
-			System.out.println("Model Element: REMOVE.");
+			System.out.println("MSG_PREFIX + Model Element: REMOVE.");
 			break;
 		case Notification.UNSET:
 			break;
@@ -185,7 +190,7 @@ public class ModelChangeHandler extends AbstractModelChangeHandler {
 		if (!emfToOntologyMap.containsKey(eClass)) {
 			OntologyClass oCl = ontologyManager.createClass(renamer.getEClassName(eClass), MODELONT_PREFIX);
 			emfToOntologyMap.put(eClass, oCl);
-			System.out.println("Class created: '" + oCl.getName() + "'.");
+			System.out.println(MSG_PREFIX + "Class created: '" + oCl.getName() + "'.");
 
 			for (EClass superClass : eClass.getESuperTypes()) {
 				OntologyClass superOCl = createOntologyClassHierarchyForModelElement(superClass, ontologyManager);
@@ -201,17 +206,19 @@ public class ModelChangeHandler extends AbstractModelChangeHandler {
 		if (!emfToOntologyMap.containsKey(newValue)) {
 			OntologyIndividual oIn = ontologyManager.createIndividualOfClass(renamer.getEObjectName(newValue), MODELONT_PREFIX, ontologyClass);
 			emfToOntologyMap.put(newValue, oIn);
-			System.out.println("Individual created: '" + oIn.getName() + "'.");
+			System.out.println(MSG_PREFIX + "Individual created: '" + oIn.getName() + "'.");
 			return oIn;
 		} else
 			return (OntologyIndividual)emfToOntologyMap.get(newValue);
 	}
 	
-	private void createIndividualAndClassesForModelObject(EObject modelObject) {
+	private OntologyIndividual createIndividualAndClassesForModelObject(EObject modelObject) {
 		OntologyClass ontRefClass = createOntologyClassHierarchyForModelElement(modelObject.eClass(), getModelOntologyManager());
-		createIndividualForModelElement(ontRefClass, modelObject, getModelOntologyManager());
+		OntologyIndividual ontInd = createIndividualForModelElement(ontRefClass, modelObject, getModelOntologyManager());
 		
-		System.out.println("Parent object: " + modelObject.eContainer().toString());
-		System.out.println("Feature name: " + modelObject.toString());
+		System.out.println(MSG_PREFIX + "Parent object: " + modelObject.eContainer().toString());
+		System.out.println(MSG_PREFIX + "Feature name: " + modelObject.toString());
+		
+		return ontInd;
 	}
 }
