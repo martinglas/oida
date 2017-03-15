@@ -12,3 +12,4 @@ Require-Bundle: org.eclipse.osgi,
 Export-Package: oida.util.constants,
  oida.util.bundle,
  oida.util
+Bundle-ClassPath: .

@@ -3,6 +3,8 @@ package oida.bridge.model;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -14,12 +16,13 @@ import oida.bridge.model.helper.Extractor;
 import oida.bridge.model.helper.Renamer;
 import oida.bridge.model.renamer.IRenamerStrategy;
 import oida.bridge.model.renamer.IStructuringStrategy;
+import oida.bridge.service.IOIDABridge.OntologyObjectProperties;
 import oida.ontology.OntologyClass;
 import oida.ontology.OntologyEntity;
 import oida.ontology.OntologyIndividual;
-import oida.ontology.OntologyObjectProperty;
 import oida.ontology.manager.IOntologyManager;
 import oida.ontology.manager.OntologyManagerException;
+import oida.ontology.service.IOIDAOntologyService;
 
 public class ModelChangeHandler extends AbstractModelChangeHandler {
 	private final String MSG_PREFIX = "OIDA Model change handler: ";
@@ -100,10 +103,18 @@ public class ModelChangeHandler extends AbstractModelChangeHandler {
 			OntologyIndividual ontologyIndividual = createIndividualAndClassesForModelObject((EObject)notification.getNewValue());
 			OntologyIndividual object = (OntologyIndividual)emfToOntologyMap.get(notification.getNotifier());
 			
-			OntologyObjectProperty objectProperty = getStructuringStrategy().determineObjectPropertyRelation((EStructuralFeature)notification.getFeature());
-			
-			if (objectProperty != null)
-				getModelOntologyManager().createObjectPropertyAssertion(objectProperty, ontologyIndividual, object);
+			OntologyObjectProperties objectProperty = getStructuringStrategy().determineObjectPropertyRelation((EStructuralFeature)notification.getFeature());
+				
+			switch(objectProperty) {
+			case HAS_PART:
+				//getModelOntologyManager().createObjectPropertyAssertion(oidaOntologyService.getHasPartProperty(), object, ontologyIndividual);
+				break;
+			case HAS_PARAMETER:
+				break;
+			default:
+				break;
+			}
+				
 			break;
 		case Notification.SET:
 			if (notification.getFeature() instanceof EAttribute) {

@@ -17,6 +17,8 @@ import org.eclipse.emf.ecore.EObject;
  *
  */
 public interface IOIDABridge {
+	public enum OntologyObjectProperties { HAS_PART, HAS_PARAMETER };
+	
 	/**
 	 * Starts the OIDA model ontology management for a passed model object.
 	 * 

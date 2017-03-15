@@ -5,11 +5,12 @@
  ******************************************************************************/
 package oida.bridge.util;
 
+import oida.util.constants.StringConstants;
+
 public class BridgeHelper {
 
 	public static String getNSfromRootElementName(String rootContainerName) {
-
-		return "http://" + rootContainerName + "#";
+		return "http://" + rootContainerName + StringConstants.HASHTAG;
 	}
 
 	public static String getModelOntologyName(String rootContainerName) {

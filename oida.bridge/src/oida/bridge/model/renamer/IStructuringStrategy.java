@@ -4,7 +4,7 @@ import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
-import oida.ontology.OntologyObjectProperty;
+import oida.bridge.service.IOIDABridge.OntologyObjectProperties;
 
 /**
  * 
@@ -19,5 +19,5 @@ public interface IStructuringStrategy {
 	
 	StructuringAdvice determineStructuringAdviceAfterSet(EAttribute changedAttribute);
 
-	OntologyObjectProperty determineObjectPropertyRelation(EStructuralFeature feature);
+	OntologyObjectProperties determineObjectPropertyRelation(EStructuralFeature feature);
 }
