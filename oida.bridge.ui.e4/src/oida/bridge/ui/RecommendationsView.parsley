@@ -1,14 +1,28 @@
 import bridgemodel.BridgemodelPackage
 import oida.bridge.ui.view.RecommendationsView
+import bridgemodel.Recommendation
+import java.util.List
 
 /* oida.bridge.ui.e4 Emf Parsley Dsl Module file */
-module oida.bridge.ui.e4 {
+module oida.bridge.ui.RecommendationsView {
 	
 	parts {
-		viewpart oida.bridge.ui.e4 {
+		viewpart oida.bridge.ui.RecommendationsView {
 			viewname "OIDA Recommendations"
 			viewclass RecommendationsView
 		}
+	}
+	
+	featureCaptionProvider {
+		text {
+			Recommendation:recommenderName -> "Source"
+			Recommendation:recommendedEntity -> "Recommended Concept"
+			Recommendation:recommenderMessage -> "Comment"
+		}
+	}
+	
+	bindings {
+		value List<Integer> TableColumnWeights -> #[50,25,25]
 	}
 	
 	configurator {
