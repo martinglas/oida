@@ -4,11 +4,13 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 
 import oida.bridge.model.renamer.IRenamerStrategy;
+import oida.ontology.OntologyEntity;
+import oida.ontology.manager.IOntologyManager;
 
 /**
  * This class renames model elements in order to avoid naming conflicts.
  * 
- * @author Martin Glas
+ * @author Martin Glas, Michael Shamiyeh
  * 
  */
 public class Renamer {
@@ -28,6 +30,10 @@ public class Renamer {
 	
 	public String getEClassName(EClass eClass) {
 		return renamerStrategy.getEClassName(eClass);
+	}
+
+	public void rename(OntologyEntity ontologyEntity, EObject renamedObject, IOntologyManager ontologyManager) {
+		ontologyManager.renameEntity(ontologyEntity, renamerStrategy.getEObjectName(renamedObject));
 	}
 
 	// public boolean isUnabiguous() {

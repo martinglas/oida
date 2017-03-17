@@ -3,8 +3,6 @@ package oida.bridge.model;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.inject.Inject;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -22,8 +20,13 @@ import oida.ontology.OntologyEntity;
 import oida.ontology.OntologyIndividual;
 import oida.ontology.manager.IOntologyManager;
 import oida.ontology.manager.OntologyManagerException;
-import oida.ontology.service.IOIDAOntologyService;
 
+/**
+ * 
+ * @author Michael Shamiyeh
+ * @since 2017-03-07
+ *
+ */
 public class ModelChangeHandler extends AbstractModelChangeHandler {
 	private final String MSG_PREFIX = "OIDA Model change handler: ";
 	
@@ -125,7 +128,7 @@ public class ModelChangeHandler extends AbstractModelChangeHandler {
 					System.out.println(MSG_PREFIX + "ToDo: Change property!" + notification.getFeature().toString());
 					break;
 				case RENAME_INDIVIDUAL:
-					getModelOntologyManager().renameEntity(emfToOntologyMap.get(notification.getNotifier()), renamer.getEObjectName((EObject)notification.getNotifier()));
+					renamer.rename(emfToOntologyMap.get(notification.getNotifier()), (EObject)notification.getNotifier(), getModelOntologyManager());
 					System.out.println(MSG_PREFIX + "Renamed individual: " + notification.getNotifier().toString());
 					break;
 				default:

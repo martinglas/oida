@@ -5,6 +5,8 @@
  ******************************************************************************/
 package oida.bridge.model.renamer;
 
+import java.util.List;
+
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EStructuralFeature;
@@ -16,6 +18,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
  */
 public interface IRenamerStrategy {
 	public String getEObjectName(EObject eObject);
+	public List<EObject> getNameRelevantObjectsForEObject(EObject eObject);
 
 	public String getEStructuralFeatureName(EStructuralFeature eStructuralFeature);
 
