@@ -54,7 +54,9 @@
           eType="#//ontology/OntologyClass"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="individuals" upperBound="-1"
           eType="#//ontology/OntologyIndividual" containment="true" resolveProxies="false"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="objectproperties" upperBound="-1"
+      <eStructuralFeatures xsi:type="ecore:EReference" name="objectPropertyHierarchy"
+          lowerBound="1" eType="#//ontology/OntologyObjectProperty"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="objectProperties" upperBound="-1"
           eType="#//ontology/OntologyObjectProperty" containment="true" resolveProxies="false"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="annotationproperties"
           upperBound="-1" eType="#//ontology/OntologyAnnotationProperty" containment="true"
