@@ -3,9 +3,23 @@
  * materials are made available under the terms of the Eclipse Public License v1.0 which accompanies this distribution,
  * and is available at http://www.eclipse.org/legal/epl-v10.html </copyright>
  ******************************************************************************/
-package oida.ontology.ui.view;
+package oida.ontology.manager.context;
 
-import org.eclipse.emf.parsley.views.SaveableTreeWithColumnsView;
+import java.util.Optional;
 
-public class OntologyManagerView extends SaveableTreeWithColumnsView {
+import oida.ontology.Ontology;
+
+/**
+ * 
+ * @author Michael.Shamiyeh
+ * @since 2017-03-23
+ *
+ */
+public interface IGlobalOntologyContext {
+	/**
+	 * Searches the global ontology context for an ontology having a specific IRI.
+	 * @param ontologyIRI The IRI of the wanted ontology.
+	 * @return An optional object containing the ontology if existing.
+	 */
+	Optional<Ontology> findOntology(String ontologyIRI);
 }

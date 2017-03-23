@@ -16,6 +16,7 @@ import oida.ontology.OntologyEntity;
 import oida.ontology.OntologyIndividual;
 import oida.ontology.OntologyObjectProperty;
 import oida.ontology.OntologyObjectPropertyAssertion;
+import oida.ontology.manager.context.IGlobalOntologyContext;
 import oida.ontologyMgr.OntologyFile;
 
 /**
@@ -25,6 +26,12 @@ import oida.ontologyMgr.OntologyFile;
  * 
  */
 public interface IOntologyManager {
+	/**
+	 * A setter for a global ontology context object.
+	 * @param context The context object.
+	 */
+	void setGlobalOntologyContext(IGlobalOntologyContext context);
+	
 	Ontology getOntology();
 	
 	Ontology createOntology(String ontologyIRI) throws OntologyManagerException;

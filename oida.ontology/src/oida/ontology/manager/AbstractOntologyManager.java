@@ -25,6 +25,7 @@ import oida.ontology.OntologyNamespace;
 import oida.ontology.OntologyObjectProperty;
 import oida.ontology.OntologyObjectPropertyAssertion;
 import oida.ontology.OntologyPackage;
+import oida.ontology.manager.context.IGlobalOntologyContext;
 import oida.ontologyMgr.OntologyFile;
 
 /**
@@ -34,6 +35,21 @@ import oida.ontologyMgr.OntologyFile;
  *
  */
 public abstract class AbstractOntologyManager extends EContentAdapter implements IOntologyManager {
+	private IGlobalOntologyContext globalContext;
+	
+	@Override
+	public void setGlobalOntologyContext(IGlobalOntologyContext context) {
+		this.globalContext = context;
+	}
+	
+	/**
+	 * Returns the global ontology context.
+	 * @return A global ontology context object, or null, if it is not set.
+	 */
+	protected IGlobalOntologyContext getGlobalOntologyContext() {
+		return this.globalContext;
+	}
+	
 	private Ontology ontology;
 	
 	/**
@@ -293,6 +309,7 @@ public abstract class AbstractOntologyManager extends EContentAdapter implements
 		newOntology.setName(name);
 		newOntology.setNrOfClasses(nrOfClasses);
 		newOntology.setNrOfIndividuals(nrOfIndividuals);
+		newOntology.getImports();
 		return newOntology;
 	}
 

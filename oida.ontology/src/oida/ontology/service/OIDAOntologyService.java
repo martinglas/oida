@@ -8,6 +8,7 @@ package oida.ontology.service;
 import java.io.File;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.inject.Singleton;
 
@@ -24,9 +25,11 @@ import org.eclipse.emf.edit.provider.resource.ResourceItemProviderAdapterFactory
 import org.eclipse.emf.parsley.edit.domain.InjectableAdapterFactoryEditingDomain;
 
 import oida.ontology.Activator;
+import oida.ontology.Ontology;
 import oida.ontology.manager.IOntologyManager;
 import oida.ontology.manager.IOntologyManagerFactory;
 import oida.ontology.manager.OntologyManagerException;
+import oida.ontology.manager.context.IGlobalOntologyContext;
 import oida.ontologyMgr.Library;
 import oida.ontologyMgr.OntologyFile;
 import oida.ontologyMgr.OntologyMgrFactory;
@@ -45,7 +48,7 @@ import oida.util.constants.StringConstants;
  */
 @Creatable
 @Singleton
-public final class OIDAOntologyService extends AbstractOIDAOntologyService implements INotifyChangedListener {
+public final class OIDAOntologyService extends AbstractOIDAOntologyService implements INotifyChangedListener, IGlobalOntologyContext {
 	private URI uriLibrary = URI.createFileURI(OIDAUtil.getOIDAWorkPath() + FileConstants.ONTOLOGY_LIBRARY_FILE);
 	private URI uriManager = URI.createFileURI(OIDAUtil.getOIDAWorkPath() + FileConstants.ONTOLOGY_MANAGER_FILE);
 
@@ -58,7 +61,7 @@ public final class OIDAOntologyService extends AbstractOIDAOntologyService imple
 
 	private Resource managedOntologyResource;
 
-	// TODO split in more methods:
+	// TODO split in multiple methods:
 	public OIDAOntologyService() {
 		super();
 		
@@ -158,6 +161,7 @@ public final class OIDAOntologyService extends AbstractOIDAOntologyService imple
 		}
 
 		IOntologyManager mgr = managerFactory.getNewManager();
+		mgr.setGlobalOntologyContext(this);
 
 		try {
 			mgr.loadOntology(ontologyFile);
@@ -186,5 +190,31 @@ public final class OIDAOntologyService extends AbstractOIDAOntologyService imple
 		}
 
 		return null;
+	}
+	
+	@Override
+	public Optional<Ontology> findOntology(String ontologyIRI) {
+		for (IOntologyManager manager : managedOntologies.values()) {
+			Optional<Ontology> foundOntology = findOntologyWithin(manager.getOntology(), ontologyIRI);
+			
+			if (foundOntology.isPresent())
+				return foundOntology;
+		}
+		
+		return Optional.empty();
+	}
+	
+	private Optional<Ontology> findOntologyWithin(Ontology ontology, String wantedOntologyIRI) {
+		if (ontology.getName().contentEquals(wantedOntologyIRI))
+			return Optional.of(ontology);
+		
+		for (Ontology importOntology : ontology.getImports()) {
+			Optional<Ontology> foundOntology = findOntologyWithin(importOntology, wantedOntologyIRI);
+			
+			if (foundOntology.isPresent())
+				return foundOntology;
+		}
+		
+		return Optional.empty();
 	}
 }

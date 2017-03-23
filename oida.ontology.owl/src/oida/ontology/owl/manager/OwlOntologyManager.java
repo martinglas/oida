@@ -11,6 +11,7 @@ import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -82,8 +83,8 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 	private HashMap<OntologyItem, OWLObject> internal2apiMap;
 	private HashMap<OWLObject, OntologyItem> api2internalMap;
 
-	private OntologyClass thingClass;
-	private OntologyObjectProperty topObjectProperty;
+	private OWLClass owlThingClass;
+	private OWLObjectProperty owlTopObjectProperty;
 
 	private OWLOntologyManager owlOntologyManager;
 	private OWLOntology owlOntology;
@@ -107,6 +108,9 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 		owlPrefixManager = new OWLXMLDocumentFormat();
 		owlOntologyManager = OWLManager.createOWLOntologyManager();
 		owlDataFactory = owlOntologyManager.getOWLDataFactory();
+
+		owlThingClass = owlDataFactory.getOWLThing();
+		owlTopObjectProperty = owlDataFactory.getOWLTopObjectProperty();
 	}
 
 	@Override
@@ -125,17 +129,9 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 		owlOntologyManager.getIRIMappers().add(new SimpleIRIMapper(IRI.create(iri), IRI.create(localPath)));
 	}
 
-	private void initialize() {
-		internal2apiMap.clear();
-		api2internalMap.clear();
-
-		owlPrefixManager.clear();
-		owlOntologyManager.clearOntologies();
-	}
-
 	@Override
 	public Ontology createOntology(String iri) throws OntologyManagerException {
-		initialize();
+		clearOntology();
 
 		try {
 			owlOntology = owlOntologyManager.createOntology(IRI.create(iri));
@@ -143,8 +139,6 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 
 			Ontology o = generateInternalOntologyObject(iri, owlOntology.classesInSignature().count(), owlOntology.individualsInSignature().count());
 			setOntology(o);
-
-			initThingClass(o);
 
 			for (String prefixName : owlPrefixManager.getPrefixName2PrefixMap().keySet()) {
 				generateInternalNamespaceObject(o, prefixName, owlPrefixManager.getPrefixName2PrefixMap().get(prefixName));
@@ -160,7 +154,7 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 
 	@Override
 	public Ontology loadOntology(OntologyFile ontologyFile) throws OntologyManagerException {
-		initialize();
+		clearOntology();
 
 		if (ontologyFile == null) {
 			return null;
@@ -174,42 +168,16 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 
 				owlPrefixManager.copyPrefixesFrom(owlOntologyManager.getOntologyFormat(owlOntology).asPrefixOWLDocumentFormat());
 
-				Ontology o = generateInternalOntologyObject(owlOntology.getOntologyID().getOntologyIRI().get().toString(), owlOntology.classesInSignature(Imports.INCLUDED).count(),
-						owlOntology.individualsInSignature().count());
+				System.out.println(MESSAGE_PREFIX + "Ontology is loaded: '" + owlOntology.getOntologyID().getOntologyIRI().toString() + "'");
+
+				Iterator<IRI> iriIt = owlOntology.directImportsDocuments().iterator();
+				while (iriIt.hasNext())
+					System.out.println(MESSAGE_PREFIX + "Direct Import: " + iriIt.next().toString());
+
+				Ontology o = extractOntologyInportHierarchy(owlOntology);
 				setOntology(o);
 				setOntologyFile(ontologyFile);
-
-				initThingClass(o);
-				initTopObjectProperty(o);
-
-				for (String prefixName : owlPrefixManager.getPrefixName2PrefixMap().keySet()) {
-					generateInternalNamespaceObject(o, prefixName, owlPrefixManager.getPrefixName2PrefixMap().get(prefixName));
-				}
-
-				extractClassHierarchy(owlOntology, thingClass, true);
-				extractObjectPropertyHierarchy(owlOntology, topObjectProperty, true);
-
-				for (OWLNamedIndividual owlIndividual : owlOntology.individualsInSignature(Imports.INCLUDED).collect(Collectors.toList())) {
-					OntologyIndividual individual = generateInternalIndividualObject(o, getPrefixOfNamespace(owlIndividual.getIRI().getNamespace()), owlIndividual.getIRI().getShortForm());
-					toMap(owlIndividual, individual);
-
-					for (OWLClassAssertionAxiom a : owlOntology.classAssertionAxioms(owlIndividual).collect(Collectors.toList())) {
-						if (a.getClassExpression().isOWLClass()) {
-							OntologyClass c = getInternalClass(a.getClassExpression().asOWLClass());
-
-							if (c != null) {
-								c.getIndividuals().add(individual);
-							}
-						}
-					}
-				}
-
-				for (OWLOntology importOntology : owlOntology.imports().collect(Collectors.toList())) {
-					o.getImports().add(importOntology.getOntologyID().getDefaultDocumentIRI().get().toString());
-				}
-
 				o.setOntologyFile(ontologyFile);
-
 				System.out.println(MESSAGE_PREFIX + "Ontology loaded: '" + file.getName() + "'");
 
 				return o;
@@ -221,104 +189,150 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 		}
 	}
 
-	protected void extractClassHierarchy(OWLOntology owlOntology, OntologyClass thingClass, boolean includeImports) {
-		Imports imports = Imports.INCLUDED;
+	protected Ontology extractOntologyInportHierarchy(OWLOntology owlOntology) {
+		Ontology ontology;
 
+		Optional<Ontology> existingManagedOntology = getGlobalOntologyContext().findOntology(owlOntology.getOntologyID().getOntologyIRI().get().toString());
+		if (existingManagedOntology.isPresent())
+			ontology = existingManagedOntology.get();
+		else
+			ontology = generateInternalOntologyObject(owlOntology.getOntologyID().getOntologyIRI().get().toString(), owlOntology.classesInSignature(Imports.INCLUDED).count(),
+					owlOntology.individualsInSignature().count());
+		
+		toMap(owlOntology, ontology);
+
+		for (OWLOntology owlImportOntology : owlOntology.imports().collect(Collectors.toList()))
+			ontology.getImports().add(extractOntologyInportHierarchy(owlImportOntology));
+
+		for (String prefixName : owlPrefixManager.getPrefixName2PrefixMap().keySet())
+			generateInternalNamespaceObject(ontology, prefixName, owlPrefixManager.getPrefixName2PrefixMap().get(prefixName));
+
+		extractClassHierarchy(ontology, false);
+		extractObjectPropertyHierarchy(ontology, false);
+		extractIndividuals(ontology, false);
+
+		return ontology;
+	}
+
+	protected void extractClassHierarchy(Ontology ontology, boolean includeImports) {
+		Imports imports = Imports.INCLUDED;
 		if (!includeImports)
 			imports = Imports.EXCLUDED;
 
+		OntologyClass thingClass = getThingClass(ontology);
+		OWLOntology owlOntology = getOWLOntologyFromMap(ontology);
 		List<OWLClass> allClasses = owlOntology.classesInSignature(imports).collect(Collectors.toList());
 
-		for (OWLClass owlClass : allClasses)
-			toMap(owlClass, generateInternalClassObject(getOntology(), null, getPrefixOfNamespace(owlClass.getIRI().getNamespace()), owlClass.getIRI().getShortForm()));
+		// Generate internal class objects for all OWL-classes as subclass of Thing:
+		for (OWLClass owlClass : allClasses) {
+			System.out.println(MESSAGE_PREFIX + "Class '" + owlClass.getIRI().getNamespace() + "' + '" + owlClass.getIRI().getShortForm() + "' loaded.");
+			toMap(owlClass, generateInternalClassObject(ontology, thingClass, getPrefixOfNamespace(owlClass.getIRI().getNamespace()), owlClass.getIRI().getShortForm()));
+		}
 
 		for (OWLClass owlClass : allClasses) {
-			if (!owlClass.equals(owlDataFactory.getOWLThing())) {
-				List<OWLSubClassOfAxiom> axioms = owlOntology.axioms(owlClass, imports).filter(ax -> ax instanceof OWLSubClassOfAxiom).map(ax -> (OWLSubClassOfAxiom)ax).collect(Collectors.toList());
+			OntologyClass internalClass = getInternalClass(owlClass, ontology);
 
-				OntologyClass internalClass = getInternalClass(owlClass);
+			List<OWLSubClassOfAxiom> axioms = owlOntology.axioms(owlClass, imports).filter(ax -> ax instanceof OWLSubClassOfAxiom).map(ax -> (OWLSubClassOfAxiom)ax).collect(Collectors.toList());
+			for (OWLSubClassOfAxiom axiom : axioms) {
+				if (axiom.getSuperClass().isOWLClass()) {
+					OWLClass superClass = axiom.getSuperClass().asOWLClass();
+					OntologyClass internalSuperClass = getInternalClass(superClass, ontology);
 
-				if (axioms.size() == 0) {
-					thingClass.getSubClasses().add(internalClass);
-					internalClass.getSuperClasses().add(thingClass);
-				} else {
-					for (OWLSubClassOfAxiom axiom : axioms) {
-						if (axiom.getSuperClass().isOWLClass()) {
-							OWLClass superClass = axiom.getSuperClass().asOWLClass();
-							OntologyClass internalSuperClass = getInternalClass(superClass);
+					internalSuperClass.getSubClasses().add(internalClass);
+					internalClass.getSuperClasses().add(internalSuperClass);
 
-							internalSuperClass.getSubClasses().add(internalClass);
-							internalClass.getSuperClasses().add(internalSuperClass);
-
-							if (internalClass.getSuperClasses().contains(thingClass)) {
-								thingClass.getSubClasses().remove(internalClass);
-								internalClass.getSuperClasses().remove(thingClass);
-							}
-						} else if (internalClass.getSuperClasses().isEmpty()) {
-							thingClass.getSubClasses().add(internalClass);
-							internalClass.getSuperClasses().add(thingClass);
-						}
+					if (internalClass.getSuperClasses().contains(thingClass)) {
+						thingClass.getSubClasses().remove(internalClass);
+						internalClass.getSuperClasses().remove(thingClass);
 					}
 				}
-
+				// else if (internalClass.getSuperClasses().isEmpty()) {
+				// thingClass.getSubClasses().add(internalClass);
+				// internalClass.getSuperClasses().add(thingClass);
+				// }
 			}
 		}
 	}
 
-	protected void extractObjectPropertyHierarchy(OWLOntology owlOntology, OntologyObjectProperty topObjectProperty, boolean includeImports) {
+	protected void extractObjectPropertyHierarchy(Ontology ontology, boolean includeImports) {
 		Imports imports = Imports.INCLUDED;
-
 		if (!includeImports)
 			imports = Imports.EXCLUDED;
 
+		OntologyObjectProperty topObjectProperty = getTopObjectProperty(ontology);
+		OWLOntology owlOntology = getOWLOntologyFromMap(ontology);
 		List<OWLObjectProperty> allObjectProperties = owlOntology.objectPropertiesInSignature(imports).collect(Collectors.toList());
 
 		for (OWLObjectProperty owlObjectProperty : allObjectProperties)
 			toMap(owlObjectProperty,
-					generateInternalObjectPropertyObject(getOntology(), topObjectProperty, getPrefixOfNamespace(owlObjectProperty.getIRI().getNamespace()), owlObjectProperty.getIRI().getShortForm()));
+					generateInternalObjectPropertyObject(ontology, topObjectProperty, getPrefixOfNamespace(owlObjectProperty.getIRI().getNamespace()), owlObjectProperty.getIRI().getShortForm()));
 
 		for (OWLObjectProperty owlObjectProperty : allObjectProperties) {
+			OntologyObjectProperty internalObjectProperty = getInternalObjectProperty(owlObjectProperty, ontology);
+
 			List<OWLSubObjectPropertyOfAxiom> axioms = owlOntology.axioms(owlObjectProperty, imports).filter(ax -> ax instanceof OWLSubObjectPropertyOfAxiom).map(ax -> (OWLSubObjectPropertyOfAxiom)ax)
 					.collect(Collectors.toList());
+			for (OWLSubObjectPropertyOfAxiom axiom : axioms) {
+				if (axiom.getSuperProperty().isOWLObjectProperty()) {
+					OWLObjectProperty superObjectProperty = axiom.getSuperProperty().asOWLObjectProperty();
+					OntologyObjectProperty internalSuperObjectProperty = getInternalObjectProperty(superObjectProperty, ontology);
 
-			OntologyObjectProperty internalObjectProperty = getInternalObjectProperty(owlObjectProperty);
+					internalSuperObjectProperty.getSubObjectProperties().add(internalObjectProperty);
+					internalObjectProperty.getSuperObjectProperties().add(internalSuperObjectProperty);
 
-			if (axioms.size() != 0) {
-				for (OWLSubObjectPropertyOfAxiom axiom : axioms) {
-					if (axiom.getSuperProperty().isOWLObjectProperty()) {
-						OWLObjectProperty superObjectProperty = axiom.getSuperProperty().asOWLObjectProperty();
-						OntologyObjectProperty internalSuperObjectProperty = getInternalObjectProperty(superObjectProperty);
-
-						internalSuperObjectProperty.getSubObjectProperties().add(internalObjectProperty);
-						internalObjectProperty.getSuperObjectProperties().add(internalSuperObjectProperty);
-
-						if (internalObjectProperty.getSuperObjectProperties().contains(topObjectProperty)) {
-							topObjectProperty.getSubObjectProperties().remove(internalObjectProperty);
-							internalObjectProperty.getSuperObjectProperties().remove(topObjectProperty);
-						}
-					} else if (internalObjectProperty.getSuperObjectProperties().isEmpty()) {
-						topObjectProperty.getSubObjectProperties().add(internalObjectProperty);
-						internalObjectProperty.getSuperObjectProperties().add(topObjectProperty);
+					if (internalObjectProperty.getSuperObjectProperties().contains(topObjectProperty)) {
+						topObjectProperty.getSubObjectProperties().remove(internalObjectProperty);
+						internalObjectProperty.getSuperObjectProperties().remove(topObjectProperty);
 					}
+				} else if (internalObjectProperty.getSuperObjectProperties().isEmpty()) {
+					topObjectProperty.getSubObjectProperties().add(internalObjectProperty);
+					internalObjectProperty.getSuperObjectProperties().add(topObjectProperty);
 				}
 			}
 		}
 	}
 
-	protected void initThingClass(Ontology ontology) {
-		OWLClass owlThingClass = owlDataFactory.getOWLThing();
-		thingClass = generateInternalClassObject(ontology, null, owlThingClass.getIRI().getNamespace(), owlThingClass.getIRI().getShortForm());
+	private void extractIndividuals(Ontology ontology, boolean includeImports) {
+		Imports imports = Imports.INCLUDED;
+		if (!includeImports)
+			imports = Imports.EXCLUDED;
+
+		OWLOntology owlOntology = getOWLOntologyFromMap(ontology);
+		for (OWLNamedIndividual owlIndividual : owlOntology.individualsInSignature(imports).collect(Collectors.toList())) {
+			OntologyIndividual individual = generateInternalIndividualObject(ontology, getPrefixOfNamespace(owlIndividual.getIRI().getNamespace()), owlIndividual.getIRI().getShortForm());
+			toMap(owlIndividual, individual);
+
+			for (OWLClassAssertionAxiom a : owlOntology.classAssertionAxioms(owlIndividual).collect(Collectors.toList())) {
+				if (a.getClassExpression().isOWLClass()) {
+					OntologyClass c = getInternalClass(a.getClassExpression().asOWLClass(), ontology);
+
+					if (c != null)
+						c.getIndividuals().add(individual);
+				}
+			}
+		}
+	}
+
+	protected void addThingClass(Ontology ontology) {
+		OntologyClass thingClass = generateInternalClassObject(ontology, null, owlThingClass.getIRI().getNamespace(), owlThingClass.getIRI().getShortForm());
 		ontology.setClassHierarchy(thingClass);
 
 		toMap(owlThingClass, thingClass);
 	}
 
-	protected void initTopObjectProperty(Ontology ontology) {
-		OWLObjectProperty owlTopObjectProperty = owlDataFactory.getOWLTopObjectProperty();
-		topObjectProperty = generateInternalObjectPropertyObject(ontology, null, owlTopObjectProperty.getIRI().getNamespace(), owlTopObjectProperty.getIRI().getShortForm());
+	protected OntologyClass getThingClass(Ontology ontology) {
+		return ontology.getClassHierarchy();
+	}
+
+	protected void addTopObjectProperty(Ontology ontology) {
+		OntologyObjectProperty topObjectProperty = generateInternalObjectPropertyObject(ontology, null, owlTopObjectProperty.getIRI().getNamespace(), owlTopObjectProperty.getIRI().getShortForm());
 		ontology.setObjectPropertyHierarchy(topObjectProperty);
 
 		toMap(owlTopObjectProperty, topObjectProperty);
+	}
+
+	protected OntologyObjectProperty getTopObjectProperty(Ontology ontology) {
+		return ontology.getObjectPropertyHierarchy();
 	}
 
 	private String getPrefixOfNamespace(String namespace) {
@@ -427,7 +441,7 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 
 		owlOntologyManager.addAxiom(owlOntology, declareNewClass);
 
-		clazz = generateInternalClassObject(getOntology(), thingClass, prefix, name);
+		clazz = generateInternalClassObject(getOntology(), getThingClass(getOntology()), prefix, name);
 
 		if (!prefix.isEmpty()) {
 			clazz.setPrefix(prefix);
@@ -505,7 +519,7 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 		OWLDeclarationAxiom owlAxiom = owlDataFactory.getOWLDeclarationAxiom(owlProperty);
 		owlOntologyManager.addAxiom(owlOntology, owlAxiom);
 
-		OntologyObjectProperty prop = generateInternalObjectPropertyObject(getOntology(), topObjectProperty, prefix, propertyName);
+		OntologyObjectProperty prop = generateInternalObjectPropertyObject(getOntology(), getTopObjectProperty(getOntology()), prefix, propertyName);
 		toMap(owlProperty, prop);
 
 		return prop;
@@ -601,7 +615,7 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 
 	@Override
 	public void assignObjectPropertyRange(OntologyObjectProperty property, OntologyClass range) {
-		OWLObjectPropertyRangeAxiom owlAxiom = owlDataFactory.getOWLObjectPropertyRangeAxiom((OWLObjectProperty)internal2apiMap.get(property), getOWLClass(range));
+		OWLObjectPropertyRangeAxiom owlAxiom = owlDataFactory.getOWLObjectPropertyRangeAxiom(getOWLObjectProperty(property), getOWLClass(range));
 		owlOntologyManager.addAxiom(owlOntology, owlAxiom);
 
 		property.setRange(range);
@@ -609,7 +623,7 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 
 	@Override
 	public void assignObjectPropertyDomain(OntologyObjectProperty property, OntologyClass domain) {
-		OWLObjectPropertyDomainAxiom owlAxiom = owlDataFactory.getOWLObjectPropertyDomainAxiom((OWLObjectProperty)internal2apiMap.get(property), getOWLClass(domain));
+		OWLObjectPropertyDomainAxiom owlAxiom = owlDataFactory.getOWLObjectPropertyDomainAxiom(getOWLObjectProperty(property), getOWLClass(domain));
 		owlOntologyManager.addAxiom(owlOntology, owlAxiom);
 
 		property.setDomain(domain);
@@ -647,7 +661,7 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 
 	@Override
 	public OntologyAnnotation annotateClass(OntologyAnnotationProperty property, String annotationValue, OntologyClass clazz) {
-		OWLAnnotation owlAnnotation = owlDataFactory.getOWLAnnotation((OWLAnnotationProperty)internal2apiMap.get(property), owlDataFactory.getOWLLiteral(annotationValue));
+		OWLAnnotation owlAnnotation = owlDataFactory.getOWLAnnotation(getOWLAnnotationProperty(property), owlDataFactory.getOWLLiteral(annotationValue));
 		OWLAnnotationAssertionAxiom owlAxiom = owlDataFactory.getOWLAnnotationAssertionAxiom(getOWLClass(clazz).getIRI(), owlAnnotation);
 
 		owlOntologyManager.addAxiom(owlOntology, owlAxiom);
@@ -659,12 +673,34 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 		return annotation;
 	}
 
+	@Override
+	protected Ontology generateInternalOntologyObject(String name, long nrOfClasses, long nrOfIndividuals) {
+		Ontology o = super.generateInternalOntologyObject(name, nrOfClasses, nrOfIndividuals);
+		addThingClass(o);
+		addTopObjectProperty(o);
+		return o;
+	}
+
+	/**
+	 * Internal helper method to retrieve an OWLOntology of the internal map.
+	 * 
+	 * @param o The Ontology object, for which the appropriate OWL-object should be found.
+	 * @return The OWLOntology object, or null if it is not existing.
+	 */
+	private OWLOntology getOWLOntologyFromMap(Ontology o) {
+		OWLObject owlObj = internal2apiMap.get(o);
+
+		if (owlObj instanceof OWLOntology) {
+			return (OWLOntology)owlObj;
+		} else {
+			return null;
+		}
+	}
+
 	/**
 	 * Internal helper method to retrieve an OWLClass of the internal map.
 	 * 
-	 * @param c
-	 *            The OntologyClass object, for which the appropriate OWL-object
-	 *            should be found.
+	 * @param c The OntologyClass object, for which the appropriate OWL-object should be found.
 	 * @return The OWLClass object, or null if it is not existing.
 	 */
 	private OWLClass getOWLClass(OntologyClass c) {
@@ -678,12 +714,9 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 	}
 
 	/**
-	 * Internal helper method to retrieve an OWLNamedIndividual of the internal
-	 * map.
+	 * Internal helper method to retrieve an OWLNamedIndividual of the internal map.
 	 * 
-	 * @param i
-	 *            The OntologyIndividual object, for which the appropriate
-	 *            OWL-object should be found.
+	 * @param i The OntologyIndividual object, for which the appropriate OWL-object should be found.
 	 * @return The OWLNamedIndividual object, or null if it is not existing.
 	 */
 	private OWLNamedIndividual getOWLIndividual(OntologyIndividual i) {
@@ -707,12 +740,9 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 	}
 
 	/**
-	 * Internal helper method to retrieve an OWLObjectProperty of the internal
-	 * map.
+	 * Internal helper method to retrieve an OWLObjectProperty of the internal map.
 	 * 
-	 * @param i
-	 *            The OntologyObjectProperty object, for which the appropriate
-	 *            OWL-object should be found.
+	 * @param i The OntologyObjectProperty object, for which the appropriate OWL-object should be found.
 	 * @return The OWLObjectProperty object, or null if it is not existing.
 	 */
 	private OWLObjectProperty getOWLObjectProperty(OntologyEntity i) {
@@ -726,14 +756,32 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 	}
 
 	/**
+	 * Internal helper method to retrieve an OWLAnnotationProperty of the internal map.
+	 * 
+	 * @param i The OntologyAnnotationProperty object, for which the appropriate OWL-object should be found.
+	 * @return The OWLAnnotationProperty object, or null if it is not existing.
+	 */
+	private OWLAnnotationProperty getOWLAnnotationProperty(OntologyEntity i) {
+		OWLObject owlObj = internal2apiMap.get(i);
+
+		if (owlObj instanceof OWLAnnotationProperty) {
+			return (OWLAnnotationProperty)owlObj;
+		} else {
+			return null;
+		}
+	}
+
+	/**
 	 * Internal helper method to retrieve an OntologyClass of the internal map.
 	 * 
-	 * @param c
-	 *            The OWLClass object, for which the appropriate OntologyItem
-	 *            should be found.
+	 * @param c The OWLClass object, for which the appropriate OntologyItem should be found.
+	 * @param o The containing ontology. Only necessary, if the TopObjectProperty is to be received. If not, it can be null.
 	 * @return The OntologyClass object, or null, if it is not existing.
 	 */
-	private OntologyClass getInternalClass(final OWLClass c) {
+	private OntologyClass getInternalClass(final OWLClass c, final Ontology o) {
+		if (c.equals(owlThingClass))
+			return o.getClassHierarchy();
+
 		if (api2internalMap.containsKey(c) && api2internalMap.get(c) instanceof OntologyClass) {
 			return (OntologyClass)api2internalMap.get(c);
 		} else {
@@ -742,12 +790,9 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 	}
 
 	/**
-	 * Internal helper method to retrieve an OntologyIndividual of the internal
-	 * map.
+	 * Internal helper method to retrieve an OntologyIndividual of the internal map.
 	 * 
-	 * @param i
-	 *            The OWLNamedIndividual object, for which the appropriate
-	 *            OntologyItem should be found.
+	 * @param i The OWLNamedIndividual object, for which the appropriate OntologyItem should be found.
 	 * @return The OntologyIndividual object, or null, if it is not existing.
 	 */
 	@SuppressWarnings("unused")
@@ -760,16 +805,16 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 	}
 
 	/**
-	 * Internal helper method to retrieve an OntologyObjectProperty of the
-	 * internal map.
+	 * Internal helper method to retrieve an OntologyObjectProperty of the internal map.
 	 * 
-	 * @param p
-	 *            The OWLObjectProperty object, for which the appropriate
-	 *            OntologyItem should be found.
-	 * @return The OntologyObjectProperty object, or null, if it is not
-	 *         existing.
+	 * @param p The OWLObjectProperty object, for which the appropriate OntologyItem should be found.
+	 * @param o The containing ontology. Only necessary, if the TopObjectProperty is to be received. If not, it can be null.
+	 * @return The OntologyObjectProperty object, or null, if it is not existing.
 	 */
-	private OntologyObjectProperty getInternalObjectProperty(final OWLObjectProperty p) {
+	private OntologyObjectProperty getInternalObjectProperty(final OWLObjectProperty p, final Ontology o) {
+		if (p.equals(owlTopObjectProperty))
+			return o.getObjectPropertyHierarchy();
+
 		if (api2internalMap.containsKey(p) && api2internalMap.get(p) instanceof OntologyObjectProperty) {
 			return (OntologyObjectProperty)api2internalMap.get(p);
 		} else {
@@ -780,24 +825,22 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 	/**
 	 * Puts an OWLObject and an internal API-object in the internal maps.
 	 * 
-	 * @param apiObj
-	 *            The OWL-API-object.
-	 * @param internalObj
-	 *            The internal API-object.
+	 * @param apiObj The OWL-API-object.
+	 * @param internalObj The internal API-object.
 	 */
 	private void toMap(OWLObject apiObj, OntologyItem internalObj) {
 		internal2apiMap.put(internalObj, apiObj);
-		api2internalMap.put(apiObj, internalObj);
+
+		// The thing class and the top object property are not put in the api-to-internal map, since there may exist more internal class/object property objects for them:
+		if (apiObj != owlThingClass && apiObj != owlTopObjectProperty)
+			api2internalMap.put(apiObj, internalObj);
 	}
 
 	/**
-	 * Builds the full name of an entity, consisting of an optional prefix,
-	 * followed by a colon and the short name.
+	 * Builds the full name of an entity, consisting of an optional prefix, followed by a colon and the short name.
 	 * 
-	 * @param name
-	 *            The name of the entity.
-	 * @param prefix
-	 *            The prefix of the entity or an empty string.
+	 * @param name The name of the entity.
+	 * @param prefix The prefix of the entity or an empty string.
 	 * @return The concatinated full name string.
 	 */
 	private String buildFullEntityString(final String name, final String prefix) {

@@ -1,11 +1,11 @@
-import oida.ontology.ui.view.OntologyManagerView
 import oida.ontology.Ontology
+import oida.ontology.ui.view.OntologyManagerView
 
 /**
  * 
  * @since 2016-11-08
  * @author Michael.Shamiyeh
- *
+ * 
  */
 module oida.ontology.ui.OntologyManagerView {
 	parts {
@@ -17,7 +17,22 @@ module oida.ontology.ui.OntologyManagerView {
 	
 	featuresProvider {
 		features {
-			Ontology -> name, nrOfClasses, nrOfIndividuals 
+			Ontology -> name, nrOfClasses, nrOfIndividuals
+		}
+	}
+
+	viewerContentProvider {
+		elements {
+			Ontology -> imports
+		}
+		children {
+			Ontology -> imports
+		}
+	}
+
+	labelProvider {
+		text {
+			Ontology o -> o.name
 		}
 	}
 	

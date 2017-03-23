@@ -11,6 +11,7 @@ Require-Bundle: org.eclipse.core.runtime,
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Import-Package: oida.ontology.manager,
+ oida.ontology.manager.context,
  oida.util.bundle,
  oida.util.constants
 Bundle-ClassPath: lib/antlr-2.7.7.jar,
@@ -81,4 +82,3 @@ Bundle-ClassPath: lib/antlr-2.7.7.jar,
  lib/xz-1.5.jar,
  .,
  lib/slf4j-simple-1.7.14.jar
-Export-Package: oida.ontology.owl.manager

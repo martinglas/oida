@@ -13,8 +13,7 @@ import org.eclipse.emf.parsley.viewers.ViewerFactory;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
-import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.swt.SWT;
+import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.widgets.Composite;
 
 import com.google.inject.Injector;
@@ -32,7 +31,7 @@ import oida.ontology.ui.OntologyManagerView.OntologyManagerViewInjectorProvider;
 public class OntologyManagerPart {
 	public static final String PART_ID = "oida.ontology.ui.e4.part.ontologymanager";
 
-	private TableViewer tableViewer;
+	private TreeViewer treeTableViewer;
 
 	@Inject
 	IOIDAOntologyService oidaService;
@@ -47,13 +46,11 @@ public class OntologyManagerPart {
 
 		ViewerFactory viewerFactory = injector.getInstance(ViewerFactory.class);
 
-		tableViewer = viewerFactory.createTableViewer(parent, SWT.FULL_SELECTION, OntologyPackage.eINSTANCE.getOntology());
-		tableViewer.setInput(oidaService.getManagedOntologiesResource());
-
-		tableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+		treeTableViewer = viewerFactory.createTreeViewerWithColumns(parent, OntologyPackage.eINSTANCE.getOntology(), oidaService.getManagedOntologiesResource());
+		treeTableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
-				IStructuredSelection selection = tableViewer.getStructuredSelection();
+				IStructuredSelection selection = treeTableViewer.getStructuredSelection();
 
 				if (!selection.isEmpty())
 					selectionService.setSelection(selection.getFirstElement());
