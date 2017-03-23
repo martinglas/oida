@@ -3,6 +3,8 @@ package oida.bridge.model;
 import java.util.HashMap;
 import java.util.List;
 
+import javax.inject.Inject;
+
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -11,7 +13,6 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
 import oida.bridge.model.helper.Extractor;
-import oida.bridge.model.helper.Renamer;
 import oida.bridge.model.renamer.IRenamerStrategy;
 import oida.bridge.model.renamer.IStructuringStrategy;
 import oida.bridge.service.IOIDABridge.OntologyObjectProperties;
@@ -20,6 +21,7 @@ import oida.ontology.OntologyEntity;
 import oida.ontology.OntologyIndividual;
 import oida.ontology.manager.IOntologyManager;
 import oida.ontology.manager.OntologyManagerException;
+import oida.ontology.service.IOIDAOntologyService;
 
 /**
  * 
@@ -34,8 +36,8 @@ public class ModelChangeHandler extends AbstractModelChangeHandler {
 	private final String MODELONT_PREFIX = "modont";
 
 	private HashMap<EObject, OntologyEntity> emfToOntologyMap = new HashMap<EObject, OntologyEntity>();
-	private Renamer renamer;
-
+	private IRenamerStrategy renamerStrategy;
+	
 	private EObject modelObject;
 
 	public EObject getModelObject() {
@@ -48,10 +50,10 @@ public class ModelChangeHandler extends AbstractModelChangeHandler {
 		this.modelObject.eAdapters().add(this);
 
 		emfToOntologyMap.clear();
-		renamer = new Renamer(this.modelObject, renamerStrategy);
+		this.renamerStrategy = renamerStrategy;
 		
 		setStructuringStrategy(structuringStrategy);
-
+		
 		generateLocalNamespace();
 		generateOntologyClasses();
 		generateIndividuals();
@@ -110,7 +112,7 @@ public class ModelChangeHandler extends AbstractModelChangeHandler {
 				
 			switch(objectProperty) {
 			case HAS_PART:
-				//getModelOntologyManager().createObjectPropertyAssertion(oidaOntologyService.getHasPartProperty(), object, ontologyIndividual);
+				getModelOntologyManager().createObjectPropertyAssertion(getOntologyService().getMereology().getHasPartDirectlyObjectProperty(), object, ontologyIndividual);
 				break;
 			case HAS_PARAMETER:
 				break;
@@ -128,7 +130,7 @@ public class ModelChangeHandler extends AbstractModelChangeHandler {
 					System.out.println(MSG_PREFIX + "ToDo: Change property!" + notification.getFeature().toString());
 					break;
 				case RENAME_INDIVIDUAL:
-					renamer.rename(emfToOntologyMap.get(notification.getNotifier()), (EObject)notification.getNotifier(), getModelOntologyManager());
+					getModelOntologyManager().renameEntity(emfToOntologyMap.get(notification.getNotifier()), renamerStrategy.getEObjectName((EObject)notification.getNotifier()));
 					System.out.println(MSG_PREFIX + "Renamed individual: " + notification.getNotifier().toString());
 					break;
 				default:
@@ -149,7 +151,7 @@ public class ModelChangeHandler extends AbstractModelChangeHandler {
 	
 	private OntologyClass createOntologyClassHierarchyForModelElement(EClass eClass, IOntologyManager ontologyManager) {
 		if (!emfToOntologyMap.containsKey(eClass)) {
-			OntologyClass oCl = ontologyManager.createClass(renamer.getEClassName(eClass), MODELONT_PREFIX);
+			OntologyClass oCl = ontologyManager.createClass(renamerStrategy.getEClassName(eClass), MODELONT_PREFIX);
 			emfToOntologyMap.put(eClass, oCl);
 			System.out.println(MSG_PREFIX + "Class created: '" + oCl.getName() + "'.");
 
@@ -165,7 +167,7 @@ public class ModelChangeHandler extends AbstractModelChangeHandler {
 
 	private OntologyIndividual createIndividualForModelElement(OntologyClass ontologyClass, EObject newValue, IOntologyManager ontologyManager) {
 		if (!emfToOntologyMap.containsKey(newValue)) {
-			OntologyIndividual oIn = ontologyManager.createIndividualOfClass(renamer.getEObjectName(newValue), MODELONT_PREFIX, ontologyClass);
+			OntologyIndividual oIn = ontologyManager.createIndividualOfClass(renamerStrategy.getEObjectName(newValue), MODELONT_PREFIX, ontologyClass);
 			emfToOntologyMap.put(newValue, oIn);
 			System.out.println(MSG_PREFIX + "Individual created: '" + oIn.getName() + "'.");
 			return oIn;

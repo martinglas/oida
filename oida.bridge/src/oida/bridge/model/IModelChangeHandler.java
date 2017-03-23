@@ -10,6 +10,7 @@ import org.eclipse.emf.ecore.EObject;
 import oida.bridge.model.renamer.IRenamerStrategy;
 import oida.bridge.model.renamer.IStructuringStrategy;
 import oida.ontology.manager.IOntologyManager;
+import oida.ontology.service.IOIDAOntologyService;
 
 /**
  * 
@@ -18,6 +19,8 @@ import oida.ontology.manager.IOntologyManager;
  *
  */
 public interface IModelChangeHandler {
+	void setOntologyService(IOIDAOntologyService ontologyService);
+	
 	IRenamerStrategy getRenamerStrategy();
 	void setRenamerStrategy(IRenamerStrategy renamerStrategy);
 	
@@ -32,5 +35,4 @@ public interface IModelChangeHandler {
 	EObject getModelObject();
 	
 	void closeModelOntology();
-	
 }

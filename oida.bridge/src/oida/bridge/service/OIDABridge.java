@@ -113,10 +113,11 @@ public final class OIDABridge implements IOIDABridge {
 
 			if (modelOntologyManager == null) {
 				modelOntologyManager = oidaOntologyService.getOntologyManager(ontologyfile, true);
-				modelOntologyManager.addImportDeclaration(oidaOntologyService.getMereology().getOntology());
+				modelOntologyManager.addImportDeclaration(oidaOntologyService.getMereology().getOntologyManager().getOntology());
 			}
 
 			IModelChangeHandler changeHandler = new ModelChangeHandler();
+			changeHandler.setOntologyService(oidaOntologyService);
 			changeHandler.setModelOntologyManager(modelOntologyManager);
 			changeHandler.initializeModelOntology((EObject)modelObject, renamerStrategy, structuringStrategy);
 

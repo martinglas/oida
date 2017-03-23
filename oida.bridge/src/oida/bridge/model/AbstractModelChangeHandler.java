@@ -10,6 +10,7 @@ import org.eclipse.emf.ecore.util.EContentAdapter;
 import oida.bridge.model.renamer.IRenamerStrategy;
 import oida.bridge.model.renamer.IStructuringStrategy;
 import oida.ontology.manager.IOntologyManager;
+import oida.ontology.service.IOIDAOntologyService;
 
 /**
  * 
@@ -18,10 +19,19 @@ import oida.ontology.manager.IOntologyManager;
  *
  */
 public abstract class AbstractModelChangeHandler extends EContentAdapter implements IModelChangeHandler {
+	private IOIDAOntologyService ontologyService;
 	private IOntologyManager modelOntologyManager;
 	
 	private IRenamerStrategy renamerStrategy;
 	private IStructuringStrategy structuringStrategy;
+	
+	public void setOntologyService(IOIDAOntologyService ontologyService) {
+		this.ontologyService = ontologyService;
+	}
+	
+	public IOIDAOntologyService getOntologyService() {
+		return ontologyService;
+	}
 	
 	public IOntologyManager getModelOntologyManager() {
 		return modelOntologyManager;
