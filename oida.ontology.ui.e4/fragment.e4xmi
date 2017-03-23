@@ -38,6 +38,9 @@
           <children xsi:type="basic:PartStack" xmi:id="_I973wMdoEea9gboS3tekbQ" elementId="oida.ontology.ui.e4.partstack.0">
             <children xsi:type="basic:Part" xmi:id="_JnEUUMdoEea9gboS3tekbQ" elementId="oida.ontology.ui.e4.part.individualsView" contributionURI="bundleclass://oida.ontology.ui.e4/oida.ontology.ui.e4.part.IndividualsViewPart" label="Individuals"/>
           </children>
+          <children xsi:type="basic:PartStack" xmi:id="_FUjbUA-rEeecQ7A5BGUxIQ" elementId="oida.ontology.ui.e4.partstack.2">
+            <children xsi:type="basic:Part" xmi:id="_GBR-cA-rEeecQ7A5BGUxIQ" elementId="oida.ontology.ui.e4.part.objectPropertyView" contributionURI="bundleclass://oida.ontology.ui.e4/oida.ontology.ui.e4.part.ObjectPropertyViewPart" label="Object Properties"/>
+          </children>
         </children>
       </children>
     </elements>

@@ -45,5 +45,12 @@
             name="NamespacesView"
             restorable="true">
       </view>
+      <view
+            category="org.eclipse.emf.parsley"
+            class="oida.ontology.ui.ObjectPropertyView.ObjectPropertyViewExecutableExtensionFactory:oida.ontology.ui.view.ObjectPropertiesView"
+            id="oida.ontology.ui.view.ObjectPropertyView"
+            name="Object Properties"
+            restorable="true">
+      </view>
    </extension>
 </plugin>
