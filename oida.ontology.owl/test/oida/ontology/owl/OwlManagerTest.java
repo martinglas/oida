@@ -26,19 +26,19 @@ import oida.ontologyMgr.OntologyFile;
  *
  */
 public class OwlManagerTest {
-	private final String TESTONTOLOGY_IRI = "http://de.oida/owl/testontology";
-	private final String TESTFILE = "TestOntology.owl";
+	private static final String TESTONTOLOGY_IRI = "http://de.oida/owl/testontology";
+	private static final String TESTFILE = "TestOntology.owl";
 	
-	final String NAMESPACE_DEFAULT = "http://de.oida/test";
-	final String NAMESPACE_CARS = "http://de.oida/test/cars";
-	final String NAMESPACE_AIRCRAFT = "http://de.oida/test/aircraft";
+	private static final String NAMESPACE_DEFAULT = "http://de.oida/test";
+	private static final String NAMESPACE_CARS = "http://de.oida/test/cars";
+	private static final String NAMESPACE_AIRCRAFT = "http://de.oida/test/aircraft";
 	
-	final String PREFIX_A = "a";
-	final String PREFIX_B = "b";
+	private static final String PREFIX_A = "a";
+	private static final String PREFIX_B = "b";
 	
-	final String CLASSNAME_VEHICLE = "Vehicle";
-	final String CLASSNAME_AIRCRAFT = "Aircraft";
-	final String CLASSNAME_FIXEDWING = "FixedWing";
+	private static final String CLASSNAME_VEHICLE = "Vehicle";
+	private static final String CLASSNAME_AIRCRAFT = "Aircraft";
+	private static final String CLASSNAME_FIXEDWING = "FixedWing";
 	
 	private IOntologyManagerFactory factory;
 	private IOntologyManager manager;
