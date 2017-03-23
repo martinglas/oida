@@ -35,6 +35,8 @@ public interface IOntologyManager {
 	void setOntologyFile(OntologyFile ontologyFile);
 	OntologyFile getOntologyFile();
 	
+	void clearOntology();
+	
 	void initializeReasoner();
 	
 	void addGlobalIRIToLocalPathMapping(String iri, String localPath);

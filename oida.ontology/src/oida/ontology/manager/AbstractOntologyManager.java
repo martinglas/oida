@@ -53,8 +53,8 @@ public abstract class AbstractOntologyManager extends EContentAdapter implements
 		if (notification.getFeature().equals(OntologyPackage.eINSTANCE.getOntology_Classes())) {
 			ontology.setNrOfClasses(ontology.getClasses().size());
 		}
-		if (notification.getFeature().equals(OntologyPackage.eINSTANCE.getOntology_Objectproperties())) {
-			ontology.setNrOfObjectProperties(ontology.getObjectproperties().size());
+		if (notification.getFeature().equals(OntologyPackage.eINSTANCE.getOntology_ObjectProperties())) {
+			ontology.setNrOfObjectProperties(ontology.getObjectProperties().size());
 		}
 	}
 
@@ -325,11 +325,17 @@ public abstract class AbstractOntologyManager extends EContentAdapter implements
 		return newIndividual;
 	}
 
-	protected OntologyObjectProperty generateInternalObjectPropertyObject(Ontology ontology, String prefix, String propertyName) {
-		OntologyObjectProperty property = OntologyFactory.eINSTANCE.createOntologyObjectProperty();
-		setOntologyEntityData(property, ontology, propertyName, prefix);
+	protected OntologyObjectProperty generateInternalObjectPropertyObject(Ontology ontology, OntologyObjectProperty superObjectProperty, String prefix, String propertyName) {
+		OntologyObjectProperty newProperty = OntologyFactory.eINSTANCE.createOntologyObjectProperty();
+		setOntologyEntityData(newProperty, ontology, propertyName, prefix);
+		ontology.getObjectProperties().add(newProperty);
 
-		return property;
+		if (superObjectProperty != null) {
+			superObjectProperty.getSubObjectProperties().add(newProperty);
+			newProperty.getSuperObjectProperties().add(superObjectProperty);
+		}
+		
+		return newProperty;
 	}
 
 	protected OntologyAnnotationProperty generateInternalAnnotationPropertyObject(Ontology ontology, String prefix, String propertyName) {
