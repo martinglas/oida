@@ -7,12 +7,12 @@ package oida.ontology.service;
 
 import org.eclipse.emf.ecore.util.EContentAdapter;
 
-import oida.util.constants.FileConstants;
-import oida.ontology.OntologyObjectProperty;
 import oida.ontology.manager.IOntologyManager;
 import oida.ontology.manager.OntologyManagerException;
+import oida.ontology.predefined.Mereology;
 import oida.ontologyMgr.OntologyFile;
 import oida.util.OIDAUtil;
+import oida.util.constants.FileConstants;
 
 /**
  * 
@@ -23,57 +23,29 @@ import oida.util.OIDAUtil;
 public abstract class AbstractOIDAOntologyService extends EContentAdapter implements IOIDAOntologyService {
 	public static final String MSG_PREFIX = "OIDA Ontology Service: ";
 
-	public static final String MEREOLOGY_NAMESPACE = "http://www.bauhaus-luftfahrt.net/ontologies/merology.owl";
-	public static final String MEREOLOGY_PREFIX = "mer";
-	
-	private OntologyObjectProperty partOfDirectlyObjectProperty;
-	private OntologyObjectProperty hasPartDirectlyObjectProperty;
-	
-	protected IOntologyManager mereology;
+	private Mereology mereology;
 	
 	public AbstractOIDAOntologyService() {
 	}
 	
-	protected IOntologyManager generateMereology() throws OntologyManagerException {
-		OntologyFile mereologyFile = OIDAUtil.getOntologyFile(OIDAUtil.getOIDAWorkPath(), FileConstants.MEREOLOGY_FILENAME);
-		
-		IOntologyManager mereologyOntology = getOntologyManager(mereologyFile, true);
-		
-		if (mereologyOntology.getOntology().getNrOfObjectProperties() == 0) {
-			mereologyOntology.addNamespace(MEREOLOGY_PREFIX, MEREOLOGY_NAMESPACE, false);
+	@Override
+	public Mereology getMereology() {
+		if (mereology == null) {
+			OntologyFile mereologyFile = OIDAUtil.getOntologyFile(OIDAUtil.getOIDAWorkPath(), FileConstants.MEREOLOGY_FILENAME);
+			IOntologyManager mereologyOntology = getOntologyManager(mereologyFile, true);
 			
-			OntologyObjectProperty hasPartObjectProperty = mereologyOntology.createObjectProperty("hasPart", MEREOLOGY_PREFIX);
-			mereologyOntology.setObjectPropertyCharacteristics(hasPartObjectProperty, false, false, true, false, false, false, false);
+			mereology = new Mereology();
 			
-			hasPartDirectlyObjectProperty = mereologyOntology.createObjectProperty("hasPart_directly", MEREOLOGY_PREFIX);
-			mereologyOntology.assignSubObjectPropertyToSuperObjectProperty(hasPartDirectlyObjectProperty, hasPartObjectProperty);
+			try {
+				mereology.loadOrInitializeOntology(mereologyOntology);
+			} catch (OntologyManagerException e) {
+				System.out.println(MSG_PREFIX + "Mereology couldn't be saved!");
+				e.printStackTrace();
+			}
 			
-			OntologyObjectProperty partOfObjectProperty = mereologyOntology.createObjectProperty("partOf", MEREOLOGY_PREFIX);
-			mereologyOntology.setObjectPropertyCharacteristics(partOfObjectProperty, false, false, true, false, false, false, false);
-			mereologyOntology.assignInverseObjectProperty(partOfObjectProperty, hasPartObjectProperty);
-			
-			partOfDirectlyObjectProperty = mereologyOntology.createObjectProperty("partOf_directly", MEREOLOGY_PREFIX);
-			mereologyOntology.assignSubObjectPropertyToSuperObjectProperty(partOfDirectlyObjectProperty, partOfObjectProperty);
-			mereologyOntology.assignInverseObjectProperty(partOfDirectlyObjectProperty, hasPartDirectlyObjectProperty);
-			
-			mereologyOntology.saveOntology();
+			System.out.println(MSG_PREFIX + "Mereology successfully generated.");
 		}
-		
-		return mereologyOntology;
-	}
-	
-	@Override
-	public IOntologyManager getMereology() {
+			
 		return mereology;
-	}
-	
-	@Override
-	public OntologyObjectProperty getPartOfProperty() {
-		return partOfDirectlyObjectProperty;
-	}
-
-	@Override
-	public OntologyObjectProperty getHasPartProperty() {
-		return hasPartDirectlyObjectProperty;
 	}
 }

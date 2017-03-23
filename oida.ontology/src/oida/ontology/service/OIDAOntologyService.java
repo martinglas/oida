@@ -23,8 +23,6 @@ import org.eclipse.emf.edit.provider.INotifyChangedListener;
 import org.eclipse.emf.edit.provider.resource.ResourceItemProviderAdapterFactory;
 import org.eclipse.emf.parsley.edit.domain.InjectableAdapterFactoryEditingDomain;
 
-import oida.util.constants.FileConstants;
-import oida.util.constants.StringConstants;
 import oida.ontology.Activator;
 import oida.ontology.manager.IOntologyManager;
 import oida.ontology.manager.IOntologyManagerFactory;
@@ -36,6 +34,8 @@ import oida.ontologyMgr.OntologyMgrPackage;
 import oida.ontologyMgr.provider.OntologyMgrItemProviderAdapterFactory;
 import oida.util.ExtensionPointUtil;
 import oida.util.OIDAUtil;
+import oida.util.constants.FileConstants;
+import oida.util.constants.StringConstants;
 
 /**
  * 
@@ -99,16 +99,10 @@ public final class OIDAOntologyService extends AbstractOIDAOntologyService imple
 			getOntologyManager(getLibrary().getReferenceOntology(), true);
 		} else
 			System.out.println(MSG_PREFIX + "No reference ontology set.");
-
-		try {
-			mereology = generateMereology();
-			System.out.println(MSG_PREFIX + "Mereology successfully generated.");
-		} catch (OntologyManagerException e) {
-			System.out.println(MSG_PREFIX + "Mereology couldn't be generated.");
-			e.printStackTrace();
-		}
 		
-		System.out.println(OIDAOntologyService.MSG_PREFIX + ": Service registered.");
+		getMereology();
+		
+		System.out.println(OIDAOntologyService.MSG_PREFIX + "Service registered.");
 	}
 
 	public Resource loadExistingOIDAServiceData(URI oidaServiceDataFileURI) {

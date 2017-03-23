@@ -3,34 +3,19 @@
  * materials are made available under the terms of the Eclipse Public License v1.0 which accompanies this distribution,
  * and is available at http://www.eclipse.org/legal/epl-v10.html </copyright>
  ******************************************************************************/
-package oida.ontology.service;
+package oida.ontology.predefined;
 
-import org.eclipse.emf.ecore.resource.Resource;
-import org.eclipse.emf.edit.domain.EditingDomain;
-
-import oida.ontology.OntologyObjectProperty;
 import oida.ontology.manager.IOntologyManager;
 import oida.ontology.manager.OntologyManagerException;
-import oida.ontology.predefined.Mereology;
-import oida.ontologyMgr.Library;
-import oida.ontologyMgr.OntologyFile;
 
 /**
  * 
  * @author Michael.Shamiyeh
- * @since 13.12.2016
+ * @since 2017-03-22
  *
  */
-public interface IOIDAOntologyService {
-	Library getLibrary();
-
-	Resource getLibraryResource();
-
-	Resource getManagedOntologiesResource();
-
-	public EditingDomain getEditingDomain();
+public interface IPredefinedOntology {
+	IOntologyManager getOntologyManager();
 	
-	public IOntologyManager getOntologyManager(OntologyFile entry, boolean createIfNotExisting);
-	
-	public Mereology getMereology();
+	void loadOrInitializeOntology(IOntologyManager ontologyManager) throws OntologyManagerException;
 }
