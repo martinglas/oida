@@ -21,11 +21,15 @@
       <property name="scope" value="package"/>
     </module>
     <module name="JavadocStyle"/>
-    <module name="ConstantName"/>
+    <module name="ConstantName">
+      <property name="format" value="^[A-Z][A-Z0-9_]*(_[A-Z0-9]+)*$"/>
+    </module>
     <module name="LocalFinalVariableName"/>
     <module name="LocalVariableName"/>
     <module name="MemberName"/>
-    <module name="MethodName"/>
+    <module name="MethodName">
+      <property name="format" value="^[a-z][a-zA-Z0-9_]*$"/>
+    </module>
     <module name="PackageName"/>
     <module name="ParameterName"/>
     <module name="StaticVariableName"/>
@@ -34,11 +38,6 @@
     <module name="IllegalImport"/>
     <module name="RedundantImport"/>
     <module name="UnusedImports"/>
-    <module name="LineLength">
-      <property name="severity" value="ignore"/>
-      <property name="max" value="160"/>
-      <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
-    </module>
     <module name="MethodLength"/>
     <module name="ParameterNumber"/>
     <module name="EmptyForIteratorPad">
@@ -169,9 +168,10 @@
       <property name="severity" value="ignore"/>
       <metadata name="net.sf.eclipsecs.core.lastEnabledSeverity" value="inherit"/>
     </module>
-    <module name="NeedBraces">
-      <property name="allowSingleLineStatement" value="true"/>
+    <module name="LineLength">
+      <property name="max" value="200"/>
     </module>
+    <module name="MethodLength"/>
   </module>
   <module name="FileLength">
     <property name="severity" value="info"/>
@@ -214,5 +214,8 @@
   </module>
   <module name="SuppressWithNearbyCommentFilter">
     <property name="commentFormat" value="@model"/>
+  </module>
+  <module name="SuppressionFilter">
+    <property name="file" value="C:\Users\michael.shamiyeh\GIT\OIDA4SYMO\oida.codingstyle\suppressions.xml"/>
   </module>
 </module>
