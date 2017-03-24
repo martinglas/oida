@@ -7,7 +7,7 @@ package oida.ontology.manager.context;
 
 import java.util.Optional;
 
-import oida.ontology.Ontology;
+import oida.ontology.manager.IOntologyManager;
 
 /**
  * 
@@ -19,7 +19,7 @@ public interface IGlobalOntologyContext {
 	/**
 	 * Searches the global ontology context for an ontology having a specific IRI.
 	 * @param ontologyIRI The IRI of the wanted ontology.
-	 * @return An optional object containing the ontology if existing.
+	 * @return An optional object containing the appropriate ontology manager if existing.
 	 */
-	Optional<Ontology> findOntology(String ontologyIRI);
+	Optional<IOntologyManager> findOntology(String ontologyIRI);
 }

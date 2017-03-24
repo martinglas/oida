@@ -57,14 +57,14 @@ public final class OIDAOntologyService extends AbstractOIDAOntologyService imple
 
 	private IOntologyManagerFactory managerFactory;
 
-	private Map<OntologyFile, IOntologyManager> managedOntologies;
+	private Map<Ontology, IOntologyManager> managedOntologies;
 
 	private Resource managedOntologyResource;
 
 	// TODO split in multiple methods:
 	public OIDAOntologyService() {
 		super();
-		
+
 		System.out.println(MSG_PREFIX + "Initialization started.");
 
 		OntologyMgrItemProviderAdapterFactory adapterFactory = new OntologyMgrItemProviderAdapterFactory();
@@ -76,8 +76,8 @@ public final class OIDAOntologyService extends AbstractOIDAOntologyService imple
 
 		editingDomain = new InjectableAdapterFactoryEditingDomain(composedAdapterFactory);
 
-		managedOntologies = new HashMap<OntologyFile, IOntologyManager>();
-		
+		managedOntologies = new HashMap<Ontology, IOntologyManager>();
+
 		libraryResource = loadExistingOIDAServiceData(uriLibrary);
 		managedOntologyResource = editingDomain.createResource(uriManager.toString());
 
@@ -87,7 +87,7 @@ public final class OIDAOntologyService extends AbstractOIDAOntologyService imple
 		libraryResource.getResourceSet().eAdapters().add(this);
 
 		OIDAUtil.createOIDAWorkDirectory();
-		
+
 		try {
 			System.out.println(OIDAOntologyService.MSG_PREFIX + "Evaluating ontology manager extensions.");
 			this.managerFactory = ExtensionPointUtil.loadSingleExtension(Activator.getExtensionRegistry(), IOntologyManagerFactory.class, Activator.ONTOLOGYMANAGERFACTORY_EXTENSIONPOINT_ID);
@@ -102,9 +102,9 @@ public final class OIDAOntologyService extends AbstractOIDAOntologyService imple
 			getOntologyManager(getLibrary().getReferenceOntology(), true);
 		} else
 			System.out.println(MSG_PREFIX + "No reference ontology set.");
-		
+
 		getMereology();
-		
+
 		System.out.println(OIDAOntologyService.MSG_PREFIX + "Service registered.");
 	}
 
@@ -164,9 +164,9 @@ public final class OIDAOntologyService extends AbstractOIDAOntologyService imple
 		mgr.setGlobalOntologyContext(this);
 
 		try {
-			mgr.loadOntology(ontologyFile);
+			Ontology ontology = mgr.loadOntology(ontologyFile);
 			managedOntologyResource.getContents().add(mgr.getOntology());
-			managedOntologies.put(ontologyFile, mgr);
+			managedOntologies.put(ontology, mgr);
 
 			System.out.println(MSG_PREFIX + "Added new ontology manager for: " + ontologyFile.getFileName() + ".");
 			return mgr;
@@ -174,10 +174,11 @@ public final class OIDAOntologyService extends AbstractOIDAOntologyService imple
 			if (createIfNotExisting) {
 				try {
 					// TODO
-					mgr.createOntology("http://de.oida/" + ontologyFile.getFileName().replace(".owl", StringConstants.EMPTY).replace(StringConstants.BACKSLASH, StringConstants.EMPTY));
+					Ontology ontology = mgr
+							.createOntology("http://de.oida/" + ontologyFile.getFileName().replace(".owl", StringConstants.EMPTY).replace(StringConstants.BACKSLASH, StringConstants.EMPTY));
 					mgr.setOntologyFile(ontologyFile);
 					managedOntologyResource.getContents().add(mgr.getOntology());
-					managedOntologies.put(ontologyFile, mgr);
+					managedOntologies.put(ontology, mgr);
 
 					System.out.println(MSG_PREFIX + "Added new ontology manager for: " + ontologyFile.getFileName() + ".");
 					return mgr;
@@ -191,30 +192,30 @@ public final class OIDAOntologyService extends AbstractOIDAOntologyService imple
 
 		return null;
 	}
-	
+
 	@Override
-	public Optional<Ontology> findOntology(String ontologyIRI) {
+	public Optional<IOntologyManager> findOntology(String ontologyIRI) {
 		for (IOntologyManager manager : managedOntologies.values()) {
-			Optional<Ontology> foundOntology = findOntologyWithin(manager.getOntology(), ontologyIRI);
-			
+			Optional<IOntologyManager> foundOntology = findOntologyWithin(manager.getOntology(), ontologyIRI);
+
 			if (foundOntology.isPresent())
 				return foundOntology;
 		}
-		
+
 		return Optional.empty();
 	}
-	
-	private Optional<Ontology> findOntologyWithin(Ontology ontology, String wantedOntologyIRI) {
+
+	private Optional<IOntologyManager> findOntologyWithin(Ontology ontology, String wantedOntologyIRI) {
 		if (ontology.getName().contentEquals(wantedOntologyIRI))
-			return Optional.of(ontology);
-		
+			return Optional.of(managedOntologies.get(ontology));
+
 		for (Ontology importOntology : ontology.getImports()) {
-			Optional<Ontology> foundOntology = findOntologyWithin(importOntology, wantedOntologyIRI);
-			
+			Optional<IOntologyManager> foundOntology = findOntologyWithin(importOntology, wantedOntologyIRI);
+
 			if (foundOntology.isPresent())
 				return foundOntology;
 		}
-		
+
 		return Optional.empty();
 	}
 }

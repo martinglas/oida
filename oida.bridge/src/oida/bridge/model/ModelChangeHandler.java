@@ -19,6 +19,7 @@ import oida.bridge.service.IOIDABridge.OntologyObjectProperties;
 import oida.ontology.OntologyClass;
 import oida.ontology.OntologyEntity;
 import oida.ontology.OntologyIndividual;
+import oida.ontology.OntologyObjectPropertyAssertion;
 import oida.ontology.manager.IOntologyManager;
 import oida.ontology.manager.OntologyManagerException;
 import oida.ontology.service.IOIDAOntologyService;
@@ -31,13 +32,13 @@ import oida.ontology.service.IOIDAOntologyService;
  */
 public class ModelChangeHandler extends AbstractModelChangeHandler {
 	private final String MSG_PREFIX = "OIDA Model change handler: ";
-	
+
 	private final String SYMO_MODELONT_NS = "http://oida.local.";
 	private final String MODELONT_PREFIX = "modont";
 
 	private HashMap<EObject, OntologyEntity> emfToOntologyMap = new HashMap<EObject, OntologyEntity>();
 	private IRenamerStrategy renamerStrategy;
-	
+
 	private EObject modelObject;
 
 	public EObject getModelObject() {
@@ -51,12 +52,13 @@ public class ModelChangeHandler extends AbstractModelChangeHandler {
 
 		emfToOntologyMap.clear();
 		this.renamerStrategy = renamerStrategy;
-		
+
 		setStructuringStrategy(structuringStrategy);
-		
+
 		generateLocalNamespace();
 		generateOntologyClasses();
 		generateIndividuals();
+		generateObjectProperties();
 
 		try {
 			getModelOntologyManager().saveOntology();
@@ -77,8 +79,7 @@ public class ModelChangeHandler extends AbstractModelChangeHandler {
 	}
 
 	/**
-	 * This methods generates ontology classes representing model classes which
-	 * have instance objects in the model.
+	 * This methods generates ontology classes representing model classes which have instance objects in the model.
 	 */
 	private void generateOntologyClasses() {
 		for (EClass eClass : Extractor.getAllClassesOfInstanceEObjects(modelObject))
@@ -86,10 +87,9 @@ public class ModelChangeHandler extends AbstractModelChangeHandler {
 	}
 
 	/**
-	 * This method extracts instances as individuals in the tree under a given
-	 * EObject.
+	 * This method extracts instances as individuals in the tree under a given EObject.
 	 */
-	public void generateIndividuals() {
+	private void generateIndividuals() {
 		List<EObject> comprisedEObjects = Extractor.getInstanceEObjects(modelObject);
 
 		// Create Individuals
@@ -99,32 +99,48 @@ public class ModelChangeHandler extends AbstractModelChangeHandler {
 		}
 	}
 
+	private void generateObjectProperties() {
+		List<EObject> comprisedEObjects = Extractor.getInstanceEObjects(modelObject);
+
+		for (EObject eObject : comprisedEObjects) {
+			System.out.println(MSG_PREFIX + "Object Properties for '" + eObject.toString() + "'");
+			OntologyIndividual object = (OntologyIndividual)emfToOntologyMap.get(eObject);
+			List<EReference> references = Extractor.getAllEReferences(eObject);
+
+			for (EReference ref : references) {
+				System.out.println(MSG_PREFIX + "Reference '" + ref.getName() + "':");
+				// TODO Dirty:
+				try {
+					List<EObject> referencedObjects = (List<EObject>)eObject.eGet(ref);
+
+					if (referencedObjects != null) {
+						for (EObject refObject : referencedObjects) {
+							System.out.println(MSG_PREFIX + "Reference '" + refObject.toString() + "':");
+							OntologyIndividual individual = (OntologyIndividual)emfToOntologyMap.get(refObject);
+							OntologyObjectProperties objectProperty = getStructuringStrategy().determineObjectPropertyRelation(ref);
+							createObjectPropertyAssertion(objectProperty, object, individual);
+						}
+					}
+				} catch(Exception e) {}
+			}
+		}
+	}
+
 	@Override
 	public void notifyChanged(Notification notification) {
 		super.notifyChanged(notification);
-		
+
 		switch (notification.getEventType()) {
 		case Notification.ADD:
 			OntologyIndividual ontologyIndividual = createIndividualAndClassesForModelObject((EObject)notification.getNewValue());
 			OntologyIndividual object = (OntologyIndividual)emfToOntologyMap.get(notification.getNotifier());
-			
 			OntologyObjectProperties objectProperty = getStructuringStrategy().determineObjectPropertyRelation((EStructuralFeature)notification.getFeature());
-				
-			switch(objectProperty) {
-			case HAS_PART:
-				getModelOntologyManager().createObjectPropertyAssertion(getOntologyService().getMereology().getHasPartDirectlyObjectProperty(), object, ontologyIndividual);
-				break;
-			case HAS_PARAMETER:
-				break;
-			default:
-				break;
-			}
-				
+			createObjectPropertyAssertion(objectProperty, object, ontologyIndividual);
 			break;
 		case Notification.SET:
 			if (notification.getFeature() instanceof EAttribute) {
 				EAttribute attr = (EAttribute)notification.getFeature();
-				
+
 				switch (getStructuringStrategy().determineStructuringAdviceAfterSet(attr)) {
 				case CHANGE_DATATYPEPROPERTY:
 					System.out.println(MSG_PREFIX + "ToDo: Change property!" + notification.getFeature().toString());
@@ -139,7 +155,7 @@ public class ModelChangeHandler extends AbstractModelChangeHandler {
 			} else if (notification.getFeature() instanceof EReference) {
 				createIndividualAndClassesForModelObject((EObject)notification.getNewValue());
 			}
-			
+
 			break;
 		case Notification.REMOVE:
 			System.out.println("MSG_PREFIX + Model Element: REMOVE.");
@@ -148,7 +164,7 @@ public class ModelChangeHandler extends AbstractModelChangeHandler {
 			break;
 		}
 	}
-	
+
 	private OntologyClass createOntologyClassHierarchyForModelElement(EClass eClass, IOntologyManager ontologyManager) {
 		if (!emfToOntologyMap.containsKey(eClass)) {
 			OntologyClass oCl = ontologyManager.createClass(renamerStrategy.getEClassName(eClass), MODELONT_PREFIX);
@@ -174,14 +190,28 @@ public class ModelChangeHandler extends AbstractModelChangeHandler {
 		} else
 			return (OntologyIndividual)emfToOntologyMap.get(newValue);
 	}
-	
+
 	private OntologyIndividual createIndividualAndClassesForModelObject(EObject modelObject) {
 		OntologyClass ontRefClass = createOntologyClassHierarchyForModelElement(modelObject.eClass(), getModelOntologyManager());
 		OntologyIndividual ontInd = createIndividualForModelElement(ontRefClass, modelObject, getModelOntologyManager());
-		
+
 		System.out.println(MSG_PREFIX + "Parent object: " + modelObject.eContainer().toString());
 		System.out.println(MSG_PREFIX + "Feature name: " + modelObject.toString());
-		
+
 		return ontInd;
+	}
+
+	private OntologyObjectPropertyAssertion createObjectPropertyAssertion(OntologyObjectProperties objectProperty, OntologyIndividual individual, OntologyIndividual referencedObject) {
+		if (objectProperty != null) {
+			switch (objectProperty) {
+			case HAS_PART:
+				return getModelOntologyManager().createObjectPropertyAssertion(getOntologyService().getMereology().getHasPartDirectlyObjectProperty(), individual, referencedObject);
+			case HAS_PARAMETER:
+				return getModelOntologyManager().createObjectPropertyAssertion(getOntologyService().getMereology().getHasPartDirectlyObjectProperty(), individual, referencedObject);
+			default:
+				return getModelOntologyManager().createObjectPropertyAssertion(getOntologyService().getMereology().getHasPartDirectlyObjectProperty(), individual, referencedObject);
+			}
+		} else
+			return null;
 	}
 }

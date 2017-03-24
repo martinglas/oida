@@ -5,20 +5,6 @@
          point="org.eclipse.ui.views">
       <view
             category="org.eclipse.emf.parsley"
-            class="oida.bridge.ui.e4.E4ExecutableExtensionFactory:oida.bridge.ui.view.RecommendationsView"
-            id="oida.bridge.ui.e4"
-            name="OIDA Recommendations"
-            restorable="true">
-      </view>
-      <view
-            category="org.eclipse.emf.parsley"
-            class="oida.bridge.ui.e4.E4ExecutableExtensionFactory:oida.bridge.ui.view.RecommendationsView"
-            id="oida.bridge.ui.e4.RecommendationsView"
-            name="OIDA Recommendations"
-            restorable="true">
-      </view>
-      <view
-            category="org.eclipse.emf.parsley"
             class="oida.bridge.ui.RecommendationsView.RecommendationsViewExecutableExtensionFactory:oida.bridge.ui.view.RecommendationsView"
             id="oida.bridge.ui.RecommendationsView"
             name="OIDA Recommendations"

@@ -16,8 +16,7 @@ import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
 /**
- * This class handles the extraction of concepts from a given ExchangeModel tree
- * to an ontology.
+ * This class handles the extraction of concepts from a given ExchangeModel tree to an ontology.
  * 
  * @author Martin Glas
  * 
@@ -41,9 +40,7 @@ public class Extractor {
 	}
 
 	/**
-	 * This method return all classes of the instance objects from the tree
-	 * under the rootObject.
-	 * 
+	 * This method return all classes of the instance objects from the tree under the rootObject.
 	 */
 	public static List<EClass> getAllClassesOfInstanceEObjects(EObject rootEObject) {
 		List<EClass> directEClasses = getDirectClassesOfInstanceEObjects(rootEObject);
@@ -57,7 +54,7 @@ public class Extractor {
 				}
 			}
 		}
-		
+
 		return indirectEClasses;
 	}
 
@@ -68,7 +65,7 @@ public class Extractor {
 					addEClassUntilRoot(eSuperType, targetEClasses);
 				}
 			}
-			
+
 			targetEClasses.add(eClass);
 		}
 	}
@@ -82,7 +79,7 @@ public class Extractor {
 		for (EClass eClass : getAllClassesOfInstanceEObjects(rootEObject)) {
 			structuralFeatures.addAll(eClass.getEStructuralFeatures());
 		}
-		
+
 		return structuralFeatures;
 	}
 

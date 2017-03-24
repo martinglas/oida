@@ -68,6 +68,7 @@ import oida.ontology.OntologyItem;
 import oida.ontology.OntologyObjectProperty;
 import oida.ontology.OntologyObjectPropertyAssertion;
 import oida.ontology.manager.AbstractOntologyManager;
+import oida.ontology.manager.IOntologyManager;
 import oida.ontology.manager.OntologyManagerException;
 import oida.ontologyMgr.OntologyFile;
 import oida.util.constants.StringConstants;
@@ -192,24 +193,30 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 	protected Ontology extractOntologyInportHierarchy(OWLOntology owlOntology) {
 		Ontology ontology;
 
-		Optional<Ontology> existingManagedOntology = getGlobalOntologyContext().findOntology(owlOntology.getOntologyID().getOntologyIRI().get().toString());
-		if (existingManagedOntology.isPresent())
-			ontology = existingManagedOntology.get();
-		else
+		Optional<IOntologyManager> existingManagedOntology = getGlobalOntologyContext().findOntology(owlOntology.getOntologyID().getOntologyIRI().get().toString());
+		if (existingManagedOntology.isPresent()) {
+			OwlOntologyManager existingOWLMgr = (OwlOntologyManager)existingManagedOntology.get();
+			
+			ontology = existingOWLMgr.getOntology();
+			toMap(owlOntology, ontology);
+			importFromOtherOwlOntologyManager(existingOWLMgr);
+		}
+		else {
 			ontology = generateInternalOntologyObject(owlOntology.getOntologyID().getOntologyIRI().get().toString(), owlOntology.classesInSignature(Imports.INCLUDED).count(),
 					owlOntology.individualsInSignature().count());
-		
-		toMap(owlOntology, ontology);
 
-		for (OWLOntology owlImportOntology : owlOntology.imports().collect(Collectors.toList()))
-			ontology.getImports().add(extractOntologyInportHierarchy(owlImportOntology));
+			toMap(owlOntology, ontology);
 
-		for (String prefixName : owlPrefixManager.getPrefixName2PrefixMap().keySet())
-			generateInternalNamespaceObject(ontology, prefixName, owlPrefixManager.getPrefixName2PrefixMap().get(prefixName));
+			for (OWLOntology owlImportOntology : owlOntology.imports().collect(Collectors.toList()))
+				ontology.getImports().add(extractOntologyInportHierarchy(owlImportOntology));
 
-		extractClassHierarchy(ontology, false);
-		extractObjectPropertyHierarchy(ontology, false);
-		extractIndividuals(ontology, false);
+			for (String prefixName : owlPrefixManager.getPrefixName2PrefixMap().keySet())
+				generateInternalNamespaceObject(ontology, prefixName, owlPrefixManager.getPrefixName2PrefixMap().get(prefixName));
+
+			extractClassHierarchy(ontology, false);
+			extractObjectPropertyHierarchy(ontology, false);
+			extractIndividuals(ontology, false);
+		}
 
 		return ontology;
 	}
@@ -246,10 +253,6 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 						internalClass.getSuperClasses().remove(thingClass);
 					}
 				}
-				// else if (internalClass.getSuperClasses().isEmpty()) {
-				// thingClass.getSubClasses().add(internalClass);
-				// internalClass.getSuperClasses().add(thingClass);
-				// }
 			}
 		}
 	}
@@ -410,13 +413,32 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 		if (getOntology().getImports().contains(importOntologyIRIString)) {
 			return;
 		}
-
+		
 		IRI importOntologyIRI = IRI.create(importOntologyIRIString);
 		OWLImportsDeclaration owlImportDeclaration = owlDataFactory.getOWLImportsDeclaration(importOntologyIRI);
 		owlOntologyManager.applyChange(new AddImport(owlOntology, owlImportDeclaration));
 
 		try {
-			owlOntologyManager.loadOntology(importOntologyIRI);
+			Ontology ontology;
+
+			Optional<IOntologyManager> existingManagedOntology = getGlobalOntologyContext().findOntology(importOntologyIRIString);
+			if (existingManagedOntology.isPresent()) {
+				OwlOntologyManager existingOWLMgr = (OwlOntologyManager)existingManagedOntology.get();
+				
+				ontology = existingOWLMgr.getOntology();
+				toMap(owlOntology, ontology);
+				importFromOtherOwlOntologyManager(existingOWLMgr);
+			}
+			else {
+				OWLOntology owlImportOntology = owlOntologyManager.loadOntology(importOntologyIRI);
+				
+				Iterator<IRI> iriIt = owlImportOntology.directImportsDocuments().iterator();
+				while (iriIt.hasNext())
+					System.out.println(MESSAGE_PREFIX + "Direct Import: " + iriIt.next().toString());
+
+				Ontology o = extractOntologyInportHierarchy(owlImportOntology);
+				toMap(owlImportOntology, o);
+			}
 		} catch (OWLOntologyCreationException e) {
 			throw new OntologyManagerException(MESSAGE_PREFIX + "Error while loading ontology '" + importOntologyIRI.toString() + "': " + e.getMessage(), e);
 		}
@@ -849,5 +871,10 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 		} else {
 			return prefix.concat(StringConstants.COLON + name);
 		}
+	}
+	
+	private void importFromOtherOwlOntologyManager(OwlOntologyManager manager) {
+		api2internalMap.putAll(manager.api2internalMap);
+		internal2apiMap.putAll(manager.internal2apiMap);
 	}
 }
