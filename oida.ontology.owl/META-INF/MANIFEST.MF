@@ -12,6 +12,7 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Import-Package: oida.ontology.manager,
  oida.ontology.manager.context,
+ oida.ontology.manager.util,
  oida.util.bundle,
  oida.util.constants
 Bundle-ClassPath: lib/antlr-2.7.7.jar,

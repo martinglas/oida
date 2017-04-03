@@ -32,6 +32,10 @@ public interface IOntologyManager {
 	 */
 	void setGlobalOntologyContext(IGlobalOntologyContext context);
 	
+	/**
+	 * Returns the managed ontology.
+	 * @return an Ontology object.
+	 */
 	Ontology getOntology();
 	
 	Ontology createOntology(String ontologyIRI) throws OntologyManagerException;

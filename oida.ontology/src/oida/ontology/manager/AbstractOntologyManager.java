@@ -13,20 +13,15 @@ import java.util.stream.Stream;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.util.EContentAdapter;
 
-import oida.util.constants.StringConstants;
 import oida.ontology.Ontology;
-import oida.ontology.OntologyAnnotation;
 import oida.ontology.OntologyAnnotationProperty;
 import oida.ontology.OntologyClass;
-import oida.ontology.OntologyEntity;
-import oida.ontology.OntologyFactory;
 import oida.ontology.OntologyIndividual;
-import oida.ontology.OntologyNamespace;
 import oida.ontology.OntologyObjectProperty;
-import oida.ontology.OntologyObjectPropertyAssertion;
 import oida.ontology.OntologyPackage;
 import oida.ontology.manager.context.IGlobalOntologyContext;
 import oida.ontologyMgr.OntologyFile;
+import oida.util.constants.StringConstants;
 
 /**
  * 
@@ -210,11 +205,10 @@ public abstract class AbstractOntologyManager extends EContentAdapter implements
 	public OntologyIndividual getIndividual(String name, String prefix) {
 		Optional<OntologyIndividual> opt = ontology.getIndividuals().stream().filter(cl -> cl.getName().equals(name) && cl.getPrefix().equals(prefix)).findFirst();
 
-		if (opt.isPresent()) {
+		if (opt.isPresent())
 			return opt.get();
-		} else {
+		else
 			return null;
-		}
 	}
 
 	@Override
@@ -256,13 +250,11 @@ public abstract class AbstractOntologyManager extends EContentAdapter implements
 	public OntologyObjectProperty createObjectProperty(String propertyName, String prefix, OntologyClass range, OntologyClass domain) {
 		OntologyObjectProperty property = createObjectProperty(propertyName, prefix);
 
-		if (range != null) {
+		if (range != null)
 			assignObjectPropertyRange(property, range);
-		}
 
-		if (domain != null) {
+		if (domain != null)
 			assignObjectPropertyDomain(property, domain);
-		}
 
 		return property;
 	}
@@ -270,119 +262,30 @@ public abstract class AbstractOntologyManager extends EContentAdapter implements
 	@Override
 	public void setObjectPropertyCharacteristics(OntologyObjectProperty property, boolean functional, boolean inverseFunctional, boolean transitive, boolean symmetric, boolean asymmetric,
 			boolean reflexive, boolean irreflexive) {
-		if (functional) {
+		if (functional)
 			makeObjectPropertyFunctional(property);
-		}
 
-		if (inverseFunctional) {
+		if (inverseFunctional)
 			makeObjectPropertyInverseFunctional(property);
-		}
 
-		if (transitive) {
+		if (transitive)
 			makeObjectPropertyTransitive(property);
-		}
 
-		if (symmetric) {
+		if (symmetric)
 			makeObjectPropertySymmetric(property);
-		}
 
-		if (asymmetric) {
+		if (asymmetric)
 			makeObjectPropertyAsymmetric(property);
-		}
 
-		if (reflexive) {
+		if (reflexive)
 			makeObjectPropertyReflexive(property);
-		}
 
-		if (irreflexive) {
+		if (irreflexive)
 			makeObjectPropertyIrreflexive(property);
-		}
 	}
 
 	@Override
 	public OntologyAnnotationProperty createAnnotationProperty(String propertyName) {
 		return createAnnotationProperty(propertyName, StringConstants.EMPTY);
-	}
-
-	protected Ontology generateInternalOntologyObject(String name, long nrOfClasses, long nrOfIndividuals) {
-		Ontology newOntology = OntologyFactory.eINSTANCE.createOntology();
-		newOntology.setName(name);
-		newOntology.setNrOfClasses(nrOfClasses);
-		newOntology.setNrOfIndividuals(nrOfIndividuals);
-		newOntology.getImports();
-		return newOntology;
-	}
-
-	protected OntologyNamespace generateInternalNamespaceObject(Ontology ontology, String prefix, String nsName) {
-		OntologyNamespace newNS = OntologyFactory.eINSTANCE.createOntologyNamespace();
-		setOntologyEntityData(newNS, ontology, nsName, prefix);
-		ontology.getNamespaces().add(newNS);
-
-		return newNS;
-	}
-
-	protected OntologyClass generateInternalClassObject(Ontology ontology, OntologyClass superClass, String prefix, String className) {
-		OntologyClass newClass = OntologyFactory.eINSTANCE.createOntologyClass();
-		setOntologyEntityData(newClass, ontology, className, prefix);
-		ontology.getClasses().add(newClass);
-		
-		if (superClass != null) {
-			superClass.getSubClasses().add(newClass);
-			newClass.getSuperClasses().add(superClass);
-		}
-
-		return newClass;
-	}
-
-	protected OntologyIndividual generateInternalIndividualObject(Ontology ontology, String prefix, String individualName) {
-		OntologyIndividual newIndividual = OntologyFactory.eINSTANCE.createOntologyIndividual();
-		setOntologyEntityData(newIndividual, ontology, individualName, prefix);
-		ontology.getIndividuals().add(newIndividual);
-
-		return newIndividual;
-	}
-
-	protected OntologyObjectProperty generateInternalObjectPropertyObject(Ontology ontology, OntologyObjectProperty superObjectProperty, String prefix, String propertyName) {
-		OntologyObjectProperty newProperty = OntologyFactory.eINSTANCE.createOntologyObjectProperty();
-		setOntologyEntityData(newProperty, ontology, propertyName, prefix);
-		ontology.getObjectProperties().add(newProperty);
-
-		if (superObjectProperty != null) {
-			superObjectProperty.getSubObjectProperties().add(newProperty);
-			newProperty.getSuperObjectProperties().add(superObjectProperty);
-		}
-		
-		return newProperty;
-	}
-
-	protected OntologyAnnotationProperty generateInternalAnnotationPropertyObject(Ontology ontology, String prefix, String propertyName) {
-		OntologyAnnotationProperty property = OntologyFactory.eINSTANCE.createOntologyAnnotationProperty();
-		setOntologyEntityData(property, ontology, propertyName, prefix);
-
-		return property;
-	}
-
-	protected OntologyAnnotation generateInternalAnnotationObject(Ontology ontology, OntologyAnnotationProperty property, String value) {
-		OntologyAnnotation annotation = OntologyFactory.eINSTANCE.createOntologyAnnotation();
-		annotation.setContainingOntology(ontology);
-		annotation.setAnnotationproperty(property);
-		annotation.setValue(value);
-
-		return annotation;
-	}
-	
-	protected OntologyObjectPropertyAssertion generateInternalObjectPropertyAssertionObject(Ontology ontology, OntologyObjectProperty objectProperty, OntologyIndividual individual) {
-		OntologyObjectPropertyAssertion assertion = OntologyFactory.eINSTANCE.createOntologyObjectPropertyAssertion();
-		assertion.setContainingOntology(ontology);
-		assertion.setObjectProperty(objectProperty);
-		assertion.setObject(individual);
-		
-		return assertion;
-	}
-
-	private void setOntologyEntityData(OntologyEntity entity, Ontology ontology, String name, String prefix) {
-		entity.setContainingOntology(ontology);
-		entity.setName(name);
-		entity.setPrefix(prefix);
 	}
 }
