@@ -23,6 +23,7 @@ import oida.ontology.OntologyEntity;
 import oida.ontology.OntologyIndividual;
 import oida.ontology.OntologyItem;
 import oida.ontology.OntologyObjectProperty;
+import oida.ontology.manager.util.OntologyManagerUtils;
 
 /**
  * 
@@ -45,10 +46,6 @@ public final class OwlOntologyManagerMapHandler {
 	}
 
 	public OntologyClass getThingClass() {
-		if (thingClass == null) {
-
-		}
-
 		return thingClass;
 	}
 
@@ -57,21 +54,32 @@ public final class OwlOntologyManagerMapHandler {
 	}
 
 	public OntologyObjectProperty getTopObjectProperty() {
-		if (topObjectProperty == null) {
-		}
-
 		return topObjectProperty;
 	}
 
 	/**
 	 * Standard constructor.
 	 */
-	public OwlOntologyManagerMapHandler(OWLDataFactory owlDataFactory) {
+	public OwlOntologyManagerMapHandler() {
 		internal2apiMap = new HashMap<OntologyItem, OWLObject>();
 		api2internalMap = new HashMap<OWLObject, OntologyItem>();
+	}
+
+	public void initializeOntology(OWLDataFactory owlDataFactory, OWLOntology owlOntology, Ontology ontology) {
+		internal2apiMap.clear();
+		api2internalMap.clear();
 
 		owlThingClass = owlDataFactory.getOWLThing();
+		thingClass = OntologyManagerUtils.generateInternalClassObject(ontology, null, owlThingClass.getIRI().getNamespace(), owlThingClass.getIRI().getShortForm());
+		toMap(owlThingClass, thingClass);
+		ontology.setClassHierarchy(thingClass);
+
 		owlTopObjectProperty = owlDataFactory.getOWLTopObjectProperty();
+		topObjectProperty = OntologyManagerUtils.generateInternalObjectPropertyObject(ontology, null, owlTopObjectProperty.getIRI().getNamespace(), owlTopObjectProperty.getIRI().getShortForm());
+		toMap(owlTopObjectProperty, topObjectProperty);
+		ontology.setObjectPropertyHierarchy(topObjectProperty);
+
+		toMap(owlOntology, ontology);
 	}
 
 	/**
@@ -184,7 +192,7 @@ public final class OwlOntologyManagerMapHandler {
 	public Optional<OntologyIndividual> getInternalIndividual(final OWLNamedIndividual i) {
 		if (api2internalMap.containsKey(i) && api2internalMap.get(i) instanceof OntologyIndividual)
 			return Optional.of((OntologyIndividual)api2internalMap.get(i));
-		
+
 		return Optional.empty();
 	}
 
