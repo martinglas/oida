@@ -30,6 +30,7 @@
       nsPrefix="net.bauhaus-luftfahrt.oida.ontology">
     <eClassifiers xsi:type="ecore:EClass" name="OntologyItem">
       <eStructuralFeatures xsi:type="ecore:EReference" name="containingOntology" eType="#//ontology/Ontology"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="iri" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="Ontology" eSuperTypes="#//ontology/OntologyItem">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>

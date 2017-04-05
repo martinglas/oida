@@ -462,9 +462,7 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 			return clazz;
 		}
 
-		String fullClassName = buildFullEntityString(name, prefix);
-
-		OWLClass newClass = owlDataFactory.getOWLClass(fullClassName, owlPrefixManager);
+		OWLClass newClass = owlDataFactory.getOWLClass(OntologyManagerUtils.buildFullIRIString(name, prefix), owlPrefixManager);
 		OWLAxiom declareNewClass = owlDataFactory.getOWLDeclarationAxiom(newClass);
 
 		owlOntologyManager.addAxiom(owlOntology, declareNewClass);
@@ -505,14 +503,12 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 			return individual;
 		}
 
-		String fullIndividualName = buildFullEntityString(name, prefix);
-
-		OWLNamedIndividual owlIndividual = owlDataFactory.getOWLNamedIndividual(fullIndividualName, owlPrefixManager);
+		OWLNamedIndividual owlIndividual = owlDataFactory.getOWLNamedIndividual(OntologyManagerUtils.buildFullIRIString(name, prefix), owlPrefixManager);
 		OWLAxiom declareNewIndividual = owlDataFactory.getOWLDeclarationAxiom(owlIndividual);
 
 		owlOntologyManager.addAxiom(owlOntology, declareNewIndividual);
 
-		OntologyIndividual ind = OntologyManagerUtils.generateInternalIndividualObject(getOntology(), prefix, name);
+		OntologyIndividual ind = OntologyManagerUtils.generateInternalIndividualObject(getOntology(), name, prefix);
 
 		mapHandler.toMap(owlIndividual, ind);
 
@@ -552,14 +548,12 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 	}
 
 	@Override
-	public OntologyObjectProperty createObjectProperty(String propertyName, String prefix) {
-		String fullPropertyName = buildFullEntityString(propertyName, prefix);
-
-		OWLObjectProperty owlProperty = owlDataFactory.getOWLObjectProperty(fullPropertyName, owlPrefixManager);
+	public OntologyObjectProperty createObjectProperty(final String propertyName, final String prefix) {
+		OWLObjectProperty owlProperty = owlDataFactory.getOWLObjectProperty(OntologyManagerUtils.buildFullIRIString(propertyName, prefix), owlPrefixManager);
 		OWLDeclarationAxiom owlAxiom = owlDataFactory.getOWLDeclarationAxiom(owlProperty);
 		owlOntologyManager.addAxiom(owlOntology, owlAxiom);
 
-		OntologyObjectProperty prop = OntologyManagerUtils.generateInternalObjectPropertyObject(getOntology(), mapHandler.getTopObjectProperty(), prefix, propertyName);
+		OntologyObjectProperty prop = OntologyManagerUtils.generateInternalObjectPropertyObject(getOntology(), mapHandler.getTopObjectProperty(), propertyName, prefix);
 		mapHandler.toMap(owlProperty, prop);
 
 		return prop;
@@ -715,9 +709,7 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 
 	@Override
 	public OntologyAnnotationProperty createAnnotationProperty(String propertyName, String prefix) {
-		String fullPropertyName = buildFullEntityString(propertyName, prefix);
-
-		OWLAnnotationProperty owlProperty = owlDataFactory.getOWLAnnotationProperty(fullPropertyName, owlPrefixManager);
+		OWLAnnotationProperty owlProperty = owlDataFactory.getOWLAnnotationProperty(OntologyManagerUtils.buildFullIRIString(propertyName, prefix), owlPrefixManager);
 		OWLDeclarationAxiom owlAxiom = owlDataFactory.getOWLDeclarationAxiom(owlProperty);
 
 		owlOntologyManager.addAxiom(owlOntology, owlAxiom);
@@ -747,19 +739,5 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 		}
 
 		return null;
-	}
-
-	/**
-	 * Builds the full name of an entity, consisting of an optional prefix, followed by a colon and the short name.
-	 * 
-	 * @param name The name of the entity.
-	 * @param prefix The prefix of the entity or an empty string.
-	 * @return The concatinated full name string.
-	 */
-	private String buildFullEntityString(final String name, final String prefix) {
-		if (prefix.isEmpty())
-			return name;
-		else
-			return prefix.concat(StringConstants.COLON + name);
 	}
 }

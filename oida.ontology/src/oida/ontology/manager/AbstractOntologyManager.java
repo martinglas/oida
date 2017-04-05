@@ -20,6 +20,7 @@ import oida.ontology.OntologyIndividual;
 import oida.ontology.OntologyObjectProperty;
 import oida.ontology.OntologyPackage;
 import oida.ontology.manager.context.IGlobalOntologyContext;
+import oida.ontology.manager.util.OntologyManagerUtils;
 import oida.ontologyMgr.OntologyFile;
 import oida.util.constants.StringConstants;
 
@@ -197,13 +198,13 @@ public abstract class AbstractOntologyManager extends EContentAdapter implements
 	}
 
 	@Override
-	public OntologyIndividual getIndividual(String name) {
-		return getIndividual(name, StringConstants.EMPTY);
+	public OntologyIndividual getIndividual(final String name, final String prefix) {
+		return getIndividual(OntologyManagerUtils.buildFullIRIString(name, prefix));
 	}
-
+	
 	@Override
-	public OntologyIndividual getIndividual(String name, String prefix) {
-		Optional<OntologyIndividual> opt = ontology.getIndividuals().stream().filter(cl -> cl.getName().equals(name) && cl.getPrefix().equals(prefix)).findFirst();
+	public OntologyIndividual getIndividual(final String iri) {
+		Optional<OntologyIndividual> opt = ontology.getIndividuals().stream().filter(cl -> cl.getIri().equals(iri)).findFirst();
 
 		if (opt.isPresent())
 			return opt.get();
@@ -217,17 +218,17 @@ public abstract class AbstractOntologyManager extends EContentAdapter implements
 	}
 
 	@Override
-	public boolean isClassExisting(String name) {
+	public boolean isClassExisting(final String name) {
 		return isClassExisting(name, StringConstants.EMPTY);
 	}
 
 	@Override
-	public boolean isClassExisting(String name, String prefix) {
+	public boolean isClassExisting(final String name, final String prefix) {
 		return getClass(name, prefix) != null;
 	}
 
 	@Override
-	public OntologyObjectProperty createObjectProperty(String propertyName) {
+	public OntologyObjectProperty createObjectProperty(final String propertyName) {
 		return createObjectProperty(propertyName, StringConstants.EMPTY);
 	}
 

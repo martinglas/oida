@@ -15,6 +15,7 @@ import oida.ontology.OntologyIndividual;
 import oida.ontology.OntologyNamespace;
 import oida.ontology.OntologyObjectProperty;
 import oida.ontology.OntologyObjectPropertyAssertion;
+import oida.util.constants.StringConstants;
 
 /**
  * 
@@ -32,17 +33,17 @@ public class OntologyManagerUtils {
 		return newOntology;
 	}
 
-	public static OntologyNamespace generateInternalNamespaceObject(Ontology ontology, String prefix, String nsName) {
+	public static OntologyNamespace generateInternalNamespaceObject(Ontology ontology, final String name, final String prefix) {
 		OntologyNamespace newNS = OntologyFactory.eINSTANCE.createOntologyNamespace();
-		setOntologyEntityData(newNS, ontology, nsName, prefix);
+		setOntologyEntityData(newNS, ontology, name, prefix);
 		ontology.getNamespaces().add(newNS);
 
 		return newNS;
 	}
 
-	public static OntologyClass generateInternalClassObject(Ontology ontology, OntologyClass superClass, String prefix, String className) {
+	public static OntologyClass generateInternalClassObject(Ontology ontology, OntologyClass superClass, final String name, final String prefix) {
 		OntologyClass newClass = OntologyFactory.eINSTANCE.createOntologyClass();
-		setOntologyEntityData(newClass, ontology, className, prefix);
+		setOntologyEntityData(newClass, ontology, name, prefix);
 		ontology.getClasses().add(newClass);
 		
 		if (superClass != null) {
@@ -52,18 +53,26 @@ public class OntologyManagerUtils {
 
 		return newClass;
 	}
+	
+	public static OntologyClass generateInternalClassObject(Ontology ontology, OntologyClass superClass, final String iri) {
+		return generateInternalClassObject(ontology, superClass, extractNameFromIRI(iri), extractPrefixFromIRI(iri));
+	}
 
-	public static OntologyIndividual generateInternalIndividualObject(Ontology ontology, String prefix, String individualName) {
+	public static OntologyIndividual generateInternalIndividualObject(Ontology ontology, final String name, final String prefix) {
 		OntologyIndividual newIndividual = OntologyFactory.eINSTANCE.createOntologyIndividual();
-		setOntologyEntityData(newIndividual, ontology, individualName, prefix);
+		setOntologyEntityData(newIndividual, ontology, name, prefix);
 		ontology.getIndividuals().add(newIndividual);
 
 		return newIndividual;
 	}
+	
+	public static OntologyIndividual generateInternalIndividualObject(Ontology ontology, final String iri) {
+		return generateInternalIndividualObject(ontology, extractNameFromIRI(iri), extractPrefixFromIRI(iri));
+	}
 
-	public static OntologyObjectProperty generateInternalObjectPropertyObject(Ontology ontology, OntologyObjectProperty superObjectProperty, String prefix, String propertyName) {
+	public static OntologyObjectProperty generateInternalObjectPropertyObject(Ontology ontology, OntologyObjectProperty superObjectProperty, final String name, final String prefix) {
 		OntologyObjectProperty newProperty = OntologyFactory.eINSTANCE.createOntologyObjectProperty();
-		setOntologyEntityData(newProperty, ontology, propertyName, prefix);
+		setOntologyEntityData(newProperty, ontology, name, prefix);
 		ontology.getObjectProperties().add(newProperty);
 
 		if (superObjectProperty != null) {
@@ -73,10 +82,14 @@ public class OntologyManagerUtils {
 		
 		return newProperty;
 	}
+	
+	public static OntologyObjectProperty generateInternalObjectPropertyObject(Ontology ontology, OntologyObjectProperty superObjectProperty, final String iri) {
+		return generateInternalObjectPropertyObject(ontology, superObjectProperty, extractNameFromIRI(iri), extractPrefixFromIRI(iri));
+	}
 
-	public static OntologyAnnotationProperty generateInternalAnnotationPropertyObject(Ontology ontology, String prefix, String propertyName) {
+	public static OntologyAnnotationProperty generateInternalAnnotationPropertyObject(Ontology ontology, final String name, final String prefix) {
 		OntologyAnnotationProperty property = OntologyFactory.eINSTANCE.createOntologyAnnotationProperty();
-		setOntologyEntityData(property, ontology, propertyName, prefix);
+		setOntologyEntityData(property, ontology, name, prefix);
 
 		return property;
 	}
@@ -101,7 +114,30 @@ public class OntologyManagerUtils {
 
 	public static void setOntologyEntityData(OntologyEntity entity, Ontology ontology, String name, String prefix) {
 		entity.setContainingOntology(ontology);
+		entity.setIri(buildFullIRIString(name, prefix));
 		entity.setName(name);
 		entity.setPrefix(prefix);
+	}
+
+	public static String extractPrefixFromIRI(String iri) {
+		return iri.substring(0, iri.lastIndexOf(StringConstants.COLON));
+	}
+
+	public static String extractNameFromIRI(String iri) {
+		return iri.substring(iri.lastIndexOf(StringConstants.COLON) + 1);
+	}
+	
+	/**
+	 * Builds the full name of an entity, consisting of an optional prefix, followed by a colon and the short name.
+	 * 
+	 * @param name The name of the entity.
+	 * @param prefix The prefix of the entity or an empty string.
+	 * @return The concatinated full name string.
+	 */
+	public static String buildFullIRIString(final String name, final String prefix) {
+		if (prefix.isEmpty())
+			return name;
+		else
+			return prefix.concat(StringConstants.COLON + name);
 	}
 }
