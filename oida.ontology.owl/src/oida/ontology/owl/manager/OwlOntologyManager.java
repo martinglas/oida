@@ -156,7 +156,7 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 				while (iriIt.hasNext())
 					System.out.println(MESSAGE_PREFIX + "Direct Import: " + iriIt.next().toString());
 
-				Ontology o = OntologyManagerUtils.generateInternalOntologyObject(owlOntology.getOntologyID().getOntologyIRI().get().toString(), owlOntology.classesInSignature().count(),
+				Ontology o = OntologyManagerUtils.generateInternalOntologyObject(owlOntology.getOntologyID().getOntologyIRI().get().getIRIString(), owlOntology.classesInSignature().count(),
 						owlOntology.individualsInSignature().count());
 				mapHandler.initializeOntology(owlDataFactory, owlOntology, o);
 
@@ -170,9 +170,8 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 			} catch (OWLOntologyCreationException e) {
 				throw new OntologyManagerException(MESSAGE_PREFIX + "Error while loading ontology from file '" + file.getName() + "': " + e.getMessage(), e);
 			}
-		} else {
+		} else
 			throw new OntologyManagerException(MESSAGE_PREFIX + "Error while loading ontology: File doesn't exist.");
-		}
 	}
 
 	@Override
@@ -236,7 +235,7 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 			return;
 
 		OWLOntology owlOntology = optOwlOntology.get();
-
+		
 		List<OWLClass> allClasses = owlOntology.classesInSignature(imports).collect(Collectors.toList());
 
 		// Generate internal class objects for all OWL-classes as subclass of Thing:
