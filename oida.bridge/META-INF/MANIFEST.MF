@@ -13,7 +13,11 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.e4.core.contexts,
  org.eclipse.emf.ecore,
  org.eclipse.equinox.registry,
- org.eclipse.osgi
+ org.eclipse.osgi,
+ oida.ontology.model.edit,
+ org.eclipse.emf.common,
+ oida.bridge.model,
+ oida.bridge.model.edit
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Export-Package: oida.bridge.model,

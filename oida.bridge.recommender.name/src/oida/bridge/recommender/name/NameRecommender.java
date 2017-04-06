@@ -1,12 +1,19 @@
 package oida.bridge.recommender.name;
 
+import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
+import java.util.Optional;
+import java.util.stream.Collectors;
 
 import org.eclipse.emf.common.notify.Notification;
 
+import bridgemodel.BridgemodelFactory;
+import bridgemodel.Recommendation;
 import oida.bridge.recommend.AbstractRecommender;
 import oida.ontology.Ontology;
+import oida.ontology.OntologyClass;
 import oida.ontology.OntologyEntity;
 import oida.ontology.OntologyIndividual;
 import oida.ontology.OntologyPackage;
@@ -17,6 +24,7 @@ import oida.ontology.OntologyPackage;
  *
  */
 public class NameRecommender extends AbstractRecommender {
+	private final String NAME = "Name Recommender";
 	private Map<String, OntologyEntity> names = new HashMap<String, OntologyEntity>();
 
 	@Override
@@ -32,13 +40,22 @@ public class NameRecommender extends AbstractRecommender {
 	}
 
 	@Override
-	public OntologyEntity findRecommendationsForSelectedModelElement(OntologyEntity selectedModelElement) {
+	public List<Recommendation> findRecommendationsForSelectedModelElement(OntologyEntity selectedModelElement) {
+		List<Recommendation> recommendations = new ArrayList<Recommendation>();
+
 		String selectedElementName = selectedModelElement.getName();
 
-		if (names.containsKey(selectedElementName))
-			return names.get(selectedElementName);
+		List<OntologyClass> recommendedClasses = getReferenceOntology().getClasses().stream().filter(c -> c.getName().contains(selectedElementName)).collect(Collectors.toList());
 
-		return null;
+		for (OntologyClass c: recommendedClasses) {
+			Recommendation r = BridgemodelFactory.eINSTANCE.createRecommendation();
+			r.setRecommendedEntity(c);
+			r.setRecommenderName(NAME);
+			r.setRecommenderMessage("'" + c.getName() + "' contains '" + selectedElementName + "'");
+			recommendations.add(r);
+		}
+
+		return recommendations;
 	}
 
 	@Override

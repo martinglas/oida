@@ -13,22 +13,98 @@
         <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oida.ecore#//ontologyMgr/Library/creationDate"/>
         <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference oida.ecore#//ontologyMgr/Library/ontologies"/>
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
-            ecoreFeature="ecore:EReference oida.ecore#//ontologyMgr/Library/activeOntology"/>
+            ecoreFeature="ecore:EReference oida.ecore#//ontologyMgr/Library/referenceOntology"/>
       </genClasses>
-      <genClasses ecoreClass="oida.ecore#//ontologyMgr/LocalOntology">
-        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oida.ecore#//ontologyMgr/LocalOntology/path"/>
-        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oida.ecore#//ontologyMgr/LocalOntology/file"/>
-        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oida.ecore#//ontologyMgr/LocalOntology/maintenanceFile"/>
+      <genClasses ecoreClass="oida.ecore#//ontologyMgr/LocalReferenceOntologyFileSet">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oida.ecore#//ontologyMgr/LocalReferenceOntologyFileSet/maintenanceFileName"/>
       </genClasses>
-      <genClasses ecoreClass="oida.ecore#//ontologyMgr/GitRepoOntology">
-        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oida.ecore#//ontologyMgr/GitRepoOntology/repoURL"/>
-        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oida.ecore#//ontologyMgr/GitRepoOntology/gitUsername"/>
-        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oida.ecore#//ontologyMgr/GitRepoOntology/gitPassword"/>
+      <genClasses ecoreClass="oida.ecore#//ontologyMgr/GitRepoOntologyEntry">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oida.ecore#//ontologyMgr/GitRepoOntologyEntry/repoURL"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oida.ecore#//ontologyMgr/GitRepoOntologyEntry/gitUsername"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oida.ecore#//ontologyMgr/GitRepoOntologyEntry/gitPassword"/>
       </genClasses>
-      <genClasses ecoreClass="oida.ecore#//ontologyMgr/ManagedOntology">
-        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oida.ecore#//ontologyMgr/ManagedOntology/IsConsistent"/>
+      <genClasses ecoreClass="oida.ecore#//ontologyMgr/OntologyFile">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oida.ecore#//ontologyMgr/OntologyFile/path"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oida.ecore#//ontologyMgr/OntologyFile/fileName"/>
         <genFeatures notify="false" createChild="false" propertySortChoices="true"
-            ecoreFeature="ecore:EReference oida.ecore#//ontologyMgr/ManagedOntology/LocalOntology"/>
+            ecoreFeature="ecore:EReference oida.ecore#//ontologyMgr/OntologyFile/managedOntology"/>
+      </genClasses>
+    </nestedGenPackages>
+    <nestedGenPackages prefix="Ontology" disposableProviderFactory="true" ecorePackage="oida.ecore#//ontology">
+      <genClasses ecoreClass="oida.ecore#//ontology/OntologyItem">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference oida.ecore#//ontology/OntologyItem/containingOntology"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oida.ecore#//ontology/OntologyItem/iri"/>
+      </genClasses>
+      <genClasses ecoreClass="oida.ecore#//ontology/Ontology">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oida.ecore#//ontology/Ontology/name"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference oida.ecore#//ontology/Ontology/namespaces"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference oida.ecore#//ontology/Ontology/imports"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference oida.ecore#//ontology/Ontology/classes"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference oida.ecore#//ontology/Ontology/classHierarchy"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference oida.ecore#//ontology/Ontology/individuals"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference oida.ecore#//ontology/Ontology/objectPropertyHierarchy"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference oida.ecore#//ontology/Ontology/objectProperties"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference oida.ecore#//ontology/Ontology/annotationproperties"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oida.ecore#//ontology/Ontology/nrOfClasses"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oida.ecore#//ontology/Ontology/nrOfIndividuals"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oida.ecore#//ontology/Ontology/nrOfObjectProperties"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference oida.ecore#//ontology/Ontology/ontologyFile"/>
+      </genClasses>
+      <genClasses ecoreClass="oida.ecore#//ontology/OntologyEntity">
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oida.ecore#//ontology/OntologyEntity/name"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oida.ecore#//ontology/OntologyEntity/prefix"/>
+        <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference oida.ecore#//ontology/OntologyEntity/annotations"/>
+      </genClasses>
+      <genClasses ecoreClass="oida.ecore#//ontology/OntologyNamespace"/>
+      <genClasses ecoreClass="oida.ecore#//ontology/OntologyClass">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference oida.ecore#//ontology/OntologyClass/individuals"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference oida.ecore#//ontology/OntologyClass/superClasses"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference oida.ecore#//ontology/OntologyClass/subClasses"/>
+      </genClasses>
+      <genClasses ecoreClass="oida.ecore#//ontology/OntologyIndividual">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference oida.ecore#//ontology/OntologyIndividual/types"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference oida.ecore#//ontology/OntologyIndividual/objectPropertyAssertions"/>
+      </genClasses>
+      <genClasses ecoreClass="oida.ecore#//ontology/OntologyObjectProperty">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference oida.ecore#//ontology/OntologyObjectProperty/superObjectProperties"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference oida.ecore#//ontology/OntologyObjectProperty/subObjectProperties"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference oida.ecore#//ontology/OntologyObjectProperty/inverseObjectProperties"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference oida.ecore#//ontology/OntologyObjectProperty/range"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference oida.ecore#//ontology/OntologyObjectProperty/domain"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oida.ecore#//ontology/OntologyObjectProperty/functional"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oida.ecore#//ontology/OntologyObjectProperty/inverseFunctional"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oida.ecore#//ontology/OntologyObjectProperty/transitive"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oida.ecore#//ontology/OntologyObjectProperty/symmetric"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oida.ecore#//ontology/OntologyObjectProperty/asymmetric"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oida.ecore#//ontology/OntologyObjectProperty/reflexive"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oida.ecore#//ontology/OntologyObjectProperty/irreflexive"/>
+      </genClasses>
+      <genClasses ecoreClass="oida.ecore#//ontology/OntologyObjectPropertyAssertion">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference oida.ecore#//ontology/OntologyObjectPropertyAssertion/objectProperty"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference oida.ecore#//ontology/OntologyObjectPropertyAssertion/object"/>
+      </genClasses>
+      <genClasses ecoreClass="oida.ecore#//ontology/OntologyAnnotationProperty"/>
+      <genClasses ecoreClass="oida.ecore#//ontology/OntologyAnnotation">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference oida.ecore#//ontology/OntologyAnnotation/annotationproperty"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute oida.ecore#//ontology/OntologyAnnotation/value"/>
       </genClasses>
     </nestedGenPackages>
   </genPackages>

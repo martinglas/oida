@@ -46,7 +46,7 @@ public interface IOntologyManager {
 	void setOntologyFile(OntologyFile ontologyFile);
 	OntologyFile getOntologyFile();
 	
-	void clearOntology();
+	void clearOntologyManager();
 	
 	void initializeReasoner();
 	

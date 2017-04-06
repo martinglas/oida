@@ -30,7 +30,7 @@ public abstract class AbstractPredefinedOntology implements IPredefinedOntology 
 	public void loadOrInitializeOntology(IOntologyManager ontologyManager) throws OntologyManagerException {
 		setOntologyManager(ontologyManager);
 		if (!checkPreDefinedOntology(ontologyManager.getOntology())) {
-			ontologyManager.clearOntology();
+			ontologyManager.clearOntologyManager();
 			initializeOntology(ontologyManager);
 		}
 	}

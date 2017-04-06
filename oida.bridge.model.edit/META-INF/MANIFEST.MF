@@ -4,7 +4,7 @@ Bundle-Name: %pluginName
 Bundle-SymbolicName: oida.bridge.model.edit;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-ClassPath: .
-Bundle-Activator: bridgemodel.provider.BridgemodelEditPlugin$Implementation
+Bundle-Activator: bridgemodel.provider.BridgeModelEditPlugin$Implementation
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8

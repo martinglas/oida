@@ -7,7 +7,6 @@ import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
-import com.google.inject.Inject;
 import com.google.inject.Injector;
 
 import bridgemodel.BridgemodelPackage;
@@ -15,21 +14,21 @@ import oida.bridge.service.IOIDABridge;
 import oida.bridge.ui.RecommendationsView.RecommendationsViewInjectorProvider;
 
 public class RecommendationsViewPart {
-	public static final String PART_ID = "oida.bridge.ui.e4.part.oidamappingrecommendations";
+	public static final String PART_ID = "oida.bridge.ui.e4.partdescriptor.oidamap";
 	
 	private TableViewer tableViewer;
 	
-	@Inject
-	IOIDABridge oidaBridge;
+	//@Inject
+	//private IOIDABridge oidaBridge;
 	
 	@PostConstruct
-	public void postConstruct(Composite parent) {
+	public void postConstruct(Composite parent, IOIDABridge oidaBridge) {
 		Injector injector = RecommendationsViewInjectorProvider.getInjector();
 		ViewerFactory viewerFactory = injector.getInstance(ViewerFactory.class);
 		
 		tableViewer = viewerFactory.createTableViewer(parent, SWT.BORDER | SWT.FULL_SELECTION, BridgemodelPackage.eINSTANCE.getRecommendation());
 
-		tableViewer.setInput(null); //oidaBridge.getCurrentRecommendations());
+		tableViewer.setInput(oidaBridge.getCurrentRecommendationsResource()); //oidaBridge.getCurrentRecommendations());
 //
 //		tableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 //			@Override

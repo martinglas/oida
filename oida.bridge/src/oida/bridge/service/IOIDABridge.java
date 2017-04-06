@@ -8,6 +8,7 @@ package oida.bridge.service;
 import java.io.File;
 
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
 
 /**
  * The OIDA bridge is the interface for model handling applications to OIDA.
@@ -63,5 +64,12 @@ public interface IOIDABridge {
 	 * @param modelObject The observed model.
 	 * @param firstSelectedElement The first selected model element.
 	 */
-	void reportModelSelectionChanged(EObject modelObject, Object firstSelectedElement);
+	void reportModelSelectionChanged(EObject modelObject, EObject firstSelectedElement);
+	
+	/**
+	 * Provides ontology entity recommendations for the currently selected model element.
+	 * 
+	 * @return Resource object containing recommendations.
+	 */
+	Resource getCurrentRecommendationsResource();
 }

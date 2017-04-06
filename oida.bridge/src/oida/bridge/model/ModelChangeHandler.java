@@ -3,8 +3,6 @@ package oida.bridge.model;
 import java.util.HashMap;
 import java.util.List;
 
-import javax.inject.Inject;
-
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EClass;
@@ -16,13 +14,13 @@ import oida.bridge.model.helper.Extractor;
 import oida.bridge.model.renamer.IRenamerStrategy;
 import oida.bridge.model.renamer.IStructuringStrategy;
 import oida.bridge.service.IOIDABridge.OntologyObjectProperties;
+import oida.ontology.OntologyAnnotationProperty;
 import oida.ontology.OntologyClass;
 import oida.ontology.OntologyEntity;
 import oida.ontology.OntologyIndividual;
 import oida.ontology.OntologyObjectPropertyAssertion;
 import oida.ontology.manager.IOntologyManager;
 import oida.ontology.manager.OntologyManagerException;
-import oida.ontology.service.IOIDAOntologyService;
 
 /**
  * 
@@ -36,8 +34,9 @@ public class ModelChangeHandler extends AbstractModelChangeHandler {
 	private final String SYMO_MODELONT_NS = "http://oida.local.";
 	private final String MODELONT_PREFIX = "modont";
 
+	//private OntologyAnnotationProperty emfNameAnnotationProperty;
+	
 	private HashMap<EObject, OntologyEntity> emfToOntologyMap = new HashMap<EObject, OntologyEntity>();
-	private IRenamerStrategy renamerStrategy;
 
 	private EObject modelObject;
 
@@ -51,7 +50,7 @@ public class ModelChangeHandler extends AbstractModelChangeHandler {
 		this.modelObject.eAdapters().add(this);
 
 		emfToOntologyMap.clear();
-		this.renamerStrategy = renamerStrategy;
+		setRenamerStrategy(renamerStrategy);
 
 		setStructuringStrategy(structuringStrategy);
 
@@ -146,7 +145,7 @@ public class ModelChangeHandler extends AbstractModelChangeHandler {
 					System.out.println(MSG_PREFIX + "ToDo: Change property!" + notification.getFeature().toString());
 					break;
 				case RENAME_INDIVIDUAL:
-					getModelOntologyManager().renameEntity(emfToOntologyMap.get(notification.getNotifier()), renamerStrategy.getEObjectName((EObject)notification.getNotifier()));
+					getModelOntologyManager().renameEntity(emfToOntologyMap.get(notification.getNotifier()), getRenamerStrategy().getEObjectName((EObject)notification.getNotifier()));
 					System.out.println(MSG_PREFIX + "Renamed individual: " + notification.getNotifier().toString());
 					break;
 				default:
@@ -167,7 +166,7 @@ public class ModelChangeHandler extends AbstractModelChangeHandler {
 
 	private OntologyClass createOntologyClassHierarchyForModelElement(EClass eClass, IOntologyManager ontologyManager) {
 		if (!emfToOntologyMap.containsKey(eClass)) {
-			OntologyClass oCl = ontologyManager.createClass(renamerStrategy.getEClassName(eClass), MODELONT_PREFIX);
+			OntologyClass oCl = ontologyManager.createClass(getRenamerStrategy().getEClassName(eClass), MODELONT_PREFIX);
 			emfToOntologyMap.put(eClass, oCl);
 			System.out.println(MSG_PREFIX + "Class created: '" + oCl.getName() + "'.");
 
@@ -183,7 +182,7 @@ public class ModelChangeHandler extends AbstractModelChangeHandler {
 
 	private OntologyIndividual createIndividualForModelElement(OntologyClass ontologyClass, EObject newValue, IOntologyManager ontologyManager) {
 		if (!emfToOntologyMap.containsKey(newValue)) {
-			OntologyIndividual oIn = ontologyManager.createIndividualOfClass(renamerStrategy.getEObjectName(newValue), MODELONT_PREFIX, ontologyClass);
+			OntologyIndividual oIn = ontologyManager.createIndividualOfClass(getRenamerStrategy().getEObjectName(newValue), MODELONT_PREFIX, ontologyClass);
 			emfToOntologyMap.put(newValue, oIn);
 			System.out.println(MSG_PREFIX + "Individual created: '" + oIn.getName() + "'.");
 			return oIn;
@@ -214,4 +213,8 @@ public class ModelChangeHandler extends AbstractModelChangeHandler {
 		} else
 			return null;
 	}
+	
+	public OntologyEntity getOntologyEntityForModelElement(EObject modelElement) {
+		return getModelOntologyManager().getIndividual(getRenamerStrategy().getEObjectName(modelElement), MODELONT_PREFIX);
+	} 
 }

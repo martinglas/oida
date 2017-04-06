@@ -23,6 +23,8 @@ import oida.util.constants.FileConstants;
 public abstract class AbstractOIDAOntologyService extends EContentAdapter implements IOIDAOntologyService {
 	public static final String MSG_PREFIX = "OIDA Ontology Service: ";
 
+	private IOntologyManager referenceOntologyManager;
+	
 	private Mereology mereology;
 	
 	public AbstractOIDAOntologyService() {
@@ -47,5 +49,14 @@ public abstract class AbstractOIDAOntologyService extends EContentAdapter implem
 		}
 			
 		return mereology;
+	}
+	
+	
+	public IOntologyManager getReferenceOntologyManager() {
+		return referenceOntologyManager;
+	}
+	
+	protected void setReferenceOntologyManager(IOntologyManager ontologyManager) {
+		this.referenceOntologyManager = ontologyManager;
 	}
 }

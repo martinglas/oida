@@ -1,5 +1,8 @@
 package oida.bridge.recommend;
 
+import java.util.List;
+
+import bridgemodel.Recommendation;
 import oida.ontology.Ontology;
 import oida.ontology.OntologyEntity;
 
@@ -23,5 +26,5 @@ public interface IRecommender {
 	 * @param selectedModelElement The currently selected model element for which the mapping recommendations should be found.
 	 * @return Potential ontology entities, which can be mapped.
 	 */
-	OntologyEntity findRecommendationsForSelectedModelElement(final OntologyEntity selectedModelElement);
+	List<Recommendation> findRecommendationsForSelectedModelElement(final OntologyEntity selectedModelElement);
 }

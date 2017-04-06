@@ -15,8 +15,16 @@ import javax.inject.Singleton;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.e4.core.di.annotations.Creatable;
+import org.eclipse.emf.common.command.BasicCommandStack;
 import org.eclipse.emf.ecore.EObject;
+import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
+import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
+import org.eclipse.emf.edit.provider.resource.ResourceItemProviderAdapterFactory;
 
+import bridgemodel.BridgemodelFactory;
+import bridgemodel.RecommendationSet;
+import bridgemodel.provider.BridgemodelItemProviderAdapterFactory;
 import oida.bridge.Activator;
 import oida.bridge.model.IModelChangeHandler;
 import oida.bridge.model.ModelChangeHandler;
@@ -40,25 +48,27 @@ import oida.util.OIDAUtil;
 @Singleton
 public final class OIDABridge implements IOIDABridge {
 	private final String MSG_PREFIX = "OIDA Bridge: ";
-	
+
 	private Map<EObject, IModelChangeHandler> modelHandlerMap = new HashMap<EObject, IModelChangeHandler>();
 
 	private List<IRecommender> recommender;
-	
+
 	private IRenamerStrategy renamerStrategy;
 	private IStructuringStrategy structuringStrategy;
 
+	private Resource currentRecommendationsResource;
+
 	@Inject
-	private IOIDAOntologyService oidaOntologyService;
+	IOIDAOntologyService oidaOntologyService;
 
 	public OIDABridge() {
 		System.out.println(MSG_PREFIX + "Initializing service...");
 		modelHandlerMap.clear();
-		
+
 		System.out.println(MSG_PREFIX + "Evaluating model change handler renamer strategy extensions.");
 		try {
 			renamerStrategy = ExtensionPointUtil.loadSingleExtension(Activator.getExtensionRegistry(), IRenamerStrategy.class, Activator.OIDA_MODEL_RENAMERSTRATEGY);
-			
+
 			if (renamerStrategy != null)
 				System.out.println(MSG_PREFIX + "Renamer strategy set: '" + renamerStrategy.getClass().getName() + "'.");
 			else
@@ -67,11 +77,11 @@ public final class OIDABridge implements IOIDABridge {
 			System.out.println(MSG_PREFIX + "Error while evaluating renamer strategy extension point.");
 			e.printStackTrace();
 		}
-		
+
 		System.out.println(MSG_PREFIX + "Evaluating model change handler structuring strategy extensions.");
 		try {
 			structuringStrategy = ExtensionPointUtil.loadSingleExtension(Activator.getExtensionRegistry(), IStructuringStrategy.class, Activator.OIDA_MODEL_STRUCTURINGSTRATEGY);
-			
+
 			if (structuringStrategy != null)
 				System.out.println(MSG_PREFIX + "Structuring strategy set: '" + structuringStrategy.getClass().getName() + "'.");
 			else
@@ -80,7 +90,7 @@ public final class OIDABridge implements IOIDABridge {
 			System.out.println(MSG_PREFIX + "Error while evaluating structuring strategy extension point.");
 			e.printStackTrace();
 		}
-		
+
 		try {
 			recommender = ExtensionPointUtil.loadExtensions(Activator.getExtensionRegistry(), IRecommender.class, Activator.OIDA_RECOMMENDER_EXTENSIONPOINT_ID);
 		} catch (CoreException e) {
@@ -89,7 +99,16 @@ public final class OIDABridge implements IOIDABridge {
 
 		for (IRecommender r : recommender)
 			System.out.println(MSG_PREFIX + "Recommender registered: " + r.toString() + ".");
-		
+
+		BridgemodelItemProviderAdapterFactory adapterFactory = new BridgemodelItemProviderAdapterFactory();
+
+		ComposedAdapterFactory composedAdapterFactory = new ComposedAdapterFactory(adapterFactory);
+		composedAdapterFactory.addAdapterFactory(new ResourceItemProviderAdapterFactory());
+
+		AdapterFactoryEditingDomain editingDomain = new AdapterFactoryEditingDomain(composedAdapterFactory, new BasicCommandStack());
+		currentRecommendationsResource = editingDomain.createResource("http://de.oida/bridge/currentrecommendations");
+		currentRecommendationsResource.getContents().add(BridgemodelFactory.eINSTANCE.createRecommendationSet());
+
 		System.out.println(MSG_PREFIX + "Service registered.");
 	}
 
@@ -97,16 +116,17 @@ public final class OIDABridge implements IOIDABridge {
 	public void invokeModelObservation(final EObject modelObject, final File modelOntologyDirectory, final String modelObjectId) throws OIDABridgeException {
 		if (renamerStrategy == null)
 			throw new OIDABridgeException(MSG_PREFIX + "No renamer strategy found. Model won't be observed.");
-		
+
 		if (modelOntologyDirectory == null)
 			throw new OIDABridgeException(MSG_PREFIX + "No directory for a model ontology has been passed. Model won't be observed.");
 
 		if (!modelOntologyDirectory.exists())
-			 if (!modelOntologyDirectory.mkdirs())
-				 throw new OIDABridgeException(MSG_PREFIX + "The directory for the model ontology doesn't exist/could not be created ['" + modelOntologyDirectory.toString() + "']. Model won't be observed.");
-		
+			if (!modelOntologyDirectory.mkdirs())
+				throw new OIDABridgeException(
+						MSG_PREFIX + "The directory for the model ontology doesn't exist/could not be created ['" + modelOntologyDirectory.toString() + "']. Model won't be observed.");
+
 		File modelOntologyFile = new File(modelOntologyDirectory, generateModelOntologyFileName(modelObjectId));
-		
+
 		try {
 			OntologyFile ontologyfile = OIDAUtil.getOntologyFile(modelOntologyFile);
 			IOntologyManager modelOntologyManager = oidaOntologyService.getOntologyManager(ontologyfile, false);
@@ -123,6 +143,10 @@ public final class OIDABridge implements IOIDABridge {
 
 			changeHandler.setRenamerStrategy(renamerStrategy);
 			modelHandlerMap.put(changeHandler.getModelObject(), changeHandler);
+			
+			for (IRecommender rec : recommender) {
+				rec.initializeRecommenderForModel(modelOntologyManager.getOntology(), oidaOntologyService.getReferenceOntologyManager().getOntology());
+			}
 		} catch (OntologyManagerException e) {
 			throw new OIDABridgeException(MSG_PREFIX + "Could not create a model ontology.", e);
 		}
@@ -143,16 +167,25 @@ public final class OIDABridge implements IOIDABridge {
 		modelHandlerMap.get(modelObject).closeModelOntology();
 		modelHandlerMap.remove(modelObject);
 	}
-	
+
 	@Override
-	public void reportModelSelectionChanged(EObject modelObject, Object firstSelectedElement) {
-		System.out.println(MSG_PREFIX + "TODO... Selection changed!");
+	public void reportModelSelectionChanged(EObject modelObject, EObject firstSelectedElement) {
+		RecommendationSet recSet = (RecommendationSet)currentRecommendationsResource.getContents().get(0);
+		recSet.getRecommendations().clear();
+		
+		for (IRecommender rec : recommender)
+			recSet.getRecommendations().addAll(rec.findRecommendationsForSelectedModelElement(modelHandlerMap.get(modelObject).getOntologyEntityForModelElement(firstSelectedElement)));
 	}
-	
+
 	private String generateModelOntologyFileName(String modelObjectId) throws OIDABridgeException {
 		if (oidaOntologyService.getLibrary().getReferenceOntology() == null)
 			throw new OIDABridgeException(MSG_PREFIX + "No reference ontology set. Model won't be observed.");
-		
+
 		return modelObjectId + "_" + oidaOntologyService.getLibrary().getReferenceOntology().getFileName();
+	}
+
+	@Override
+	public Resource getCurrentRecommendationsResource() {
+		return currentRecommendationsResource;
 	}
 }

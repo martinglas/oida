@@ -120,11 +120,11 @@ public class OntologyManagerUtils {
 	}
 
 	public static String extractPrefixFromIRI(String iri) {
-		return iri.substring(0, iri.lastIndexOf(StringConstants.COLON));
+		return iri.substring(0, iri.lastIndexOf(StringConstants.HASHTAG));
 	}
 
 	public static String extractNameFromIRI(String iri) {
-		return iri.substring(iri.lastIndexOf(StringConstants.COLON) + 1);
+		return iri.substring(iri.lastIndexOf(StringConstants.HASHTAG) + 1);
 	}
 	
 	/**
@@ -138,6 +138,6 @@ public class OntologyManagerUtils {
 		if (prefix.isEmpty())
 			return name;
 		else
-			return prefix.concat(StringConstants.COLON + name);
+			return prefix.concat(StringConstants.HASHTAG + name);
 	}
 }

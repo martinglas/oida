@@ -8,6 +8,7 @@ package oida.ontology.owl.manager.util;
 import java.util.HashMap;
 import java.util.Optional;
 
+import org.semanticweb.owlapi.model.OWLAnnotation;
 import org.semanticweb.owlapi.model.OWLAnnotationProperty;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLDataFactory;
@@ -18,6 +19,7 @@ import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLOntology;
 
 import oida.ontology.Ontology;
+import oida.ontology.OntologyAnnotation;
 import oida.ontology.OntologyClass;
 import oida.ontology.OntologyEntity;
 import oida.ontology.OntologyIndividual;
@@ -34,6 +36,9 @@ import oida.ontology.manager.util.OntologyManagerUtils;
 public final class OwlOntologyManagerMapHandler {
 	private HashMap<String, OWLObject> owlAPIMap;
 	private HashMap<String, OntologyItem> internalAPIMap;
+	
+	private HashMap<OWLAnnotation, OntologyAnnotation> owlToInternalAnnotationMap;
+	private HashMap<OntologyAnnotation, OWLAnnotation> internalToOwlAnnotationMap;
 
 	private OWLClass owlThingClass;
 	private OntologyClass thingClass;
@@ -63,6 +68,8 @@ public final class OwlOntologyManagerMapHandler {
 	public OwlOntologyManagerMapHandler() {
 		owlAPIMap = new HashMap<String, OWLObject>();
 		internalAPIMap = new HashMap<String, OntologyItem>();
+		owlToInternalAnnotationMap = new HashMap<OWLAnnotation, OntologyAnnotation>();
+		internalToOwlAnnotationMap = new HashMap<OntologyAnnotation, OWLAnnotation>();
 	}
 
 	public void initializeOntology(OWLDataFactory owlDataFactory, OWLOntology owlOntology, Ontology ontology) {
@@ -80,9 +87,6 @@ public final class OwlOntologyManagerMapHandler {
 				owlTopObjectProperty.getIRI().getIRIString());
 		toMap(owlTopObjectProperty, topObjectProperty);
 		ontology.setObjectPropertyHierarchy(topObjectProperty);
-
-		internalAPIMap.put(owlOntology.getOntologyID().getOntologyIRI().toString(), ontology);
-		owlAPIMap.put(owlOntology.getOntologyID().getOntologyIRI().toString(), owlOntology);
 	}
 
 	/**
@@ -196,11 +200,11 @@ public final class OwlOntologyManagerMapHandler {
 	 * @return The OntologyClass object, or null, if it is not existing.
 	 */
 	public Optional<OntologyClass> getInternalClass(final OWLClass c, final Ontology o) {
-		if (c.getIRI().equals(owlThingClass.getIRI().getIRIString()))
-			return Optional.of(o.getClassHierarchy());
+//		if (c.getIRI().equals(owlThingClass.getIRI().getIRIString()))
+//			return Optional.of(o.getClassHierarchy());
 
-		if (internalAPIMap.containsKey(c) && internalAPIMap.get(c) instanceof OntologyClass)
-			return Optional.of((OntologyClass) internalAPIMap.get(c));
+		if (internalAPIMap.containsKey(c.getIRI().getIRIString()) && internalAPIMap.get(c.getIRI().getIRIString()) instanceof OntologyClass)
+			return Optional.of((OntologyClass)internalAPIMap.get(c.getIRI().getIRIString()));
 
 		return Optional.empty();
 	}
@@ -236,8 +240,8 @@ public final class OwlOntologyManagerMapHandler {
 	 *         existing.
 	 */
 	public Optional<OntologyObjectProperty> getInternalObjectProperty(final OWLObjectProperty p, final Ontology o) {
-		if (p.getIRI().getIRIString().equals(owlTopObjectProperty.getIRI().getIRIString()))
-			return Optional.of(o.getObjectPropertyHierarchy());
+//		if (p.getIRI().getIRIString().equals(owlTopObjectProperty.getIRI().getIRIString()))
+//			return Optional.of(o.getObjectPropertyHierarchy());
 
 		if (internalAPIMap.containsKey(p.getIRI().getIRIString())
 				&& internalAPIMap.get(p.getIRI().getIRIString()) instanceof OntologyObjectProperty)
@@ -260,8 +264,13 @@ public final class OwlOntologyManagerMapHandler {
 		// The thing class and the top object property are not put in the
 		// api-to-internal map, since there may exist more internal class/object
 		// property objects for them:
-		if (apiObj != owlThingClass && apiObj != owlTopObjectProperty)
+		//if (apiObj != owlThingClass && apiObj != owlTopObjectProperty)
 			internalAPIMap.put(apiObj.getIRI().getIRIString(), internalObj);
+	}
+	
+	public void toMap(OWLAnnotation owlAnnotation, OntologyAnnotation internalAnnotationObj) {
+		owlToInternalAnnotationMap.put(owlAnnotation, internalAnnotationObj);
+		internalToOwlAnnotationMap.put(internalAnnotationObj, owlAnnotation);
 	}
 
 	/**

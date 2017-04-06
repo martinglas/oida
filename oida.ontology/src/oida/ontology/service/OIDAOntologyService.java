@@ -99,7 +99,7 @@ public final class OIDAOntologyService extends AbstractOIDAOntologyService imple
 
 		if (getLibrary().getReferenceOntology() != null) {
 			System.out.println(MSG_PREFIX + "Loading reference ontology...");
-			getOntologyManager(getLibrary().getReferenceOntology(), true);
+			setReferenceOntologyManager(getOntologyManager(getLibrary().getReferenceOntology(), true));
 		} else
 			System.out.println(MSG_PREFIX + "No reference ontology set.");
 
@@ -144,7 +144,7 @@ public final class OIDAOntologyService extends AbstractOIDAOntologyService imple
 	public void notifyChanged(Notification notification) {
 		if (notification.getFeature() != null) {
 			if (notification.getFeature() == OntologyMgrPackage.eINSTANCE.getLibrary_ReferenceOntology()) {
-				getOntologyManager((OntologyFile)notification.getNewValue(), true);
+				setReferenceOntologyManager(getOntologyManager((OntologyFile)notification.getNewValue(), true));
 			}
 		}
 	}

@@ -8,4 +8,5 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: oida.ontology,
  org.eclipse.emf.common.notify,
  org.eclipse.emf.ecore.util
-Require-Bundle: oida.bridge;bundle-version="1.0.0"
+Require-Bundle: oida.bridge;bundle-version="1.0.0",
+ oida.bridge.model

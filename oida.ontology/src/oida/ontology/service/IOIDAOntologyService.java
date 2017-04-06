@@ -27,6 +27,8 @@ public interface IOIDAOntologyService {
 	Resource getLibraryResource();
 
 	Resource getManagedOntologiesResource();
+	
+	public IOntologyManager getReferenceOntologyManager();
 
 	public EditingDomain getEditingDomain();
 	
