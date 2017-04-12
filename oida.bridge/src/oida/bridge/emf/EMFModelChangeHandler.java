@@ -1,4 +1,4 @@
-package oida.bridge.model;
+package oida.bridge.emf;
 
 import java.util.HashMap;
 import java.util.List;
@@ -10,17 +10,19 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
+import oida.bridge.model.AbstractModelChangeHandler;
 import oida.bridge.model.helper.Extractor;
 import oida.bridge.model.renamer.IRenamerStrategy;
 import oida.bridge.model.renamer.IStructuringStrategy;
 import oida.bridge.service.IOIDABridge.OntologyObjectProperties;
-import oida.ontology.OntologyAnnotationProperty;
 import oida.ontology.OntologyClass;
 import oida.ontology.OntologyEntity;
 import oida.ontology.OntologyIndividual;
+import oida.ontology.OntologyObjectProperty;
 import oida.ontology.OntologyObjectPropertyAssertion;
 import oida.ontology.manager.IOntologyManager;
 import oida.ontology.manager.OntologyManagerException;
+import oida.util.constants.StringConstants;
 
 /**
  * 
@@ -28,20 +30,24 @@ import oida.ontology.manager.OntologyManagerException;
  * @since 2017-03-07
  *
  */
-public class ModelChangeHandler extends AbstractModelChangeHandler {
+public class EMFModelChangeHandler extends AbstractModelChangeHandler {
 	private final String MSG_PREFIX = "OIDA Model change handler: ";
 
 	private final String SYMO_MODELONT_NS = "http://oida.local.";
 	private final String MODELONT_PREFIX = "modont";
-
-	//private OntologyAnnotationProperty emfNameAnnotationProperty;
 	
 	private HashMap<EObject, OntologyEntity> emfToOntologyMap = new HashMap<EObject, OntologyEntity>();
 
 	private EObject modelObject;
+	
+	private EMFModelOntology emfModelOntology;
 
 	public EObject getModelObject() {
 		return modelObject;
+	}
+	
+	public EMFModelChangeHandler(EMFModelOntology emfModelOntology) {
+		this.emfModelOntology = emfModelOntology;
 	}
 
 	@Override
@@ -54,6 +60,13 @@ public class ModelChangeHandler extends AbstractModelChangeHandler {
 
 		setStructuringStrategy(structuringStrategy);
 
+		try {
+			getModelOntologyManager().addImportDeclaration(emfModelOntology.getOntologyManager().getOntology());
+		} catch (OntologyManagerException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
+		}
+		
 		generateLocalNamespace();
 		generateOntologyClasses();
 		generateIndividuals();
@@ -81,8 +94,12 @@ public class ModelChangeHandler extends AbstractModelChangeHandler {
 	 * This methods generates ontology classes representing model classes which have instance objects in the model.
 	 */
 	private void generateOntologyClasses() {
-		for (EClass eClass : Extractor.getAllClassesOfInstanceEObjects(modelObject))
+		List<EClass> allEClasses =  Extractor.getAllClassesOfInstanceEObjects(modelObject);
+		for (EClass eClass : allEClasses)
 			createOntologyClassHierarchyForModelElement(eClass, getModelOntologyManager());
+		
+		for (EClass eClass : allEClasses)
+			createOntologyObjectPropertiesForModelClassReference(eClass, getModelOntologyManager());
 	}
 
 	/**
@@ -198,6 +215,27 @@ public class ModelChangeHandler extends AbstractModelChangeHandler {
 		System.out.println(MSG_PREFIX + "Feature name: " + modelObject.toString());
 
 		return ontInd;
+	}
+	
+	// TODO Range <-> Domain???!!!
+	private void createOntologyObjectPropertiesForModelClassReference(EClass eClass, IOntologyManager ontologyManager) {
+		for (EReference strFeature : eClass.getEAllReferences()) {
+			OntologyObjectProperty referenceObjectProperty = ontologyManager.createObjectProperty(eClass.getName() + StringConstants.UNDERSCORE + strFeature.getName(), MODELONT_PREFIX, (OntologyClass)emfToOntologyMap.get(eClass));
+			
+			if (strFeature.getEOpposite() == null)
+				ontologyManager.assignSubObjectPropertyToSuperObjectProperty(referenceObjectProperty, emfModelOntology.getEmfReferenceObjectProperty());
+			else
+				ontologyManager.assignSubObjectPropertyToSuperObjectProperty(referenceObjectProperty, emfModelOntology.getEmfReferenceBiDirectionalObjectProperty());
+			
+			if (strFeature.getEOpposite() != null && emfToOntologyMap.containsKey(strFeature.getEOpposite().getEReferenceType())) {
+				OntologyClass domainClass = (OntologyClass)emfToOntologyMap.get(strFeature.getEOpposite().getEReferenceType());
+				ontologyManager.assignObjectPropertyDomain(referenceObjectProperty, domainClass);
+			}
+			
+			emfToOntologyMap.put(strFeature, referenceObjectProperty);
+			
+			System.out.println(MSG_PREFIX + "Object Property created: " + referenceObjectProperty.getName());
+		}
 	}
 
 	private OntologyObjectPropertyAssertion createObjectPropertyAssertion(OntologyObjectProperties objectProperty, OntologyIndividual individual, OntologyIndividual referencedObject) {

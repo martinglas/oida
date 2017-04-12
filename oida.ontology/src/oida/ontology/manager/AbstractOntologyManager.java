@@ -244,7 +244,7 @@ public abstract class AbstractOntologyManager extends EContentAdapter implements
 
 	@Override
 	public OntologyObjectProperty createObjectProperty(String propertyName, String prefix, OntologyClass range) {
-		return createObjectProperty(propertyName, StringConstants.EMPTY, range, null);
+		return createObjectProperty(propertyName, prefix, range, null);
 	}
 
 	@Override

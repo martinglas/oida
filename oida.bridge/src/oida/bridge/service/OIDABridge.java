@@ -26,8 +26,8 @@ import bridgemodel.BridgemodelFactory;
 import bridgemodel.RecommendationSet;
 import bridgemodel.provider.BridgemodelItemProviderAdapterFactory;
 import oida.bridge.Activator;
+import oida.bridge.emf.EMFModelChangeHandlerFactory;
 import oida.bridge.model.IModelChangeHandler;
-import oida.bridge.model.ModelChangeHandler;
 import oida.bridge.model.renamer.IRenamerStrategy;
 import oida.bridge.model.renamer.IStructuringStrategy;
 import oida.bridge.recommend.IRecommender;
@@ -37,6 +37,7 @@ import oida.ontology.service.IOIDAOntologyService;
 import oida.ontologyMgr.OntologyFile;
 import oida.util.ExtensionPointUtil;
 import oida.util.OIDAUtil;
+import oida.util.constants.FileConstants;
 
 /**
  * 
@@ -57,12 +58,13 @@ public final class OIDABridge implements IOIDABridge {
 	private IStructuringStrategy structuringStrategy;
 
 	private Resource currentRecommendationsResource;
+	
+	private IOIDAOntologyService oidaOntologyService;
 
 	@Inject
-	IOIDAOntologyService oidaOntologyService;
-
-	public OIDABridge() {
+	public OIDABridge(IOIDAOntologyService oidaOntologyService) {
 		System.out.println(MSG_PREFIX + "Initializing service...");
+		this.oidaOntologyService = oidaOntologyService;
 		modelHandlerMap.clear();
 
 		System.out.println(MSG_PREFIX + "Evaluating model change handler renamer strategy extensions.");
@@ -100,6 +102,10 @@ public final class OIDABridge implements IOIDABridge {
 		for (IRecommender r : recommender)
 			System.out.println(MSG_PREFIX + "Recommender registered: " + r.toString() + ".");
 
+		
+		OntologyFile emfOntologyFile = OIDAUtil.getOntologyFile(OIDAUtil.getOIDAWorkPath(), FileConstants.EMFONTOLOGY_FILENAME);
+		EMFModelChangeHandlerFactory.getInstance().initialize(oidaOntologyService.getOntologyManager(emfOntologyFile, true));
+		
 		BridgemodelItemProviderAdapterFactory adapterFactory = new BridgemodelItemProviderAdapterFactory();
 
 		ComposedAdapterFactory composedAdapterFactory = new ComposedAdapterFactory(adapterFactory);
@@ -136,7 +142,7 @@ public final class OIDABridge implements IOIDABridge {
 				modelOntologyManager.addImportDeclaration(oidaOntologyService.getMereology().getOntologyManager().getOntology());
 			}
 
-			IModelChangeHandler changeHandler = new ModelChangeHandler();
+			IModelChangeHandler changeHandler = EMFModelChangeHandlerFactory.getInstance().createModelChangeHandler();
 			changeHandler.setOntologyService(oidaOntologyService);
 			changeHandler.setModelOntologyManager(modelOntologyManager);
 			changeHandler.initializeModelOntology((EObject)modelObject, renamerStrategy, structuringStrategy);
