@@ -23,6 +23,7 @@ import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.provider.resource.ResourceItemProviderAdapterFactory;
 
 import bridgemodel.BridgemodelFactory;
+import bridgemodel.Recommendation;
 import bridgemodel.RecommendationSet;
 import bridgemodel.provider.BridgemodelItemProviderAdapterFactory;
 import oida.bridge.Activator;
@@ -31,6 +32,8 @@ import oida.bridge.model.IModelChangeHandler;
 import oida.bridge.model.renamer.IRenamerStrategy;
 import oida.bridge.model.renamer.IStructuringStrategy;
 import oida.bridge.recommend.IRecommender;
+import oida.ontology.OntologyClass;
+import oida.ontology.OntologyIndividual;
 import oida.ontology.manager.IOntologyManager;
 import oida.ontology.manager.OntologyManagerException;
 import oida.ontology.service.IOIDAOntologyService;
@@ -58,7 +61,7 @@ public final class OIDABridge implements IOIDABridge {
 	private IStructuringStrategy structuringStrategy;
 
 	private Resource currentRecommendationsResource;
-	
+
 	private IOIDAOntologyService oidaOntologyService;
 
 	@Inject
@@ -102,10 +105,9 @@ public final class OIDABridge implements IOIDABridge {
 		for (IRecommender r : recommender)
 			System.out.println(MSG_PREFIX + "Recommender registered: " + r.toString() + ".");
 
-		
 		OntologyFile emfOntologyFile = OIDAUtil.getOntologyFile(OIDAUtil.getOIDAWorkPath(), FileConstants.EMFONTOLOGY_FILENAME);
 		EMFModelChangeHandlerFactory.getInstance().initialize(oidaOntologyService.getOntologyManager(emfOntologyFile, true));
-		
+
 		BridgemodelItemProviderAdapterFactory adapterFactory = new BridgemodelItemProviderAdapterFactory();
 
 		ComposedAdapterFactory composedAdapterFactory = new ComposedAdapterFactory(adapterFactory);
@@ -139,7 +141,7 @@ public final class OIDABridge implements IOIDABridge {
 
 			if (modelOntologyManager == null) {
 				modelOntologyManager = oidaOntologyService.getOntologyManager(ontologyfile, true);
-				modelOntologyManager.addImportDeclaration(oidaOntologyService.getMereology().getOntologyManager().getOntology());
+				modelOntologyManager.addImportDeclaration(oidaOntologyService.getReferenceOntologyManager().getOntology());
 			}
 
 			IModelChangeHandler changeHandler = EMFModelChangeHandlerFactory.getInstance().createModelChangeHandler();
@@ -149,7 +151,7 @@ public final class OIDABridge implements IOIDABridge {
 
 			changeHandler.setRenamerStrategy(renamerStrategy);
 			modelHandlerMap.put(changeHandler.getModelObject(), changeHandler);
-			
+
 			for (IRecommender rec : recommender) {
 				rec.initializeRecommenderForModel(modelOntologyManager.getOntology(), oidaOntologyService.getReferenceOntologyManager().getOntology());
 			}
@@ -178,9 +180,11 @@ public final class OIDABridge implements IOIDABridge {
 	public void reportModelSelectionChanged(EObject modelObject, EObject firstSelectedElement) {
 		RecommendationSet recSet = (RecommendationSet)currentRecommendationsResource.getContents().get(0);
 		recSet.getRecommendations().clear();
-		
+		recSet.setModelObject(modelObject);
+		recSet.setOntologyEntity(modelHandlerMap.get(modelObject).getOntologyEntityForModelElement(firstSelectedElement));
+
 		for (IRecommender rec : recommender)
-			recSet.getRecommendations().addAll(rec.findRecommendationsForSelectedModelElement(modelHandlerMap.get(modelObject).getOntologyEntityForModelElement(firstSelectedElement)));
+			recSet.getRecommendations().addAll(rec.findRecommendationsForSelectedModelElement(recSet.getOntologyEntity()));
 	}
 
 	private String generateModelOntologyFileName(String modelObjectId) throws OIDABridgeException {
@@ -193,5 +197,17 @@ public final class OIDABridge implements IOIDABridge {
 	@Override
 	public Resource getCurrentRecommendationsResource() {
 		return currentRecommendationsResource;
+	}
+
+	@Override
+	public void establishMapping(Recommendation selectedRecommendation) {
+		RecommendationSet recSet = (RecommendationSet)currentRecommendationsResource.getContents().get(0);
+		IOntologyManager modelOntologyManager = modelHandlerMap.get(recSet.getModelObject()).getModelOntologyManager();
+
+		if (recSet.getOntologyEntity() instanceof OntologyIndividual && selectedRecommendation.getRecommendedEntity() instanceof OntologyClass) {
+			modelOntologyManager.assignIndividualToClass((OntologyIndividual)recSet.getOntologyEntity(), (OntologyClass)selectedRecommendation.getRecommendedEntity());
+			
+			System.out.println(MSG_PREFIX + "Mapping establisehd. Individual '" + recSet.getOntologyEntity().getIri() + "' is of type '" + selectedRecommendation.getRecommendedEntity().getIri() + "'");
+		}
 	}
 }

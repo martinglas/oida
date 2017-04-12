@@ -10,6 +10,8 @@ import java.io.File;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 
+import bridgemodel.Recommendation;
+
 /**
  * The OIDA bridge is the interface for model handling applications to OIDA.
  * 
@@ -72,4 +74,11 @@ public interface IOIDABridge {
 	 * @return Resource object containing recommendations.
 	 */
 	Resource getCurrentRecommendationsResource();
+	
+	/**
+	 * Creates a mapping relation between the currently selected model element and a recommended reference ontology entity.
+	 * 
+	 * @param selectedRecommendation A Recommendation object, containing the selected reference ontology entity.
+	 */
+	void establishMapping(Recommendation selectedRecommendation);
 }

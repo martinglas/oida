@@ -3,8 +3,10 @@
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="bridgemodel" nsURI="http://net/bauhaus-luftfahrt/oida/bridgemodel"
     nsPrefix="net.bauhaus-luftfahrt.oida.bridgemodel">
   <eClassifiers xsi:type="ecore:EClass" name="RecommendationSet">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="entity" lowerBound="1"
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ontologyEntity" lowerBound="1"
         eType="ecore:EClass ../../oida.ontology.model/model/oida.ecore#//ontology/OntologyEntity"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="modelObject" lowerBound="1"
+        eType="ecore:EClass http://www.eclipse.org/emf/2002/Ecore#//EObject"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="recommendations" upperBound="-1"
         eType="#//Recommendation" containment="true"/>
   </eClassifiers>

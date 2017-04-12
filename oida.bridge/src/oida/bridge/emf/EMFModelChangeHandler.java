@@ -113,6 +113,9 @@ public class EMFModelChangeHandler extends AbstractModelChangeHandler {
 			OntologyClass oCl = (OntologyClass)emfToOntologyMap.get(eObject.eClass());
 			createIndividualForModelElement(oCl, eObject, getModelOntologyManager());
 		}
+		
+		for (EObject eObject : comprisedEObjects)
+			createOntologyObjectPropertyAssignments(eObject, getModelOntologyManager());
 	}
 
 	private void generateObjectProperties() {
@@ -236,6 +239,17 @@ public class EMFModelChangeHandler extends AbstractModelChangeHandler {
 			
 			System.out.println(MSG_PREFIX + "Object Property created: " + referenceObjectProperty.getName());
 		}
+	}
+	
+	private void createOntologyObjectPropertyAssignments(EObject eObject, IOntologyManager modelOntologyManager) {
+		if (eObject.eContainingFeature() == null)
+			return;
+		
+		OntologyObjectProperty referenceObjectProperty = (OntologyObjectProperty)emfToOntologyMap.get(eObject.eContainingFeature());
+		OntologyIndividual containerIndividual = (OntologyIndividual)emfToOntologyMap.get(eObject.eContainer());
+		OntologyIndividual individual = (OntologyIndividual)emfToOntologyMap.get(eObject);
+		
+		modelOntologyManager.createObjectPropertyAssertion(referenceObjectProperty, containerIndividual, individual);
 	}
 
 	private OntologyObjectPropertyAssertion createObjectPropertyAssertion(OntologyObjectProperties objectProperty, OntologyIndividual individual, OntologyIndividual referencedObject) {

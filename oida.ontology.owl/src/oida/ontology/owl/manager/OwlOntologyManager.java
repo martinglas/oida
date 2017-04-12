@@ -10,7 +10,6 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -402,24 +401,38 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 		owlOntologyManager.applyChange(new AddImport(owlOntology, owlImportDeclaration));
 
 		try {
-			Optional<IOntologyManager> existingManagedOntology = getGlobalOntologyContext().findOntology(importOntologyIRIString);
-			if (existingManagedOntology.isPresent()) {
-				OwlOntologyManager existingOWLMgr = (OwlOntologyManager)existingManagedOntology.get();
-
-				getOntology().getImports().add(existingOWLMgr.getOntology());
-				mapHandler.importFromOtherOwlOntologyManager(existingOWLMgr.mapHandler);
-			} else {
-				OWLOntology owlImportOntology = owlOntologyManager.loadOntology(importOntologyIRI);
-
-				Iterator<IRI> iriIt = owlImportOntology.directImportsDocuments().iterator();
-				while (iriIt.hasNext())
-					System.out.println(MESSAGE_PREFIX + "Direct Import: " + iriIt.next().toString());
-
-				// Ontology o = extractOntologyContent(owlImportOntology);
-			}
-		} catch (OWLOntologyCreationException e) {
-			throw new OntologyManagerException(MESSAGE_PREFIX + "Error while loading ontology '" + importOntologyIRI.toString() + "': " + e.getMessage(), e);
+			OWLOntology owlImportedOntology = owlOntologyManager.loadOntology(importOntologyIRI);
+			Ontology importedOntology = OntologyManagerUtils.generateInternalOntologyObject(owlImportedOntology.getOntologyID().getOntologyIRI().get().getIRIString(), owlImportedOntology.classesInSignature().count(),
+					owlImportedOntology.individualsInSignature().count());
+			
+			getOntology().getImports().add(importedOntology);
+			
+			extractOntologyContent(owlImportedOntology, importedOntology, true);
+			
+		} catch (OWLOntologyCreationException e1) {
+			// TODO Auto-generated catch block
+			e1.printStackTrace();
 		}
+		
+//		try {
+//			Optional<IOntologyManager> existingManagedOntology = getGlobalOntologyContext().findOntology(importOntologyIRIString);
+//			if (existingManagedOntology.isPresent()) {
+//				OwlOntologyManager existingOWLMgr = (OwlOntologyManager)existingManagedOntology.get();
+//
+//				getOntology().getImports().add(existingOWLMgr.getOntology());
+//				mapHandler.importFromOtherOwlOntologyManager(existingOWLMgr.mapHandler);
+//			} else {
+//				OWLOntology owlImportOntology = owlOntologyManager.loadOntology(importOntologyIRI);
+//
+//				Iterator<IRI> iriIt = owlImportOntology.directImportsDocuments().iterator();
+//				while (iriIt.hasNext())
+//					System.out.println(MESSAGE_PREFIX + "Direct Import: " + iriIt.next().toString());
+//
+//				// Ontology o = extractOntologyContent(owlImportOntology);
+//			}
+//		} catch (OWLOntologyCreationException e) {
+//			throw new OntologyManagerException(MESSAGE_PREFIX + "Error while loading ontology '" + importOntologyIRI.toString() + "': " + e.getMessage(), e);
+//		}
 	}
 
 	@Override
