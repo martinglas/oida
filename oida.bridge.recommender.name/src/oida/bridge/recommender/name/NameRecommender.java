@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 import org.eclipse.emf.common.notify.Notification;
@@ -45,7 +44,7 @@ public class NameRecommender extends AbstractRecommender {
 
 		String selectedElementName = selectedModelElement.getName();
 
-		List<OntologyClass> recommendedClasses = getReferenceOntology().getClasses().stream().filter(c -> c.getName().contains(selectedElementName)).collect(Collectors.toList());
+		List<OntologyClass> recommendedClasses = getReferenceOntology().getClasses().stream().filter(c -> c.getName().toLowerCase().contains(selectedElementName.toLowerCase())).collect(Collectors.toList());
 
 		for (OntologyClass c: recommendedClasses) {
 			Recommendation r = BridgemodelFactory.eINSTANCE.createRecommendation();
