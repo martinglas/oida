@@ -140,9 +140,8 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 	public Ontology loadOntology(OntologyFile ontologyFile) throws OntologyManagerException {
 		clearOntologyManager();
 
-		if (ontologyFile == null) {
+		if (ontologyFile == null)
 			return null;
-		}
 
 		File file = getOntologyFileObject(ontologyFile);
 		if (file != null && file.exists()) {
@@ -153,10 +152,6 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 						owlOntology.individualsInSignature().count()));
 
 				mapHandler.initializeOntology(owlDataFactory, owlOntology, getOntology());
-
-				// Iterator<IRI> iriIt = owlOntology.directImportsDocuments().iterator();
-				// while (iriIt.hasNext())
-				// System.out.println(MESSAGE_PREFIX + "Direct Import: " + iriIt.next().toString());
 
 				extractOntologyContent(owlOntology, getOntology(), true);
 				setOntologyFile(ontologyFile);
@@ -444,7 +439,7 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 
 		owlOntologyManager.addAxiom(owlOntology, declareNewClass);
 
-		clazz = OntologyManagerUtils.generateInternalClassObject(getOntology(), mapHandler.getThingClass(), prefix, name);
+		clazz = OntologyManagerUtils.generateInternalClassObject(getOntology(), mapHandler.getThingClass(), name, prefix);
 
 		if (!prefix.isEmpty()) {
 			clazz.setPrefix(prefix);
