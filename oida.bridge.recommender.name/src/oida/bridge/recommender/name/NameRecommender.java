@@ -16,6 +16,7 @@ import oida.ontology.OntologyClass;
 import oida.ontology.OntologyEntity;
 import oida.ontology.OntologyIndividual;
 import oida.ontology.OntologyPackage;
+import oida.util.constants.StringConstants;
 
 /**
  * @author Michael Shamiyeh
@@ -44,6 +45,9 @@ public class NameRecommender extends AbstractRecommender {
 
 		String selectedElementName = selectedModelElement.getName();
 
+		if (selectedElementName == null || selectedElementName.equals(StringConstants.EMPTY))
+			return recommendations;
+		
 		List<OntologyClass> recommendedClasses = getReferenceOntology().getClasses().stream().filter(c -> c.getName().toLowerCase().contains(selectedElementName.toLowerCase())).collect(Collectors.toList());
 
 		for (OntologyClass c: recommendedClasses) {

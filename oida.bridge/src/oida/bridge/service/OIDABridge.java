@@ -41,6 +41,7 @@ import oida.ontologyMgr.OntologyFile;
 import oida.util.ExtensionPointUtil;
 import oida.util.OIDAUtil;
 import oida.util.constants.FileConstants;
+import oida.util.constants.StringConstants;
 
 /**
  * 
@@ -178,6 +179,9 @@ public final class OIDABridge implements IOIDABridge {
 
 	@Override
 	public void reportModelSelectionChanged(EObject modelObject, EObject firstSelectedElement) {
+		if (modelObject == null || firstSelectedElement == null)
+			return;
+		
 		RecommendationSet recSet = (RecommendationSet)currentRecommendationsResource.getContents().get(0);
 		recSet.getRecommendations().clear();
 		recSet.setModelObject(modelObject);
@@ -191,7 +195,7 @@ public final class OIDABridge implements IOIDABridge {
 		if (oidaOntologyService.getLibrary().getReferenceOntology() == null)
 			throw new OIDABridgeException(MSG_PREFIX + "No reference ontology set. Model won't be observed.");
 
-		return modelObjectId + "_" + oidaOntologyService.getLibrary().getReferenceOntology().getFileName();
+		return modelObjectId + StringConstants.UNDERSCORE + oidaOntologyService.getLibrary().getReferenceOntology().getFileName();
 	}
 
 	@Override
