@@ -19,12 +19,10 @@ Require-Bundle: javax.inject,
  oida.ontology.model,
  org.eclipse.emf.ecore,
  org.eclipse.osgi.services;bundle-version="3.5.100",
- oida.ontology.model.edit
+ oida.ontology.model.edit,
+ oida.util;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: javax.annotation;version="1.2.0",
- oida.util.constants,
- oida.util.bundle,
- oida.util,
  org.eclipse.core.databinding.observable,
  org.eclipse.core.databinding.observable.list,
  org.eclipse.core.databinding.observable.map,

@@ -7,14 +7,13 @@ Bundle-Activator: oida.ontology.owl.Activator
 Bundle-Vendor: Bauhaus Luftfahrt e.V.
 Require-Bundle: org.eclipse.core.runtime,
  oida.ontology.model;bundle-version="0.1.0",
- org.junit
+ org.junit,
+ oida.util;bundle-version="1.0.0"
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Import-Package: oida.ontology.manager,
  oida.ontology.manager.context,
- oida.ontology.manager.util,
- oida.util.bundle,
- oida.util.constants
+ oida.ontology.manager.util
 Bundle-ClassPath: lib/antlr-2.7.7.jar,
  lib/antlr-runtime-3.4.jar,
  lib/aopalliance-1.0.jar,
@@ -75,11 +74,9 @@ Bundle-ClassPath: lib/antlr-2.7.7.jar,
  lib/sesame-rio-turtle-4.0.2.jar,
  lib/sesame-util-4.0.2.jar,
  lib/shared-objects-1.4.9-p1.jar,
- lib/slf4j-api-1.7.14.jar,
  lib/stringtemplate-3.2.1.jar,
  lib/trove4j-3.0.3.jar,
  lib/xercesImpl-2.11.0.jar,
  lib/xml-apis-1.4.01.jar,
  lib/xz-1.5.jar,
- .,
- lib/slf4j-simple-1.7.14.jar
+ .

@@ -6,6 +6,8 @@
 package oida.ontology.service;
 
 import org.eclipse.emf.ecore.util.EContentAdapter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import oida.ontology.manager.IOntologyManager;
 import oida.ontology.manager.OntologyManagerException;
@@ -21,7 +23,7 @@ import oida.util.constants.FileConstants;
  *
  */
 public abstract class AbstractOIDAOntologyService extends EContentAdapter implements IOIDAOntologyService {
-	public static final String MSG_PREFIX = "OIDA Ontology Service: ";
+	protected static Logger LOGGER = LoggerFactory.getLogger(AbstractOIDAOntologyService.class);
 
 	private IOntologyManager referenceOntologyManager;
 	
@@ -41,11 +43,10 @@ public abstract class AbstractOIDAOntologyService extends EContentAdapter implem
 			try {
 				mereology.loadOrInitializeOntology(mereologyOntology);
 			} catch (OntologyManagerException e) {
-				System.out.println(MSG_PREFIX + "Mereology couldn't be saved!");
-				e.printStackTrace();
+				LOGGER.error("Mereology couldn't be saved!", e);
 			}
 			
-			System.out.println(MSG_PREFIX + "Mereology successfully generated.");
+			LOGGER.info("Mereology successfully generated.");
 		}
 			
 		return mereology;

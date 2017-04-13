@@ -51,7 +51,7 @@ import oida.util.constants.StringConstants;
 public final class OIDAOntologyService extends AbstractOIDAOntologyService implements INotifyChangedListener, IGlobalOntologyContext {
 	private URI uriLibrary = URI.createFileURI(OIDAUtil.getOIDAWorkPath() + FileConstants.ONTOLOGY_LIBRARY_FILE);
 	private URI uriManager = URI.createFileURI(OIDAUtil.getOIDAWorkPath() + FileConstants.ONTOLOGY_MANAGER_FILE);
-
+	
 	private EditingDomain editingDomain;
 	private Resource libraryResource;
 
@@ -65,7 +65,7 @@ public final class OIDAOntologyService extends AbstractOIDAOntologyService imple
 	public OIDAOntologyService() {
 		super();
 
-		System.out.println(MSG_PREFIX + "Initialization started.");
+		LOGGER.info("Initialization started.");
 
 		OntologyMgrItemProviderAdapterFactory adapterFactory = new OntologyMgrItemProviderAdapterFactory();
 		// adapterFactory.addListener(this);
@@ -89,23 +89,23 @@ public final class OIDAOntologyService extends AbstractOIDAOntologyService imple
 		OIDAUtil.createOIDAWorkDirectory();
 
 		try {
-			System.out.println(OIDAOntologyService.MSG_PREFIX + "Evaluating ontology manager extensions.");
+			LOGGER.info("Evaluating ontology manager extensions.");
 			this.managerFactory = ExtensionPointUtil.loadSingleExtension(Activator.getExtensionRegistry(), IOntologyManagerFactory.class, Activator.ONTOLOGYMANAGERFACTORY_EXTENSIONPOINT_ID);
-			System.out.println(MSG_PREFIX + "Initialized with manager '" + this.managerFactory.getClass().getName() + "'.");
+			LOGGER.info("Initialized with manager '" + this.managerFactory.getClass().getName() + "'.");
 		} catch (CoreException e1) {
 			e1.printStackTrace();
-			System.out.println(MSG_PREFIX + "Initialized without an Ontology Manager Factory.");
+			LOGGER.info("Initialized without an Ontology Manager Factory.");
 		}
 
 		if (getLibrary().getReferenceOntology() != null) {
-			System.out.println(MSG_PREFIX + "Loading reference ontology...");
+			LOGGER.info("Loading reference ontology...");
 			setReferenceOntologyManager(getOntologyManager(getLibrary().getReferenceOntology(), true));
 		} else
-			System.out.println(MSG_PREFIX + "No reference ontology set.");
+			LOGGER.info("No reference ontology set.");
 
 		getMereology();
 
-		System.out.println(OIDAOntologyService.MSG_PREFIX + "Service registered.");
+		LOGGER.info("Service registered.");
 	}
 
 	public Resource loadExistingOIDAServiceData(URI oidaServiceDataFileURI) {
@@ -168,7 +168,7 @@ public final class OIDAOntologyService extends AbstractOIDAOntologyService imple
 			managedOntologyResource.getContents().add(mgr.getOntology());
 			managedOntologies.put(ontology, mgr);
 
-			System.out.println(MSG_PREFIX + "Added new ontology manager for: " + ontologyFile.getFileName() + ".");
+			LOGGER.info("Added new ontology manager for: " + ontologyFile.getFileName() + ".");
 			return mgr;
 		} catch (OntologyManagerException e) {
 			if (createIfNotExisting) {
@@ -180,7 +180,7 @@ public final class OIDAOntologyService extends AbstractOIDAOntologyService imple
 					managedOntologyResource.getContents().add(mgr.getOntology());
 					managedOntologies.put(ontology, mgr);
 
-					System.out.println(MSG_PREFIX + "Added new ontology manager for: " + ontologyFile.getFileName() + ".");
+					LOGGER.info("Added new ontology manager for: " + ontologyFile.getFileName() + ".");
 					return mgr;
 
 				} catch (OntologyManagerException e1) {

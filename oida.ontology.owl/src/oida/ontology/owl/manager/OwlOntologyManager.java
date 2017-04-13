@@ -53,6 +53,8 @@ import org.semanticweb.owlapi.model.parameters.Imports;
 import org.semanticweb.owlapi.reasoner.OWLReasoner;
 import org.semanticweb.owlapi.util.OWLEntityRenamer;
 import org.semanticweb.owlapi.util.SimpleIRIMapper;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import oida.ontology.Ontology;
 import oida.ontology.OntologyAnnotation;
@@ -77,7 +79,7 @@ import oida.util.constants.StringConstants;
  *
  */
 public class OwlOntologyManager extends AbstractOntologyManager {
-	private static final String MESSAGE_PREFIX = "OIDA OWL Ontology Manager: ";
+	private static Logger LOGGER = LoggerFactory.getLogger(OwlOntologyManager.class);
 
 	private OwlOntologyManagerMapHandler mapHandler;
 
@@ -128,10 +130,10 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 			for (String prefixName : owlPrefixManager.getPrefixName2PrefixMap().keySet())
 				OntologyManagerUtils.generateInternalNamespaceObject(getOntology(), prefixName, owlPrefixManager.getPrefixName2PrefixMap().get(prefixName));
 
-			System.out.println(MESSAGE_PREFIX + "Ontology created: '" + iri + "'");
+			LOGGER.info("Ontology created: '" + iri + "'");
 			return getOntology();
 		} catch (OWLOntologyCreationException e) {
-			throw new OntologyManagerException(MESSAGE_PREFIX + "Error while creating ontology '" + iri + "': " + e.getMessage(), e);
+			throw new OntologyManagerException("Error while creating ontology '" + iri + "': " + e.getMessage(), e);
 		}
 	}
 
@@ -155,14 +157,14 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 				extractOntologyContent(owlOntology, getOntology(), true);
 				setOntologyFile(ontologyFile);
 				getOntology().setOntologyFile(ontologyFile);
-				System.out.println(MESSAGE_PREFIX + "Ontology loaded: '" + file.getName() + "'");
+				LOGGER.info("Ontology loaded: '" + file.getName() + "'");
 
 				return getOntology();
 			} catch (OWLOntologyCreationException e) {
-				throw new OntologyManagerException(MESSAGE_PREFIX + "Error while loading ontology from file '" + file.getName() + "': " + e.getMessage(), e);
+				throw new OntologyManagerException("Error while loading ontology from file '" + file.getName() + "': " + e.getMessage(), e);
 			}
 		} else
-			throw new OntologyManagerException(MESSAGE_PREFIX + "Error while loading ontology: File doesn't exist.");
+			throw new OntologyManagerException("Error while loading ontology: File doesn't exist.");
 	}
 
 	@Override
@@ -338,9 +340,9 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 			FileOutputStream outputStream = new FileOutputStream(file);
 			owlOntologyManager.saveOntology(owlOntology, owlPrefixManager, outputStream);
 		} catch (FileNotFoundException e) {
-			throw new OntologyManagerException(MESSAGE_PREFIX + "Error while saving ontology to file '" + file.getName() + "': " + e.getMessage(), e);
+			throw new OntologyManagerException("Error while saving ontology to file '" + file.getName() + "': " + e.getMessage(), e);
 		} catch (OWLOntologyStorageException e) {
-			throw new OntologyManagerException(MESSAGE_PREFIX + "Error while saving ontology to file '" + file.getName() + "': " + e.getMessage(), e);
+			throw new OntologyManagerException("Error while saving ontology to file '" + file.getName() + "': " + e.getMessage(), e);
 		}
 	}
 

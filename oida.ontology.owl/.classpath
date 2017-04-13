@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry exported="true" kind="lib" path="lib/slf4j-simple-1.7.14.jar"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/JavaSE-1.8">
 		<attributes>
 			<attribute name="maven.pomderived" value="true"/>
@@ -74,7 +73,6 @@
 	<classpathentry kind="lib" path="lib/sesame-rio-turtle-4.0.2.jar"/>
 	<classpathentry kind="lib" path="lib/sesame-util-4.0.2.jar"/>
 	<classpathentry kind="lib" path="lib/shared-objects-1.4.9-p1.jar"/>
-	<classpathentry kind="lib" path="lib/slf4j-api-1.7.14.jar"/>
 	<classpathentry kind="lib" path="lib/stringtemplate-3.2.1.jar"/>
 	<classpathentry kind="lib" path="lib/trove4j-3.0.3.jar"/>
 	<classpathentry kind="lib" path="lib/xercesImpl-2.11.0.jar"/>
