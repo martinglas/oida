@@ -3,10 +3,12 @@
   <fragments xsi:type="fragment:StringModelFragment" xmi:id="_C5bHcKXFEeac7pLqBaVU8A" featurename="commands" parentElementId="de.symo.application.e4.application">
     <elements xsi:type="commands:Command" xmi:id="_FOPpwKXFEeac7pLqBaVU8A" elementId="oida.ontology.ui.e4.command.savelibrary" commandName="Save Library"/>
     <elements xsi:type="commands:Command" xmi:id="_MvqOIPkGEeatKqZLJkxOvw" elementId="oida.ontology.ui.e4.command.startreasoning" commandName="Start Reasoning"/>
+    <elements xsi:type="commands:Command" xmi:id="_ci-HYB99EeeMaLf0aWrdgA" elementId="oida.ontology.ui.e4.command.addontologyfile" commandName="Add Ontology File"/>
   </fragments>
   <fragments xsi:type="fragment:StringModelFragment" xmi:id="_HMEoYKXFEeac7pLqBaVU8A" featurename="handlers" parentElementId="de.symo.application.e4.application">
     <elements xsi:type="commands:Handler" xmi:id="_Ik6qoKXFEeac7pLqBaVU8A" elementId="oida.ontology.ui.e4.handler.0" contributionURI="bundleclass://oida.ontology.ui.e4/oida.ontology.ui.e4.handler.SaveOntologyLibrary" command="_FOPpwKXFEeac7pLqBaVU8A"/>
     <elements xsi:type="commands:Handler" xmi:id="_QHJHUPkGEeatKqZLJkxOvw" elementId="oida.ontology.ui.e4.handler.1" contributionURI="bundleclass://oida.ontology.ui.e4/oida.ontology.ui.e4.handler.StartOntologyReasoning" command="_MvqOIPkGEeatKqZLJkxOvw"/>
+    <elements xsi:type="commands:Handler" xmi:id="_bZTJkB99EeeMaLf0aWrdgA" elementId="oida.ontology.ui.e4.handler.2" contributionURI="bundleclass://oida.ontology.ui.e4/oida.ontology.ui.e4.handler.AddOntologyFileHandler" command="_ci-HYB99EeeMaLf0aWrdgA"/>
   </fragments>
   <fragments xsi:type="fragment:StringModelFragment" xmi:id="_vY7MkLJXEeaw4puSHi5CMg" featurename="children" parentElementId="de.symo.application.mainwindow.perspectivestack" positionInList="2">
     <elements xsi:type="advanced:Perspective" xmi:id="_7j3fcLJXEeaw4puSHi5CMg" elementId="oida.ontology.ui.e4.perspective" label="Knowledge" iconURI="platform:/plugin/oida.ontology.ui.e4/icons/OntologyLibrary_16.png">
@@ -16,6 +18,7 @@
             <children xsi:type="basic:Part" xmi:id="_1hSosKXEEeac7pLqBaVU8A" elementId="oida.ontology.ui.e4.ontologylibrary" contributionURI="bundleclass://oida.ontology.ui.e4/oida.ontology.ui.e4.part.OntologyLibraryPart" label="Ontology Library" iconURI="platform:/plugin/oida.ontology.ui.e4/icons/OntologyLibrary_16.png">
               <toolbar xmi:id="_-vAVcKXEEeac7pLqBaVU8A" elementId="oida.ontology.ui.e4.toolbar.0">
                 <children xsi:type="menu:HandledToolItem" xmi:id="__eJTYKXEEeac7pLqBaVU8A" elementId="oida.ontology.ui.e4.handledtoolitem.save" label="Save" iconURI="platform:/plugin/oida.ontology.ui.e4/icons/Save_16.png" command="_FOPpwKXFEeac7pLqBaVU8A"/>
+                <children xsi:type="menu:HandledToolItem" xmi:id="_WoS4sB99EeeMaLf0aWrdgA" elementId="oida.ontology.ui.e4.handledtoolitem.add" label="Add" command="_ci-HYB99EeeMaLf0aWrdgA"/>
               </toolbar>
             </children>
           </children>

@@ -107,6 +107,9 @@ public abstract class AbstractOntologyManager extends EContentAdapter implements
 			System.out.println("OIDA Ontology Manager [getOntologyFile]: Ontology filename is not set.");
 			return null;
 		}
+		
+		if (!ontologyFile.getPath().endsWith(StringConstants.BACKSLASH))
+			ontologyFile.setPath(ontologyFile.getPath().concat(StringConstants.BACKSLASH));
 
 		File file = new File(ontologyFile.getPath() + ontologyFile.getFileName());
 
