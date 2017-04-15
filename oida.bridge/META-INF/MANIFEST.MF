@@ -17,12 +17,13 @@ Require-Bundle: org.eclipse.core.runtime,
  oida.ontology.model.edit,
  org.eclipse.emf.common,
  oida.bridge.model,
- oida.bridge.model.edit
+ oida.bridge.model.edit,
+ oida.util
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Export-Package: oida.bridge.model,
  oida.bridge.model.renamer,
- oida.bridge.recommend,
+ oida.bridge.recommender,
  oida.bridge.service
 Import-Package: oida.ontology.manager,
  oida.util,

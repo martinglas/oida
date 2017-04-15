@@ -1,4 +1,4 @@
-package oida.bridge.recommend;
+package oida.bridge.recommender;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.util.EContentAdapter;
@@ -7,7 +7,7 @@ import oida.ontology.Ontology;
 
 /**
  * 
- * @author Michael.Shamiyeh
+ * @author Michael Shamiyeh
  * @since 2017-03-10
  *
  */

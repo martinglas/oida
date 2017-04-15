@@ -2,7 +2,8 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension-point id="oida.bridge.model.renamerstrategy" name="Model Renamer Strategy" schema="schema/oida.bridge.model.renamerstrategy.exsd"/>
-   <extension-point id="oida.bridge.recommender" name="Recommender Extension point" schema="schema/oida.bridge.recommender.exsd"/>
+   <extension-point id="oida.bridge.recommender.primary" name="Primary Recommender Extension Point" schema="schema/oida.bridge.recommender.primary.exsd"/>
    <extension-point id="oida.bridge.model.structuringstrategy" name="Structural Strategy" schema="schema/oida.bridge.model.structuringstrategy.exsd"/>
+   <extension-point id="oida.bridge.recommender.secondary" name="Secondary Recommender Extension Point" schema="schema/oida.bridge.recommender.secondary.exsd"/>
 
 </plugin>

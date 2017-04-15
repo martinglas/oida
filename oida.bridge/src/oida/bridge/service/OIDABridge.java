@@ -21,6 +21,8 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.provider.resource.ResourceItemProviderAdapterFactory;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import bridgemodel.BridgemodelFactory;
 import bridgemodel.Recommendation;
@@ -31,7 +33,7 @@ import oida.bridge.emf.EMFModelChangeHandlerFactory;
 import oida.bridge.model.IModelChangeHandler;
 import oida.bridge.model.renamer.IRenamerStrategy;
 import oida.bridge.model.renamer.IStructuringStrategy;
-import oida.bridge.recommend.IRecommender;
+import oida.bridge.recommender.IRecommender;
 import oida.ontology.OntologyClass;
 import oida.ontology.OntologyIndividual;
 import oida.ontology.manager.IOntologyManager;
@@ -52,11 +54,14 @@ import oida.util.constants.StringConstants;
 @Creatable
 @Singleton
 public final class OIDABridge implements IOIDABridge {
+	protected static Logger LOGGER = LoggerFactory.getLogger(OIDABridge.class);
+	
 	private final String MSG_PREFIX = "OIDA Bridge: ";
 
 	private Map<EObject, IModelChangeHandler> modelHandlerMap = new HashMap<EObject, IModelChangeHandler>();
 
-	private List<IRecommender> recommender;
+	private List<IRecommender> recommenderPrimary;
+	private List<IRecommender> recommenderSecondary;
 
 	private IRenamerStrategy renamerStrategy;
 	private IStructuringStrategy structuringStrategy;
@@ -67,44 +72,51 @@ public final class OIDABridge implements IOIDABridge {
 
 	@Inject
 	public OIDABridge(IOIDAOntologyService oidaOntologyService) {
-		System.out.println(MSG_PREFIX + "Initializing service...");
+		LOGGER.info("Initializing service...");
 		this.oidaOntologyService = oidaOntologyService;
 		modelHandlerMap.clear();
 
-		System.out.println(MSG_PREFIX + "Evaluating model change handler renamer strategy extensions.");
+		LOGGER.info("Evaluating model change handler renamer strategy extensions.");
 		try {
 			renamerStrategy = ExtensionPointUtil.loadSingleExtension(Activator.getExtensionRegistry(), IRenamerStrategy.class, Activator.OIDA_MODEL_RENAMERSTRATEGY);
 
 			if (renamerStrategy != null)
-				System.out.println(MSG_PREFIX + "Renamer strategy set: '" + renamerStrategy.getClass().getName() + "'.");
+				LOGGER.info("Renamer strategy set: '" + renamerStrategy.getClass().getName() + "'.");
 			else
-				System.out.println(MSG_PREFIX + "No renamer strategy found.");
+				LOGGER.error("No renamer strategy found.");
 		} catch (CoreException e) {
-			System.out.println(MSG_PREFIX + "Error while evaluating renamer strategy extension point.");
-			e.printStackTrace();
+			LOGGER.error("Error while evaluating renamer strategy extension point.", e);
 		}
 
-		System.out.println(MSG_PREFIX + "Evaluating model change handler structuring strategy extensions.");
+		LOGGER.info("Evaluating model change handler structuring strategy extensions.");
 		try {
 			structuringStrategy = ExtensionPointUtil.loadSingleExtension(Activator.getExtensionRegistry(), IStructuringStrategy.class, Activator.OIDA_MODEL_STRUCTURINGSTRATEGY);
 
 			if (structuringStrategy != null)
-				System.out.println(MSG_PREFIX + "Structuring strategy set: '" + structuringStrategy.getClass().getName() + "'.");
+				LOGGER.info("Structuring strategy set: '" + structuringStrategy.getClass().getName() + "'.");
 			else
-				System.out.println(MSG_PREFIX + "No structuring strategy found.");
+				LOGGER.error("No structuring strategy found.");
 		} catch (CoreException e) {
-			System.out.println(MSG_PREFIX + "Error while evaluating structuring strategy extension point.");
-			e.printStackTrace();
+			LOGGER.error("Error while evaluating structuring strategy extension point.", e);
 		}
 
 		try {
-			recommender = ExtensionPointUtil.loadExtensions(Activator.getExtensionRegistry(), IRecommender.class, Activator.OIDA_RECOMMENDER_EXTENSIONPOINT_ID);
+			recommenderPrimary = ExtensionPointUtil.loadExtensions(Activator.getExtensionRegistry(), IRecommender.class, Activator.OIDA_RECOMMENDER_PRIMARY_EXTENSIONPOINT_ID);
+			
+			for (IRecommender r : recommenderPrimary)
+				LOGGER.info("Primary Recommender registered: " + r.toString() + ".");
 		} catch (CoreException e) {
-			e.printStackTrace();
+			LOGGER.error("Error while evaluating primary recommender extension point.", e);
 		}
-
-		for (IRecommender r : recommender)
-			System.out.println(MSG_PREFIX + "Recommender registered: " + r.toString() + ".");
+		
+		try {
+			recommenderSecondary = ExtensionPointUtil.loadExtensions(Activator.getExtensionRegistry(), IRecommender.class, Activator.OIDA_RECOMMENDER_SECONDARY_EXTENSIONPOINT_ID);
+			
+			for (IRecommender r : recommenderSecondary)
+				LOGGER.info("Secondary Recommender registered: " + r.toString() + ".");
+		} catch (CoreException e) {
+			LOGGER.error("Error while evaluating secondary recommender extension point.", e);
+		}
 
 		OntologyFile emfOntologyFile = OIDAUtil.getOntologyFile(OIDAUtil.getOIDAWorkPath(), FileConstants.EMFONTOLOGY_FILENAME);
 		EMFModelChangeHandlerFactory.getInstance().initialize(oidaOntologyService.getOntologyManager(emfOntologyFile, true));
@@ -118,7 +130,7 @@ public final class OIDABridge implements IOIDABridge {
 		currentRecommendationsResource = editingDomain.createResource("http://de.oida/bridge/currentrecommendations");
 		currentRecommendationsResource.getContents().add(BridgemodelFactory.eINSTANCE.createRecommendationSet());
 
-		System.out.println(MSG_PREFIX + "Service registered.");
+		LOGGER.info("Service registered.");
 	}
 
 	@Override
@@ -153,7 +165,7 @@ public final class OIDABridge implements IOIDABridge {
 			changeHandler.setRenamerStrategy(renamerStrategy);
 			modelHandlerMap.put(changeHandler.getModelObject(), changeHandler);
 
-			for (IRecommender rec : recommender) {
+			for (IRecommender rec : recommenderPrimary) {
 				rec.initializeRecommenderForModel(modelOntologyManager.getOntology(), oidaOntologyService.getReferenceOntologyManager().getOntology());
 			}
 		} catch (OntologyManagerException e) {
@@ -187,7 +199,7 @@ public final class OIDABridge implements IOIDABridge {
 		recSet.setModelObject(modelObject);
 		recSet.setOntologyEntity(modelHandlerMap.get(modelObject).getOntologyEntityForModelElement(firstSelectedElement));
 
-		for (IRecommender rec : recommender)
+		for (IRecommender rec : recommenderPrimary)
 			recSet.getRecommendations().addAll(rec.findRecommendationsForSelectedModelElement(recSet.getOntologyEntity()));
 	}
 
@@ -211,7 +223,7 @@ public final class OIDABridge implements IOIDABridge {
 		if (recSet.getOntologyEntity() instanceof OntologyIndividual && selectedRecommendation.getRecommendedEntity() instanceof OntologyClass) {
 			modelOntologyManager.assignIndividualToClass((OntologyIndividual)recSet.getOntologyEntity(), (OntologyClass)selectedRecommendation.getRecommendedEntity());
 			
-			System.out.println(MSG_PREFIX + "Mapping establisehd. Individual '" + recSet.getOntologyEntity().getIri() + "' is of type '" + selectedRecommendation.getRecommendedEntity().getIri() + "'");
+			LOGGER.info("Mapping establisehd. Individual '" + recSet.getOntologyEntity().getIri() + "' is of type '" + selectedRecommendation.getRecommendedEntity().getIri() + "'");
 		}
 	}
 }

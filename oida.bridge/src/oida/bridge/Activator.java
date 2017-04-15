@@ -10,7 +10,8 @@ import oida.util.bundle.AbstractOIDAActivator;
 public class Activator extends AbstractOIDAActivator {
 	public final static String OIDA_MODEL_RENAMERSTRATEGY = "oida.bridge.model.renamerstrategy";
 	public final static String OIDA_MODEL_STRUCTURINGSTRATEGY = "oida.bridge.model.structuringstrategy";
-	public final static String OIDA_RECOMMENDER_EXTENSIONPOINT_ID = "oida.bridge.recommender";
+	public final static String OIDA_RECOMMENDER_PRIMARY_EXTENSIONPOINT_ID = "oida.bridge.recommender.primary";
+	public final static String OIDA_RECOMMENDER_SECONDARY_EXTENSIONPOINT_ID = "oida.bridge.recommender.secondary";
 	
 	private static BundleContext context;
 

@@ -1,4 +1,4 @@
-package oida.bridge.recommend;
+package oida.bridge.recommender;
 
 import java.util.List;
 
