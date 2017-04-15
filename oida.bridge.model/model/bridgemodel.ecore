@@ -15,5 +15,10 @@
         eType="ecore:EClass ../../oida.ontology.model/model/oida.ecore#//ontology/OntologyEntity"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="recommenderName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="recommenderMessage" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="recommendationType" eType="#//RecommendationType"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="RecommendationType">
+    <eLiterals name="instanceOf"/>
+    <eLiterals name="equivalentTo" value="1"/>
   </eClassifiers>
 </ecore:EPackage>
