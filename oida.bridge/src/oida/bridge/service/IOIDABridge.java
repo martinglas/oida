@@ -69,16 +69,30 @@ public interface IOIDABridge {
 	void reportModelSelectionChanged(EObject modelObject, EObject firstSelectedElement);
 	
 	/**
-	 * Provides ontology entity recommendations for the currently selected model element.
+	 * Provides ontology class recommendations for the currently selected model element.
 	 * 
 	 * @return Resource object containing recommendations.
 	 */
-	Resource getCurrentRecommendationsResource();
+	Resource getCurrentPrimaryRecommendationsResource();
 	
 	/**
-	 * Creates a mapping relation between the currently selected model element and a recommended reference ontology entity.
+	 * Provides ontology class or object property recommendations for the currently selected model element.
+	 * 
+	 * @return Resource object containing recommendations.
+	 */
+	Resource getCurrentSecondaryRecommendationsResource();
+	
+	/**
+	 * Creates a primary mapping relation between the currently selected model element and a recommended reference ontology entity.
 	 * 
 	 * @param selectedRecommendation A Recommendation object, containing the selected reference ontology entity.
 	 */
-	void establishMapping(Recommendation selectedRecommendation);
+	void establishPrimaryMapping(Recommendation selectedRecommendation);
+	
+	/**
+	 * Creates a secondary mapping relation between the currently selected model element and a recommended reference ontology entity.
+	 * 
+	 * @param selectedRecommendation A Recommendation object, containing the selected reference ontology entity.
+	 */
+	void establishSecondaryMapping(Recommendation selectedRecommendation);
 }

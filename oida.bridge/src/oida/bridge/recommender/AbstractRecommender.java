@@ -1,6 +1,5 @@
 package oida.bridge.recommender;
 
-import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.util.EContentAdapter;
 
 import oida.ontology.Ontology;
@@ -14,6 +13,8 @@ import oida.ontology.Ontology;
 public abstract class AbstractRecommender extends EContentAdapter implements IRecommender {
 	private Ontology referenceOntology;
 	private Ontology modelOntology;
+	
+	private boolean active = true;
 	
 	protected Ontology getReferenceOntology() {
 		return referenceOntology;
@@ -41,6 +42,14 @@ public abstract class AbstractRecommender extends EContentAdapter implements IRe
 			this.referenceOntology.eAdapters().remove(this);
 	}
 	
-	@Override
-	public abstract void notifyChanged(Notification notification);
+	public void setActive(boolean active) {
+		this.active = active;
+	}
+	
+	public boolean isActive() {
+		return active;
+	}
+	
+//	@Override
+//	public abstract void notifyChanged(Notification notification);
 }

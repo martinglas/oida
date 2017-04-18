@@ -17,8 +17,8 @@ import bridgemodel.BridgemodelPackage;
 import oida.bridge.service.IOIDABridge;
 import oida.bridge.ui.RecommendationsView.RecommendationsViewInjectorProvider;
 
-public class RecommendationsViewPart {
-	public static final String PART_ID = "oida.bridge.ui.e4.partdescriptor.oidamap";
+public class PrimaryRecommendationsViewPart {
+	public static final String PART_ID = "oida.bridge.ui.e4.partdescriptor.oidaprimarymapping";
 
 	private TableViewer tableViewer;
 
@@ -29,7 +29,7 @@ public class RecommendationsViewPart {
 
 		tableViewer = viewerFactory.createTableViewer(parent, SWT.BORDER | SWT.FULL_SELECTION, BridgemodelPackage.eINSTANCE.getRecommendation());
 
-		tableViewer.setInput(oidaBridge.getCurrentRecommendationsResource());
+		tableViewer.setInput(oidaBridge.getCurrentPrimaryRecommendationsResource());
 
 		tableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			public void selectionChanged(SelectionChangedEvent event) {

@@ -27,4 +27,18 @@ public interface IRecommender {
 	 * @return Potential ontology entities, which can be mapped.
 	 */
 	List<Recommendation> findRecommendationsForSelectedModelElement(final OntologyEntity selectedModelElement);
+	
+	/**
+	 * Sets a flag, which determines, if the recommender is active.
+	 * 
+	 * @param active true, if the recommender should be active, otherwise false.
+	 */
+	void setActive(boolean active);
+	
+	/**
+	 * Gives information, if the recommender is currently active.
+	 * 
+	 * @return true, if the recommender is active.
+	 */
+	boolean isActive();
 }

@@ -1,15 +1,22 @@
 <?xml version="1.0" encoding="ASCII"?>
 <fragment:ModelFragments xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:basic="http://www.eclipse.org/ui/2010/UIModel/application/descriptor/basic" xmlns:commands="http://www.eclipse.org/ui/2010/UIModel/application/commands" xmlns:fragment="http://www.eclipse.org/ui/2010/UIModel/fragment" xmlns:menu="http://www.eclipse.org/ui/2010/UIModel/application/ui/menu" xmi:id="_rKa4EAWWEeeRVMQ9MYdBLQ">
   <fragments xsi:type="fragment:StringModelFragment" xmi:id="_jBcT4AWYEeeRVMQ9MYdBLQ" featurename="commands" parentElementId="de.symo.application.e4.application">
-    <elements xsi:type="commands:Command" xmi:id="_lRPzUAWYEeeRVMQ9MYdBLQ" elementId="oida.bridge.ui.e4.command.mapelement" commandName="Map Element"/>
+    <elements xsi:type="commands:Command" xmi:id="_lRPzUAWYEeeRVMQ9MYdBLQ" elementId="oida.bridge.ui.e4.command.mapelement" commandName="Map Primary"/>
+    <elements xsi:type="commands:Command" xmi:id="_U0uzECIfEeepS7FG1PlakA" elementId="oida.bridge.ui.e4.command.mapsecondary" commandName="Map Secondary"/>
   </fragments>
   <fragments xsi:type="fragment:StringModelFragment" xmi:id="_oPVXEApkEeepYbfRV01uyg" featurename="handlers" parentElementId="de.symo.application.e4.application">
-    <elements xsi:type="commands:Handler" xmi:id="_tn_d0ApkEeepYbfRV01uyg" elementId="oida.bridge.ui.e4.handler.mapelement" contributionURI="bundleclass://oida.bridge.ui.e4/oida.bridge.ui.e4.handler.MapElementHandler" command="_lRPzUAWYEeeRVMQ9MYdBLQ"/>
+    <elements xsi:type="commands:Handler" xmi:id="_tn_d0ApkEeepYbfRV01uyg" elementId="oida.bridge.ui.e4.handler.mapelement" contributionURI="bundleclass://oida.bridge.ui.e4/oida.bridge.ui.e4.handler.MapPrimaryHandler" command="_lRPzUAWYEeeRVMQ9MYdBLQ"/>
+    <elements xsi:type="commands:Handler" xmi:id="_Zda1cCIfEeepS7FG1PlakA" elementId="oida.bridge.ui.e4.handler.0" contributionURI="bundleclass://oida.bridge.ui.e4/oida.bridge.ui.e4.handler.MapSecondaryHandler" command="_U0uzECIfEeepS7FG1PlakA"/>
   </fragments>
   <fragments xsi:type="fragment:StringModelFragment" xmi:id="_bWHmABrYEeeFu6vNfOMXuw" featurename="descriptors" parentElementId="de.symo.application.e4.application">
-    <elements xsi:type="basic:PartDescriptor" xmi:id="_sivqEBrYEeeFu6vNfOMXuw" elementId="oida.bridge.ui.e4.partdescriptor.oidamap" label="OIDA Map" closeable="true" contributionURI="bundleclass://oida.bridge.ui.e4/oida.bridge.ui.e4.part.RecommendationsViewPart">
+    <elements xsi:type="basic:PartDescriptor" xmi:id="_sivqEBrYEeeFu6vNfOMXuw" elementId="oida.bridge.ui.e4.partdescriptor.oidaprimarymapping" label="OIDA Primary Mapping" closeable="true" contributionURI="bundleclass://oida.bridge.ui.e4/oida.bridge.ui.e4.part.PrimaryRecommendationsViewPart">
       <toolbar xmi:id="_t7QVIBrYEeeFu6vNfOMXuw" elementId="oida.bridge.ui.e4.toolbar.1">
         <children xsi:type="menu:HandledToolItem" xmi:id="_ptIN8ApoEeepYbfRV01uyg" elementId="oida.bridge.ui.e4.handledtoolitem.map" label="Map" command="_lRPzUAWYEeeRVMQ9MYdBLQ"/>
+      </toolbar>
+    </elements>
+    <elements xsi:type="basic:PartDescriptor" xmi:id="_H6tBsCHUEeepS7FG1PlakA" elementId="oida.bridge.ui.e4.partdescriptor.oidasecondarymapping" label="OIDA Secondary Mapping" contributionURI="bundleclass://oida.bridge.ui.e4/oida.bridge.ui.e4.part.SecondaryRecommendationsViewPart">
+      <toolbar xmi:id="_RE8uoCIfEeepS7FG1PlakA" elementId="oida.bridge.ui.e4.toolbar.0">
+        <children xsi:type="menu:HandledToolItem" xmi:id="_Rmq7oCIfEeepS7FG1PlakA" elementId="oida.bridge.ui.e4.handledtoolitem.map" label="Map" command="_U0uzECIfEeepS7FG1PlakA"/>
       </toolbar>
     </elements>
   </fragments>

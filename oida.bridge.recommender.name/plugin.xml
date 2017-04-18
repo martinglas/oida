@@ -2,10 +2,21 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension
-         point="oida.bridge.recommender">
+         point="oida.bridge.recommender.primary">
       <client
-            class="oida.bridge.recommender.name.NameRecommender">
+            class="oida.bridge.recommender.name.IndividualNameRecommender">
       </client>
    </extension>
-
+   <extension
+         point="oida.bridge.recommender.secondary">
+      <client
+            class="oida.bridge.recommender.name.ClassNameRecommender">
+      </client>
+   </extension>
+   <extension
+         point="oida.bridge.recommender.secondary">
+      <client
+            class="oida.bridge.recommender.name.ObjectPropertyNameRecommender">
+      </client>
+   </extension>
 </plugin>
