@@ -10,6 +10,20 @@
             name="OIDA Recommendations"
             restorable="true">
       </view>
+      <view
+            category="org.eclipse.emf.parsley"
+            class="oida.ontology.ui.IndividualView.IndividualViewExecutableExtensionFactory:oida.bridge.ui.view.IndividualView"
+            id="oida.bridge.ui.view.IndividualView"
+            name="Individual"
+            restorable="true">
+      </view>
+      <view
+            category="org.eclipse.emf.parsley"
+            class="oida.ontology.ui.view.MappingView.MappingViewExecutableExtensionFactory:oida.bridge.ui.view.MappingView"
+            id="oida.bridge.ui.view.MappingView"
+            name="Mapping"
+            restorable="true">
+      </view>
    </extension>
    <extension
          id="oida.bridge.ui.e4.fragment"

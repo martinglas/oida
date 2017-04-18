@@ -20,7 +20,7 @@ public class ClassNameRecommender extends IndividualNameRecommender {
 	
 	@Override
 	protected String getSearchName(OntologyEntity entity) {
-		if (entity instanceof OntologyIndividual)
+		if (entity instanceof OntologyIndividual && !((OntologyIndividual)entity).getTypes().isEmpty())
 			return ((OntologyIndividual)entity).getTypes().get(0).getName();
 		
 		return null;

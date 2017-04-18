@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ASCII"?>
-<fragment:ModelFragments xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:basic="http://www.eclipse.org/ui/2010/UIModel/application/descriptor/basic" xmlns:commands="http://www.eclipse.org/ui/2010/UIModel/application/commands" xmlns:fragment="http://www.eclipse.org/ui/2010/UIModel/fragment" xmlns:menu="http://www.eclipse.org/ui/2010/UIModel/application/ui/menu" xmi:id="_rKa4EAWWEeeRVMQ9MYdBLQ">
+<fragment:ModelFragments xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:advanced="http://www.eclipse.org/ui/2010/UIModel/application/ui/advanced" xmlns:basic="http://www.eclipse.org/ui/2010/UIModel/application/descriptor/basic" xmlns:basic_1="http://www.eclipse.org/ui/2010/UIModel/application/ui/basic" xmlns:commands="http://www.eclipse.org/ui/2010/UIModel/application/commands" xmlns:fragment="http://www.eclipse.org/ui/2010/UIModel/fragment" xmlns:menu="http://www.eclipse.org/ui/2010/UIModel/application/ui/menu" xmi:id="_rKa4EAWWEeeRVMQ9MYdBLQ">
   <fragments xsi:type="fragment:StringModelFragment" xmi:id="_jBcT4AWYEeeRVMQ9MYdBLQ" featurename="commands" parentElementId="de.symo.application.e4.application">
     <elements xsi:type="commands:Command" xmi:id="_lRPzUAWYEeeRVMQ9MYdBLQ" elementId="oida.bridge.ui.e4.command.mapelement" commandName="Map Primary"/>
     <elements xsi:type="commands:Command" xmi:id="_U0uzECIfEeepS7FG1PlakA" elementId="oida.bridge.ui.e4.command.mapsecondary" commandName="Map Secondary"/>
@@ -18,6 +18,15 @@
       <toolbar xmi:id="_RE8uoCIfEeepS7FG1PlakA" elementId="oida.bridge.ui.e4.toolbar.0">
         <children xsi:type="menu:HandledToolItem" xmi:id="_Rmq7oCIfEeepS7FG1PlakA" elementId="oida.bridge.ui.e4.handledtoolitem.map" label="Map" command="_U0uzECIfEeepS7FG1PlakA"/>
       </toolbar>
+    </elements>
+    <elements xsi:type="basic:PartDescriptor" xmi:id="_eBbsQCQZEee87prP5ogXPA" elementId="oida.bridge.ui.e4.partdescriptor.oidamappingview" label="OIDA Mapping View" contributionURI="bundleclass://oida.bridge.ui.e4/oida.bridge.ui.e4.part.MappingViewPart"/>
+  </fragments>
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_l0CG4CQOEee87prP5ogXPA" featurename="children" parentElementId="de.symo.application.mainwindow.perspectivestack">
+    <elements xsi:type="advanced:Perspective" xmi:id="_plyhQCQOEee87prP5ogXPA" elementId="oida.bridge.ui.e4.perspective.oidasecondarymapping" label="OIDA Secondary Mapping">
+      <children xsi:type="basic_1:PartSashContainer" xmi:id="_AnvIACQREee87prP5ogXPA" elementId="oida.bridge.ui.e4.partsashcontainer.0">
+        <children xsi:type="basic_1:Part" xmi:id="_D7JZgCQREee87prP5ogXPA" elementId="oida.bridge.ui.e4.part.0"/>
+        <children xsi:type="basic_1:Part" xmi:id="_ETY6YCQREee87prP5ogXPA" elementId="oida.bridge.ui.e4.part.1"/>
+      </children>
     </elements>
   </fragments>
 </fragment:ModelFragments>

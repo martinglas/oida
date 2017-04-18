@@ -1,0 +1,23 @@
+import oida.bridge.ui.view.MappingView
+import oida.ontology.OntologyClass
+
+/**
+ * 
+ * @since 2016-11-08
+ * @author Michael.Shamiyeh
+ * 
+ */
+module oida.ontology.ui.view.MappingView {
+	parts {
+		viewpart oida.bridge.ui.view.MappingView {
+			viewname "Mapping"
+			viewclass MappingView
+		}
+	}
+	
+	featuresProvider {
+		features {
+			OntologyClass -> containingOntology, name, prefix, superClasses, subClasses
+		}
+	}
+}

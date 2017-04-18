@@ -9,6 +9,8 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EReference;
 import org.eclipse.emf.ecore.EStructuralFeature;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import oida.bridge.model.AbstractModelChangeHandler;
 import oida.bridge.model.helper.Extractor;
@@ -31,6 +33,8 @@ import oida.util.constants.StringConstants;
  *
  */
 public class EMFModelChangeHandler extends AbstractModelChangeHandler {
+	protected static Logger LOGGER = LoggerFactory.getLogger(EMFModelChangeHandler.class);
+	
 	private final String MSG_PREFIX = "OIDA Model change handler: ";
 
 	private final String SYMO_MODELONT_NS = "http://oida.local.";
@@ -63,8 +67,7 @@ public class EMFModelChangeHandler extends AbstractModelChangeHandler {
 		try {
 			getModelOntologyManager().addImportDeclaration(emfModelOntology.getOntologyManager().getOntology());
 		} catch (OntologyManagerException e1) {
-			// TODO Auto-generated catch block
-			e1.printStackTrace();
+			LOGGER.error("Error while adding OIDA internal EMF-Model ontology to model ontolgy.", e1);
 		}
 		
 		generateLocalNamespace();
@@ -75,7 +78,7 @@ public class EMFModelChangeHandler extends AbstractModelChangeHandler {
 		try {
 			getModelOntologyManager().saveOntology();
 		} catch (OntologyManagerException e) {
-			e.printStackTrace();
+			LOGGER.error("Error while saving model ontology for model '" + modelObject.toString() + "'", e);
 		}
 	}
 

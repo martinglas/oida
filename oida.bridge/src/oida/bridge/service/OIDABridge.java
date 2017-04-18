@@ -9,6 +9,7 @@ import java.io.File;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.Optional;
 
 import javax.inject.Inject;
 import javax.inject.Singleton;
@@ -258,5 +259,13 @@ public final class OIDABridge implements IOIDABridge {
 			modelOntologyManager.assignObjectPropertyEquivalence((OntologyObjectProperty)recSet.getOntologyEntity(), (OntologyObjectProperty)selectedRecommendation.getRecommendedEntity());
 			LOGGER.info("Secondary Mapping establisehd. Object property '" + recSet.getOntologyEntity().getIri() + "' is equivalent to object property '" + selectedRecommendation.getRecommendedEntity().getIri() + "'");
 		}
+	}
+
+	@Override
+	public Optional<IModelChangeHandler> getModelChangeHandler(Object model) {
+		if (modelHandlerMap.containsKey(model))
+			return Optional.of(modelHandlerMap.get(model));
+		
+		return Optional.empty();
 	}
 }

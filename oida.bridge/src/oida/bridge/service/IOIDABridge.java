@@ -6,11 +6,13 @@
 package oida.bridge.service;
 
 import java.io.File;
+import java.util.Optional;
 
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 
 import bridgemodel.Recommendation;
+import oida.bridge.model.IModelChangeHandler;
 
 /**
  * The OIDA bridge is the interface for model handling applications to OIDA.
@@ -95,4 +97,6 @@ public interface IOIDABridge {
 	 * @param selectedRecommendation A Recommendation object, containing the selected reference ontology entity.
 	 */
 	void establishSecondaryMapping(Recommendation selectedRecommendation);
+	
+	Optional<IModelChangeHandler> getModelChangeHandler(Object model);
 }
