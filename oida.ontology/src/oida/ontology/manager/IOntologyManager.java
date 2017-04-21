@@ -60,17 +60,17 @@ public interface IOntologyManager {
 
 	void addGlobalIRIToLocalPathMapping(String iri, String localPath);
 	
-	void addNamespace(String prefix, String namespace);
-
-	void addNamespace(String prefix, String namespace, boolean setDefault);
-
-	boolean isNamespaceExisting(String prefix);
+//	void addNamespace(String prefix, String namespace);
+//
+//	void addNamespace(String prefix, String namespace, boolean setDefault);
+//
+//	boolean isNamespaceExisting(String prefix);
 
 	String getDefaultNamespace();
 
-	String getNamespace(String prefix);
-
-	Map<String, String> getAllNamespaces();
+//	String getNamespace(String prefix);
+//
+//	Map<String, String> getAllNamespaces();
 
 	void addImportDeclaration(String importOntologyIRI) throws OntologyManagerException;
 

@@ -16,7 +16,7 @@ import oida.ontology.predefined.AbstractPredefinedOntology;
  */
 public class OIDAModelBaseOntology extends AbstractPredefinedOntology {
 	public static final String OIDA_MODELONTOLOGY_IRI = "http://www.bauhaus-luftfahrt.net/oida/modelontology";
-	public static final String OIDA_MODELONTOLOGY_PREFIX = "oida";
+	public static final String OIDA_MODELONTOLOGY_PREFIX = "http://www.bauhaus-luftfahrt.net/oida/modelontology";
 	
 	public static final String OIDA_MODELONTOLOGY_NAME_ANNOTATION = "oida_name";
 	
@@ -39,7 +39,7 @@ public class OIDAModelBaseOntology extends AbstractPredefinedOntology {
 
 	@Override
 	protected void initializeOntology(IOntologyManager ontologyManager) throws OntologyManagerException {
-		ontologyManager.addNamespace(OIDA_MODELONTOLOGY_PREFIX, OIDA_MODELONTOLOGY_IRI, false);
+		//ontologyManager.addNamespace(OIDA_MODELONTOLOGY_PREFIX, OIDA_MODELONTOLOGY_IRI, false);
 		
 		nameAnnotationProperty = ontologyManager.createAnnotationProperty(OIDA_MODELONTOLOGY_NAME_ANNOTATION, OIDA_MODELONTOLOGY_PREFIX);
 		

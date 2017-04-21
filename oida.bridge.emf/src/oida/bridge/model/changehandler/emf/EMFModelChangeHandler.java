@@ -40,7 +40,8 @@ public class EMFModelChangeHandler extends AbstractModelChangeHandler {
 	private final String MSG_PREFIX = "OIDA Model change handler: ";
 
 	private final String SYMO_MODELONT_NS = "http://oida.local.";
-	private final String MODELONT_PREFIX = "modont";
+	//private final String MODELONT_PREFIX = "modont";
+	private String MODELONT_PREFIX = StringConstants.EMPTY;
 	
 	private HashMap<EObject, OntologyEntity> emfToOntologyMap = new HashMap<EObject, OntologyEntity>();
 
@@ -130,10 +131,10 @@ public class EMFModelChangeHandler extends AbstractModelChangeHandler {
 	}
 
 	private void generateLocalNamespace() {
-		String namespace = SYMO_MODELONT_NS + getModelOntologyManager().getOntology().getOntologyFile().getFileName();
+		MODELONT_PREFIX = SYMO_MODELONT_NS + getModelOntologyManager().getOntology().getOntologyFile().getFileName();
 
-		if (!getModelOntologyManager().isNamespaceExisting(MODELONT_PREFIX))
-			getModelOntologyManager().addNamespace(MODELONT_PREFIX, namespace);
+//		if (!getModelOntologyManager().isNamespaceExisting(MODELONT_PREFIX))
+//			getModelOntologyManager().addNamespace(MODELONT_PREFIX, namespace);
 	}
 
 	/**

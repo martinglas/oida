@@ -81,7 +81,7 @@ public class Mereology extends AbstractPredefinedOntology {
 
 	@Override
 	protected void initializeOntology(IOntologyManager ontologyManager) throws OntologyManagerException {
-		ontologyManager.addNamespace(MEREOLOGY_PREFIX, MEREOLOGY_NAMESPACE, false);
+		//ontologyManager.addNamespace(MEREOLOGY_PREFIX, MEREOLOGY_NAMESPACE, false);
 
 		hasPartObjectProperty = ontologyManager.createObjectProperty(MEREOLOGY_HASPART_NAME, MEREOLOGY_PREFIX);
 		ontologyManager.setObjectPropertyCharacteristics(hasPartObjectProperty, false, false, true, false, false, false, false);

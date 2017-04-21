@@ -11,7 +11,6 @@ import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Collectors;
 
@@ -44,7 +43,6 @@ import org.semanticweb.owlapi.model.OWLObjectPropertyRangeAxiom;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyChange;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
-import org.semanticweb.owlapi.model.OWLOntologyLoaderConfiguration;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLOntologyStorageException;
 import org.semanticweb.owlapi.model.OWLReflexiveObjectPropertyAxiom;
@@ -363,51 +361,51 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 		}
 	}
 
-	@Override
-	public void addNamespace(String prefixName, String prefix) {
-		addNamespace(prefixName, prefix, false);
-	}
-
-	@Override
-	public void addNamespace(String prefixName, String prefix, boolean setDefault) {
-		String prefInternal = prefix;
-
-		if (!prefInternal.endsWith(StringConstants.HASHTAG)) {
-			prefInternal = prefInternal.concat(StringConstants.HASHTAG);
-		}
-
-		if (setDefault) {
-			owlPrefixManager.setDefaultPrefix(prefInternal);
-			OntologyManagerUtils.generateInternalNamespaceObject(getOntology(), StringConstants.EMPTY, prefInternal);
-		} else {
-			owlPrefixManager.setPrefix(prefixName, prefInternal);
-			OntologyManagerUtils.generateInternalNamespaceObject(getOntology(), prefixName, prefInternal);
-		}
-	}
-
-	@Override
-	public boolean isNamespaceExisting(String prefix) {
-		return owlPrefixManager.containsPrefixMapping(prefix + StringConstants.COLON);
-	}
+//	@Override
+//	public void addNamespace(String prefixName, String prefix) {
+//		addNamespace(prefixName, prefix, false);
+//	}
+//
+//	@Override
+//	public void addNamespace(String prefixName, String prefix, boolean setDefault) {
+//		String prefInternal = prefix;
+//
+//		if (!prefInternal.endsWith(StringConstants.HASHTAG)) {
+//			prefInternal = prefInternal.concat(StringConstants.HASHTAG);
+//		}
+//
+//		if (setDefault) {
+//			owlPrefixManager.setDefaultPrefix(prefInternal);
+//			OntologyManagerUtils.generateInternalNamespaceObject(getOntology(), StringConstants.EMPTY, prefInternal);
+//		} else {
+//			owlPrefixManager.setPrefix(prefixName, prefInternal);
+//			OntologyManagerUtils.generateInternalNamespaceObject(getOntology(), prefixName, prefInternal);
+//		}
+//	}
+//
+//	@Override
+//	public boolean isNamespaceExisting(String prefix) {
+//		return owlPrefixManager.containsPrefixMapping(prefix + StringConstants.COLON);
+//	}
 
 	@Override
 	public String getDefaultNamespace() {
 		return owlPrefixManager.getDefaultPrefix().replace(StringConstants.HASHTAG, StringConstants.EMPTY);
 	}
 
-	@Override
-	public String getNamespace(String prefix) {
-		if (isNamespaceExisting(prefix)) {
-			return owlPrefixManager.getPrefix(prefix + StringConstants.COLON).replace(StringConstants.HASHTAG, StringConstants.EMPTY);
-		} else {
-			return StringConstants.EMPTY;
-		}
-	}
-
-	@Override
-	public Map<String, String> getAllNamespaces() {
-		return owlPrefixManager.getPrefixName2PrefixMap();
-	}
+//	@Override
+//	public String getNamespace(String prefix) {
+//		if (isNamespaceExisting(prefix)) {
+//			return owlPrefixManager.getPrefix(prefix + StringConstants.COLON).replace(StringConstants.HASHTAG, StringConstants.EMPTY);
+//		} else {
+//			return StringConstants.EMPTY;
+//		}
+//	}
+//
+//	@Override
+//	public Map<String, String> getAllNamespaces() {
+//		return owlPrefixManager.getPrefixName2PrefixMap();
+//	}
 
 	@Override
 	public void addImportDeclaration(String importOntologyIRIString) throws OntologyManagerException {
@@ -446,7 +444,7 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 			return clazz;
 		}
 
-		OWLClass newClass = owlDataFactory.getOWLClass(OntologyManagerUtils.buildFullIRIString(name, prefix), owlPrefixManager);
+		OWLClass newClass = owlDataFactory.getOWLClass(OntologyManagerUtils.buildFullIRIString(name, prefix));//, owlPrefixManager);
 		OWLAxiom declareNewClass = owlDataFactory.getOWLDeclarationAxiom(newClass);
 
 		owlOntologyManager.addAxiom(owlOntology, declareNewClass);
@@ -487,7 +485,7 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 			return individual;
 		}
 
-		OWLNamedIndividual owlIndividual = owlDataFactory.getOWLNamedIndividual(OntologyManagerUtils.buildFullIRIString(name, prefix), owlPrefixManager);
+		OWLNamedIndividual owlIndividual = owlDataFactory.getOWLNamedIndividual(OntologyManagerUtils.buildFullIRIString(name, prefix));//, owlPrefixManager);
 		OWLAxiom declareNewIndividual = owlDataFactory.getOWLDeclarationAxiom(owlIndividual);
 
 		owlOntologyManager.addAxiom(owlOntology, declareNewIndividual);
@@ -534,7 +532,7 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 
 	@Override
 	public OntologyObjectProperty createObjectProperty(final String propertyName, final String prefix) {
-		OWLObjectProperty owlProperty = owlDataFactory.getOWLObjectProperty(OntologyManagerUtils.buildFullIRIString(propertyName, prefix), owlPrefixManager);
+		OWLObjectProperty owlProperty = owlDataFactory.getOWLObjectProperty(OntologyManagerUtils.buildFullIRIString(propertyName, prefix));//, owlPrefixManager);
 		OWLDeclarationAxiom owlAxiom = owlDataFactory.getOWLDeclarationAxiom(owlProperty);
 		owlOntologyManager.addAxiom(owlOntology, owlAxiom);
 
@@ -694,7 +692,7 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 
 	@Override
 	public OntologyAnnotationProperty createAnnotationProperty(String propertyName, String prefix) {
-		OWLAnnotationProperty owlProperty = owlDataFactory.getOWLAnnotationProperty(OntologyManagerUtils.buildFullIRIString(propertyName, prefix), owlPrefixManager);
+		OWLAnnotationProperty owlProperty = owlDataFactory.getOWLAnnotationProperty(OntologyManagerUtils.buildFullIRIString(propertyName, prefix));//, owlPrefixManager);
 		OWLDeclarationAxiom owlAxiom = owlDataFactory.getOWLDeclarationAxiom(owlProperty);
 
 		owlOntologyManager.addAxiom(owlOntology, owlAxiom);

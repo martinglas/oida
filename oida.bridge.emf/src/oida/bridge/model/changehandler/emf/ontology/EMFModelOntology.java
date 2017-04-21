@@ -23,7 +23,7 @@ import oida.ontology.predefined.AbstractPredefinedOntology;
  */
 public class EMFModelOntology extends AbstractPredefinedOntology {
 	public static final String EMFONTOLOGY_IRI = "http://www.bauhaus-luftfahrt.net/oida/emf";
-	public static final String EMFONTOLOGY_PREFIX = "emf";
+	public static final String EMFONTOLOGY_PREFIX = "http://www.bauhaus-luftfahrt.net/oida/emf";
 	
 	public static final String EMFONTOLOGY_REFERENCE_NAME = "emf_reference";
 	public static final String EMFONTOLOGY_REFERENCE_BIDIR_NAME = "emf_reference_bidirectional";
@@ -71,7 +71,7 @@ public class EMFModelOntology extends AbstractPredefinedOntology {
 
 	@Override
 	protected void initializeOntology(IOntologyManager ontologyManager) throws OntologyManagerException {
-		ontologyManager.addNamespace(EMFONTOLOGY_PREFIX, EMFONTOLOGY_IRI, false);
+		//ontologyManager.addNamespace(EMFONTOLOGY_PREFIX, EMFONTOLOGY_IRI, false);
 		
 		getOntologyManager().addImportDeclaration(getModelBaseOntology().getOntologyManager().getOntology());
 
