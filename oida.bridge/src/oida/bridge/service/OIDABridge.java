@@ -17,7 +17,6 @@ import javax.inject.Singleton;
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.e4.core.di.annotations.Creatable;
 import org.eclipse.emf.common.command.BasicCommandStack;
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.domain.AdapterFactoryEditingDomain;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
@@ -57,10 +56,8 @@ import oida.util.constants.StringConstants;
 @Singleton
 public final class OIDABridge implements IOIDABridge {
 	protected static Logger LOGGER = LoggerFactory.getLogger(OIDABridge.class);
-	
-	private final String MSG_PREFIX = "OIDA Bridge: ";
 
-	private Map<EObject, IModelChangeHandler> modelHandlerMap = new HashMap<EObject, IModelChangeHandler>();
+	private Map<Object, IModelChangeHandler> modelHandlerMap = new HashMap<Object, IModelChangeHandler>();
 
 	private List<IRecommender> recommenderPrimary;
 	private List<IRecommender> recommenderSecondary;
@@ -75,7 +72,7 @@ public final class OIDABridge implements IOIDABridge {
 
 	@Inject
 	public OIDABridge(IOIDAOntologyService oidaOntologyService) {
-		LOGGER.info("Initializing service...");
+		LOGGER.info("Initializing OIDA Bridge Service...");
 		this.oidaOntologyService = oidaOntologyService;
 		modelHandlerMap.clear();
 
@@ -105,16 +102,16 @@ public final class OIDABridge implements IOIDABridge {
 
 		try {
 			recommenderPrimary = ExtensionPointUtil.loadExtensions(Activator.getExtensionRegistry(), IRecommender.class, Activator.OIDA_RECOMMENDER_PRIMARY_EXTENSIONPOINT_ID);
-			
+
 			for (IRecommender r : recommenderPrimary)
 				LOGGER.info("Primary Recommender registered: " + r.toString() + ".");
 		} catch (CoreException e) {
 			LOGGER.error("Error while evaluating primary recommender extension point.", e);
 		}
-		
+
 		try {
 			recommenderSecondary = ExtensionPointUtil.loadExtensions(Activator.getExtensionRegistry(), IRecommender.class, Activator.OIDA_RECOMMENDER_SECONDARY_EXTENSIONPOINT_ID);
-			
+
 			for (IRecommender r : recommenderSecondary)
 				LOGGER.info("Secondary Recommender registered: " + r.toString() + ".");
 		} catch (CoreException e) {
@@ -122,7 +119,12 @@ public final class OIDABridge implements IOIDABridge {
 		}
 
 		OntologyFile emfOntologyFile = OIDAUtil.getOntologyFile(OIDAUtil.getOIDAWorkPath(), FileConstants.EMFONTOLOGY_FILENAME);
-		EMFModelChangeHandlerFactory.getInstance().initialize(oidaOntologyService.getOntologyManager(emfOntologyFile, true));
+
+		Optional<IOntologyManager> optEMFModelOntology = oidaOntologyService.getOntologyManager(emfOntologyFile, true);
+		if (optEMFModelOntology.isPresent())
+			EMFModelChangeHandlerFactory.getInstance().initialize(optEMFModelOntology.get());
+		else
+			LOGGER.error("Error: EMF Model Ontology could not be created. OIDA Bridge is not ready.");
 
 		BridgemodelItemProviderAdapterFactory adapterFactory = new BridgemodelItemProviderAdapterFactory();
 
@@ -132,57 +134,48 @@ public final class OIDABridge implements IOIDABridge {
 		AdapterFactoryEditingDomain editingDomain = new AdapterFactoryEditingDomain(composedAdapterFactory, new BasicCommandStack());
 		currentPrimaryRecommendationsResource = editingDomain.createResource("http://de.oida/bridge/currentprimaryrecommendations");
 		currentPrimaryRecommendationsResource.getContents().add(BridgemodelFactory.eINSTANCE.createRecommendationSet());
-		
+
 		currentSecondaryRecommendationsResource = editingDomain.createResource("http://de.oida/bridge/currentsecondaryrecommendations");
 		currentSecondaryRecommendationsResource.getContents().add(BridgemodelFactory.eINSTANCE.createRecommendationSet());
 
-		LOGGER.info("Service registered.");
+		LOGGER.info("OIDA Bridge Service registered.");
 	}
 
 	@Override
-	public void invokeModelObservation(final EObject modelObject, final File modelOntologyDirectory, final String modelObjectId) throws OIDABridgeException {
+	public void invokeModelObservation(final Object modelObject, final File modelOntologyDirectory, final String modelObjectId) throws OIDABridgeException {
 		if (renamerStrategy == null)
-			throw new OIDABridgeException(MSG_PREFIX + "No renamer strategy found. Model won't be observed.");
+			throw new OIDABridgeException("No renamer strategy found. Model won't be observed.");
 
 		if (modelOntologyDirectory == null)
-			throw new OIDABridgeException(MSG_PREFIX + "No directory for a model ontology has been passed. Model won't be observed.");
+			throw new OIDABridgeException("No directory for a model ontology has been passed. Model won't be observed.");
 
-		if (!modelOntologyDirectory.exists())
-			if (!modelOntologyDirectory.mkdirs())
-				throw new OIDABridgeException(
-						MSG_PREFIX + "The directory for the model ontology doesn't exist/could not be created ['" + modelOntologyDirectory.toString() + "']. Model won't be observed.");
+		if (!modelOntologyDirectory.exists() && !modelOntologyDirectory.mkdirs())
+			throw new OIDABridgeException("The directory for the model ontology doesn't exist/could not be created ['" + modelOntologyDirectory.toString() + "']. Model won't be observed.");
 
 		File modelOntologyFile = new File(modelOntologyDirectory, generateModelOntologyFileName(modelObjectId));
 
-		try {
-			OntologyFile ontologyfile = OIDAUtil.getOntologyFile(modelOntologyFile);
-			IOntologyManager modelOntologyManager = oidaOntologyService.getOntologyManager(ontologyfile, false);
+		OntologyFile ontologyfile = OIDAUtil.getOntologyFile(modelOntologyFile);
 
-			if (modelOntologyManager == null) {
-				modelOntologyManager = oidaOntologyService.getOntologyManager(ontologyfile, true);
-				modelOntologyManager.addImportDeclaration(oidaOntologyService.getReferenceOntologyManager().getOntology());
-			}
+		IModelChangeHandler changeHandler = EMFModelChangeHandlerFactory.getInstance().createModelChangeHandler();
+		changeHandler.initializeChangeHandler(renamerStrategy, structuringStrategy);
 
-			IModelChangeHandler changeHandler = EMFModelChangeHandlerFactory.getInstance().createModelChangeHandler();
-			changeHandler.setOntologyService(oidaOntologyService);
-			changeHandler.setModelOntologyManager(modelOntologyManager);
-			changeHandler.initializeModelOntology((EObject)modelObject, renamerStrategy, structuringStrategy);
+		Optional<IOntologyManager> optModelOntologyMgr = oidaOntologyService.getOntologyManager(ontologyfile, true);
+		if (optModelOntologyMgr.isPresent())
+			changeHandler.startChangeTracking(modelObject, optModelOntologyMgr.get());
+		else
+			LOGGER.error("Model observation could not be startet: Model ontology not found.");
 
-			changeHandler.setRenamerStrategy(renamerStrategy);
-			modelHandlerMap.put(changeHandler.getModelObject(), changeHandler);
+		modelHandlerMap.put(modelObject, changeHandler);
 
-			for (IRecommender rec : recommenderPrimary)
-				rec.initializeRecommenderForModel(modelOntologyManager.getOntology(), oidaOntologyService.getReferenceOntologyManager().getOntology());
-			
-			for (IRecommender rec : recommenderSecondary)
-				rec.initializeRecommenderForModel(modelOntologyManager.getOntology(), oidaOntologyService.getReferenceOntologyManager().getOntology());
-		} catch (OntologyManagerException e) {
-			throw new OIDABridgeException(MSG_PREFIX + "Could not create a model ontology.", e);
-		}
+		for (IRecommender rec : recommenderPrimary)
+			rec.initializeRecommenderForModel(changeHandler.getModelOntologyManager().getOntology(), oidaOntologyService.getReferenceOntologyManager().getOntology());
+
+		for (IRecommender rec : recommenderSecondary)
+			rec.initializeRecommenderForModel(changeHandler.getModelOntologyManager().getOntology(), oidaOntologyService.getReferenceOntologyManager().getOntology());
 	}
 
 	@Override
-	public void saveModelOntology(final EObject modelObject) {
+	public void saveModelOntology(final Object modelObject) {
 		try {
 			if (modelHandlerMap.containsKey(modelObject))
 				modelHandlerMap.get(modelObject).getModelOntologyManager().saveOntology();
@@ -192,16 +185,16 @@ public final class OIDABridge implements IOIDABridge {
 	}
 
 	@Override
-	public void stopModelObservation(final EObject modelObject) {
+	public void stopModelObservation(final Object modelObject) {
 		modelHandlerMap.get(modelObject).closeModelOntology();
 		modelHandlerMap.remove(modelObject);
 	}
 
 	@Override
-	public void reportModelSelectionChanged(EObject modelObject, EObject firstSelectedElement) {
+	public void reportModelSelectionChanged(Object modelObject, Object firstSelectedElement) {
 		if (modelObject == null || firstSelectedElement == null)
 			return;
-		
+
 		RecommendationSet recPrimarySet = (RecommendationSet)currentPrimaryRecommendationsResource.getContents().get(0);
 		recPrimarySet.getRecommendations().clear();
 		recPrimarySet.setModelObject(modelObject);
@@ -209,7 +202,7 @@ public final class OIDABridge implements IOIDABridge {
 
 		for (IRecommender rec : recommenderPrimary)
 			recPrimarySet.getRecommendations().addAll(rec.findRecommendationsForSelectedModelElement(recPrimarySet.getOntologyEntity()));
-		
+
 		RecommendationSet recSecondarySet = (RecommendationSet)currentSecondaryRecommendationsResource.getContents().get(0);
 		recSecondarySet.getRecommendations().clear();
 		recSecondarySet.setModelObject(modelObject);
@@ -221,7 +214,7 @@ public final class OIDABridge implements IOIDABridge {
 
 	private String generateModelOntologyFileName(String modelObjectId) throws OIDABridgeException {
 		if (oidaOntologyService.getLibrary().getReferenceOntology() == null)
-			throw new OIDABridgeException(MSG_PREFIX + "No reference ontology set. Model won't be observed.");
+			throw new OIDABridgeException("No reference ontology set. Model won't be observed.");
 
 		return modelObjectId + StringConstants.UNDERSCORE + oidaOntologyService.getLibrary().getReferenceOntology().getFileName();
 	}
@@ -235,7 +228,7 @@ public final class OIDABridge implements IOIDABridge {
 	public Resource getCurrentSecondaryRecommendationsResource() {
 		return currentSecondaryRecommendationsResource;
 	}
-	
+
 	@Override
 	public void establishPrimaryMapping(Recommendation selectedRecommendation) {
 		RecommendationSet recSet = (RecommendationSet)currentPrimaryRecommendationsResource.getContents().get(0);
@@ -246,7 +239,7 @@ public final class OIDABridge implements IOIDABridge {
 			LOGGER.info("Primary Mapping establisehd. Individual '" + recSet.getOntologyEntity().getIri() + "' is of type '" + selectedRecommendation.getRecommendedEntity().getIri() + "'");
 		}
 	}
-	
+
 	@Override
 	public void establishSecondaryMapping(Recommendation selectedRecommendation) {
 		RecommendationSet recSet = (RecommendationSet)currentSecondaryRecommendationsResource.getContents().get(0);
@@ -257,7 +250,8 @@ public final class OIDABridge implements IOIDABridge {
 			LOGGER.info("Secondary Mapping establisehd. Class '" + recSet.getOntologyEntity().getIri() + "' is equivalent to class '" + selectedRecommendation.getRecommendedEntity().getIri() + "'");
 		} else if (recSet.getOntologyEntity() instanceof OntologyObjectProperty && selectedRecommendation.getRecommendedEntity() instanceof OntologyObjectProperty) {
 			modelOntologyManager.assignObjectPropertyEquivalence((OntologyObjectProperty)recSet.getOntologyEntity(), (OntologyObjectProperty)selectedRecommendation.getRecommendedEntity());
-			LOGGER.info("Secondary Mapping establisehd. Object property '" + recSet.getOntologyEntity().getIri() + "' is equivalent to object property '" + selectedRecommendation.getRecommendedEntity().getIri() + "'");
+			LOGGER.info("Secondary Mapping establisehd. Object property '" + recSet.getOntologyEntity().getIri() + "' is equivalent to object property '"
+					+ selectedRecommendation.getRecommendedEntity().getIri() + "'");
 		}
 	}
 
@@ -265,7 +259,7 @@ public final class OIDABridge implements IOIDABridge {
 	public Optional<IModelChangeHandler> getModelChangeHandler(Object model) {
 		if (modelHandlerMap.containsKey(model))
 			return Optional.of(modelHandlerMap.get(model));
-		
+
 		return Optional.empty();
 	}
 }

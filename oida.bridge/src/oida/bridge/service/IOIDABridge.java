@@ -8,7 +8,6 @@ package oida.bridge.service;
 import java.io.File;
 import java.util.Optional;
 
-import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 
 import bridgemodel.Recommendation;
@@ -41,7 +40,7 @@ public interface IOIDABridge {
 	 *             set at the moment. If the exception is thrown, the model
 	 *             element is not observed.
 	 */
-	void invokeModelObservation(final EObject modelObject, final File modelOntologyDirectory, final String modelObjectId) throws OIDABridgeException;
+	void invokeModelObservation(final Object modelObject, final File modelOntologyDirectory, final String modelObjectId) throws OIDABridgeException;
 
 	/**
 	 * Saves the model ontology in the current state, if the model object is
@@ -50,7 +49,7 @@ public interface IOIDABridge {
 	 * @param modelObject
 	 *            The model object, which's ontology should be saved.
 	 */
-	void saveModelOntology(final EObject modelObject);
+	void saveModelOntology(final Object modelObject);
 
 	/**
 	 * Stops the model ontology management for the passed model object.
@@ -58,7 +57,7 @@ public interface IOIDABridge {
 	 * @param modelObject
 	 *            The model object, which should not be observed any more.
 	 */
-	void stopModelObservation(final EObject modelObject);
+	void stopModelObservation(final Object modelObject);
 
 	/**
 	 * Can be called by external editors or other parts, if the selected model
@@ -68,7 +67,7 @@ public interface IOIDABridge {
 	 * @param modelObject The observed model.
 	 * @param firstSelectedElement The first selected model element.
 	 */
-	void reportModelSelectionChanged(EObject modelObject, EObject firstSelectedElement);
+	void reportModelSelectionChanged(Object modelObject, Object firstSelectedElement);
 	
 	/**
 	 * Provides ontology class recommendations for the currently selected model element.
