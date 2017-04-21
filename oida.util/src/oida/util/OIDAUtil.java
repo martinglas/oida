@@ -45,4 +45,8 @@ public class OIDAUtil {
 		
 		return ontologyFileObject;
 	}
+	
+	public static String getFileIriString(OntologyFile ontologyFile) {
+		return "file:/" + ontologyFile.getPath().replace(StringConstants.BACKSLASH, StringConstants.SLASH) + ontologyFile.getFileName();
+	}
 }
