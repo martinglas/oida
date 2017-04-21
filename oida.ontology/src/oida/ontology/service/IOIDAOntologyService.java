@@ -5,13 +5,12 @@
  ******************************************************************************/
 package oida.ontology.service;
 
+import java.util.Optional;
+
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.domain.EditingDomain;
 
-import oida.ontology.OntologyObjectProperty;
 import oida.ontology.manager.IOntologyManager;
-import oida.ontology.manager.OntologyManagerException;
-import oida.ontology.predefined.Mereology;
 import oida.ontologyMgr.Library;
 import oida.ontologyMgr.OntologyFile;
 
@@ -32,7 +31,8 @@ public interface IOIDAOntologyService {
 
 	public EditingDomain getEditingDomain();
 	
-	public IOntologyManager getOntologyManager(OntologyFile entry, boolean createIfNotExisting);
-	
-	public Mereology getMereology();
+	public Optional<IOntologyManager> getOntologyManager(String ontologyIri);
+	public Optional<IOntologyManager> getOntologyManager(OntologyFile ontologyFile);
+	public Optional<IOntologyManager> getOntologyManager(OntologyFile ontologyFile, boolean createIfNotExisting);
+	public Optional<IOntologyManager> getOntologyManager(String ontologyIri, OntologyFile entry, boolean createIfNotExisting);
 }

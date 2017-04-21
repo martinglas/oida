@@ -5,16 +5,15 @@
  ******************************************************************************/
 package oida.ontology.service;
 
+import java.util.Optional;
+
 import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import oida.ontology.manager.IOntologyManager;
-import oida.ontology.manager.OntologyManagerException;
 import oida.ontology.predefined.Mereology;
 import oida.ontologyMgr.OntologyFile;
-import oida.util.OIDAUtil;
-import oida.util.constants.FileConstants;
 
 /**
  * 
@@ -26,32 +25,9 @@ public abstract class AbstractOIDAOntologyService extends EContentAdapter implem
 	protected static Logger LOGGER = LoggerFactory.getLogger(AbstractOIDAOntologyService.class);
 
 	private IOntologyManager referenceOntologyManager;
-	
-	private Mereology mereology;
-	
+
 	public AbstractOIDAOntologyService() {
 	}
-	
-	@Override
-	public Mereology getMereology() {
-		if (mereology == null) {
-			OntologyFile mereologyFile = OIDAUtil.getOntologyFile(OIDAUtil.getOIDAWorkPath(), FileConstants.MEREOLOGY_FILENAME);
-			IOntologyManager mereologyOntology = getOntologyManager(mereologyFile, true);
-			
-			mereology = new Mereology();
-			
-			try {
-				mereology.loadOrInitializeOntology(mereologyOntology);
-			} catch (OntologyManagerException e) {
-				LOGGER.error("Mereology couldn't be saved!", e);
-			}
-			
-			LOGGER.info("Mereology successfully generated.");
-		}
-			
-		return mereology;
-	}
-	
 	
 	public IOntologyManager getReferenceOntologyManager() {
 		return referenceOntologyManager;
@@ -59,5 +35,17 @@ public abstract class AbstractOIDAOntologyService extends EContentAdapter implem
 	
 	protected void setReferenceOntologyManager(IOntologyManager ontologyManager) {
 		this.referenceOntologyManager = ontologyManager;
+	}
+	
+	public Optional<IOntologyManager> getOntologyManager(String ontologyIri) {
+		return getOntologyManager(ontologyIri, null, false);
+	}
+	
+	public Optional<IOntologyManager> getOntologyManager(OntologyFile ontologyFile) {
+		return getOntologyManager(null, ontologyFile, false);
+	}
+	
+	public Optional<IOntologyManager> getOntologyManager(OntologyFile ontologyFile, boolean createIfNotExisting) {
+		return getOntologyManager(null, ontologyFile, createIfNotExisting);
 	}
 }
