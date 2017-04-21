@@ -53,11 +53,11 @@ public class MappingViewPart {
 				Optional<IModelChangeHandler> changeHandler = oidaBridge.getModelChangeHandler(baseModelObject);
 				
 				if (changeHandler.isPresent()) {
-					OntologyEntity entity = changeHandler.get().getOntologyEntityForModelElement(selectedModelObject);
+					Optional<OntologyEntity> optEntity = changeHandler.get().getOntologyEntityForModelElement(selectedModelObject);
 					
-					if (entity != null) {
+					if (optEntity.isPresent()) {
 						formComposite = formFactory.createFormDetailComposite(parent, SWT.NONE);
-						formComposite.init(entity);
+						formComposite.init(optEntity.get());
 					}
 				}
 			}

@@ -7,9 +7,6 @@ package oida.bridge.model.strategy;
 
 import java.util.List;
 
-import org.eclipse.emf.ecore.EClass;
-import org.eclipse.emf.ecore.EStructuralFeature;
-
 /**
  * 
  * @author Martin Glas, Michael Shamiyeh
@@ -29,7 +26,7 @@ public interface IRenamerStrategy {
 
 	public List<Object> getNameRelevantObjectsForObject(Object object);
 
-	public String getEStructuralFeatureName(EStructuralFeature eStructuralFeature);
+	public String getClassName(Object classObject);
 
-	public String getEClassName(EClass eClass);
+	public String getRelationID(Object relationObject);
 }

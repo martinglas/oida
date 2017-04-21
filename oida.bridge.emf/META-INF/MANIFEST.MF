@@ -12,3 +12,4 @@ Require-Bundle: org.eclipse.emf.ecore;bundle-version="2.12.0",
 Import-Package: oida.ontology.manager,
  oida.ontology.predefined,
  oida.ontology.service
+Export-Package: oida.bridge.model.strategy.emf

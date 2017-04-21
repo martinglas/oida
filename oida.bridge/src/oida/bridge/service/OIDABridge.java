@@ -36,6 +36,7 @@ import oida.bridge.model.strategy.IRenamerStrategy;
 import oida.bridge.model.strategy.IStructuringStrategy;
 import oida.bridge.recommender.IRecommender;
 import oida.ontology.OntologyClass;
+import oida.ontology.OntologyEntity;
 import oida.ontology.OntologyIndividual;
 import oida.ontology.OntologyObjectProperty;
 import oida.ontology.manager.IOntologyManager;
@@ -62,7 +63,7 @@ public final class OIDABridge implements IOIDABridge {
 
 	private IModelChangeHandlerFactory changeHandlerFactory;
 	private OIDAModelBaseOntology oidaModelOntology;
-	
+
 	private List<IRecommender> recommenderPrimary;
 	private List<IRecommender> recommenderSecondary;
 
@@ -91,7 +92,7 @@ public final class OIDABridge implements IOIDABridge {
 		} catch (CoreException e) {
 			LOGGER.error("Error while evaluating Model Change Handler Factory extension point.", e);
 		}
-		
+
 		LOGGER.info("Evaluating model change handler renamer strategy extensions.");
 		try {
 			renamerStrategy = ExtensionPointUtil.loadSingleExtension(Activator.getExtensionRegistry(), IRenamerStrategy.class, Activator.OIDA_MODEL_RENAMERSTRATEGY);
@@ -137,20 +138,19 @@ public final class OIDABridge implements IOIDABridge {
 		try {
 			OntologyFile oidaModelOntologyFile = OIDAUtil.getOntologyFile(OIDAUtil.getOIDAWorkPath(), FileConstants.OIDAMODELONTOLOGY_FILENAME);
 			Optional<IOntologyManager> optOntologyManager = oidaOntologyService.getOntologyManager(oidaModelOntologyFile, true);
-			
+
 			if (optOntologyManager.isPresent()) {
 				oidaModelOntology = new OIDAModelBaseOntology();
 				oidaModelOntology.loadOrInitializeOntology(optOntologyManager.get());
 				LOGGER.info("Model Base Ontology loaded.");
-			}
-			else
+			} else
 				LOGGER.error("Error while loading the Model Base Ontology.");
 		} catch (OntologyManagerException e) {
 			LOGGER.error("Error while loading the Model Base Ontology.", e);
 		}
-		
+
 		changeHandlerFactory.initialize(oidaOntologyService, oidaModelOntology);
-		
+
 		BridgemodelItemProviderAdapterFactory adapterFactory = new BridgemodelItemProviderAdapterFactory();
 
 		ComposedAdapterFactory composedAdapterFactory = new ComposedAdapterFactory(adapterFactory);
@@ -220,21 +220,26 @@ public final class OIDABridge implements IOIDABridge {
 		if (modelObject == null || firstSelectedElement == null)
 			return;
 
-		RecommendationSet recPrimarySet = (RecommendationSet)currentPrimaryRecommendationsResource.getContents().get(0);
-		recPrimarySet.getRecommendations().clear();
-		recPrimarySet.setModelObject(modelObject);
-		recPrimarySet.setOntologyEntity(modelHandlerMap.get(modelObject).getOntologyEntityForModelElement(firstSelectedElement));
+		Optional<OntologyEntity> optOntEntity = modelHandlerMap.get(modelObject).getOntologyEntityForModelElement(firstSelectedElement);
+		if (optOntEntity.isPresent()) {
+			RecommendationSet recPrimarySet = (RecommendationSet)currentPrimaryRecommendationsResource.getContents().get(0);
+			recPrimarySet.getRecommendations().clear();
+			recPrimarySet.setModelObject(modelObject);
+			recPrimarySet.setOntologyEntity(optOntEntity.get());
 
-		for (IRecommender rec : recommenderPrimary)
-			recPrimarySet.getRecommendations().addAll(rec.findRecommendationsForSelectedModelElement(recPrimarySet.getOntologyEntity()));
+			for (IRecommender rec : recommenderPrimary)
+				recPrimarySet.getRecommendations().addAll(rec.findRecommendationsForSelectedModelElement(recPrimarySet.getOntologyEntity()));
 
-		RecommendationSet recSecondarySet = (RecommendationSet)currentSecondaryRecommendationsResource.getContents().get(0);
-		recSecondarySet.getRecommendations().clear();
-		recSecondarySet.setModelObject(modelObject);
-		recSecondarySet.setOntologyEntity(modelHandlerMap.get(modelObject).getOntologyEntityForModelElement(firstSelectedElement));
+			RecommendationSet recSecondarySet = (RecommendationSet)currentSecondaryRecommendationsResource.getContents().get(0);
+			recSecondarySet.getRecommendations().clear();
+			recSecondarySet.setModelObject(modelObject);
+			recSecondarySet.setOntologyEntity(optOntEntity.get());
 
-		for (IRecommender rec : recommenderSecondary)
-			recSecondarySet.getRecommendations().addAll(rec.findRecommendationsForSelectedModelElement(recSecondarySet.getOntologyEntity()));
+			for (IRecommender rec : recommenderSecondary)
+				recSecondarySet.getRecommendations().addAll(rec.findRecommendationsForSelectedModelElement(recSecondarySet.getOntologyEntity()));
+		}
+		else
+			LOGGER.warn("No Ontology Entity found for '" + firstSelectedElement.toString() + "'.");
 	}
 
 	private String generateModelOntologyFileName(String modelObjectId) throws OIDABridgeException {

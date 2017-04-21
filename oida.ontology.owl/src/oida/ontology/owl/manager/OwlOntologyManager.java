@@ -123,6 +123,7 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 
 		try {			
 			owlOntology = owlOntologyManager.createOntology(IRI.create(iri));
+			owlPrefixManager.setDefaultPrefix(iri);
 			owlOntologyManager.setOntologyFormat(owlOntology, owlPrefixManager);
 			setOntology(OntologyManagerUtils.generateInternalOntologyObject(iri, owlOntology.classesInSignature().count(), owlOntology.individualsInSignature().count()));
 
@@ -149,8 +150,8 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 		if (optFile.isPresent() && optFile.get().exists()) {
 			try {
 				owlOntology = owlOntologyManager.loadOntologyFromOntologyDocument(optFile.get());
-						 
 				owlOntologyManager.setOntologyFormat(owlOntology, owlPrefixManager);
+				owlPrefixManager.setDefaultPrefix(owlOntology.getOntologyID().getOntologyIRI().get().getIRIString());
 				setOntology(OntologyManagerUtils.generateInternalOntologyObject(owlOntology.getOntologyID().getOntologyIRI().get().getIRIString(), owlOntology.classesInSignature().count(),
 						owlOntology.individualsInSignature().count()));
 
