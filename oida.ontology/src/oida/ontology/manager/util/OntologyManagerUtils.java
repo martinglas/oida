@@ -27,9 +27,9 @@ public class OntologyManagerUtils {
 	public static Ontology generateInternalOntologyObject(String name, long nrOfClasses, long nrOfIndividuals) {
 		Ontology newOntology = OntologyFactory.eINSTANCE.createOntology();
 		newOntology.setName(name);
+		newOntology.setIri(name);
 		newOntology.setNrOfClasses(nrOfClasses);
 		newOntology.setNrOfIndividuals(nrOfIndividuals);
-		newOntology.getImports();
 		return newOntology;
 	}
 
@@ -87,9 +87,18 @@ public class OntologyManagerUtils {
 		return generateInternalObjectPropertyObject(ontology, superObjectProperty, extractNameFromIRI(iri), extractPrefixFromIRI(iri));
 	}
 
+	public static OntologyAnnotationProperty generateInternalAnnotationPropertyObject(Ontology ontology, final String iri) {
+		OntologyAnnotationProperty property = OntologyFactory.eINSTANCE.createOntologyAnnotationProperty();
+		setOntologyEntityData(property, ontology, extractNameFromIRI(iri), extractPrefixFromIRI(iri));
+		ontology.getAnnotationProperties().add(property);
+
+		return property;
+	}
+	
 	public static OntologyAnnotationProperty generateInternalAnnotationPropertyObject(Ontology ontology, final String name, final String prefix) {
 		OntologyAnnotationProperty property = OntologyFactory.eINSTANCE.createOntologyAnnotationProperty();
 		setOntologyEntityData(property, ontology, name, prefix);
+		ontology.getAnnotationProperties().add(property);
 
 		return property;
 	}
@@ -119,12 +128,29 @@ public class OntologyManagerUtils {
 		entity.setPrefix(prefix);
 	}
 
+	public static void changeOntologyEntityName(OntologyEntity entity, String newName) {
+		entity.setName(newName);
+		entity.setIri(buildFullIRIString(newName, entity.getPrefix()));
+	}
+	
 	public static String extractPrefixFromIRI(String iri) {
-		return iri.substring(0, iri.lastIndexOf(StringConstants.HASHTAG));
+		if (iri.contains(StringConstants.HASHTAG))
+			return iri.substring(0, iri.lastIndexOf(StringConstants.HASHTAG));
+		
+		if (iri.contains(StringConstants.SLASH))
+			return iri.substring(0, iri.lastIndexOf(StringConstants.SLASH));
+		
+		return iri;
 	}
 
 	public static String extractNameFromIRI(String iri) {
-		return iri.substring(iri.lastIndexOf(StringConstants.HASHTAG) + 1);
+		if (iri.contains(StringConstants.HASHTAG))
+			return iri.substring(iri.lastIndexOf(StringConstants.HASHTAG) + 1);
+		
+		if (iri.contains(StringConstants.SLASH))
+			return iri.substring(iri.lastIndexOf(StringConstants.SLASH) + 1);
+		
+		return iri;
 	}
 	
 	/**

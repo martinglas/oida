@@ -6,6 +6,7 @@
 package oida.ontology.manager;
 
 import java.util.Map;
+import java.util.Optional;
 import java.util.stream.Stream;
 
 import oida.ontology.Ontology;
@@ -58,7 +59,7 @@ public interface IOntologyManager {
 	void initializeReasoner();
 
 	void addGlobalIRIToLocalPathMapping(String iri, String localPath);
-
+	
 	void addNamespace(String prefix, String namespace);
 
 	void addNamespace(String prefix, String namespace, boolean setDefault);
@@ -184,7 +185,9 @@ public interface IOntologyManager {
 
 	OntologyAnnotationProperty createAnnotationProperty(String propertyName, String prefix);
 
-	OntologyAnnotation annotateClass(OntologyAnnotationProperty property, String annotationValue, OntologyClass clazz);
+	Optional<OntologyAnnotation> annotateClass(OntologyAnnotationProperty property, String annotationValue, OntologyClass clazz);
+	
+	Optional<OntologyAnnotation> annotateIndividual(OntologyIndividual individual, OntologyAnnotationProperty property, String annotationValue);
 
 	void assignClassEquivalence(OntologyClass clazz, OntologyClass equivalentClazz);
 	void assignObjectPropertyEquivalence(OntologyObjectProperty objectProperty, OntologyObjectProperty equivalentObjectProperty);

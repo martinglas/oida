@@ -122,13 +122,13 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 	public Ontology createOntology(String iri) throws OntologyManagerException {
 		clearOntologyManager();
 
-		try {
+		try {			
 			owlOntology = owlOntologyManager.createOntology(IRI.create(iri));
 			owlOntologyManager.setOntologyFormat(owlOntology, owlPrefixManager);
 			setOntology(OntologyManagerUtils.generateInternalOntologyObject(iri, owlOntology.classesInSignature().count(), owlOntology.individualsInSignature().count()));
 
 			mapHandler.initializeOntology(owlDataFactory, owlOntology, getOntology());
-
+			
 			for (String prefixName : owlPrefixManager.getPrefixName2PrefixMap().keySet())
 				OntologyManagerUtils.generateInternalNamespaceObject(getOntology(), prefixName, owlPrefixManager.getPrefixName2PrefixMap().get(prefixName));
 
@@ -150,7 +150,7 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 		if (file != null && file.exists()) {
 			try {
 				owlOntology = owlOntologyManager.loadOntologyFromOntologyDocument(file);
-				//owlPrefixManager.copyPrefixesFrom(owlOntologyManager.getOntologyFormat(owlOntology).asPrefixOWLDocumentFormat());
+				// owlPrefixManager.copyPrefixesFrom(owlOntologyManager.getOntologyFormat(owlOntology).asPrefixOWLDocumentFormat());
 				owlOntologyManager.setOntologyFormat(owlOntology, owlPrefixManager);
 				setOntology(OntologyManagerUtils.generateInternalOntologyObject(owlOntology.getOntologyID().getOntologyIRI().get().getIRIString(), owlOntology.classesInSignature().count(),
 						owlOntology.individualsInSignature().count()));
@@ -172,7 +172,7 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 
 	@Override
 	public void addGlobalIRIToLocalPathMapping(String iri, String localPath) {
-		localPath = "file:/" + localPath.replace("\\", "/");
+		localPath = "file:/" + localPath.replace(StringConstants.BACKSLASH, StringConstants.SLASH);
 		owlOntologyManager.getIRIMappers().add(new SimpleIRIMapper(IRI.create(iri), IRI.create(localPath)));
 	}
 
@@ -196,8 +196,10 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 	}
 
 	protected void extractOntologyContent(OWLOntology owlOntology, Ontology ontology, boolean includeImports) {
+		extractImports(owlOntology, ontology);
 		extractClassHierarchy(owlOntology, ontology, includeImports);
 		extractObjectPropertyHierarchy(owlOntology, ontology, includeImports);
+		extractAnnotationProperties(owlOntology, ontology, includeImports);
 		extractIndividuals(owlOntology, ontology, includeImports);
 
 		// Optional<OwlOntologyManager> existingManagedOntology = findExistingManagedOntology(owlOntology.getOntologyID().getOntologyIRI().get());
@@ -219,6 +221,13 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 		// for (String prefixName : owlPrefixManager.getPrefixName2PrefixMap().keySet())
 		// OntologyManagerUtils.generateInternalNamespaceObject(ontology, prefixName, owlPrefixManager.getPrefixName2PrefixMap().get(prefixName));
 		// }
+	}
+
+	protected void extractImports(OWLOntology owlOntology, Ontology ontology) {
+		for (OWLOntology importedOwlOntology : owlOntology.directImports().collect(Collectors.toList())) {
+			ontology.getImports().add(OntologyManagerUtils.generateInternalOntologyObject(importedOwlOntology.getOntologyID().getOntologyIRI().get().getIRIString(),
+					importedOwlOntology.classesInSignature().count(), importedOwlOntology.individualsInSignature().count()));
+		}
 	}
 
 	protected void extractClassHierarchy(OWLOntology owlOntology, Ontology ontology, boolean includeImports) {
@@ -305,6 +314,18 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 			}
 		}
 	}
+	
+	private void extractAnnotationProperties(OWLOntology owlOntology, Ontology ontology, boolean includeImports) {
+		Imports imports = Imports.INCLUDED;
+		if (!includeImports)
+			imports = Imports.EXCLUDED;
+
+		List<OWLAnnotationProperty> allAnnotationProperties = owlOntology.annotationPropertiesInSignature(imports).collect(Collectors.toList());
+		
+		for (OWLAnnotationProperty owlAnnotationProperty : allAnnotationProperties) {
+			mapHandler.toMap(owlAnnotationProperty, OntologyManagerUtils.generateInternalAnnotationPropertyObject(ontology, owlAnnotationProperty.getIRI().getIRIString()));
+		}
+	}
 
 	private void extractIndividuals(OWLOntology owlOntology, Ontology ontology, boolean includeImports) {
 		Imports imports = Imports.INCLUDED;
@@ -326,16 +347,6 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 			}
 		}
 	}
-
-//	private String getPrefixOfNamespace(String namespace) {
-//		for (Entry<String, String> entry : owlPrefixManager.getPrefixName2PrefixMap().entrySet()) {
-//			if (entry.getValue().equals(namespace)) {
-//				return entry.getKey().substring(0, entry.getKey().length() - 1);
-//			}
-//		}
-//
-//		return StringConstants.EMPTY;
-//	}
 
 	@Override
 	public void saveOntology() throws OntologyManagerException {
@@ -400,7 +411,7 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 	@Override
 	public void addImportDeclaration(String importOntologyIRIString) throws OntologyManagerException {
 		// Check, if the import is already existing:
-		if (getOntology().getImports().stream().filter(o -> o.getName().equals(importOntologyIRIString)).findFirst().isPresent())
+		if (getOntology().getImports().stream().filter(o -> o.getIri().equals(importOntologyIRIString)).findFirst().isPresent())
 			return;
 
 		IRI importOntologyIRI = IRI.create(importOntologyIRIString);
@@ -409,37 +420,17 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 
 		try {
 			OWLOntology owlImportedOntology = owlOntologyManager.loadOntology(importOntologyIRI);
-			Ontology importedOntology = OntologyManagerUtils.generateInternalOntologyObject(owlImportedOntology.getOntologyID().getOntologyIRI().get().getIRIString(), owlImportedOntology.classesInSignature().count(),
-					owlImportedOntology.individualsInSignature().count());
-			
+			Ontology importedOntology = OntologyManagerUtils.generateInternalOntologyObject(owlImportedOntology.getOntologyID().getOntologyIRI().get().getIRIString(),
+					owlImportedOntology.classesInSignature().count(), owlImportedOntology.individualsInSignature().count());
+
 			getOntology().getImports().add(importedOntology);
-			
+
 			extractOntologyContent(owlImportedOntology, importedOntology, true);
-			
+
 		} catch (OWLOntologyCreationException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-		
-//		try {
-//			Optional<IOntologyManager> existingManagedOntology = getGlobalOntologyContext().findOntology(importOntologyIRIString);
-//			if (existingManagedOntology.isPresent()) {
-//				OwlOntologyManager existingOWLMgr = (OwlOntologyManager)existingManagedOntology.get();
-//
-//				getOntology().getImports().add(existingOWLMgr.getOntology());
-//				mapHandler.importFromOtherOwlOntologyManager(existingOWLMgr.mapHandler);
-//			} else {
-//				OWLOntology owlImportOntology = owlOntologyManager.loadOntology(importOntologyIRI);
-//
-//				Iterator<IRI> iriIt = owlImportOntology.directImportsDocuments().iterator();
-//				while (iriIt.hasNext())
-//					System.out.println(MESSAGE_PREFIX + "Direct Import: " + iriIt.next().toString());
-//
-//				// Ontology o = extractOntologyContent(owlImportOntology);
-//			}
-//		} catch (OWLOntologyCreationException e) {
-//			throw new OntologyManagerException(MESSAGE_PREFIX + "Error while loading ontology '" + importOntologyIRI.toString() + "': " + e.getMessage(), e);
-//		}
 	}
 
 	@Override
@@ -516,6 +507,7 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 
 		Optional<OWLEntity> optRenameEntity = mapHandler.getOWLEntity(entity);
 		if (optRenameEntity.isPresent()) {
+			OntologyManagerUtils.changeOntologyEntityName(entity, newName);
 			List<OWLOntologyChange> changes = renamer.changeIRI(optRenameEntity.get(), IRI.create(optRenameEntity.get().getIRI().toString().replace(entity.getName(), newName)));
 			owlOntologyManager.applyChanges(changes);
 
@@ -706,14 +698,14 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 
 		owlOntologyManager.addAxiom(owlOntology, owlAxiom);
 
-		OntologyAnnotationProperty prop = OntologyManagerUtils.generateInternalAnnotationPropertyObject(getOntology(), prefix, propertyName);
+		OntologyAnnotationProperty prop = OntologyManagerUtils.generateInternalAnnotationPropertyObject(getOntology(), propertyName, prefix);
 		mapHandler.toMap(owlProperty, prop);
 
 		return prop;
 	}
 
 	@Override
-	public OntologyAnnotation annotateClass(OntologyAnnotationProperty property, String annotationValue, OntologyClass clazz) {
+	public Optional<OntologyAnnotation> annotateClass(OntologyAnnotationProperty property, String annotationValue, OntologyClass clazz) {
 		Optional<OWLAnnotationProperty> optOwlAnnotationProperty = mapHandler.getOWLAnnotationProperty(property);
 		Optional<OWLClass> optOwlClass = mapHandler.getOWLClass(clazz);
 
@@ -727,17 +719,39 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 			clazz.getAnnotations().add(annotation);
 			mapHandler.toMap(owlAnnotation, annotation);
 
-			return annotation;
+			return Optional.of(annotation);
 		}
 
-		return null;
+		return Optional.empty();
+	}
+	
+
+	@Override
+	public Optional<OntologyAnnotation> annotateIndividual(OntologyIndividual individual, OntologyAnnotationProperty property, String annotationValue) {
+		Optional<OWLAnnotationProperty> optOwlAnnotationProperty = mapHandler.getOWLAnnotationProperty(property);
+		Optional<OWLNamedIndividual> optOwlIndividual = mapHandler.getOWLIndividual(individual);
+
+		if (optOwlAnnotationProperty.isPresent() && optOwlIndividual.isPresent()) {
+			OWLAnnotation owlAnnotation = owlDataFactory.getOWLAnnotation(optOwlAnnotationProperty.get(), owlDataFactory.getOWLLiteral(annotationValue));
+			OWLAnnotationAssertionAxiom owlAxiom = owlDataFactory.getOWLAnnotationAssertionAxiom(optOwlIndividual.get().getIRI(), owlAnnotation);
+
+			owlOntologyManager.addAxiom(owlOntology, owlAxiom);
+
+			OntologyAnnotation annotation = OntologyManagerUtils.generateInternalAnnotationObject(getOntology(), property, annotationValue);
+			individual.getAnnotations().add(annotation);
+			mapHandler.toMap(owlAnnotation, annotation);
+
+			return Optional.of(annotation);
+		}
+
+		return Optional.empty();
 	}
 
 	@Override
 	public void assignClassEquivalence(OntologyClass clazz, OntologyClass equivalentClazz) {
 		Optional<OWLClass> optOwlClass = mapHandler.getOWLClass(clazz);
 		Optional<OWLClass> optOwlEquivalentClass = mapHandler.getOWLClass(equivalentClazz);
-		
+
 		if (optOwlClass.isPresent() && optOwlEquivalentClass.isPresent()) {
 			OWLEquivalentClassesAxiom owlAxiom = owlDataFactory.getOWLEquivalentClassesAxiom(optOwlClass.get(), optOwlEquivalentClass.get());
 			owlOntologyManager.addAxiom(owlOntology, owlAxiom);
@@ -748,7 +762,7 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 	public void assignObjectPropertyEquivalence(OntologyObjectProperty objectProperty, OntologyObjectProperty equivalentObjectProperty) {
 		Optional<OWLObjectProperty> optOwlObjectProperty = mapHandler.getOWLObjectProperty(objectProperty);
 		Optional<OWLObjectProperty> optOwlEquivalentObjectProperty = mapHandler.getOWLObjectProperty(equivalentObjectProperty);
-		
+
 		if (optOwlObjectProperty.isPresent() && optOwlEquivalentObjectProperty.isPresent()) {
 			OWLEquivalentObjectPropertiesAxiom owlAxiom = owlDataFactory.getOWLEquivalentObjectPropertiesAxiom(optOwlObjectProperty.get(), optOwlEquivalentObjectProperty.get());
 			owlOntologyManager.addAxiom(owlOntology, owlAxiom);
