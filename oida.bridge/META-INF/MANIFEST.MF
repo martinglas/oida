@@ -21,8 +21,8 @@ Require-Bundle: org.eclipse.core.runtime,
  oida.util
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
-Export-Package: oida.bridge.model,
- oida.bridge.model.renamer,
+Export-Package: oida.bridge.model.changehandler,
+ oida.bridge.model.strategy,
  oida.bridge.recommender,
  oida.bridge.service
 Import-Package: oida.ontology.manager,

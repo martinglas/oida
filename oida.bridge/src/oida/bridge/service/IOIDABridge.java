@@ -11,7 +11,7 @@ import java.util.Optional;
 import org.eclipse.emf.ecore.resource.Resource;
 
 import bridgemodel.Recommendation;
-import oida.bridge.model.IModelChangeHandler;
+import oida.bridge.model.changehandler.IModelChangeHandler;
 
 /**
  * The OIDA bridge is the interface for model handling applications to OIDA.

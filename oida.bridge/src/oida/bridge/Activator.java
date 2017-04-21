@@ -8,6 +8,7 @@ import oida.bridge.service.OIDABridge;
 import oida.util.bundle.AbstractOIDAActivator;
 
 public class Activator extends AbstractOIDAActivator {
+	public final static String OIDA_EXTENSIONPOINT_ID_MODEL_CHANGEHANDLER = "oida.bridge.model.changehandler";
 	public final static String OIDA_MODEL_RENAMERSTRATEGY = "oida.bridge.model.renamerstrategy";
 	public final static String OIDA_MODEL_STRUCTURINGSTRATEGY = "oida.bridge.model.structuringstrategy";
 	public final static String OIDA_RECOMMENDER_PRIMARY_EXTENSIONPOINT_ID = "oida.bridge.recommender.primary";

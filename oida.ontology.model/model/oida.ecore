@@ -48,7 +48,7 @@
           lowerBound="1" eType="#//ontology/OntologyObjectProperty"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="objectProperties" upperBound="-1"
           eType="#//ontology/OntologyObjectProperty" containment="true" resolveProxies="false"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="annotationproperties"
+      <eStructuralFeatures xsi:type="ecore:EReference" name="annotationProperties"
           upperBound="-1" eType="#//ontology/OntologyAnnotationProperty" containment="true"
           resolveProxies="false"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="nrOfClasses" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>

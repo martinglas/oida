@@ -29,10 +29,10 @@ import bridgemodel.Recommendation;
 import bridgemodel.RecommendationSet;
 import bridgemodel.provider.BridgemodelItemProviderAdapterFactory;
 import oida.bridge.Activator;
-import oida.bridge.emf.EMFModelChangeHandlerFactory;
-import oida.bridge.model.IModelChangeHandler;
-import oida.bridge.model.renamer.IRenamerStrategy;
-import oida.bridge.model.renamer.IStructuringStrategy;
+import oida.bridge.model.changehandler.IModelChangeHandler;
+import oida.bridge.model.changehandler.IModelChangeHandlerFactory;
+import oida.bridge.model.strategy.IRenamerStrategy;
+import oida.bridge.model.strategy.IStructuringStrategy;
 import oida.bridge.recommender.IRecommender;
 import oida.ontology.OntologyClass;
 import oida.ontology.OntologyIndividual;
@@ -43,7 +43,6 @@ import oida.ontology.service.IOIDAOntologyService;
 import oida.ontologyMgr.OntologyFile;
 import oida.util.ExtensionPointUtil;
 import oida.util.OIDAUtil;
-import oida.util.constants.FileConstants;
 import oida.util.constants.StringConstants;
 
 /**
@@ -59,6 +58,8 @@ public final class OIDABridge implements IOIDABridge {
 
 	private Map<Object, IModelChangeHandler> modelHandlerMap = new HashMap<Object, IModelChangeHandler>();
 
+	private IModelChangeHandlerFactory changeHandlerFactory;
+	
 	private List<IRecommender> recommenderPrimary;
 	private List<IRecommender> recommenderSecondary;
 
@@ -76,6 +77,18 @@ public final class OIDABridge implements IOIDABridge {
 		this.oidaOntologyService = oidaOntologyService;
 		modelHandlerMap.clear();
 
+		LOGGER.info("Evaluating Model Change Handler Factory extensions.");
+		try {
+			changeHandlerFactory = ExtensionPointUtil.loadSingleExtension(Activator.getExtensionRegistry(), IModelChangeHandlerFactory.class, Activator.OIDA_EXTENSIONPOINT_ID_MODEL_CHANGEHANDLER);
+
+			if (changeHandlerFactory != null)
+				LOGGER.info("Model Change Handler Factory set: '" + changeHandlerFactory.getClass().getName() + "'.");
+			else
+				LOGGER.error("No Model Change Handler Factory found.");
+		} catch (CoreException e) {
+			LOGGER.error("Error while evaluating Model Change Handler Factory extension point.", e);
+		}
+		
 		LOGGER.info("Evaluating model change handler renamer strategy extensions.");
 		try {
 			renamerStrategy = ExtensionPointUtil.loadSingleExtension(Activator.getExtensionRegistry(), IRenamerStrategy.class, Activator.OIDA_MODEL_RENAMERSTRATEGY);
@@ -118,14 +131,8 @@ public final class OIDABridge implements IOIDABridge {
 			LOGGER.error("Error while evaluating secondary recommender extension point.", e);
 		}
 
-		OntologyFile emfOntologyFile = OIDAUtil.getOntologyFile(OIDAUtil.getOIDAWorkPath(), FileConstants.EMFONTOLOGY_FILENAME);
-
-		Optional<IOntologyManager> optEMFModelOntology = oidaOntologyService.getOntologyManager(emfOntologyFile, true);
-		if (optEMFModelOntology.isPresent())
-			EMFModelChangeHandlerFactory.getInstance().initialize(optEMFModelOntology.get());
-		else
-			LOGGER.error("Error: EMF Model Ontology could not be created. OIDA Bridge is not ready.");
-
+		changeHandlerFactory.initialize(oidaOntologyService);
+		
 		BridgemodelItemProviderAdapterFactory adapterFactory = new BridgemodelItemProviderAdapterFactory();
 
 		ComposedAdapterFactory composedAdapterFactory = new ComposedAdapterFactory(adapterFactory);
@@ -156,7 +163,7 @@ public final class OIDABridge implements IOIDABridge {
 
 		OntologyFile ontologyfile = OIDAUtil.getOntologyFile(modelOntologyFile);
 
-		IModelChangeHandler changeHandler = EMFModelChangeHandlerFactory.getInstance().createModelChangeHandler();
+		IModelChangeHandler changeHandler = changeHandlerFactory.getChangeHandler();
 		changeHandler.initializeChangeHandler(renamerStrategy, structuringStrategy);
 
 		Optional<IOntologyManager> optModelOntologyMgr = oidaOntologyService.getOntologyManager(ontologyfile, true);
