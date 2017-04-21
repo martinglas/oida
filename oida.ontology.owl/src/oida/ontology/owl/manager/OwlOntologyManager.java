@@ -44,6 +44,7 @@ import org.semanticweb.owlapi.model.OWLObjectPropertyRangeAxiom;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyChange;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
+import org.semanticweb.owlapi.model.OWLOntologyLoaderConfiguration;
 import org.semanticweb.owlapi.model.OWLOntologyManager;
 import org.semanticweb.owlapi.model.OWLOntologyStorageException;
 import org.semanticweb.owlapi.model.OWLReflexiveObjectPropertyAxiom;
@@ -146,11 +147,11 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 		if (ontologyFile == null)
 			return null;
 
-		File file = getOntologyFileObject(ontologyFile);
-		if (file != null && file.exists()) {
+		Optional<File> optFile = getOntologyFileObject(ontologyFile);
+		if (optFile.isPresent() && optFile.get().exists()) {
 			try {
-				owlOntology = owlOntologyManager.loadOntologyFromOntologyDocument(file);
-				// owlPrefixManager.copyPrefixesFrom(owlOntologyManager.getOntologyFormat(owlOntology).asPrefixOWLDocumentFormat());
+				owlOntology = owlOntologyManager.loadOntologyFromOntologyDocument(optFile.get());
+						 
 				owlOntologyManager.setOntologyFormat(owlOntology, owlPrefixManager);
 				setOntology(OntologyManagerUtils.generateInternalOntologyObject(owlOntology.getOntologyID().getOntologyIRI().get().getIRIString(), owlOntology.classesInSignature().count(),
 						owlOntology.individualsInSignature().count()));
@@ -160,11 +161,11 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 				extractOntologyContent(owlOntology, getOntology(), true);
 				setOntologyFile(ontologyFile);
 				getOntology().setOntologyFile(ontologyFile);
-				LOGGER.info("Ontology loaded: '" + file.getName() + "'");
+				LOGGER.info("Ontology loaded: '" + optFile.get().getName() + "'");
 
 				return getOntology();
 			} catch (OWLOntologyCreationException e) {
-				throw new OntologyManagerException("Error while loading ontology from file '" + file.getName() + "': " + e.getMessage(), e);
+				throw new OntologyManagerException("Error while loading ontology from file '" + optFile.get().getName() + "': " + e.getMessage(), e);
 			}
 		} else
 			throw new OntologyManagerException("Error while loading ontology: File doesn't exist.");
@@ -236,7 +237,7 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 			imports = Imports.EXCLUDED;
 
 		List<OWLClass> allClasses = owlOntology.classesInSignature(imports).collect(Collectors.toList());
-
+		
 		// Generate internal class objects for all OWL-classes as subclass of Thing:
 		for (OWLClass owlClass : allClasses) {
 			if (!owlClass.getIRI().getIRIString().equals(mapHandler.getOwlThingClass().getIRI().getIRIString()))

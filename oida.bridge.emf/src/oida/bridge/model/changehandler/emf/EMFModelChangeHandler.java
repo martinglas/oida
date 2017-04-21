@@ -210,7 +210,7 @@ public class EMFModelChangeHandler extends AbstractModelChangeHandler {
 	private OntologyIndividual createIndividualForModelElement(OntologyClass ontologyClass, EObject newValue, IOntologyManager ontologyManager) {
 		if (!emfToOntologyMap.containsKey(newValue)) {
 			OntologyIndividual oIn = ontologyManager.createIndividualOfClass(getRenamerStrategy().getObjectID(newValue), MODELONT_PREFIX, ontologyClass);
-			Optional<OntologyAnnotation> ontAnnotation = ontologyManager.annotateIndividual(oIn, emfModelOntology.getEmfNameAnnotationProperty(), getRenamerStrategy().getObjectName(newValue));
+			Optional<OntologyAnnotation> ontAnnotation = ontologyManager.annotateIndividual(oIn, emfModelOntology.getModelBaseOntology().getNameAnnotationProperty(), getRenamerStrategy().getObjectName(newValue));
 			emfToOntologyMap.put(newValue, oIn);
 			System.out.println(MSG_PREFIX + "Individual created: '" + oIn.getName() + "' (Annotated with: '" + ontAnnotation.get().getValue() + "').");
 			return oIn;

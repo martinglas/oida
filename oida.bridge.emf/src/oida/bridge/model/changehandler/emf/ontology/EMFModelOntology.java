@@ -7,6 +7,7 @@ package oida.bridge.model.changehandler.emf.ontology;
 
 import java.util.Optional;
 
+import oida.bridge.model.ontology.OIDAModelBaseOntology;
 import oida.ontology.Ontology;
 import oida.ontology.OntologyAnnotationProperty;
 import oida.ontology.OntologyObjectProperty;
@@ -27,13 +28,15 @@ public class EMFModelOntology extends AbstractPredefinedOntology {
 	public static final String EMFONTOLOGY_REFERENCE_NAME = "emf_reference";
 	public static final String EMFONTOLOGY_REFERENCE_BIDIR_NAME = "emf_reference_bidirectional";
 	
-	public static final String EMFONTOLOGY_NAME_ANNOTATION = "emf_name";
-	
 	private OntologyObjectProperty emfReferenceObjectProperty;
 	private OntologyObjectProperty emfReferenceBiDirectionalObjectProperty;
-	
-	private OntologyAnnotationProperty emfNameAnnotationProperty;
 
+	private OIDAModelBaseOntology oidaModelBaseOntology;
+
+	public OIDAModelBaseOntology getModelBaseOntology() {
+		return oidaModelBaseOntology;
+	}
+	
 	public OntologyObjectProperty getEmfReferenceObjectProperty() {
 		return emfReferenceObjectProperty;
 	}
@@ -42,10 +45,12 @@ public class EMFModelOntology extends AbstractPredefinedOntology {
 		return emfReferenceBiDirectionalObjectProperty;
 	}
 	
-	public OntologyAnnotationProperty getEmfNameAnnotationProperty() {
-		return emfNameAnnotationProperty;
+	public EMFModelOntology(OIDAModelBaseOntology modelBaseOntology) {
+		super();
+		
+		oidaModelBaseOntology = modelBaseOntology;
 	}
-
+	
 	@Override
 	protected boolean checkPreDefinedOntology(Ontology ontology) {
 		Optional<OntologyObjectProperty> emfReferenceOptional = ontology.getObjectProperties().stream().filter(p -> p.getName().equals(EMFONTOLOGY_REFERENCE_NAME)).findFirst();
@@ -60,18 +65,15 @@ public class EMFModelOntology extends AbstractPredefinedOntology {
 		else
 			return false;
 		
-		Optional<OntologyAnnotationProperty> emfNameAnnotationPropertyOptional = ontology.getAnnotationProperties().stream().filter(p -> p.getName().equals(EMFONTOLOGY_NAME_ANNOTATION)).findFirst();
-		if (emfNameAnnotationPropertyOptional.isPresent())
-			emfNameAnnotationProperty = emfNameAnnotationPropertyOptional.get();
-		else
-			return false;
-		
+
 		return true;
 	}
 
 	@Override
 	protected void initializeOntology(IOntologyManager ontologyManager) throws OntologyManagerException {
 		ontologyManager.addNamespace(EMFONTOLOGY_PREFIX, EMFONTOLOGY_IRI, false);
+		
+		getOntologyManager().addImportDeclaration(getModelBaseOntology().getOntologyManager().getOntology());
 
 		emfReferenceObjectProperty = ontologyManager.createObjectProperty(EMFONTOLOGY_REFERENCE_NAME, EMFONTOLOGY_PREFIX);
 		ontologyManager.setObjectPropertyCharacteristics(emfReferenceObjectProperty, false, false, false, false, false, false, false);
@@ -79,8 +81,6 @@ public class EMFModelOntology extends AbstractPredefinedOntology {
 		emfReferenceBiDirectionalObjectProperty = ontologyManager.createObjectProperty(EMFONTOLOGY_REFERENCE_BIDIR_NAME, EMFONTOLOGY_PREFIX);
 		ontologyManager.setObjectPropertyCharacteristics(emfReferenceBiDirectionalObjectProperty, false, false, false, true, false, false, false);
 
-		emfNameAnnotationProperty = ontologyManager.createAnnotationProperty(EMFONTOLOGY_NAME_ANNOTATION, EMFONTOLOGY_PREFIX);
-		
 		ontologyManager.saveOntology();
 	}
 }

@@ -16,22 +16,34 @@ import org.eclipse.swt.widgets.Composite;
 
 import com.google.inject.Injector;
 
-import oida.bridge.model.IModelChangeHandler;
+import oida.bridge.model.changehandler.IModelChangeHandler;
 import oida.bridge.service.IOIDABridge;
 import oida.ontology.OntologyEntity;
 import oida.ontology.ui.view.MappingView.MappingViewInjectorProvider;
 
+/**
+ * 
+ * @author Michael Shamiyeh
+ * @since 2017-04-18
+ *
+ */
 public class MappingViewPart {
 	public static final String PART_ID = "oida.bridge.ui.e4.partdescriptor.oidamappingview";
-	
+
 	private FormDetailComposite formComposite;
 
 	@PostConstruct
 	public void postConstruct(Composite parent, ESelectionService selectionService, IOIDABridge oidaBridge) {
+		Injector injector = MappingViewInjectorProvider.getInjector();
+		FormFactory formFactory = injector.getInstance(FormFactory.class);
+		
 		selectionService.addSelectionListener("de.symo.model.editor.e4.partdescriptor.symomodeleditor", new ISelectionListener() {
 			
 			@Override
 			public void selectionChanged(MPart part, Object selection) {
+				if (formComposite != null)
+					formComposite.dispose();
+				
 				EObject selectedModelObject = (EObject)((StructuredSelection)selection).getFirstElement();
 				
 				EObject baseModelObject = selectedModelObject;
@@ -43,16 +55,12 @@ public class MappingViewPart {
 				if (changeHandler.isPresent()) {
 					OntologyEntity entity = changeHandler.get().getOntologyEntityForModelElement(selectedModelObject);
 					
-					if (entity != null)
+					if (entity != null) {
+						formComposite = formFactory.createFormDetailComposite(parent, SWT.NONE);
 						formComposite.init(entity);
+					}
 				}
 			}
 		});
-
-		Injector injector = MappingViewInjectorProvider.getInjector();
-
-		FormFactory formFactory = injector.getInstance(FormFactory.class);
-		
-		formComposite = formFactory.createFormDetailComposite(parent, SWT.NONE);
 	}
 }

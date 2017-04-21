@@ -1,5 +1,6 @@
 package oida.bridge.model.changehandler;
 
+import oida.bridge.model.ontology.OIDAModelBaseOntology;
 import oida.ontology.service.IOIDAOntologyService;
 
 /**
@@ -10,7 +11,7 @@ import oida.ontology.service.IOIDAOntologyService;
  */
 public interface IModelChangeHandlerFactory {
 	
-	void initialize(IOIDAOntologyService ontologyService);
+	void initialize(IOIDAOntologyService ontologyService, OIDAModelBaseOntology modelBaseOntology);
 	
 	/**
 	 * Creates a new instance of a model change handler.

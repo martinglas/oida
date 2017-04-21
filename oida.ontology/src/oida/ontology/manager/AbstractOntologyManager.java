@@ -12,6 +12,8 @@ import java.util.stream.Stream;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.util.EContentAdapter;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import oida.ontology.Ontology;
 import oida.ontology.OntologyAnnotationProperty;
@@ -31,6 +33,8 @@ import oida.util.constants.StringConstants;
  *
  */
 public abstract class AbstractOntologyManager extends EContentAdapter implements IOntologyManager {
+	private static Logger LOGGER = LoggerFactory.getLogger(AbstractOntologyManager.class);
+	
 	private IGlobalOntologyContext globalContext;
 	
 	@Override
@@ -93,19 +97,19 @@ public abstract class AbstractOntologyManager extends EContentAdapter implements
 		}
 	}
 
-	protected File getOntologyFileObject(OntologyFile ontologyFile) {
+	protected Optional<File> getOntologyFileObject(OntologyFile ontologyFile) {
 		return getOntologyFileObject(ontologyFile, false);
 	}
 
-	protected File getOntologyFileObject(OntologyFile ontologyFile, boolean createIfNotExisting) {
+	protected Optional<File> getOntologyFileObject(OntologyFile ontologyFile, boolean createIfNotExisting) {
 		if (ontologyFile.getPath() == null) {
-			System.out.println("OIDA Ontology Manager [getOntologyFile]: Ontology file path is not set.");
-			return null;
+			LOGGER.error("GetOntologyFile for '" + ontologyFile.toString() + "': Ontology file path is not set.");
+			return Optional.empty();
 		}
 
 		if (ontologyFile.getFileName() == null) {
-			System.out.println("OIDA Ontology Manager [getOntologyFile]: Ontology filename is not set.");
-			return null;
+			LOGGER.error("GetOntologyFile for '" + ontologyFile.toString() + "': Ontology filename is not set.");
+			return Optional.empty();
 		}
 		
 		if (!ontologyFile.getPath().endsWith(StringConstants.BACKSLASH))
@@ -117,18 +121,18 @@ public abstract class AbstractOntologyManager extends EContentAdapter implements
 			if (createIfNotExisting) {
 				try {
 					file.createNewFile();
-					System.out.println("OIDA Ontology Manager [getOntologyFile]: Ontology file '" + file.getAbsolutePath() + "' has been created.");
-					return file;
+					LOGGER.info("GetOntologyFile for '" + ontologyFile.toString() + "': Ontology file '" + file.getAbsolutePath() + "' has been created.");
+					return Optional.of(file);
 				} catch (IOException e) {
-					e.printStackTrace();
-					return null;
+					LOGGER.error("GetOntologyFile for '" + ontologyFile.toString() + "': Error while creating file '" + file.getAbsolutePath() + "'.", e);
+					return Optional.empty();
 				}
 			} else {
-				System.out.println("OIDA Ontology Manager [getOntologyFile]: Ontology file '" + file.getAbsolutePath() + "' doesn't exist and has NOT been created.");
-				return null;
+				LOGGER.warn("GetOntologyFile for '" + ontologyFile.toString() + "': Ontology file '" + file.getAbsolutePath() + "' doesn't exist and has NOT been created.");
+				return Optional.empty();
 			}
 		} else {
-			return file;
+			return Optional.of(file);
 		}
 	}
 

@@ -31,6 +31,7 @@ import bridgemodel.provider.BridgemodelItemProviderAdapterFactory;
 import oida.bridge.Activator;
 import oida.bridge.model.changehandler.IModelChangeHandler;
 import oida.bridge.model.changehandler.IModelChangeHandlerFactory;
+import oida.bridge.model.ontology.OIDAModelBaseOntology;
 import oida.bridge.model.strategy.IRenamerStrategy;
 import oida.bridge.model.strategy.IStructuringStrategy;
 import oida.bridge.recommender.IRecommender;
@@ -43,6 +44,7 @@ import oida.ontology.service.IOIDAOntologyService;
 import oida.ontologyMgr.OntologyFile;
 import oida.util.ExtensionPointUtil;
 import oida.util.OIDAUtil;
+import oida.util.constants.FileConstants;
 import oida.util.constants.StringConstants;
 
 /**
@@ -59,6 +61,7 @@ public final class OIDABridge implements IOIDABridge {
 	private Map<Object, IModelChangeHandler> modelHandlerMap = new HashMap<Object, IModelChangeHandler>();
 
 	private IModelChangeHandlerFactory changeHandlerFactory;
+	private OIDAModelBaseOntology oidaModelOntology;
 	
 	private List<IRecommender> recommenderPrimary;
 	private List<IRecommender> recommenderSecondary;
@@ -131,7 +134,22 @@ public final class OIDABridge implements IOIDABridge {
 			LOGGER.error("Error while evaluating secondary recommender extension point.", e);
 		}
 
-		changeHandlerFactory.initialize(oidaOntologyService);
+		try {
+			OntologyFile oidaModelOntologyFile = OIDAUtil.getOntologyFile(OIDAUtil.getOIDAWorkPath(), FileConstants.OIDAMODELONTOLOGY_FILENAME);
+			Optional<IOntologyManager> optOntologyManager = oidaOntologyService.getOntologyManager(oidaModelOntologyFile, true);
+			
+			if (optOntologyManager.isPresent()) {
+				oidaModelOntology = new OIDAModelBaseOntology();
+				oidaModelOntology.loadOrInitializeOntology(optOntologyManager.get());
+				LOGGER.info("Model Base Ontology loaded.");
+			}
+			else
+				LOGGER.error("Error while loading the Model Base Ontology.");
+		} catch (OntologyManagerException e) {
+			LOGGER.error("Error while loading the Model Base Ontology.", e);
+		}
+		
+		changeHandlerFactory.initialize(oidaOntologyService, oidaModelOntology);
 		
 		BridgemodelItemProviderAdapterFactory adapterFactory = new BridgemodelItemProviderAdapterFactory();
 

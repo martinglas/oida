@@ -15,4 +15,6 @@ public class FileConstants {
 	public static final String MEREOLOGY_FILENAME = "mereology.owl";
 	
 	public static final String EMFONTOLOGY_FILENAME = "emfmodelontology.owl";
+
+	public static final String OIDAMODELONTOLOGY_FILENAME = "oidamodelontology.owl";
 }

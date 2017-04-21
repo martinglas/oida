@@ -28,8 +28,11 @@ public class IndividualNameRecommender  extends AbstractNameRecommender<Ontology
 
 	@Override
 	protected String getSearchName(OntologyEntity entity) {
-		if (entity instanceof OntologyIndividual)
+		if (entity instanceof OntologyIndividual) {
+			//if (entity.getAnnotations().contains())
 			return entity.getName();
+		}
+			
 		
 		return null;
 	}
