@@ -5,7 +5,6 @@ import java.util.Optional;
 import oida.bridge.model.changehandler.IModelChangeHandler;
 import oida.bridge.model.changehandler.IModelChangeHandlerFactory;
 import oida.bridge.model.changehandler.emf.ontology.EMFModelOntology;
-import oida.bridge.model.ontology.OIDAModelBaseOntology;
 import oida.ontology.manager.IOntologyManager;
 import oida.ontology.manager.OntologyManagerException;
 import oida.ontology.service.IOIDAOntologyService;
@@ -20,19 +19,14 @@ import oida.util.constants.FileConstants;
  *
  */
 public class EMFModelChangeHandlerFactory implements IModelChangeHandlerFactory {
-	private EMFModelOntology emfModelOntology;
-	
-	public void initialize(IOIDAOntologyService ontologyService, OIDAModelBaseOntology modelBaseOntology) {
-		emfModelOntology = new EMFModelOntology(modelBaseOntology);
-
+	public void initialize(IOIDAOntologyService ontologyService) {
 		OntologyFile emfOntologyFile = OIDAUtil.getOntologyFile(OIDAUtil.getOIDAWorkPath(), FileConstants.EMFONTOLOGY_FILENAME);
 		
 		try {
 			Optional<IOntologyManager> optOntologyManager = ontologyService.getOntologyManager(emfOntologyFile, true);
 			
 			if (optOntologyManager.isPresent()) {
-				emfModelOntology.loadOrInitializeOntology(optOntologyManager.get());
-				emfModelOntology.getOntologyManager().addImportDeclaration(modelBaseOntology.getOntologyManager().getOntology());
+				EMFModelOntology.getInstance().loadOrInitializeOntology(optOntologyManager.get());
 			}
 			else
 				System.out.println("Bla");
@@ -43,6 +37,6 @@ public class EMFModelChangeHandlerFactory implements IModelChangeHandlerFactory 
 
 	@Override
 	public IModelChangeHandler getChangeHandler() {
-		return new EMFModelChangeHandler(emfModelOntology);
+		return new EMFModelChangeHandler();
 	}
 }

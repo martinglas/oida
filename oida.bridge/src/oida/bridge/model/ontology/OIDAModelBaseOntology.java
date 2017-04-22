@@ -26,6 +26,18 @@ public class OIDAModelBaseOntology extends AbstractPredefinedOntology {
 		return nameAnnotationProperty;
 	}
 	
+	private static OIDAModelBaseOntology INSTANCE;
+	
+	public static OIDAModelBaseOntology getInstance() {
+		if (INSTANCE == null)
+			INSTANCE = new OIDAModelBaseOntology();
+		
+		return INSTANCE;
+	}
+	
+	private OIDAModelBaseOntology() {
+	}
+	
 	@Override
 	protected boolean checkPreDefinedOntology(Ontology ontology) {
 		Optional<OntologyAnnotationProperty> emfNameAnnotationPropertyOptional = ontology.getAnnotationProperties().stream().filter(p -> p.getName().equals(OIDA_MODELONTOLOGY_NAME_ANNOTATION)).findFirst();

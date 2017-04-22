@@ -1,11 +1,15 @@
 package oida.bridge.recommender.name;
 
 import java.util.List;
+import java.util.Optional;
 
 import bridgemodel.RecommendationType;
+import oida.bridge.model.ontology.OIDAModelBaseOntology;
+import oida.ontology.OntologyAnnotation;
 import oida.ontology.OntologyClass;
 import oida.ontology.OntologyEntity;
 import oida.ontology.OntologyIndividual;
+import oida.util.constants.StringConstants;
 
 /**
  * 
@@ -29,12 +33,15 @@ public class IndividualNameRecommender  extends AbstractNameRecommender<Ontology
 	@Override
 	protected String getSearchName(OntologyEntity entity) {
 		if (entity instanceof OntologyIndividual) {
-			//if (entity.getAnnotations().contains())
-			return entity.getName();
-		}
+			Optional<OntologyAnnotation> optAnnotation = entity.getAnnotations().stream().filter(a -> a.getAnnotationproperty().equals(OIDAModelBaseOntology.getInstance().getNameAnnotationProperty())).findFirst();
 			
-		
-		return null;
+			if (optAnnotation.isPresent())
+				return optAnnotation.get().getValue();
+			else
+				return entity.getName();
+		}
+
+		return StringConstants.EMPTY;
 	}
 	
 	@Override

@@ -41,10 +41,7 @@ public class EMFModelChangeHandler extends AbstractModelChangeHandler {
 	// private final String MODELONT_PREFIX = "modont";
 	private String MODELONT_PREFIX = StringConstants.EMPTY;
 
-	private EMFModelOntology emfModelOntology;
-
-	public EMFModelChangeHandler(EMFModelOntology emfModelOntology) {
-		this.emfModelOntology = emfModelOntology;
+	public EMFModelChangeHandler() {
 	}
 
 	private EObject getModelObjectInternal() {
@@ -100,11 +97,11 @@ public class EMFModelChangeHandler extends AbstractModelChangeHandler {
 	@Override
 	public void initializeModelOntology(IOntologyManager modelOntologyManager) {
 		setModelOntologyManager(modelOntologyManager);
-		getModelOntologyManager().addGlobalIRIToLocalPathMapping(EMFModelOntology.EMFONTOLOGY_IRI, OIDAUtil.getFileIriString(emfModelOntology.getOntologyManager().getOntologyFile()));
+		getModelOntologyManager().addGlobalIRIToLocalPathMapping(EMFModelOntology.EMFONTOLOGY_IRI, OIDAUtil.getFileIriString(EMFModelOntology.getInstance().getOntologyManager().getOntologyFile()));
 		clearOntologyEntityToModelElementMap();
 
 		try {
-			getModelOntologyManager().addImportDeclaration(emfModelOntology.getOntologyManager().getOntology());
+			getModelOntologyManager().addImportDeclaration(EMFModelOntology.getInstance().getOntologyManager().getOntology());
 		} catch (OntologyManagerException e1) {
 			LOGGER.error("Error while adding OIDA internal EMF-Model ontology to model ontolgy.", e1);
 		}
@@ -224,9 +221,9 @@ public class EMFModelChangeHandler extends AbstractModelChangeHandler {
 			OntologyObjectProperty referenceObjectProperty = createOntologyObjectPropertyForMetaModelRelation(relationID, getOntologyClassForModelElement(eClass).get());
 			
 			if (strFeature.getEOpposite() == null)
-				ontologyManager.assignSubObjectPropertyToSuperObjectProperty(referenceObjectProperty, emfModelOntology.getEmfReferenceObjectProperty());
+				ontologyManager.assignSubObjectPropertyToSuperObjectProperty(referenceObjectProperty, EMFModelOntology.getInstance().getEmfReferenceObjectProperty());
 			else
-				ontologyManager.assignSubObjectPropertyToSuperObjectProperty(referenceObjectProperty, emfModelOntology.getEmfReferenceBiDirectionalObjectProperty());
+				ontologyManager.assignSubObjectPropertyToSuperObjectProperty(referenceObjectProperty, EMFModelOntology.getInstance().getEmfReferenceBiDirectionalObjectProperty());
 
 			if (strFeature.getEOpposite() != null && getOntologyEntityForModelElement(strFeature.getEOpposite().getEReferenceType()) == null) {
 				Optional<OntologyClass> domainClass = getOntologyClassForModelElement(strFeature.getEOpposite().getEReferenceType());
@@ -247,12 +244,6 @@ public class EMFModelChangeHandler extends AbstractModelChangeHandler {
 		if (referenceObjectProperty.isPresent() && containerIndividual.isPresent() && individual.isPresent())
 		
 		modelOntologyManager.createObjectPropertyAssertion(referenceObjectProperty.get(), containerIndividual.get(), individual.get());
-	}
-
-	@Override
-	public OIDAModelBaseOntology getModelBaseOntology() {
-		// TODO Auto-generated method stub
-		return null;
 	}
 
 	@Override

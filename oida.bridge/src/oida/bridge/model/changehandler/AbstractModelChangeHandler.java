@@ -28,7 +28,7 @@ import oida.ontology.manager.IOntologyManager;
  */
 public abstract class AbstractModelChangeHandler implements IModelChangeHandler {
 	private IOntologyManager modelOntologyManager;
-
+	
 	private Object modelObject;
 
 	private IRenamerStrategy renamerStrategy;
@@ -67,16 +67,6 @@ public abstract class AbstractModelChangeHandler implements IModelChangeHandler 
 			return Optional.of((OntologyObjectProperty)modelToOntologyMap.get(modelElement));
 		else
 			return Optional.empty();
-	}
-	
-	@Override
-	public OIDAModelBaseOntology getModelBaseOntology() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-	
-	public void setModelBaseOntology(OIDAModelBaseOntology baseOntology) {
-		
 	}
 
 	public IOntologyManager getModelOntologyManager() {
@@ -131,7 +121,7 @@ public abstract class AbstractModelChangeHandler implements IModelChangeHandler 
 			String individualName = getRenamerStrategy().getObjectName(modelObject);
 
 			OntologyIndividual oIn = modelOntologyManager.createIndividualOfClass(individualId, modelOntologyManager.getDefaultNamespace(), ontologyClass);
-			Optional<OntologyAnnotation> ontAnnotation = modelOntologyManager.annotateIndividual(oIn, getModelBaseOntology().getNameAnnotationProperty(), individualName);
+			Optional<OntologyAnnotation> ontAnnotation = modelOntologyManager.annotateIndividual(oIn, OIDAModelBaseOntology.getInstance().getNameAnnotationProperty(), individualName);
 			modelToOntologyMap.put(modelObject, oIn);
 			System.out.println("OIDA Model Change Handler: Individual created: '" + oIn.getName() + "' (Annotated with: '" + ontAnnotation.get().getValue() + "').");
 			return oIn;

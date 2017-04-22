@@ -7,7 +7,6 @@ package oida.bridge.model.changehandler;
 
 import java.util.Optional;
 
-import oida.bridge.model.ontology.OIDAModelBaseOntology;
 import oida.bridge.model.strategy.IRenamerStrategy;
 import oida.bridge.model.strategy.IStructuringStrategy;
 import oida.ontology.OntologyEntity;
@@ -26,7 +25,6 @@ public interface IModelChangeHandler {
 	IStructuringStrategy getStructuringStrategy();
 	void setStructuringStrategy(IStructuringStrategy structuringStrategy);
 	
-	OIDAModelBaseOntology getModelBaseOntology();
 	IOntologyManager getModelOntologyManager();
 	
 	String getModelOntologyPrefix();

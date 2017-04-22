@@ -62,7 +62,6 @@ public final class OIDABridge implements IOIDABridge {
 	private Map<Object, IModelChangeHandler> modelHandlerMap = new HashMap<Object, IModelChangeHandler>();
 
 	private IModelChangeHandlerFactory changeHandlerFactory;
-	private OIDAModelBaseOntology oidaModelOntology;
 
 	private List<IRecommender> recommenderPrimary;
 	private List<IRecommender> recommenderSecondary;
@@ -140,8 +139,7 @@ public final class OIDABridge implements IOIDABridge {
 			Optional<IOntologyManager> optOntologyManager = oidaOntologyService.getOntologyManager(oidaModelOntologyFile, true);
 
 			if (optOntologyManager.isPresent()) {
-				oidaModelOntology = new OIDAModelBaseOntology();
-				oidaModelOntology.loadOrInitializeOntology(optOntologyManager.get());
+				OIDAModelBaseOntology.getInstance().loadOrInitializeOntology(optOntologyManager.get());
 				LOGGER.info("Model Base Ontology loaded.");
 			} else
 				LOGGER.error("Error while loading the Model Base Ontology.");
@@ -149,7 +147,7 @@ public final class OIDABridge implements IOIDABridge {
 			LOGGER.error("Error while loading the Model Base Ontology.", e);
 		}
 
-		changeHandlerFactory.initialize(oidaOntologyService, oidaModelOntology);
+		changeHandlerFactory.initialize(oidaOntologyService);
 
 		BridgemodelItemProviderAdapterFactory adapterFactory = new BridgemodelItemProviderAdapterFactory();
 

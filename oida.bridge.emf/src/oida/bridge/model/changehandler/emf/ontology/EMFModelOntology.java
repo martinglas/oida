@@ -30,12 +30,6 @@ public class EMFModelOntology extends AbstractPredefinedOntology {
 	
 	private OntologyObjectProperty emfReferenceObjectProperty;
 	private OntologyObjectProperty emfReferenceBiDirectionalObjectProperty;
-
-	private OIDAModelBaseOntology oidaModelBaseOntology;
-
-	public OIDAModelBaseOntology getModelBaseOntology() {
-		return oidaModelBaseOntology;
-	}
 	
 	public OntologyObjectProperty getEmfReferenceObjectProperty() {
 		return emfReferenceObjectProperty;
@@ -45,10 +39,16 @@ public class EMFModelOntology extends AbstractPredefinedOntology {
 		return emfReferenceBiDirectionalObjectProperty;
 	}
 	
-	public EMFModelOntology(OIDAModelBaseOntology modelBaseOntology) {
-		super();
+	private static EMFModelOntology INSTANCE;
+	
+	public static EMFModelOntology getInstance() {
+		if (INSTANCE == null)
+			INSTANCE = new EMFModelOntology();
 		
-		oidaModelBaseOntology = modelBaseOntology;
+		return INSTANCE;
+	}
+	
+	private EMFModelOntology() {
 	}
 	
 	@Override
@@ -73,7 +73,7 @@ public class EMFModelOntology extends AbstractPredefinedOntology {
 	protected void initializeOntology(IOntologyManager ontologyManager) throws OntologyManagerException {
 		//ontologyManager.addNamespace(EMFONTOLOGY_PREFIX, EMFONTOLOGY_IRI, false);
 		
-		getOntologyManager().addImportDeclaration(getModelBaseOntology().getOntologyManager().getOntology());
+		getOntologyManager().addImportDeclaration(OIDAModelBaseOntology.getInstance().getOntologyManager().getOntology());
 
 		emfReferenceObjectProperty = ontologyManager.createObjectProperty(EMFONTOLOGY_REFERENCE_NAME, EMFONTOLOGY_PREFIX);
 		ontologyManager.setObjectPropertyCharacteristics(emfReferenceObjectProperty, false, false, false, false, false, false, false);
