@@ -9,6 +9,8 @@ import java.util.HashMap;
 import java.util.Optional;
 
 import org.eclipse.emf.ecore.EClass;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import oida.bridge.model.ontology.OIDAModelBaseOntology;
 import oida.bridge.model.strategy.IRenamerStrategy;
@@ -19,6 +21,7 @@ import oida.ontology.OntologyEntity;
 import oida.ontology.OntologyIndividual;
 import oida.ontology.OntologyObjectProperty;
 import oida.ontology.manager.IOntologyManager;
+import oida.ontology.manager.OntologyManagerException;
 
 /**
  * 
@@ -27,6 +30,9 @@ import oida.ontology.manager.IOntologyManager;
  *
  */
 public abstract class AbstractModelChangeHandler implements IModelChangeHandler {
+	protected static Logger LOGGER = LoggerFactory.getLogger(AbstractModelChangeHandler.class);
+	
+	private IOntologyManager metaModelOntologyManager;
 	private IOntologyManager modelOntologyManager;
 	
 	private Object modelObject;
@@ -68,6 +74,14 @@ public abstract class AbstractModelChangeHandler implements IModelChangeHandler 
 		else
 			return Optional.empty();
 	}
+	
+	public IOntologyManager getMetaModelOntologyManager() {
+		return metaModelOntologyManager;
+	}
+
+	protected void setMetaModelOntologyManager(IOntologyManager ontologyManager) {
+		this.metaModelOntologyManager = ontologyManager;
+	}
 
 	public IOntologyManager getModelOntologyManager() {
 		return modelOntologyManager;
@@ -102,18 +116,32 @@ public abstract class AbstractModelChangeHandler implements IModelChangeHandler 
 	}
 
 	@Override
-	public void initializeChangeHandler(IRenamerStrategy renamerStrategy, IStructuringStrategy structuringStrategy) {
+	public void initializeChangeHandler(IRenamerStrategy renamerStrategy, IStructuringStrategy structuringStrategy, IOntologyManager metaModelOntology) {
 		setRenamerStrategy(renamerStrategy);
 		setStructuringStrategy(structuringStrategy);
+		setMetaModelOntologyManager(metaModelOntology);
 	}
-
+	
 	@Override
 	public void startChangeTracking(Object modelObject, IOntologyManager modelOntologyManager) {
 		setModelObject(modelObject);
-		initializeModelOntology(modelOntologyManager);
+		clearOntologyEntityToModelElementMap();
+		
+		try {
+			modelOntologyManager.addImportDeclaration(getMetaModelOntologyManager().getOntology());
+			setModelOntologyManager(initializeModelOntology(modelOntologyManager));
+			
+			try {
+				getModelOntologyManager().saveOntology();
+			} catch (OntologyManagerException e) {
+				LOGGER.error("Error while saving model ontology for model '" + getModelObject().toString() + "'", e);
+			}
+		} catch (OntologyManagerException e) {
+			LOGGER.error("Error while initializing model ontology for model '" + getModelObject().toString() + "'", e);
+		}
 	}
 
-	protected abstract void initializeModelOntology(IOntologyManager modelOntologyManager);
+	protected abstract IOntologyManager initializeModelOntology(IOntologyManager modelOntologyManager);
 
 	protected OntologyIndividual createIndividualForModelObject(Object modelObject, OntologyClass ontologyClass) {
 		if (!modelToOntologyMap.containsKey(modelObject)) {
@@ -156,7 +184,7 @@ public abstract class AbstractModelChangeHandler implements IModelChangeHandler 
 	
 	protected OntologyObjectProperty createOntologyObjectPropertyForMetaModelRelation(String relationID, OntologyClass range) {
 		if (!modelToOntologyMap.containsKey(relationID)) {
-			OntologyObjectProperty oOP = modelOntologyManager.createObjectProperty(relationID, range);
+			OntologyObjectProperty oOP = modelOntologyManager.createObjectProperty(relationID, modelOntologyManager.getDefaultNamespace(), range);
 			modelToOntologyMap.put(relationID, oOP);
 			System.out.println("OIDA Model Change Handler: " + "Object Property created: '" + oOP.getName() + "'.");
 

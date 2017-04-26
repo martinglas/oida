@@ -85,7 +85,7 @@ public final class OIDAOntologyService extends AbstractOIDAOntologyService imple
 
 		libraryResource.getResourceSet().eAdapters().add(this);
 
-		OIDAUtil.createOIDAWorkDirectory();
+		OIDAUtil.createOIDAWorkDirectories();
 
 		try {
 			LOGGER.info("Evaluating ontology manager extensions.");

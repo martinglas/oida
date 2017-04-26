@@ -299,16 +299,16 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 							OntologyObjectProperty internalSuperObjectProperty = optInternalSuperObjectProperty.get();
 
 							internalSuperObjectProperty.getSubObjectProperties().add(internalObjectProperty);
-							internalObjectProperty.getSuperObjectProperties().add(internalSuperObjectProperty);
+							internalObjectProperty.getSuperProperties().add(internalSuperObjectProperty);
 
-							if (internalObjectProperty.getSuperObjectProperties().contains(mapHandler.getTopObjectProperty())) {
+							if (internalObjectProperty.getSuperProperties().contains(mapHandler.getTopObjectProperty())) {
 								mapHandler.getTopObjectProperty().getSubObjectProperties().remove(internalObjectProperty);
-								internalObjectProperty.getSuperObjectProperties().remove(mapHandler.getTopObjectProperty());
+								internalObjectProperty.getSuperProperties().remove(mapHandler.getTopObjectProperty());
 							}
 						}
-					} else if (internalObjectProperty.getSuperObjectProperties().isEmpty()) {
+					} else if (internalObjectProperty.getSuperProperties().isEmpty()) {
 						mapHandler.getTopObjectProperty().getSubObjectProperties().add(internalObjectProperty);
-						internalObjectProperty.getSuperObjectProperties().add(mapHandler.getTopObjectProperty());
+						internalObjectProperty.getSuperProperties().add(mapHandler.getTopObjectProperty());
 					}
 				}
 			}
@@ -553,7 +553,7 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 			owlOntologyManager.addAxiom(owlOntology, owlSubObjectPropertyAxiom);
 
 			superProperty.getSubObjectProperties().add(subProperty);
-			subProperty.getSuperObjectProperties().add(superProperty);
+			subProperty.getSuperProperties().add(superProperty);
 		}
 	}
 

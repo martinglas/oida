@@ -8,6 +8,8 @@ package oida.util.constants;
  */
 public class FileConstants {
 	public static final String OIDA_WORK_SUBDIRECTORY = "\\.oida\\";
+
+	public static final String OIDA_METAMODELONTOLOGY_SUBDIRECTORY = "metaModelOntologies\\";
 	
 	public static final String ONTOLOGY_LIBRARY_FILE = "OntLib.xmi";
 	public static final String ONTOLOGY_MANAGER_FILE = "OntMgr.xmi";

@@ -8,6 +8,7 @@ package oida.bridge.service;
 import java.io.File;
 import java.util.Optional;
 
+import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.resource.Resource;
 
 import bridgemodel.Recommendation;
@@ -98,4 +99,6 @@ public interface IOIDABridge {
 	void establishSecondaryMapping(Recommendation selectedRecommendation);
 	
 	Optional<IModelChangeHandler> getModelChangeHandler(Object model);
+
+	Resource getCurrentMetaModelResource();
 }

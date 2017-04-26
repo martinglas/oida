@@ -77,7 +77,7 @@ public class OntologyManagerUtils {
 
 		if (superObjectProperty != null) {
 			superObjectProperty.getSubObjectProperties().add(newProperty);
-			newProperty.getSuperObjectProperties().add(superObjectProperty);
+			newProperty.getSuperProperties().add(superObjectProperty);
 		}
 		
 		return newProperty;

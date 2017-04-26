@@ -24,6 +24,20 @@
             name="Mapping"
             restorable="true">
       </view>
+      <view
+            category="org.eclipse.emf.parsley"
+            class="oida.bridge.ui.ClassHierarchyView.ClassHierarchyViewExecutableExtensionFactory:oida.bridge.ui.view.ClassHierarchyView"
+            id="oida.bridge.ui.view.ClassHierarchyView"
+            name="Classes Hierarchy"
+            restorable="true">
+      </view>
+      <view
+            category="org.eclipse.emf.parsley"
+            class="oida.bridge.ui.MetaModelClassHierarchyView.MetaModelClassHierarchyViewExecutableExtensionFactory:oida.bridge.ui.view.MetaModelClassHierarchyView"
+            id="oida.bridge.ui.view.MetaModelClassHierarchyView"
+            name="Classes Hierarchy"
+            restorable="true">
+      </view>
    </extension>
    <extension
          id="oida.bridge.ui.e4.fragment"

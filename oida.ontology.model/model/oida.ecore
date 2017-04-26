@@ -78,15 +78,17 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="objectPropertyAssertions"
           upperBound="-1" eType="#//ontology/OntologyObjectPropertyAssertion"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="OntologyObjectProperty" eSuperTypes="#//ontology/OntologyEntity">
-      <eStructuralFeatures xsi:type="ecore:EReference" name="superObjectProperties"
-          upperBound="-1" eType="#//ontology/OntologyObjectProperty"/>
+    <eClassifiers xsi:type="ecore:EClass" name="OntologyProperty" eSuperTypes="#//ontology/OntologyEntity">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="superProperties" upperBound="-1"
+          eType="#//ontology/OntologyProperty"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="domain" eType="#//ontology/OntologyClass"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="OntologyObjectProperty" eSuperTypes="#//ontology/OntologyProperty">
       <eStructuralFeatures xsi:type="ecore:EReference" name="subObjectProperties"
           upperBound="-1" eType="#//ontology/OntologyObjectProperty"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="inverseObjectProperties"
           upperBound="-1" eType="#//ontology/OntologyObjectProperty"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="range" eType="#//ontology/OntologyClass"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="domain" eType="#//ontology/OntologyClass"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="functional" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="inverseFunctional" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="transitive" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"/>
@@ -101,6 +103,10 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="object" lowerBound="1"
           eType="#//ontology/OntologyIndividual"/>
     </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="OntologyDatatypeProperty" eSuperTypes="#//ontology/OntologyProperty">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="range" eType="#//ontology/OntologyDataType"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="OntologyDataType"/>
     <eClassifiers xsi:type="ecore:EClass" name="OntologyAnnotationProperty" eSuperTypes="#//ontology/OntologyEntity"/>
     <eClassifiers xsi:type="ecore:EClass" name="OntologyAnnotation" eSuperTypes="#//ontology/OntologyItem">
       <eStructuralFeatures xsi:type="ecore:EReference" name="annotationproperty" eType="#//ontology/OntologyAnnotationProperty"/>

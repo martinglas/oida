@@ -1,4 +1,4 @@
-package oida.bridge.model.changehandler.emf;
+package oida.bridge.model.emf.changehandler;
 
 import java.util.List;
 import java.util.Optional;
@@ -13,9 +13,10 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import oida.bridge.model.changehandler.AbstractModelChangeHandler;
-import oida.bridge.model.changehandler.emf.ontology.EMFModelOntology;
-import oida.bridge.model.changehandler.emf.util.Extractor;
-import oida.bridge.model.ontology.OIDAModelBaseOntology;
+import oida.bridge.model.emf.changehandler.ontology.EMFOntology;
+import oida.bridge.model.emf.changehandler.util.Extractor;
+import oida.bridge.model.strategy.IRenamerStrategy;
+import oida.bridge.model.strategy.IStructuringStrategy;
 import oida.bridge.service.IOIDABridge.OntologyObjectProperties;
 import oida.ontology.OntologyClass;
 import oida.ontology.OntologyEntity;
@@ -95,28 +96,27 @@ public class EMFModelChangeHandler extends AbstractModelChangeHandler {
 	}
 
 	@Override
-	public void initializeModelOntology(IOntologyManager modelOntologyManager) {
-		setModelOntologyManager(modelOntologyManager);
-		getModelOntologyManager().addGlobalIRIToLocalPathMapping(EMFModelOntology.EMFONTOLOGY_IRI, OIDAUtil.getFileIriString(EMFModelOntology.getInstance().getOntologyManager().getOntologyFile()));
-		clearOntologyEntityToModelElementMap();
-
-		try {
-			getModelOntologyManager().addImportDeclaration(EMFModelOntology.getInstance().getOntologyManager().getOntology());
-		} catch (OntologyManagerException e1) {
-			LOGGER.error("Error while adding OIDA internal EMF-Model ontology to model ontolgy.", e1);
-		}
-
-		generateLocalNamespace();
-		generateOntologyClasses();
-		generateIndividuals();
-		generateObjectProperties();
-
-		try {
-			getModelOntologyManager().saveOntology();
-		} catch (OntologyManagerException e) {
-			LOGGER.error("Error while saving model ontology for model '" + getModelObject().toString() + "'", e);
-		}
+	public IOntologyManager initializeModelOntology(IOntologyManager modelOntologyManager) {
+		generateIndividuals();		
+		return modelOntologyManager;
 	}
+	
+//	@Override
+//	public IOntologyManager initializeMetaModelOntology(IOntologyManager ontologyManager) {
+//		ontologyManager.addGlobalIRIToLocalPathMapping(EMFOntology.EMFONTOLOGY_IRI, OIDAUtil.getFileIriString(EMFOntology.getInstance().getOntologyManager().getOntologyFile()));
+//		
+//		try {
+//			ontologyManager.addImportDeclaration(EMFOntology.getInstance().getOntologyManager().getOntology());
+//		} catch (OntologyManagerException e1) {
+//			LOGGER.error("Error while adding OIDA internal EMF-Model ontology to model ontolgy.", e1);
+//		}
+//		
+//		generateLocalNamespace();
+//		generateOntologyClasses();
+//		generateObjectProperties();
+//		
+//		return ontologyManager;
+//	}
 
 	@Override
 	public void closeModelOntology() {
@@ -221,9 +221,9 @@ public class EMFModelChangeHandler extends AbstractModelChangeHandler {
 			OntologyObjectProperty referenceObjectProperty = createOntologyObjectPropertyForMetaModelRelation(relationID, getOntologyClassForModelElement(eClass).get());
 			
 			if (strFeature.getEOpposite() == null)
-				ontologyManager.assignSubObjectPropertyToSuperObjectProperty(referenceObjectProperty, EMFModelOntology.getInstance().getEmfReferenceObjectProperty());
+				ontologyManager.assignSubObjectPropertyToSuperObjectProperty(referenceObjectProperty, EMFOntology.getInstance().getEmfReferenceObjectProperty());
 			else
-				ontologyManager.assignSubObjectPropertyToSuperObjectProperty(referenceObjectProperty, EMFModelOntology.getInstance().getEmfReferenceBiDirectionalObjectProperty());
+				ontologyManager.assignSubObjectPropertyToSuperObjectProperty(referenceObjectProperty, EMFOntology.getInstance().getEmfReferenceBiDirectionalObjectProperty());
 
 			if (strFeature.getEOpposite() != null && getOntologyEntityForModelElement(strFeature.getEOpposite().getEReferenceType()) == null) {
 				Optional<OntologyClass> domainClass = getOntologyClassForModelElement(strFeature.getEOpposite().getEReferenceType());

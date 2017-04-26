@@ -1,4 +1,4 @@
-package oida.bridge.model.strategy.emf;
+package oida.bridge.model.emf.strategy;
 
 import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EStructuralFeature;

@@ -1,18 +1,18 @@
 import oida.ontology.Ontology
 import oida.ontology.OntologyClass
-import oida.ontology.ui.view.ClassesView
+import oida.bridge.ui.view.MetaModelClassHierarchyView
 
 /**
  * 
- * @since 2016-11-08
+ * @since 2017-04-25
  * @author Michael Shamiyeh
  * 
  */
-module oida.ontology.ui.ClassesView {
+module oida.bridge.ui.MetaModelClassHierarchyView {
 	parts {
-		viewpart oida.ontology.ui.view.OntologyView {
-			viewname "Classes"
-			viewclass ClassesView
+		viewpart oida.bridge.ui.view.MetaModelClassHierarchyView {
+			viewname "Classes Hierarchy"
+			viewclass MetaModelClassHierarchyView
 		}
 	}
 	

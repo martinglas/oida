@@ -6,7 +6,6 @@
 package oida.ontology.ui.e4.part;
 
 import javax.annotation.PostConstruct;
-import javax.inject.Inject;
 
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.e4.ui.workbench.modeling.ESelectionService;
@@ -20,7 +19,6 @@ import org.eclipse.swt.widgets.Composite;
 
 import com.google.inject.Injector;
 
-import oida.ontology.service.IOIDAOntologyService;
 import oida.ontology.ui.ClassesView.ClassesViewInjectorProvider;
 
 
@@ -36,9 +34,6 @@ public class ClassesViewPart implements ISelectionListener {
 	private TreeViewer treeViewer;
 	private ViewerFactory viewerFactory;
 	
-	@Inject
-	IOIDAOntologyService oidaService;
-
 	@PostConstruct
 	public void postConstruct(Composite parent, ESelectionService selectionService) {
 		selectionService.addSelectionListener(OntologyManagerPart.PART_ID, this);

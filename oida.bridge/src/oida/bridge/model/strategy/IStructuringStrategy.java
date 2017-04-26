@@ -14,6 +14,8 @@ import oida.bridge.service.IOIDABridge.OntologyObjectProperties;
 public interface IStructuringStrategy {
 	enum StructuringAdvice { CREATE_INDIVIDUAL, CREATE_OBJECTPROPERTY, RENAME_INDIVIDUAL, RENAME_OBJECTPROPERTY, CHANGE_DATATYPEPROPERTY, CHANGE_NAMEANNOTATION };
 	
+	Object getMetaModelInformationObject();
+	
 	StructuringAdvice determineStructuringAdviceAfterCreate(Object createdModelElement);
 	
 	StructuringAdvice determineStructuringAdviceAfterSet(EAttribute changedAttribute);

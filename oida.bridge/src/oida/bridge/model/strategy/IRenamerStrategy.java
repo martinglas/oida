@@ -29,4 +29,6 @@ public interface IRenamerStrategy {
 	public String getClassName(Object classObject);
 
 	public String getRelationID(Object relationObject);
+
+	public String getMetaModelName();
 }

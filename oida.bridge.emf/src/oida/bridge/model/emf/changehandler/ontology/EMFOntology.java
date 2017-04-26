@@ -3,7 +3,7 @@
  * materials are made available under the terms of the Eclipse Public License v1.0 which accompanies this distribution,
  * and is available at http://www.eclipse.org/legal/epl-v10.html </copyright>
  ******************************************************************************/
-package oida.bridge.model.changehandler.emf.ontology;
+package oida.bridge.model.emf.changehandler.ontology;
 
 import java.util.Optional;
 
@@ -21,7 +21,7 @@ import oida.ontology.predefined.AbstractPredefinedOntology;
  * @since 2017-04-07
  *
  */
-public class EMFModelOntology extends AbstractPredefinedOntology {
+public class EMFOntology extends AbstractPredefinedOntology {
 	public static final String EMFONTOLOGY_IRI = "http://www.bauhaus-luftfahrt.net/oida/emf";
 	public static final String EMFONTOLOGY_PREFIX = "http://www.bauhaus-luftfahrt.net/oida/emf";
 	
@@ -39,16 +39,16 @@ public class EMFModelOntology extends AbstractPredefinedOntology {
 		return emfReferenceBiDirectionalObjectProperty;
 	}
 	
-	private static EMFModelOntology INSTANCE;
+	private static EMFOntology INSTANCE;
 	
-	public static EMFModelOntology getInstance() {
+	public static EMFOntology getInstance() {
 		if (INSTANCE == null)
-			INSTANCE = new EMFModelOntology();
+			INSTANCE = new EMFOntology();
 		
 		return INSTANCE;
 	}
 	
-	private EMFModelOntology() {
+	private EMFOntology() {
 	}
 	
 	@Override

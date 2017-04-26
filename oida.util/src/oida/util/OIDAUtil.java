@@ -20,8 +20,17 @@ public class OIDAUtil {
 		return ResourcesPlugin.getWorkspace().getRoot().getLocation().toString() + FileConstants.OIDA_WORK_SUBDIRECTORY;
 	}
 	
-	public static void createOIDAWorkDirectory() {
+	public static String getOIDAMetaModelOntologyPath() {
+		return getOIDAWorkPath() + FileConstants.OIDA_METAMODELONTOLOGY_SUBDIRECTORY;
+	}
+	
+	public static void createOIDAWorkDirectories() {
 		File f = new File(getOIDAWorkPath());
+		
+		if (!f.exists())
+			f.mkdir();
+		
+		f = new File(getOIDAMetaModelOntologyPath());
 		
 		if (!f.exists())
 			f.mkdir();

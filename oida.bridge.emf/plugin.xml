@@ -4,7 +4,7 @@
    <extension
          point="oida.bridge.model.changehandler">
       <client
-            class="oida.bridge.model.changehandler.emf.EMFModelChangeHandlerFactory">
+            class="oida.bridge.model.emf.changehandler.EMFModelChangeHandlerFactory">
       </client>
    </extension>
 
