@@ -10,7 +10,7 @@
     <elements xsi:type="commands:Handler" xmi:id="_QHJHUPkGEeatKqZLJkxOvw" elementId="oida.ontology.ui.e4.handler.1" contributionURI="bundleclass://oida.ontology.ui.e4/oida.ontology.ui.e4.handler.StartOntologyReasoning" command="_MvqOIPkGEeatKqZLJkxOvw"/>
     <elements xsi:type="commands:Handler" xmi:id="_bZTJkB99EeeMaLf0aWrdgA" elementId="oida.ontology.ui.e4.handler.2" contributionURI="bundleclass://oida.ontology.ui.e4/oida.ontology.ui.e4.handler.AddOntologyFileHandler" command="_ci-HYB99EeeMaLf0aWrdgA"/>
   </fragments>
-  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_vY7MkLJXEeaw4puSHi5CMg" featurename="children" parentElementId="de.symo.application.mainwindow.perspectivestack" positionInList="2">
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_vY7MkLJXEeaw4puSHi5CMg" featurename="children" parentElementId="de.symo.application.mainwindow.perspectivestack" positionInList="">
     <elements xsi:type="advanced:Perspective" xmi:id="_7j3fcLJXEeaw4puSHi5CMg" elementId="oida.ontology.ui.e4.perspective" label="Knowledge" iconURI="platform:/plugin/oida.ontology.ui.e4/icons/OntologyLibrary_16.png">
       <children xsi:type="basic:PartSashContainer" xmi:id="_I-8_8Jq8EeaelOAnCMy4mw" elementId="de.symo.application.partsashcontainer.2" horizontal="true">
         <children xsi:type="basic:PartSashContainer" xmi:id="_GHPPIJrAEeaelOAnCMy4mw" elementId="de.symo.application.partsashcontainer.3" containerData="20">
