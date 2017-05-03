@@ -129,7 +129,8 @@ public abstract class AbstractModelChangeHandler implements IModelChangeHandler 
 		
 		try {
 			modelOntologyManager.addImportDeclaration(getMetaModelOntologyManager().getOntology());
-			setModelOntologyManager(initializeModelOntology(modelOntologyManager));
+			setModelOntologyManager(modelOntologyManager);
+			initializeModelOntology(modelOntologyManager);
 			
 			try {
 				getModelOntologyManager().saveOntology();

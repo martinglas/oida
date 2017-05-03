@@ -15,8 +15,6 @@ import org.slf4j.LoggerFactory;
 import oida.bridge.model.changehandler.AbstractModelChangeHandler;
 import oida.bridge.model.emf.changehandler.ontology.EMFOntology;
 import oida.bridge.model.emf.changehandler.util.Extractor;
-import oida.bridge.model.strategy.IRenamerStrategy;
-import oida.bridge.model.strategy.IStructuringStrategy;
 import oida.bridge.service.IOIDABridge.OntologyObjectProperties;
 import oida.ontology.OntologyClass;
 import oida.ontology.OntologyEntity;
@@ -24,7 +22,6 @@ import oida.ontology.OntologyIndividual;
 import oida.ontology.OntologyObjectProperty;
 import oida.ontology.manager.IOntologyManager;
 import oida.ontology.manager.OntologyManagerException;
-import oida.util.OIDAUtil;
 import oida.util.constants.StringConstants;
 
 /**
@@ -97,26 +94,10 @@ public class EMFModelChangeHandler extends AbstractModelChangeHandler {
 
 	@Override
 	public IOntologyManager initializeModelOntology(IOntologyManager modelOntologyManager) {
-		generateIndividuals();		
+		generateIndividuals();
+
 		return modelOntologyManager;
 	}
-	
-//	@Override
-//	public IOntologyManager initializeMetaModelOntology(IOntologyManager ontologyManager) {
-//		ontologyManager.addGlobalIRIToLocalPathMapping(EMFOntology.EMFONTOLOGY_IRI, OIDAUtil.getFileIriString(EMFOntology.getInstance().getOntologyManager().getOntologyFile()));
-//		
-//		try {
-//			ontologyManager.addImportDeclaration(EMFOntology.getInstance().getOntologyManager().getOntology());
-//		} catch (OntologyManagerException e1) {
-//			LOGGER.error("Error while adding OIDA internal EMF-Model ontology to model ontolgy.", e1);
-//		}
-//		
-//		generateLocalNamespace();
-//		generateOntologyClasses();
-//		generateObjectProperties();
-//		
-//		return ontologyManager;
-//	}
 
 	@Override
 	public void closeModelOntology() {
@@ -149,10 +130,11 @@ public class EMFModelChangeHandler extends AbstractModelChangeHandler {
 
 		// Create Individuals
 		for (EObject eObject : comprisedEObjects) {
-			Optional<OntologyClass> optOntologyClass = getOntologyClassForModelElement(eObject.eClass());
-			
-			if (optOntologyClass.isPresent())
-				createIndividualForModelObject(eObject, optOntologyClass.get());
+			OntologyClass ontologyClass = getMetaModelOntologyManager().getClass(getRenamerStrategy().getClassName(eObject.eClass()), getMetaModelOntologyManager().getDefaultNamespace());
+//			Optional<OntologyClass> optOntologyClass = getOntologyClassForModelElement(eObject.eClass());
+//			
+//			if (optOntologyClass.isPresent())
+				createIndividualForModelObject(eObject, ontologyClass);
 		}
 
 		for (EObject eObject : comprisedEObjects)
