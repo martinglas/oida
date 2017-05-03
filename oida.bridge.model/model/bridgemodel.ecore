@@ -20,4 +20,30 @@
     <eLiterals name="instanceOf"/>
     <eLiterals name="equivalentTo" value="1"/>
   </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="MappingSet">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="mappings" upperBound="-1"
+        eType="#//Mapping" eOpposite="#//Mapping/mappingSet"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Mapping">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="mappingSet" eType="#//MappingSet"
+        eOpposite="#//MappingSet/mappings"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InstanceOfMapping" eSuperTypes="#//Mapping">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="individual" lowerBound="1"
+        eType="ecore:EClass ../../oida.ontology.model/model/oida.ecore#//ontology/OntologyIndividual"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="clazz" lowerBound="1" eType="ecore:EClass ../../oida.ontology.model/model/oida.ecore#//ontology/OntologyClass"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EqualsMapping" eSuperTypes="#//Mapping"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ClassEqualsMapping" eSuperTypes="#//EqualsMapping">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="clazz1" lowerBound="1"
+        eType="ecore:EClass ../../oida.ontology.model/model/oida.ecore#//ontology/OntologyClass"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="clazz2" lowerBound="1"
+        eType="ecore:EClass ../../oida.ontology.model/model/oida.ecore#//ontology/OntologyClass"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ObjectPropertyEqualsMapping" eSuperTypes="#//EqualsMapping">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="objectProperty1" lowerBound="1"
+        eType="ecore:EClass ../../oida.ontology.model/model/oida.ecore#//ontology/OntologyObjectProperty"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="objectProperty2" lowerBound="1"
+        eType="ecore:EClass ../../oida.ontology.model/model/oida.ecore#//ontology/OntologyObjectProperty"/>
+  </eClassifiers>
 </ecore:EPackage>
