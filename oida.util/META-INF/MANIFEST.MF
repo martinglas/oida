@@ -12,6 +12,7 @@ Require-Bundle: org.eclipse.osgi,
 Export-Package: oida.util,
  oida.util.bundle,
  oida.util.constants,
+ oida.util.ui.e4,
  org.slf4j,
  org.slf4j.helpers,
  org.slf4j.impl,
@@ -20,3 +21,8 @@ Bundle-ClassPath: .,
  lib/slf4j-api-1.7.14.jar,
  lib/slf4j-simple-1.7.14.jar
 Bundle-Activator: oida.util.Activator
+Import-Package: org.eclipse.e4.ui.workbench.modeling,
+ org.eclipse.emf.edit,
+ org.eclipse.emf.parsley.viewers,
+ org.eclipse.jface.viewers,
+ org.eclipse.swt.widgets

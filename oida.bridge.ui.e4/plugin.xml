@@ -38,6 +38,13 @@
             name="Classes Hierarchy"
             restorable="true">
       </view>
+      <view
+            category="org.eclipse.emf.parsley"
+            class="oida.bridge.ui.ReferenceOntologyClassHierarchyView.ReferenceOntologyClassHierarchyViewExecutableExtensionFactory:oida.bridge.ui.view.ReferenceOntologyClassHierarchyView"
+            id="oida.bridge.ui.view.ReferenceOntologyClassHierarchyView"
+            name="Reference Ontology Class Hierarchy"
+            restorable="true">
+      </view>
    </extension>
    <extension
          id="oida.bridge.ui.e4.fragment"

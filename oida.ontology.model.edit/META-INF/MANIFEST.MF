@@ -8,7 +8,8 @@ Bundle-Activator: oida.ontologyMgr.provider.OidaEditPlugin$Implementation
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Export-Package: oida.ontology.provider,
+Export-Package: bridgemodel.provider,
+ oida.ontology.provider,
  oida.ontologyMgr.provider
 Require-Bundle: org.eclipse.core.runtime,
  oida.ontology.model;visibility:=reexport,

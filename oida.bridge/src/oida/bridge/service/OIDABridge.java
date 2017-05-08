@@ -82,6 +82,12 @@ public final class OIDABridge implements IOIDABridge {
 		this.oidaOntologyService = oidaOntologyService;
 		modelHandlerMap.clear();
 		
+		BridgemodelItemProviderAdapterFactory adapterFactory = new BridgemodelItemProviderAdapterFactory();
+		ComposedAdapterFactory composedAdapterFactory = new ComposedAdapterFactory(adapterFactory);
+		composedAdapterFactory.addAdapterFactory(new ResourceItemProviderAdapterFactory());
+
+		AdapterFactoryEditingDomain editingDomain = new AdapterFactoryEditingDomain(composedAdapterFactory, new BasicCommandStack());
+		
 		LOGGER.info("Step 1/7: Evaluating Model Change Handler Factory extensions.");
 		try {
 			changeHandlerFactory = ExtensionPointUtil.loadSingleExtension(Activator.getExtensionRegistry(), IModelChangeHandlerFactory.class, Activator.OIDA_EXTENSIONPOINT_ID_MODEL_CHANGEHANDLER);
@@ -157,15 +163,14 @@ public final class OIDABridge implements IOIDABridge {
 		Optional<IOntologyManager> optMetaModelOntologyManager = oidaOntologyService.getOntologyManager(metaModelOntologyFile, true);
 		if (optMetaModelOntologyManager.isPresent()) {
 			changeHandlerFactory.initialize(oidaOntologyService, renamerStrategy, structuringStrategy, optMetaModelOntologyManager.get());
+			
+			currentMetaModelResource = editingDomain.createResource("http://de.oida/bridge/currentMetaModelResource");
+			currentMetaModelResource.getContents().add(optMetaModelOntologyManager.get().getOntology());
+			
 			LOGGER.info("Meta Model Ontology created for '" + structuringStrategy.getMetaModelInformationObject().toString() + "'.");
 		} else
 			LOGGER.error("Error while creating the Meta Model Ontology for '" + structuringStrategy.getMetaModelInformationObject().toString() + "'.");
 		
-		BridgemodelItemProviderAdapterFactory adapterFactory = new BridgemodelItemProviderAdapterFactory();
-		ComposedAdapterFactory composedAdapterFactory = new ComposedAdapterFactory(adapterFactory);
-		composedAdapterFactory.addAdapterFactory(new ResourceItemProviderAdapterFactory());
-
-		AdapterFactoryEditingDomain editingDomain = new AdapterFactoryEditingDomain(composedAdapterFactory, new BasicCommandStack());
 		currentPrimaryRecommendationsResource = editingDomain.createResource("http://de.oida/bridge/currentprimaryrecommendations");
 		currentPrimaryRecommendationsResource.getContents().add(BridgemodelFactory.eINSTANCE.createRecommendationSet());
 

@@ -18,12 +18,12 @@ import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLOntology;
 
+import oida.ontology.AOntologyItem;
 import oida.ontology.Ontology;
 import oida.ontology.OntologyAnnotation;
 import oida.ontology.OntologyClass;
 import oida.ontology.OntologyEntity;
 import oida.ontology.OntologyIndividual;
-import oida.ontology.OntologyItem;
 import oida.ontology.OntologyObjectProperty;
 import oida.ontology.manager.util.OntologyManagerUtils;
 
@@ -35,7 +35,7 @@ import oida.ontology.manager.util.OntologyManagerUtils;
  */
 public final class OwlOntologyManagerMapHandler {
 	private HashMap<String, OWLObject> owlAPIMap;
-	private HashMap<String, OntologyItem> internalAPIMap;
+	private HashMap<String, AOntologyItem> internalAPIMap;
 	
 	private HashMap<OWLAnnotation, OntologyAnnotation> owlToInternalAnnotationMap;
 	private HashMap<OntologyAnnotation, OWLAnnotation> internalToOwlAnnotationMap;
@@ -67,7 +67,7 @@ public final class OwlOntologyManagerMapHandler {
 	 */
 	public OwlOntologyManagerMapHandler() {
 		owlAPIMap = new HashMap<String, OWLObject>();
-		internalAPIMap = new HashMap<String, OntologyItem>();
+		internalAPIMap = new HashMap<String, AOntologyItem>();
 		owlToInternalAnnotationMap = new HashMap<OWLAnnotation, OntologyAnnotation>();
 		internalToOwlAnnotationMap = new HashMap<OntologyAnnotation, OWLAnnotation>();
 	}
@@ -258,7 +258,7 @@ public final class OwlOntologyManagerMapHandler {
 	 * @param internalObj
 	 *            The internal API-object.
 	 */
-	public void toMap(OWLEntity apiObj, OntologyItem internalObj) {
+	public void toMap(OWLEntity apiObj, AOntologyItem internalObj) {
 		owlAPIMap.put(apiObj.getIRI().getIRIString(), apiObj);
 
 		// The thing class and the top object property are not put in the

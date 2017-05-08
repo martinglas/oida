@@ -22,4 +22,12 @@
             genModel="model/oida.genmodel"/>
    </extension>
 
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated oida -->
+      <package
+            uri="http://net/bauhaus-luftfahrt/oida/bridgemodel"
+            class="bridgemodel.BridgemodelPackage"
+            genModel="model/oida.genmodel"/>
+   </extension>
+
 </plugin>

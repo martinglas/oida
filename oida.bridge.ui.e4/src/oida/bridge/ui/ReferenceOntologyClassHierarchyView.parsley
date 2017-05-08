@@ -1,0 +1,42 @@
+import oida.ontology.Ontology
+import oida.ontology.OntologyClass
+import oida.bridge.ui.view.ReferenceOntologyClassHierarchyView
+
+/**
+ * 
+ * @since 2017-04-25
+ * @author Michael Shamiyeh
+ * 
+ */
+module oida.bridge.ui.ReferenceOntologyClassHierarchyView {
+	parts {
+		viewpart oida.bridge.ui.view.ReferenceOntologyClassHierarchyView {
+			viewname "Reference Ontology Class Hierarchy"
+			viewclass ReferenceOntologyClassHierarchyView
+		}
+	}
+	
+	featuresProvider {
+		features {
+			Ontology -> classHierarchy
+			OntologyClass -> subClasses
+		}
+	}
+
+	viewerContentProvider {
+		elements {
+			Ontology -> classHierarchy
+		}
+		children {
+			Ontology -> classHierarchy
+			OntologyClass c -> c.subClasses
+		}
+	}
+
+	labelProvider {
+		text {
+			Ontology o -> o.name
+			OntologyClass c -> c.name
+		}
+	}
+}
