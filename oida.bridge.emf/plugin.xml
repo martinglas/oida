@@ -7,5 +7,11 @@
             class="oida.bridge.model.emf.changehandler.EMFModelChangeHandlerFactory">
       </client>
    </extension>
+   <extension
+         point="oida.bridge.model.metamodelontologyprovider">
+      <client
+            class="oida.bridge.model.emf.metamodel.ontology.EMFMetaModelOntologyProvider">
+      </client>
+   </extension>
 
 </plugin>

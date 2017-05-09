@@ -31,6 +31,7 @@ import bridgemodel.provider.BridgemodelItemProviderAdapterFactory;
 import oida.bridge.Activator;
 import oida.bridge.model.changehandler.IModelChangeHandler;
 import oida.bridge.model.changehandler.IModelChangeHandlerFactory;
+import oida.bridge.model.ontology.IMetaModelOntologyProvider;
 import oida.bridge.model.ontology.OIDAModelBaseOntology;
 import oida.bridge.model.strategy.IRenamerStrategy;
 import oida.bridge.model.strategy.IStructuringStrategy;
@@ -59,19 +60,21 @@ import oida.util.constants.StringConstants;
 public final class OIDABridge implements IOIDABridge {
 	protected static Logger LOGGER = LoggerFactory.getLogger(OIDABridge.class);
 
-	private Map<Object, IModelChangeHandler> modelHandlerMap = new HashMap<Object, IModelChangeHandler>();
-
-	private IModelChangeHandlerFactory changeHandlerFactory;
-
 	private List<IRecommender> recommenderPrimary;
 	private List<IRecommender> recommenderSecondary;
 
 	private IRenamerStrategy renamerStrategy;
 	private IStructuringStrategy structuringStrategy;
 
+	private IOntologyManager metaModelOntologyManager;
+
+	private IModelChangeHandlerFactory changeHandlerFactory;
+
+	private Map<Object, IModelChangeHandler> modelHandlerMap = new HashMap<Object, IModelChangeHandler>();
+
 	private Resource currentPrimaryRecommendationsResource;
 	private Resource currentSecondaryRecommendationsResource;
-	
+
 	private Resource currentMetaModelResource;
 
 	private IOIDAOntologyService oidaOntologyService;
@@ -81,13 +84,13 @@ public final class OIDABridge implements IOIDABridge {
 		LOGGER.info("Initializing OIDA Bridge Service...");
 		this.oidaOntologyService = oidaOntologyService;
 		modelHandlerMap.clear();
-		
+
 		BridgemodelItemProviderAdapterFactory adapterFactory = new BridgemodelItemProviderAdapterFactory();
 		ComposedAdapterFactory composedAdapterFactory = new ComposedAdapterFactory(adapterFactory);
 		composedAdapterFactory.addAdapterFactory(new ResourceItemProviderAdapterFactory());
 
 		AdapterFactoryEditingDomain editingDomain = new AdapterFactoryEditingDomain(composedAdapterFactory, new BasicCommandStack());
-		
+
 		LOGGER.info("Step 1/7: Evaluating Model Change Handler Factory extensions.");
 		try {
 			changeHandlerFactory = ExtensionPointUtil.loadSingleExtension(Activator.getExtensionRegistry(), IModelChangeHandlerFactory.class, Activator.OIDA_EXTENSIONPOINT_ID_MODEL_CHANGEHANDLER);
@@ -157,20 +160,31 @@ public final class OIDABridge implements IOIDABridge {
 		} catch (OntologyManagerException e) {
 			LOGGER.error("Error while loading the Model Base Ontology.", e);
 		}
-		
+
 		LOGGER.info("Step 7/7: Initializing the meta model ontology for the registered meta model.");
 		OntologyFile metaModelOntologyFile = OIDAUtil.getOntologyFile(new File(OIDAUtil.getOIDAMetaModelOntologyPath(), renamerStrategy.getMetaModelName() + ".owl"));
 		Optional<IOntologyManager> optMetaModelOntologyManager = oidaOntologyService.getOntologyManager(metaModelOntologyFile, true);
 		if (optMetaModelOntologyManager.isPresent()) {
-			changeHandlerFactory.initialize(oidaOntologyService, renamerStrategy, structuringStrategy, optMetaModelOntologyManager.get());
+			IMetaModelOntologyProvider provider;
+
+			try {
+				provider = (IMetaModelOntologyProvider)ExtensionPointUtil.loadSingleExtension(Activator.getExtensionRegistry(), IMetaModelOntologyProvider.class,
+						Activator.OIDA_METAMODELONTOLOGY_PROVIDER_EXTENSIONPOINT_ID);
+
+				if (provider != null)
+					metaModelOntologyManager = provider.createMetaModelOntology(renamerStrategy, structuringStrategy, optMetaModelOntologyManager.get());
+				
+				LOGGER.info("Meta model ontology created: '" + metaModelOntologyManager.getOntology().getIri() + "'.");
+			} catch (CoreException e) {
+				LOGGER.error("Error while evaluating creating meta model ontology.", e);
+			}
 			
-			currentMetaModelResource = editingDomain.createResource("http://de.oida/bridge/currentMetaModelResource");
-			currentMetaModelResource.getContents().add(optMetaModelOntologyManager.get().getOntology());
 			
+
 			LOGGER.info("Meta Model Ontology created for '" + structuringStrategy.getMetaModelInformationObject().toString() + "'.");
 		} else
 			LOGGER.error("Error while creating the Meta Model Ontology for '" + structuringStrategy.getMetaModelInformationObject().toString() + "'.");
-		
+
 		currentPrimaryRecommendationsResource = editingDomain.createResource("http://de.oida/bridge/currentprimaryrecommendations");
 		currentPrimaryRecommendationsResource.getContents().add(BridgemodelFactory.eINSTANCE.createRecommendationSet());
 
@@ -185,6 +199,12 @@ public final class OIDABridge implements IOIDABridge {
 		if (renamerStrategy == null)
 			throw new OIDABridgeException("No renamer strategy found. Model won't be observed.");
 
+		if (structuringStrategy == null)
+			throw new OIDABridgeException("No structuring strategy found. Model won't be observed.");
+
+		if (!getMetaModelOntologyManager().isPresent())
+			throw new OIDABridgeException("No meta model ontology found. Model won't be observed.");
+
 		if (modelOntologyDirectory == null)
 			throw new OIDABridgeException("No directory for a model ontology has been passed. Model won't be observed.");
 
@@ -194,9 +214,9 @@ public final class OIDABridge implements IOIDABridge {
 		File modelOntologyFile = new File(modelOntologyDirectory, generateModelOntologyFileName(modelObjectId));
 		OntologyFile ontologyfile = OIDAUtil.getOntologyFile(modelOntologyFile);
 
-		IModelChangeHandler changeHandler = changeHandlerFactory.getChangeHandler();
-		
-		changeHandler.initializeChangeHandler(renamerStrategy, structuringStrategy, changeHandlerFactory.getMetaModelOntology());
+		IModelChangeHandler changeHandler = changeHandlerFactory.getChangeHandler(renamerStrategy, structuringStrategy, metaModelOntologyManager);
+
+		changeHandler.initializeChangeHandler(renamerStrategy, structuringStrategy, getMetaModelOntologyManager().get());
 
 		Optional<IOntologyManager> optModelOntologyMgr = oidaOntologyService.getOntologyManager(ontologyfile, true);
 		if (optModelOntologyMgr.isPresent())
@@ -251,8 +271,7 @@ public final class OIDABridge implements IOIDABridge {
 
 			for (IRecommender rec : recommenderSecondary)
 				recSecondarySet.getRecommendations().addAll(rec.findRecommendationsForSelectedModelElement(recSecondarySet.getOntologyEntity()));
-		}
-		else
+		} else
 			LOGGER.warn("No Ontology Entity found for '" + firstSelectedElement.toString() + "'.");
 	}
 
@@ -271,11 +290,6 @@ public final class OIDABridge implements IOIDABridge {
 	@Override
 	public Resource getCurrentSecondaryRecommendationsResource() {
 		return currentSecondaryRecommendationsResource;
-	}
-	
-	@Override
-	public Resource getCurrentMetaModelResource() {
-		return currentMetaModelResource;
 	}
 
 	@Override
@@ -308,6 +322,14 @@ public final class OIDABridge implements IOIDABridge {
 	public Optional<IModelChangeHandler> getModelChangeHandler(Object model) {
 		if (modelHandlerMap.containsKey(model))
 			return Optional.of(modelHandlerMap.get(model));
+
+		return Optional.empty();
+	}
+
+	@Override
+	public Optional<IOntologyManager> getMetaModelOntologyManager() {
+		if (metaModelOntologyManager != null)
+			return Optional.of(metaModelOntologyManager);
 
 		return Optional.empty();
 	}

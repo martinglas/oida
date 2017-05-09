@@ -1,4 +1,4 @@
-package oida.bridge.model.emf.changehandler.ontology;
+package oida.bridge.model.emf.metamodel.ontology;
 
 import java.util.Optional;
 
@@ -8,6 +8,9 @@ import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
 
 import oida.bridge.model.changehandler.AbstractModelChangeHandler;
+import oida.bridge.model.ontology.OIDAModelBaseOntology;
+import oida.bridge.model.strategy.IRenamerStrategy;
+import oida.bridge.model.strategy.IStructuringStrategy;
 import oida.ontology.OntologyClass;
 import oida.ontology.OntologyEntity;
 import oida.ontology.OntologyObjectProperty;
@@ -21,6 +24,12 @@ import oida.ontology.manager.OntologyManagerException;
  *
  */
 public class EMFMetaModelOntology extends AbstractModelChangeHandler {
+	public static final String EMFONTOLOGY_REFERENCE_NAME = "emf_reference";
+	public static final String EMFONTOLOGY_REFERENCE_BIDIR_NAME = "emf_reference_bidirectional";
+	
+	private OntologyObjectProperty emfReferenceObjectProperty;
+	private OntologyObjectProperty emfReferenceBiDirectionalObjectProperty;
+	
 	private static EMFMetaModelOntology INSTANCE;
 
 	public static EMFMetaModelOntology getInstance() {
@@ -33,24 +42,37 @@ public class EMFMetaModelOntology extends AbstractModelChangeHandler {
 	private EMFMetaModelOntology() {
 	}
 
+	public IOntologyManager createMetaModelOntology(IRenamerStrategy renamerStrategy, IStructuringStrategy structuringStrategy, IOntologyManager manager) {
+		if (getModelOntologyManager() == null) {
+			setRenamerStrategy(renamerStrategy);
+			setStructuringStrategy(structuringStrategy);
+			
+			initializeModelOntology(manager);
+		}
+
+		return getModelOntologyManager();
+	}
+
 	@Override
 	protected IOntologyManager initializeModelOntology(IOntologyManager modelOntologyManager) {
 		setModelOntologyManager(modelOntologyManager);
 
 		try {
-			modelOntologyManager.addImportDeclaration(EMFOntology.getInstance().getOntologyManager().getOntology());
+			modelOntologyManager.addImportDeclaration(OIDAModelBaseOntology.getInstance().getOntologyManager().getOntology());
+
+			emfReferenceObjectProperty = modelOntologyManager.createObjectProperty(EMFONTOLOGY_REFERENCE_NAME);
+			modelOntologyManager.setObjectPropertyCharacteristics(emfReferenceObjectProperty, false, false, false, false, false, false, false);
+
+			emfReferenceBiDirectionalObjectProperty = modelOntologyManager.createObjectProperty(EMFONTOLOGY_REFERENCE_BIDIR_NAME);
+			modelOntologyManager.setObjectPropertyCharacteristics(emfReferenceBiDirectionalObjectProperty, false, false, false, true, false, false, false);
 		} catch (OntologyManagerException e) {
 			e.printStackTrace();
 		}
+		
+		extractClassHierarchy((EPackage[])getStructuringStrategy().getMetaModelInformationObject());
+		extractObjectPropertyHierarchy((EPackage[])getStructuringStrategy().getMetaModelInformationObject());
 
 		return modelOntologyManager;
-	}
-
-	public void initialize(IOntologyManager ontologyManager, EPackage[] ePackages) {
-		initializeModelOntology(ontologyManager);
-
-		extractClassHierarchy(ePackages);
-		extractObjectPropertyHierarchy(ePackages);
 	}
 
 	private void extractClassHierarchy(EPackage[] ePackages) {
@@ -100,9 +122,9 @@ public class EMFMetaModelOntology extends AbstractModelChangeHandler {
 			OntologyObjectProperty referenceObjectProperty = createOntologyObjectPropertyForMetaModelRelation(relationID, getOntologyClassForModelElement(eClass).get());
 
 			if (strFeature.getEOpposite() == null)
-				ontologyManager.assignSubObjectPropertyToSuperObjectProperty(referenceObjectProperty, EMFOntology.getInstance().getEmfReferenceObjectProperty());
+				ontologyManager.assignSubObjectPropertyToSuperObjectProperty(referenceObjectProperty, emfReferenceObjectProperty);
 			else
-				ontologyManager.assignSubObjectPropertyToSuperObjectProperty(referenceObjectProperty, EMFOntology.getInstance().getEmfReferenceBiDirectionalObjectProperty());
+				ontologyManager.assignSubObjectPropertyToSuperObjectProperty(referenceObjectProperty, emfReferenceBiDirectionalObjectProperty);
 
 			if (strFeature.getEOpposite() != null && getOntologyEntityForModelElement(strFeature.getEOpposite().getEReferenceType()) == null) {
 				Optional<OntologyClass> domainClass = getOntologyClassForModelElement(strFeature.getEOpposite().getEReferenceType());
@@ -130,4 +152,11 @@ public class EMFMetaModelOntology extends AbstractModelChangeHandler {
 
 	}
 
+	public OntologyObjectProperty getEmfReferenceObjectProperty() {
+		return emfReferenceObjectProperty;
+	}
+
+	public OntologyObjectProperty getEmfReferenceBiDirectionalObjectProperty() {
+		return emfReferenceBiDirectionalObjectProperty;
+	}
 }

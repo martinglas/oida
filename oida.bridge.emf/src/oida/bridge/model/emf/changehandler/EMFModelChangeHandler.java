@@ -13,15 +13,14 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import oida.bridge.model.changehandler.AbstractModelChangeHandler;
-import oida.bridge.model.emf.changehandler.ontology.EMFOntology;
 import oida.bridge.model.emf.changehandler.util.Extractor;
+import oida.bridge.model.emf.metamodel.ontology.EMFMetaModelOntology;
 import oida.bridge.service.IOIDABridge.OntologyObjectProperties;
 import oida.ontology.OntologyClass;
 import oida.ontology.OntologyEntity;
 import oida.ontology.OntologyIndividual;
 import oida.ontology.OntologyObjectProperty;
 import oida.ontology.manager.IOntologyManager;
-import oida.ontology.manager.OntologyManagerException;
 import oida.util.constants.StringConstants;
 
 /**
@@ -203,9 +202,9 @@ public class EMFModelChangeHandler extends AbstractModelChangeHandler {
 			OntologyObjectProperty referenceObjectProperty = createOntologyObjectPropertyForMetaModelRelation(relationID, getOntologyClassForModelElement(eClass).get());
 			
 			if (strFeature.getEOpposite() == null)
-				ontologyManager.assignSubObjectPropertyToSuperObjectProperty(referenceObjectProperty, EMFOntology.getInstance().getEmfReferenceObjectProperty());
+				ontologyManager.assignSubObjectPropertyToSuperObjectProperty(referenceObjectProperty, EMFMetaModelOntology.getInstance().getEmfReferenceObjectProperty());
 			else
-				ontologyManager.assignSubObjectPropertyToSuperObjectProperty(referenceObjectProperty, EMFOntology.getInstance().getEmfReferenceBiDirectionalObjectProperty());
+				ontologyManager.assignSubObjectPropertyToSuperObjectProperty(referenceObjectProperty, EMFMetaModelOntology.getInstance().getEmfReferenceBiDirectionalObjectProperty());
 
 			if (strFeature.getEOpposite() != null && getOntologyEntityForModelElement(strFeature.getEOpposite().getEReferenceType()) == null) {
 				Optional<OntologyClass> domainClass = getOntologyClassForModelElement(strFeature.getEOpposite().getEReferenceType());

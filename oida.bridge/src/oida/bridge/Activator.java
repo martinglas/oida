@@ -13,6 +13,7 @@ public class Activator extends AbstractOIDAActivator {
 	public final static String OIDA_MODEL_STRUCTURINGSTRATEGY = "oida.bridge.model.structuringstrategy";
 	public final static String OIDA_RECOMMENDER_PRIMARY_EXTENSIONPOINT_ID = "oida.bridge.recommender.primary";
 	public final static String OIDA_RECOMMENDER_SECONDARY_EXTENSIONPOINT_ID = "oida.bridge.recommender.secondary";
+	public static final String OIDA_METAMODELONTOLOGY_PROVIDER_EXTENSIONPOINT_ID = "oida.bridge.model.metamodelontologyprovider";
 	
 	private static BundleContext context;
 
