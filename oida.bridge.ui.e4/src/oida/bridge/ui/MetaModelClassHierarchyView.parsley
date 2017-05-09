@@ -1,6 +1,7 @@
 import oida.ontology.Ontology
 import oida.ontology.OntologyClass
 import oida.bridge.ui.view.MetaModelClassHierarchyView
+import org.eclipse.swt.widgets.Display
 
 /**
  * 
@@ -38,5 +39,21 @@ module oida.bridge.ui.MetaModelClassHierarchyView {
 			Ontology o -> o.name
 			OntologyClass c -> c.name
 		}
+		
+		background {
+			OntologyClass c ->
+				if (c.mappingExists)
+					Display.getCurrent().getSystemColor(SWT.COLOR_GREEN)
+				else
+					Display.getCurrent().getSystemColor(SWT.COLOR_BLACK)
+		}
+		
+//		image {
+//			OntologyClass c ->
+//				if (c.mappingExists)
+//					"bla.png"
+//				else
+//					"blub.png"
+//		}
 	}
 }

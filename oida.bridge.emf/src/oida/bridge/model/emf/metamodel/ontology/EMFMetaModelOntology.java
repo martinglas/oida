@@ -11,6 +11,7 @@ import oida.bridge.model.changehandler.AbstractModelChangeHandler;
 import oida.bridge.model.ontology.OIDAModelBaseOntology;
 import oida.bridge.model.strategy.IRenamerStrategy;
 import oida.bridge.model.strategy.IStructuringStrategy;
+import oida.ontology.Ontology;
 import oida.ontology.OntologyClass;
 import oida.ontology.OntologyEntity;
 import oida.ontology.OntologyObjectProperty;
@@ -42,10 +43,16 @@ public class EMFMetaModelOntology extends AbstractModelChangeHandler {
 	private EMFMetaModelOntology() {
 	}
 
-	public IOntologyManager createMetaModelOntology(IRenamerStrategy renamerStrategy, IStructuringStrategy structuringStrategy, IOntologyManager manager) {
+	public IOntologyManager createMetaModelOntology(IRenamerStrategy renamerStrategy, IStructuringStrategy structuringStrategy, IOntologyManager manager, Ontology referenceOntology) {
 		if (getModelOntologyManager() == null) {
 			setRenamerStrategy(renamerStrategy);
 			setStructuringStrategy(structuringStrategy);
+			
+			try {
+				manager.addImportDeclaration(referenceOntology);
+			} catch (OntologyManagerException e) {
+				e.printStackTrace();
+			}
 			
 			initializeModelOntology(manager);
 		}

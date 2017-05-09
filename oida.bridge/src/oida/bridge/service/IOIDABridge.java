@@ -12,7 +12,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 
 import bridgemodel.Recommendation;
 import oida.bridge.model.changehandler.IModelChangeHandler;
-import oida.ontology.manager.IOntologyManager;
+import oida.ontology.OntologyClass;
 
 /**
  * The OIDA bridge is the interface for model handling applications to OIDA.
@@ -25,11 +25,11 @@ public interface IOIDABridge {
 	public enum OntologyObjectProperties { HAS_PART, HAS_PARAMETER };
 	
 	/**
-	 * Returns the Ontology Manager for the Meta-Model Ontology.
+	 * Returns the Model Change Handler for the Meta-Model.
 	 * 
-	 * @return An Optional-Object of the Ontology Manager.
+	 * @return An Optional-Object of the Model Change Handler.
 	 */
-	Optional<IOntologyManager> getMetaModelOntologyManager();
+	Optional<IModelChangeHandler> getMetaModelHandler();
 	
 	/**
 	 * Starts the OIDA model ontology management for a passed model object.
@@ -103,7 +103,7 @@ public interface IOIDABridge {
 	 * 
 	 * @param selectedRecommendation A Recommendation object, containing the selected reference ontology entity.
 	 */
-	void establishSecondaryMapping(Recommendation selectedRecommendation);
+	void establishSecondaryMapping(OntologyClass metaModelClass, OntologyClass referenceClass);
 	
 	Optional<IModelChangeHandler> getModelChangeHandler(Object model);
 }

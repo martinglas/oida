@@ -9,12 +9,14 @@ import oida.ontology.Ontology;
 import oida.ontology.OntologyAnnotation;
 import oida.ontology.OntologyAnnotationProperty;
 import oida.ontology.OntologyClass;
+import oida.ontology.OntologyClassEquivalence;
 import oida.ontology.OntologyEntity;
 import oida.ontology.OntologyFactory;
 import oida.ontology.OntologyIndividual;
 import oida.ontology.OntologyNamespace;
 import oida.ontology.OntologyObjectProperty;
 import oida.ontology.OntologyObjectPropertyAssertion;
+import oida.ontology.OntologyObjectPropertyEquivalence;
 import oida.util.constants.StringConstants;
 
 /**
@@ -103,7 +105,7 @@ public class OntologyManagerUtils {
 		return property;
 	}
 
-	public static OntologyAnnotation generateInternalAnnotationObject(Ontology ontology, OntologyAnnotationProperty property, String value) {
+	public static OntologyAnnotation generateAnnotationObject(Ontology ontology, OntologyAnnotationProperty property, String value) {
 		OntologyAnnotation annotation = OntologyFactory.eINSTANCE.createOntologyAnnotation();
 		annotation.setContainingOntology(ontology);
 		annotation.setAnnotationproperty(property);
@@ -112,13 +114,37 @@ public class OntologyManagerUtils {
 		return annotation;
 	}
 	
-	public static OntologyObjectPropertyAssertion generateInternalObjectPropertyAssertionObject(Ontology ontology, OntologyObjectProperty objectProperty, OntologyIndividual individual) {
+	public static OntologyObjectPropertyAssertion generateObjectPropertyAssertionObject(Ontology ontology, OntologyObjectProperty objectProperty, OntologyIndividual individual) {
 		OntologyObjectPropertyAssertion assertion = OntologyFactory.eINSTANCE.createOntologyObjectPropertyAssertion();
 		assertion.setContainingOntology(ontology);
 		assertion.setObjectProperty(objectProperty);
 		assertion.setObject(individual);
 		
 		return assertion;
+	}
+	
+	public static OntologyClassEquivalence assignClassesEquivalent(Ontology ontology, OntologyClass class1, OntologyClass class2) {
+		OntologyClassEquivalence equivalence = OntologyFactory.eINSTANCE.createOntologyClassEquivalence();
+		equivalence.setClass1(class1);
+		equivalence.setClass2(class2);
+		ontology.getClassEquivalences().add(equivalence);
+		
+		class1.getEquivalentClasses().add(class2);
+		class2.getEquivalentClasses().add(class1);
+		
+		return equivalence;
+	}
+	
+	public static OntologyObjectPropertyEquivalence assignObjectPropertiesEquivalent(Ontology ontology, OntologyObjectProperty objectProperty1, OntologyObjectProperty objectProperty2) {
+		OntologyObjectPropertyEquivalence equivalence = OntologyFactory.eINSTANCE.createOntologyObjectPropertyEquivalence();
+		equivalence.setObjectProperty1(objectProperty1);
+		equivalence.setObjectProperty2(objectProperty2);
+		ontology.getObjectPropertyEquivalences().add(equivalence);
+		
+		objectProperty1.getEquivalentProperties().add(objectProperty2);
+		objectProperty2.getEquivalentProperties().add(objectProperty1);
+		
+		return equivalence;
 	}
 
 	public static void setOntologyEntityData(OntologyEntity entity, Ontology ontology, String name, String prefix) {

@@ -7,26 +7,24 @@ import org.eclipse.e4.core.di.annotations.Optional;
 import org.eclipse.e4.ui.workbench.modeling.EPartService;
 import org.eclipse.e4.ui.workbench.modeling.ESelectionService;
 
-import bridgemodel.BridgemodelFactory;
-import bridgemodel.ClassEqualsMapping;
 import oida.bridge.service.IOIDABridge;
 import oida.bridge.ui.e4.part.MetaModelClassHierarchyViewPart;
 import oida.bridge.ui.e4.part.ReferenceOntologyClassViewPart;
 import oida.ontology.OntologyClass;
 
+/**
+ * 
+ * @author Michael Shamiyeh
+ * @since 2017-05-08
+ *
+ */
 public class MapSecondaryHandler {
 	@Execute
 	public void execute(IOIDABridge oidaBridge, ESelectionService selectionService) {
-		ClassEqualsMapping mapping = BridgemodelFactory.eINSTANCE.createClassEqualsMapping();
-		
 		OntologyClass metaModelClass = (OntologyClass)selectionService.getSelection(MetaModelClassHierarchyViewPart.PART_ID);
 		OntologyClass referenceClass = (OntologyClass)selectionService.getSelection(ReferenceOntologyClassViewPart.PART_ID);
 		
-		mapping.setClazz1(metaModelClass);
-		mapping.setClazz2(referenceClass);
-		
-		metaModelClass.setMapping(mapping);
-		referenceClass.setMapping(mapping);
+		oidaBridge.establishSecondaryMapping(metaModelClass, referenceClass);
 	}
 
 	@CanExecute
@@ -36,5 +34,4 @@ public class MapSecondaryHandler {
 
 		return true;
 	}
-
 }

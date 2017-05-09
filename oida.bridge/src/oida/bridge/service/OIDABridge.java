@@ -25,6 +25,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import bridgemodel.BridgemodelFactory;
+import bridgemodel.ClassEqualsMapping;
 import bridgemodel.Recommendation;
 import bridgemodel.RecommendationSet;
 import bridgemodel.provider.BridgemodelItemProviderAdapterFactory;
@@ -39,7 +40,6 @@ import oida.bridge.recommender.IRecommender;
 import oida.ontology.OntologyClass;
 import oida.ontology.OntologyEntity;
 import oida.ontology.OntologyIndividual;
-import oida.ontology.OntologyObjectProperty;
 import oida.ontology.manager.IOntologyManager;
 import oida.ontology.manager.OntologyManagerException;
 import oida.ontology.service.IOIDAOntologyService;
@@ -66,7 +66,7 @@ public final class OIDABridge implements IOIDABridge {
 	private IRenamerStrategy renamerStrategy;
 	private IStructuringStrategy structuringStrategy;
 
-	private IOntologyManager metaModelOntologyManager;
+	private IModelChangeHandler metaModelOntologyHandler;
 
 	private IModelChangeHandlerFactory changeHandlerFactory;
 
@@ -74,8 +74,6 @@ public final class OIDABridge implements IOIDABridge {
 
 	private Resource currentPrimaryRecommendationsResource;
 	private Resource currentSecondaryRecommendationsResource;
-
-	private Resource currentMetaModelResource;
 
 	private IOIDAOntologyService oidaOntologyService;
 
@@ -172,15 +170,13 @@ public final class OIDABridge implements IOIDABridge {
 						Activator.OIDA_METAMODELONTOLOGY_PROVIDER_EXTENSIONPOINT_ID);
 
 				if (provider != null)
-					metaModelOntologyManager = provider.createMetaModelOntology(renamerStrategy, structuringStrategy, optMetaModelOntologyManager.get());
+					metaModelOntologyHandler = provider.createMetaModelOntology(renamerStrategy, structuringStrategy, optMetaModelOntologyManager.get(), oidaOntologyService.getReferenceOntologyManager().getOntology());
 				
-				LOGGER.info("Meta model ontology created: '" + metaModelOntologyManager.getOntology().getIri() + "'.");
+				LOGGER.info("Meta model ontology created: '" + metaModelOntologyHandler.getModelOntologyManager().getOntology().getIri() + "'.");
 			} catch (CoreException e) {
 				LOGGER.error("Error while evaluating creating meta model ontology.", e);
 			}
 			
-			
-
 			LOGGER.info("Meta Model Ontology created for '" + structuringStrategy.getMetaModelInformationObject().toString() + "'.");
 		} else
 			LOGGER.error("Error while creating the Meta Model Ontology for '" + structuringStrategy.getMetaModelInformationObject().toString() + "'.");
@@ -202,7 +198,7 @@ public final class OIDABridge implements IOIDABridge {
 		if (structuringStrategy == null)
 			throw new OIDABridgeException("No structuring strategy found. Model won't be observed.");
 
-		if (!getMetaModelOntologyManager().isPresent())
+		if (!getMetaModelHandler().isPresent())
 			throw new OIDABridgeException("No meta model ontology found. Model won't be observed.");
 
 		if (modelOntologyDirectory == null)
@@ -214,9 +210,9 @@ public final class OIDABridge implements IOIDABridge {
 		File modelOntologyFile = new File(modelOntologyDirectory, generateModelOntologyFileName(modelObjectId));
 		OntologyFile ontologyfile = OIDAUtil.getOntologyFile(modelOntologyFile);
 
-		IModelChangeHandler changeHandler = changeHandlerFactory.getChangeHandler(renamerStrategy, structuringStrategy, metaModelOntologyManager);
+		IModelChangeHandler changeHandler = changeHandlerFactory.getChangeHandler(renamerStrategy, structuringStrategy, metaModelOntologyHandler.getModelOntologyManager());
 
-		changeHandler.initializeChangeHandler(renamerStrategy, structuringStrategy, getMetaModelOntologyManager().get());
+		changeHandler.initializeChangeHandler(renamerStrategy, structuringStrategy, getMetaModelHandler().get().getModelOntologyManager());
 
 		Optional<IOntologyManager> optModelOntologyMgr = oidaOntologyService.getOntologyManager(ontologyfile, true);
 		if (optModelOntologyMgr.isPresent())
@@ -296,7 +292,7 @@ public final class OIDABridge implements IOIDABridge {
 	public void establishPrimaryMapping(Recommendation selectedRecommendation) {
 		RecommendationSet recSet = (RecommendationSet)currentPrimaryRecommendationsResource.getContents().get(0);
 		IOntologyManager modelOntologyManager = modelHandlerMap.get(recSet.getModelObject()).getModelOntologyManager();
-
+		
 		if (recSet.getOntologyEntity() instanceof OntologyIndividual && selectedRecommendation.getRecommendedEntity() instanceof OntologyClass) {
 			modelOntologyManager.assignIndividualToClass((OntologyIndividual)recSet.getOntologyEntity(), (OntologyClass)selectedRecommendation.getRecommendedEntity());
 			LOGGER.info("Primary Mapping establisehd. Individual '" + recSet.getOntologyEntity().getIri() + "' is of type '" + selectedRecommendation.getRecommendedEntity().getIri() + "'");
@@ -304,18 +300,29 @@ public final class OIDABridge implements IOIDABridge {
 	}
 
 	@Override
-	public void establishSecondaryMapping(Recommendation selectedRecommendation) {
-		RecommendationSet recSet = (RecommendationSet)currentSecondaryRecommendationsResource.getContents().get(0);
-		IOntologyManager modelOntologyManager = modelHandlerMap.get(recSet.getModelObject()).getModelOntologyManager();
-
-		if (recSet.getOntologyEntity() instanceof OntologyClass && selectedRecommendation.getRecommendedEntity() instanceof OntologyClass) {
-			modelOntologyManager.assignClassEquivalence((OntologyClass)recSet.getOntologyEntity(), (OntologyClass)selectedRecommendation.getRecommendedEntity());
-			LOGGER.info("Secondary Mapping establisehd. Class '" + recSet.getOntologyEntity().getIri() + "' is equivalent to class '" + selectedRecommendation.getRecommendedEntity().getIri() + "'");
-		} else if (recSet.getOntologyEntity() instanceof OntologyObjectProperty && selectedRecommendation.getRecommendedEntity() instanceof OntologyObjectProperty) {
-			modelOntologyManager.assignObjectPropertyEquivalence((OntologyObjectProperty)recSet.getOntologyEntity(), (OntologyObjectProperty)selectedRecommendation.getRecommendedEntity());
-			LOGGER.info("Secondary Mapping establisehd. Object property '" + recSet.getOntologyEntity().getIri() + "' is equivalent to object property '"
-					+ selectedRecommendation.getRecommendedEntity().getIri() + "'");
+	public void establishSecondaryMapping(OntologyClass metaModelClass, OntologyClass referenceClass) {
+		if (getMetaModelHandler().isPresent()) {
+			getMetaModelHandler().get().establishClassMapping(metaModelClass, referenceClass);
+			LOGGER.info("Secondary class-mapping established: '" + metaModelClass.getIri() + "' equals '" + referenceClass.getIri() + "'.");
+			
+			try {
+				getMetaModelHandler().get().getModelOntologyManager().saveOntology();
+			} catch (OntologyManagerException e) {
+				LOGGER.error("Error while saving meta model ontology.", e);
+			}
 		}
+		
+//		RecommendationSet recSet = (RecommendationSet)currentSecondaryRecommendationsResource.getContents().get(0);
+//		IOntologyManager modelOntologyManager = modelHandlerMap.get(recSet.getModelObject()).getModelOntologyManager();
+//
+//		if (recSet.getOntologyEntity() instanceof OntologyClass && selectedRecommendation.getRecommendedEntity() instanceof OntologyClass) {
+//			modelOntologyManager.assignClassEquivalence((OntologyClass)recSet.getOntologyEntity(), (OntologyClass)selectedRecommendation.getRecommendedEntity());
+//			LOGGER.info("Secondary Mapping establisehd. Class '" + recSet.getOntologyEntity().getIri() + "' is equivalent to class '" + selectedRecommendation.getRecommendedEntity().getIri() + "'");
+//		} else if (recSet.getOntologyEntity() instanceof OntologyObjectProperty && selectedRecommendation.getRecommendedEntity() instanceof OntologyObjectProperty) {
+//			modelOntologyManager.assignObjectPropertyEquivalence((OntologyObjectProperty)recSet.getOntologyEntity(), (OntologyObjectProperty)selectedRecommendation.getRecommendedEntity());
+//			LOGGER.info("Secondary Mapping establisehd. Object property '" + recSet.getOntologyEntity().getIri() + "' is equivalent to object property '"
+//					+ selectedRecommendation.getRecommendedEntity().getIri() + "'");
+//		}
 	}
 
 	@Override
@@ -327,9 +334,9 @@ public final class OIDABridge implements IOIDABridge {
 	}
 
 	@Override
-	public Optional<IOntologyManager> getMetaModelOntologyManager() {
-		if (metaModelOntologyManager != null)
-			return Optional.of(metaModelOntologyManager);
+	public Optional<IModelChangeHandler> getMetaModelHandler() {
+		if (metaModelOntologyHandler != null)
+			return Optional.of(metaModelOntologyHandler);
 
 		return Optional.empty();
 	}

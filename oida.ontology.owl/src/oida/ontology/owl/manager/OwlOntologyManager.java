@@ -13,6 +13,7 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 import org.semanticweb.owlapi.apibinding.OWLManager;
 import org.semanticweb.owlapi.formats.OWLXMLDocumentFormat;
@@ -61,10 +62,12 @@ import oida.ontology.Ontology;
 import oida.ontology.OntologyAnnotation;
 import oida.ontology.OntologyAnnotationProperty;
 import oida.ontology.OntologyClass;
+import oida.ontology.OntologyClassEquivalence;
 import oida.ontology.OntologyEntity;
 import oida.ontology.OntologyIndividual;
 import oida.ontology.OntologyObjectProperty;
 import oida.ontology.OntologyObjectPropertyAssertion;
+import oida.ontology.OntologyObjectPropertyEquivalence;
 import oida.ontology.manager.AbstractOntologyManager;
 import oida.ontology.manager.IOntologyManager;
 import oida.ontology.manager.OntologyManagerException;
@@ -355,6 +358,7 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 		try {
 			FileOutputStream outputStream = new FileOutputStream(file);
 			owlOntologyManager.saveOntology(owlOntology, owlPrefixManager, outputStream);
+			LOGGER.info("Ontology saved: '" + getOntology().getIri() + "'");
 		} catch (FileNotFoundException e) {
 			throw new OntologyManagerException("Error while saving ontology to file '" + file.getName() + "': " + e.getMessage(), e);
 		} catch (OWLOntologyStorageException e) {
@@ -683,7 +687,7 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 			OWLObjectPropertyAssertionAxiom owlAssertionAxiom = owlDataFactory.getOWLObjectPropertyAssertionAxiom(optOwlObjectProperty.get(), optOwlIndividual.get(), optOwlObject.get());
 			owlOntologyManager.addAxiom(owlOntology, owlAssertionAxiom);
 
-			OntologyObjectPropertyAssertion assertion = OntologyManagerUtils.generateInternalObjectPropertyAssertionObject(getOntology(), property, object);
+			OntologyObjectPropertyAssertion assertion = OntologyManagerUtils.generateObjectPropertyAssertionObject(getOntology(), property, object);
 			individual.getObjectPropertyAssertions().add(assertion);
 
 			return assertion;
@@ -715,7 +719,7 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 
 			owlOntologyManager.addAxiom(owlOntology, owlAxiom);
 
-			OntologyAnnotation annotation = OntologyManagerUtils.generateInternalAnnotationObject(getOntology(), property, annotationValue);
+			OntologyAnnotation annotation = OntologyManagerUtils.generateAnnotationObject(getOntology(), property, annotationValue);
 			clazz.getAnnotations().add(annotation);
 			mapHandler.toMap(owlAnnotation, annotation);
 
@@ -737,7 +741,7 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 
 			owlOntologyManager.addAxiom(owlOntology, owlAxiom);
 
-			OntologyAnnotation annotation = OntologyManagerUtils.generateInternalAnnotationObject(getOntology(), property, annotationValue);
+			OntologyAnnotation annotation = OntologyManagerUtils.generateAnnotationObject(getOntology(), property, annotationValue);
 			individual.getAnnotations().add(annotation);
 			mapHandler.toMap(owlAnnotation, annotation);
 
@@ -748,24 +752,49 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 	}
 
 	@Override
-	public void assignClassEquivalence(OntologyClass clazz, OntologyClass equivalentClazz) {
+	public Optional<OntologyClassEquivalence> assignClassEquivalence(OntologyClass clazz, OntologyClass equivalentClazz) {
 		Optional<OWLClass> optOwlClass = mapHandler.getOWLClass(clazz);
 		Optional<OWLClass> optOwlEquivalentClass = mapHandler.getOWLClass(equivalentClazz);
 
 		if (optOwlClass.isPresent() && optOwlEquivalentClass.isPresent()) {
 			OWLEquivalentClassesAxiom owlAxiom = owlDataFactory.getOWLEquivalentClassesAxiom(optOwlClass.get(), optOwlEquivalentClass.get());
+
 			owlOntologyManager.addAxiom(owlOntology, owlAxiom);
+			
+			OntologyClassEquivalence equivalence = OntologyManagerUtils.assignClassesEquivalent(getOntology(), clazz, equivalentClazz);
+			mapHandler.toMap(owlAxiom, equivalence);
+			
+			return Optional.of(equivalence);
 		}
+		
+		return Optional.empty();
 	}
 
 	@Override
-	public void assignObjectPropertyEquivalence(OntologyObjectProperty objectProperty, OntologyObjectProperty equivalentObjectProperty) {
+	public Stream<OntologyClassEquivalence> getAllClassEquivalences() {
+		return getOntology().getClassEquivalences().stream();
+	}
+
+	@Override
+	public Optional<OntologyObjectPropertyEquivalence> assignObjectPropertyEquivalence(OntologyObjectProperty objectProperty, OntologyObjectProperty equivalentObjectProperty) {
 		Optional<OWLObjectProperty> optOwlObjectProperty = mapHandler.getOWLObjectProperty(objectProperty);
 		Optional<OWLObjectProperty> optOwlEquivalentObjectProperty = mapHandler.getOWLObjectProperty(equivalentObjectProperty);
 
 		if (optOwlObjectProperty.isPresent() && optOwlEquivalentObjectProperty.isPresent()) {
 			OWLEquivalentObjectPropertiesAxiom owlAxiom = owlDataFactory.getOWLEquivalentObjectPropertiesAxiom(optOwlObjectProperty.get(), optOwlEquivalentObjectProperty.get());
 			owlOntologyManager.addAxiom(owlOntology, owlAxiom);
+			
+			OntologyObjectPropertyEquivalence equivalence = OntologyManagerUtils.assignObjectPropertiesEquivalent(getOntology(), objectProperty, equivalentObjectProperty);
+			mapHandler.toMap(owlAxiom, equivalence);
+			
+			return Optional.of(equivalence);
 		}
+		
+		return Optional.empty();
+	}
+	
+	@Override
+	public Stream<OntologyObjectPropertyEquivalence> getAllObjectPropertyEquivalences() {
+		return getOntology().getObjectPropertyEquivalences().stream();
 	}
 }

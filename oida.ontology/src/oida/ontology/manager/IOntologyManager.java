@@ -5,7 +5,6 @@
  ******************************************************************************/
 package oida.ontology.manager;
 
-import java.util.Map;
 import java.util.Optional;
 import java.util.stream.Stream;
 
@@ -13,10 +12,12 @@ import oida.ontology.Ontology;
 import oida.ontology.OntologyAnnotation;
 import oida.ontology.OntologyAnnotationProperty;
 import oida.ontology.OntologyClass;
+import oida.ontology.OntologyClassEquivalence;
 import oida.ontology.OntologyEntity;
 import oida.ontology.OntologyIndividual;
 import oida.ontology.OntologyObjectProperty;
 import oida.ontology.OntologyObjectPropertyAssertion;
+import oida.ontology.OntologyObjectPropertyEquivalence;
 import oida.ontology.manager.context.IGlobalOntologyContext;
 import oida.ontologyMgr.OntologyFile;
 
@@ -189,6 +190,9 @@ public interface IOntologyManager {
 	
 	Optional<OntologyAnnotation> annotateIndividual(OntologyIndividual individual, OntologyAnnotationProperty property, String annotationValue);
 
-	void assignClassEquivalence(OntologyClass clazz, OntologyClass equivalentClazz);
-	void assignObjectPropertyEquivalence(OntologyObjectProperty objectProperty, OntologyObjectProperty equivalentObjectProperty);
+	Optional<OntologyClassEquivalence> assignClassEquivalence(OntologyClass clazz, OntologyClass equivalentClazz);
+	Optional<OntologyObjectPropertyEquivalence> assignObjectPropertyEquivalence(OntologyObjectProperty objectProperty, OntologyObjectProperty equivalentObjectProperty);
+
+	Stream<OntologyClassEquivalence> getAllClassEquivalences();
+	Stream<OntologyObjectPropertyEquivalence> getAllObjectPropertyEquivalences();
 }

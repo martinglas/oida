@@ -1,7 +1,9 @@
 package oida.bridge.model.ontology;
 
+import oida.bridge.model.changehandler.IModelChangeHandler;
 import oida.bridge.model.strategy.IRenamerStrategy;
 import oida.bridge.model.strategy.IStructuringStrategy;
+import oida.ontology.Ontology;
 import oida.ontology.manager.IOntologyManager;
 
 /**
@@ -11,5 +13,5 @@ import oida.ontology.manager.IOntologyManager;
  *
  */
 public interface IMetaModelOntologyProvider {
-	IOntologyManager createMetaModelOntology(IRenamerStrategy renamerStrategy, IStructuringStrategy structuringStrategy, IOntologyManager manager);
+	IModelChangeHandler createMetaModelOntology(IRenamerStrategy renamerStrategy, IStructuringStrategy structuringStrategy, IOntologyManager manager, Ontology referenceOntology);
 }

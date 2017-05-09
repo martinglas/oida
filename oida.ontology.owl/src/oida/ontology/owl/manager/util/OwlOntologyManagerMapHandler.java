@@ -13,6 +13,8 @@ import org.semanticweb.owlapi.model.OWLAnnotationProperty;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLEntity;
+import org.semanticweb.owlapi.model.OWLEquivalentClassesAxiom;
+import org.semanticweb.owlapi.model.OWLEquivalentObjectPropertiesAxiom;
 import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
@@ -22,9 +24,11 @@ import oida.ontology.AOntologyItem;
 import oida.ontology.Ontology;
 import oida.ontology.OntologyAnnotation;
 import oida.ontology.OntologyClass;
+import oida.ontology.OntologyClassEquivalence;
 import oida.ontology.OntologyEntity;
 import oida.ontology.OntologyIndividual;
 import oida.ontology.OntologyObjectProperty;
+import oida.ontology.OntologyObjectPropertyEquivalence;
 import oida.ontology.manager.util.OntologyManagerUtils;
 
 /**
@@ -34,11 +38,17 @@ import oida.ontology.manager.util.OntologyManagerUtils;
  *
  */
 public final class OwlOntologyManagerMapHandler {
-	private HashMap<String, OWLObject> owlAPIMap;
-	private HashMap<String, AOntologyItem> internalAPIMap;
+	private HashMap<String, OWLObject> owlAPIMap = new HashMap<String, OWLObject>();
+	private HashMap<String, AOntologyItem> internalAPIMap = new HashMap<String, AOntologyItem>();
 	
-	private HashMap<OWLAnnotation, OntologyAnnotation> owlToInternalAnnotationMap;
-	private HashMap<OntologyAnnotation, OWLAnnotation> internalToOwlAnnotationMap;
+	private HashMap<OWLAnnotation, OntologyAnnotation> owlToInternalAnnotationMap = new HashMap<OWLAnnotation, OntologyAnnotation>();
+	private HashMap<OntologyAnnotation, OWLAnnotation> internalToOwlAnnotationMap = new HashMap<OntologyAnnotation, OWLAnnotation>();
+	
+	private HashMap<OWLEquivalentClassesAxiom, OntologyClassEquivalence> owlToInternalClassEquivalenceMap = new HashMap<OWLEquivalentClassesAxiom, OntologyClassEquivalence>();
+	private HashMap<OntologyClassEquivalence, OWLEquivalentClassesAxiom> internalToOwlClassEquivalenceMap = new HashMap<OntologyClassEquivalence, OWLEquivalentClassesAxiom>();
+	
+	private HashMap<OWLEquivalentObjectPropertiesAxiom, OntologyObjectPropertyEquivalence> owlToInternalObjectPropertyEquivalenceMap = new HashMap<OWLEquivalentObjectPropertiesAxiom, OntologyObjectPropertyEquivalence>();
+	private HashMap<OntologyObjectPropertyEquivalence, OWLEquivalentObjectPropertiesAxiom> internalToOwlObjectPropertyEquivalenceMap = new HashMap<OntologyObjectPropertyEquivalence, OWLEquivalentObjectPropertiesAxiom>();
 
 	private OWLClass owlThingClass;
 	private OntologyClass thingClass;
@@ -66,10 +76,6 @@ public final class OwlOntologyManagerMapHandler {
 	 * Standard constructor.
 	 */
 	public OwlOntologyManagerMapHandler() {
-		owlAPIMap = new HashMap<String, OWLObject>();
-		internalAPIMap = new HashMap<String, AOntologyItem>();
-		owlToInternalAnnotationMap = new HashMap<OWLAnnotation, OntologyAnnotation>();
-		internalToOwlAnnotationMap = new HashMap<OntologyAnnotation, OWLAnnotation>();
 	}
 
 	public void initializeOntology(OWLDataFactory owlDataFactory, OWLOntology owlOntology, Ontology ontology) {
@@ -271,6 +277,16 @@ public final class OwlOntologyManagerMapHandler {
 	public void toMap(OWLAnnotation owlAnnotation, OntologyAnnotation internalAnnotationObj) {
 		owlToInternalAnnotationMap.put(owlAnnotation, internalAnnotationObj);
 		internalToOwlAnnotationMap.put(internalAnnotationObj, owlAnnotation);
+	}
+	
+	public void toMap(OWLEquivalentClassesAxiom owlEquivalence, OntologyClassEquivalence internalClassEquivalenceObj) {
+		owlToInternalClassEquivalenceMap.put(owlEquivalence, internalClassEquivalenceObj);
+		internalToOwlClassEquivalenceMap.put(internalClassEquivalenceObj, owlEquivalence);
+	}
+	
+	public void toMap(OWLEquivalentObjectPropertiesAxiom owlEquivalence, OntologyObjectPropertyEquivalence internalObjectPropertyEquivalenceObj) {
+		owlToInternalObjectPropertyEquivalenceMap.put(owlEquivalence, internalObjectPropertyEquivalenceObj);
+		internalToOwlObjectPropertyEquivalenceMap.put(internalObjectPropertyEquivalenceObj, owlEquivalence);
 	}
 
 	/**
