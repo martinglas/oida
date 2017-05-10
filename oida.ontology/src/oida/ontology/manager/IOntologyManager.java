@@ -45,6 +45,8 @@ public interface IOntologyManager {
 
 	Ontology createOntology(String ontologyIRI) throws OntologyManagerException;
 
+	Ontology loadOntology(String iri) throws OntologyManagerException;
+	
 	Ontology loadOntology(OntologyFile ontologyFile) throws OntologyManagerException;
 
 	void saveOntology() throws OntologyManagerException;

@@ -24,6 +24,7 @@ import oida.ontology.OntologyPackage;
 import oida.ontology.manager.context.IGlobalOntologyContext;
 import oida.ontology.manager.util.OntologyManagerUtils;
 import oida.ontologyMgr.OntologyFile;
+import oida.util.OIDAUtil;
 import oida.util.constants.StringConstants;
 
 /**
@@ -73,7 +74,19 @@ public abstract class AbstractOntologyManager extends EContentAdapter implements
 			ontology.setNrOfObjectProperties(ontology.getObjectProperties().size());
 		}
 	}
-
+	
+	@Override
+	public Ontology loadOntology(OntologyFile ontologyFile) throws OntologyManagerException {
+		Optional<File> optFile = getOntologyFileObject(ontologyFile);
+		if (optFile.isPresent() && optFile.get().exists()) {
+			Ontology o = loadOntology(OIDAUtil.getFileIriString(ontologyFile));
+			setOntologyFile(ontologyFile);
+			getOntology().setOntologyFile(ontologyFile);
+			return o;
+		} else
+			throw new OntologyManagerException("Error while loading ontology: File doesn't exist.");
+	}
+	
 	protected void setOntology(Ontology ontology) {
 		if (this.ontology != null) {
 			this.ontology.eAdapters().remove(this);

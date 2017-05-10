@@ -44,10 +44,14 @@ public class EMFMetaModelOntology extends AbstractModelChangeHandler {
 	}
 
 	public IOntologyManager createMetaModelOntology(IRenamerStrategy renamerStrategy, IStructuringStrategy structuringStrategy, IOntologyManager manager, Ontology referenceOntology) {
-		if (getModelOntologyManager() == null) {
-			setRenamerStrategy(renamerStrategy);
-			setStructuringStrategy(structuringStrategy);
-			
+		setRenamerStrategy(renamerStrategy);
+		setStructuringStrategy(structuringStrategy);
+		
+		// check if the passed ontology manager has imports, to determine if the ontology has been created already: 
+		if (manager.getOntology().getImports().size() > 0)
+			setMetaModelOntologyManager(manager);
+		else {
+			// add reference ontology to includes:
 			try {
 				manager.addImportDeclaration(referenceOntology);
 			} catch (OntologyManagerException e) {
@@ -56,6 +60,8 @@ public class EMFMetaModelOntology extends AbstractModelChangeHandler {
 			
 			initializeModelOntology(manager);
 		}
+		
+		extractMappings(manager);
 
 		return getModelOntologyManager();
 	}

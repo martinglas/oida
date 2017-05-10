@@ -35,4 +35,7 @@
       </children>
     </elements>
   </fragments>
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_YefDcDVkEee2Yb9g_LH5sA" featurename="children" parentElementId="de.symo.application.trimbar.0">
+    <elements xsi:type="menu:ToolControl" xmi:id="_fktfQDVkEee2Yb9g_LH5sA" elementId="oida.bridge.ui.e4.toolcontrol.0" contributionURI="bundleclass://oida.bridge.ui.e4/oida.bridge.ui.e4.toolcontrol.BridgeStateViewControl"/>
+  </fragments>
 </fragment:ModelFragments>

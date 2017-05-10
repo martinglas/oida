@@ -50,7 +50,7 @@ import oida.util.constants.FileConstants;
 public final class OIDAOntologyService extends AbstractOIDAOntologyService implements INotifyChangedListener, IGlobalOntologyContext {
 	private URI uriLibrary = URI.createFileURI(OIDAUtil.getOIDAWorkPath() + FileConstants.ONTOLOGY_LIBRARY_FILE);
 	private URI uriManager = URI.createFileURI(OIDAUtil.getOIDAWorkPath() + FileConstants.ONTOLOGY_MANAGER_FILE);
-
+	
 	private EditingDomain editingDomain;
 	private Resource libraryResource;
 
@@ -91,9 +91,8 @@ public final class OIDAOntologyService extends AbstractOIDAOntologyService imple
 			LOGGER.info("Evaluating ontology manager extensions.");
 			this.managerFactory = ExtensionPointUtil.loadSingleExtension(Activator.getExtensionRegistry(), IOntologyManagerFactory.class, Activator.ONTOLOGYMANAGERFACTORY_EXTENSIONPOINT_ID);
 			LOGGER.info("Initialized with manager '" + this.managerFactory.getClass().getName() + "'.");
-		} catch (CoreException e1) {
-			e1.printStackTrace();
-			LOGGER.info("Initialized without an Ontology Manager Factory.");
+		} catch (CoreException e) {
+			LOGGER.error("Initialized without an Ontology Manager Factory.", e);
 		}
 
 		if (getLibrary().getReferenceOntology() != null) {
@@ -157,7 +156,7 @@ public final class OIDAOntologyService extends AbstractOIDAOntologyService imple
 	}
 
 	@Override
-	public Optional<IOntologyManager> getOntologyManager(String ontologyIri, OntologyFile ontologyFile, boolean createIfNotExisting) {
+	public Optional<IOntologyManager> getOntologyManager(OntologyFile ontologyFile, String ontologyIri, boolean createIfNotExisting) {
 		// return existing ontology manager if possible:
 		if (ontologyFile != null && managedOntologies.containsKey(ontologyFile))
 			return Optional.of(managedOntologies.get(ontologyFile));
@@ -172,6 +171,7 @@ public final class OIDAOntologyService extends AbstractOIDAOntologyService imple
 					Ontology ontology = mgr.createOntology(ontologyIri);
 					managedOntologyResource.getContents().add(mgr.getOntology());
 					managedOntologies.put(ontology, mgr);
+					copyIRIMappingsToManager(mgr);
 					return Optional.of(mgr);
 				} catch (OntologyManagerException e) {
 					LOGGER.error("Ontology with IRI '" + ontologyIri + "' could not be created.", e);
@@ -184,9 +184,11 @@ public final class OIDAOntologyService extends AbstractOIDAOntologyService imple
 			}
 		} else {
 			try {
+				copyIRIMappingsToManager(mgr);
 				Ontology ontology = mgr.loadOntology(ontologyFile);
 				managedOntologyResource.getContents().add(mgr.getOntology());
 				managedOntologies.put(ontology, mgr);
+				iriMappings.put(ontology.getIri(), ontologyFile);
 
 				LOGGER.info("Added new ontology manager for: " + ontologyFile.getFileName() + ".");
 				return Optional.of(mgr);
@@ -202,6 +204,8 @@ public final class OIDAOntologyService extends AbstractOIDAOntologyService imple
 						mgr.setOntologyFile(ontologyFile);
 						managedOntologyResource.getContents().add(mgr.getOntology());
 						managedOntologies.put(ontology, mgr);
+						iriMappings.put(ontology.getIri(), ontologyFile);
+						copyIRIMappingsToManager(mgr);
 
 						LOGGER.info("Added new ontology manager for: " + ontologyFile.getFileName() + ".");
 						return Optional.of(mgr);
@@ -239,5 +243,10 @@ public final class OIDAOntologyService extends AbstractOIDAOntologyService imple
 		}
 
 		return Optional.empty();
+	}
+	
+	private void copyIRIMappingsToManager(IOntologyManager manager) {
+		for (String key : iriMappings.keySet())
+			manager.addGlobalIRIToLocalPathMapping(key, OIDAUtil.getFileIriString(iriMappings.get(key)));
 	}
 }

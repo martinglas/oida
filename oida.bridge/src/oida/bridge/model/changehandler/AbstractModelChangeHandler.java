@@ -162,7 +162,7 @@ public abstract class AbstractModelChangeHandler implements IModelChangeHandler 
 
 	@Override
 	public Optional<ClassEqualsMapping> establishClassMapping(OntologyClass class1, OntologyClass class2) {
-		Optional<OntologyClassEquivalence> optEquivalence = getModelOntologyManager().assignClassEquivalence(class1, class2);
+		Optional<OntologyClassEquivalence> optEquivalence = getMetaModelOntologyManager().assignClassEquivalence(class1, class2);
 		
 		if (optEquivalence.isPresent())
 			return Optional.of(createClassMapping(optEquivalence.get()));
@@ -172,7 +172,7 @@ public abstract class AbstractModelChangeHandler implements IModelChangeHandler 
 	
 	@Override
 	public Optional<ObjectPropertyEqualsMapping> establishObjectPropertyMapping(OntologyObjectProperty objectProperty1, OntologyObjectProperty objectProperty2) {
-		Optional<OntologyObjectPropertyEquivalence> optEquivalence = getModelOntologyManager().assignObjectPropertyEquivalence(objectProperty1, objectProperty2);
+		Optional<OntologyObjectPropertyEquivalence> optEquivalence = getMetaModelOntologyManager().assignObjectPropertyEquivalence(objectProperty1, objectProperty2);
 		
 		if (optEquivalence.isPresent())
 			return Optional.of(createObjectPropertyMapping(optEquivalence.get()));
@@ -180,7 +180,7 @@ public abstract class AbstractModelChangeHandler implements IModelChangeHandler 
 		return Optional.empty();
 	}
 	
-	private void extractMappings(IOntologyManager modelOntologyManager) {
+	protected void extractMappings(IOntologyManager modelOntologyManager) {
 		// class equivalences
 		Stream<OntologyClassEquivalence> equivalences = modelOntologyManager.getAllClassEquivalences();
 		for (OntologyClassEquivalence equ : equivalences.collect(Collectors.toList())) {

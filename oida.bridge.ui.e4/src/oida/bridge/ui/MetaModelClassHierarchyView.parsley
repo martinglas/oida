@@ -45,7 +45,7 @@ module oida.bridge.ui.MetaModelClassHierarchyView {
 				if (c.mappingExists)
 					Display.getCurrent().getSystemColor(SWT.COLOR_GREEN)
 				else
-					Display.getCurrent().getSystemColor(SWT.COLOR_BLACK)
+					Display.getCurrent().getSystemColor(SWT.COLOR_WHITE)
 		}
 		
 //		image {

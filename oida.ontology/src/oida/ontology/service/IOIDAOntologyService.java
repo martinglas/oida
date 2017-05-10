@@ -27,12 +27,15 @@ public interface IOIDAOntologyService {
 
 	Resource getManagedOntologiesResource();
 	
-	public IOntologyManager getReferenceOntologyManager();
+	public Optional<IOntologyManager> getReferenceOntologyManager();
 
 	public EditingDomain getEditingDomain();
 	
-	public Optional<IOntologyManager> getOntologyManager(String ontologyIri);
+	public boolean checkOntologyExistance(OntologyFile ontologyFile);
+	public boolean checkOntologyExistance(String iri);
+	
+	//public Optional<IOntologyManager> getOntologyManager(String ontologyIri);
+	//public Optional<IOntologyManager> getOntologyManager(OntologyFile ontologyFile);
 	public Optional<IOntologyManager> getOntologyManager(OntologyFile ontologyFile);
-	public Optional<IOntologyManager> getOntologyManager(OntologyFile ontologyFile, boolean createIfNotExisting);
-	public Optional<IOntologyManager> getOntologyManager(String ontologyIri, OntologyFile entry, boolean createIfNotExisting);
+	public Optional<IOntologyManager> getOntologyManager(OntologyFile ontologyFile, String ontologyIri, boolean createIfNotExisting);
 }

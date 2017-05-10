@@ -5,6 +5,9 @@
  ******************************************************************************/
 package oida.ontology.service;
 
+import java.io.File;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Optional;
 
 import org.eclipse.emf.ecore.util.EContentAdapter;
@@ -12,40 +15,53 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import oida.ontology.manager.IOntologyManager;
-import oida.ontology.predefined.Mereology;
 import oida.ontologyMgr.OntologyFile;
+import oida.util.constants.StringConstants;
 
 /**
  * 
- * @author Michael.Shamiyeh
+ * @author Michael Shamiyeh
  * @since 13.12.2016
  *
  */
 public abstract class AbstractOIDAOntologyService extends EContentAdapter implements IOIDAOntologyService {
 	protected static Logger LOGGER = LoggerFactory.getLogger(AbstractOIDAOntologyService.class);
 
+	protected Map<String, OntologyFile> iriMappings = new HashMap<String, OntologyFile>();
+	
 	private IOntologyManager referenceOntologyManager;
 
 	public AbstractOIDAOntologyService() {
 	}
 	
-	public IOntologyManager getReferenceOntologyManager() {
-		return referenceOntologyManager;
+	public Optional<IOntologyManager> getReferenceOntologyManager() {
+		if (referenceOntologyManager == null)
+			return Optional.empty();
+		
+		return Optional.of(referenceOntologyManager);
 	}
 	
 	protected void setReferenceOntologyManager(IOntologyManager ontologyManager) {
 		this.referenceOntologyManager = ontologyManager;
 	}
 	
-	public Optional<IOntologyManager> getOntologyManager(String ontologyIri) {
-		return getOntologyManager(ontologyIri, null, false);
+	@Override
+	public boolean checkOntologyExistance(String iri) {
+		return iriMappings.containsKey(iri);
 	}
 	
+	@Override
+	public boolean checkOntologyExistance(OntologyFile ontologyFile) {
+		File checkFile = new File(ontologyFile.getPath() + ontologyFile.getFileName());
+		
+		if (checkFile.exists() && checkFile.isFile())
+			return true;
+		
+		return false;
+	}
+	
+	@Override
 	public Optional<IOntologyManager> getOntologyManager(OntologyFile ontologyFile) {
-		return getOntologyManager(null, ontologyFile, false);
-	}
-	
-	public Optional<IOntologyManager> getOntologyManager(OntologyFile ontologyFile, boolean createIfNotExisting) {
-		return getOntologyManager(null, ontologyFile, createIfNotExisting);
+		return getOntologyManager(ontologyFile, StringConstants.EMPTY, false);
 	}
 }

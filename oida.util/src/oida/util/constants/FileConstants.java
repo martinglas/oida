@@ -14,9 +14,9 @@ public class FileConstants {
 	public static final String ONTOLOGY_LIBRARY_FILE = "OntLib.xmi";
 	public static final String ONTOLOGY_MANAGER_FILE = "OntMgr.xmi";
 	
-	public static final String MEREOLOGY_FILENAME = "mereology.owl";
+	public static final String OWL_FILE_POSTFIX = ".owl";
 	
-	public static final String EMFONTOLOGY_FILENAME = "emfmodelontology.owl";
-
-	public static final String OIDAMODELONTOLOGY_FILENAME = "oidamodelontology.owl";
+	public static final String OIDAMODELONTOLOGY_FILENAME = "oidamodelontology" + FileConstants.OWL_FILE_POSTFIX;
+	
+	public static final String ONTOLOGY_FILE_IRI_PREFIX = "file:/";
 }

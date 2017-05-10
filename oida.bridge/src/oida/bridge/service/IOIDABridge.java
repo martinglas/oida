@@ -22,6 +22,21 @@ import oida.ontology.OntologyClass;
  *
  */
 public interface IOIDABridge {
+	
+	/**
+	 * Returns the state of the OIDA Bridge.
+	 * 
+	 * @return true if the OIDA Bridge is ready.
+	 */
+	public boolean isReady();
+	
+	/**
+	 * Returns a message describing the OIDA Bridge state.
+	 * 
+	 * @return a message string, or ready.
+	 */
+	public String getStateString();
+	
 	public enum OntologyObjectProperties { HAS_PART, HAS_PARAMETER };
 	
 	/**

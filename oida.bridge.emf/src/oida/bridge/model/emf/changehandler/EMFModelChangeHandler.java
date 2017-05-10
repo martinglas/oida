@@ -12,7 +12,6 @@ import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import bridgemodel.MappingSet;
 import oida.bridge.model.changehandler.AbstractModelChangeHandler;
 import oida.bridge.model.emf.changehandler.util.Extractor;
 import oida.bridge.model.emf.metamodel.ontology.EMFMetaModelOntology;

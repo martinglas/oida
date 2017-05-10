@@ -56,6 +56,16 @@ public class OIDAUtil {
 	}
 	
 	public static String getFileIriString(OntologyFile ontologyFile) {
-		return "file:/" + ontologyFile.getPath().replace(StringConstants.BACKSLASH, StringConstants.SLASH) + ontologyFile.getFileName();
+		return convertPathToIRI(ontologyFile.getPath() + ontologyFile.getFileName());
+	}
+	
+	public static String convertPathToIRI(String path) {
+		if (!path.startsWith(FileConstants.ONTOLOGY_FILE_IRI_PREFIX))
+			path = FileConstants.ONTOLOGY_FILE_IRI_PREFIX + path;
+		
+		path = path.replace(StringConstants.BACKSLASH, StringConstants.SLASH);
+		path = path.replace(StringConstants.SPACE, "%20");
+		
+		return path;
 	}
 }
