@@ -76,15 +76,40 @@ public abstract class AbstractOntologyManager extends EContentAdapter implements
 	}
 	
 	@Override
+	public Ontology loadOntology(String iri) throws OntologyManagerException {
+		return loadOntology(iri, false);
+	}
+	
+	@Override
 	public Ontology loadOntology(OntologyFile ontologyFile) throws OntologyManagerException {
+		return loadOntology(ontologyFile, false);
+	}
+	
+	@Override
+	public Ontology loadOntology(OntologyFile ontologyFile, boolean localHierarchyOnly) throws OntologyManagerException {
 		Optional<File> optFile = getOntologyFileObject(ontologyFile);
 		if (optFile.isPresent() && optFile.get().exists()) {
-			Ontology o = loadOntology(OIDAUtil.getFileIriString(ontologyFile));
+			Ontology o = loadOntology(OIDAUtil.getFileIriString(ontologyFile), localHierarchyOnly);
 			setOntologyFile(ontologyFile);
 			getOntology().setOntologyFile(ontologyFile);
 			return o;
 		} else
 			throw new OntologyManagerException("Error while loading ontology: File doesn't exist.");
+	}
+	
+	@Override
+	public void addImportDeclaration(String importOntologyIRI) throws OntologyManagerException {
+		addImportDeclaration(importOntologyIRI, false);
+	}
+	
+	@Override
+	public void addImportDeclaration(Ontology importOntology) throws OntologyManagerException {
+		addImportDeclaration(importOntology.getIri(), false);
+	}
+	
+	@Override
+	public void addImportDeclaration(Ontology importOntology, boolean localHierarchyOnly) throws OntologyManagerException {
+		addImportDeclaration(importOntology.getIri(), localHierarchyOnly);
 	}
 	
 	protected void setOntology(Ontology ontology) {

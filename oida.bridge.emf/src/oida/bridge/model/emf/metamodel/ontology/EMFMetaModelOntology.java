@@ -49,11 +49,11 @@ public class EMFMetaModelOntology extends AbstractModelChangeHandler {
 		
 		// check if the passed ontology manager has imports, to determine if the ontology has been created already: 
 		if (manager.getOntology().getImports().size() > 0)
-			setMetaModelOntologyManager(manager);
+			setModelOntologyManager(manager);
 		else {
 			// add reference ontology to includes:
 			try {
-				manager.addImportDeclaration(referenceOntology);
+				manager.addImportDeclaration(referenceOntology, true);
 			} catch (OntologyManagerException e) {
 				e.printStackTrace();
 			}

@@ -37,5 +37,7 @@ public interface IOIDAOntologyService {
 	//public Optional<IOntologyManager> getOntologyManager(String ontologyIri);
 	//public Optional<IOntologyManager> getOntologyManager(OntologyFile ontologyFile);
 	public Optional<IOntologyManager> getOntologyManager(OntologyFile ontologyFile);
+	public Optional<IOntologyManager> getOntologyManager(OntologyFile ontologyFile, boolean localHierarchyOnly);
 	public Optional<IOntologyManager> getOntologyManager(OntologyFile ontologyFile, String ontologyIri, boolean createIfNotExisting);
+	public Optional<IOntologyManager> getOntologyManager(OntologyFile ontologyFile, String ontologyIri, boolean createIfNotExisting, boolean localHierarchyOnly);
 }

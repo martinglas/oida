@@ -162,7 +162,7 @@ public abstract class AbstractModelChangeHandler implements IModelChangeHandler 
 
 	@Override
 	public Optional<ClassEqualsMapping> establishClassMapping(OntologyClass class1, OntologyClass class2) {
-		Optional<OntologyClassEquivalence> optEquivalence = getMetaModelOntologyManager().assignClassEquivalence(class1, class2);
+		Optional<OntologyClassEquivalence> optEquivalence = getModelOntologyManager().assignClassEquivalence(class1, class2);
 		
 		if (optEquivalence.isPresent())
 			return Optional.of(createClassMapping(optEquivalence.get()));

@@ -156,7 +156,7 @@ public final class OIDAOntologyService extends AbstractOIDAOntologyService imple
 	}
 
 	@Override
-	public Optional<IOntologyManager> getOntologyManager(OntologyFile ontologyFile, String ontologyIri, boolean createIfNotExisting) {
+	public Optional<IOntologyManager> getOntologyManager(OntologyFile ontologyFile, String ontologyIri, boolean createIfNotExisting, boolean localHierarchyOnly) {
 		// return existing ontology manager if possible:
 		if (ontologyFile != null && managedOntologies.containsKey(ontologyFile))
 			return Optional.of(managedOntologies.get(ontologyFile));
@@ -185,7 +185,7 @@ public final class OIDAOntologyService extends AbstractOIDAOntologyService imple
 		} else {
 			try {
 				copyIRIMappingsToManager(mgr);
-				Ontology ontology = mgr.loadOntology(ontologyFile);
+				Ontology ontology = mgr.loadOntology(ontologyFile, localHierarchyOnly);
 				managedOntologyResource.getContents().add(mgr.getOntology());
 				managedOntologies.put(ontology, mgr);
 				iriMappings.put(ontology.getIri(), ontologyFile);

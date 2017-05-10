@@ -62,6 +62,16 @@ public abstract class AbstractOIDAOntologyService extends EContentAdapter implem
 	
 	@Override
 	public Optional<IOntologyManager> getOntologyManager(OntologyFile ontologyFile) {
-		return getOntologyManager(ontologyFile, StringConstants.EMPTY, false);
+		return getOntologyManager(ontologyFile, StringConstants.EMPTY, false, false);
+	}
+	
+	@Override
+	public Optional<IOntologyManager> getOntologyManager(OntologyFile ontologyFile, boolean localHierarchyOnly) {
+		return getOntologyManager(ontologyFile, StringConstants.EMPTY, false, localHierarchyOnly);
+	}
+	
+	@Override
+	public Optional<IOntologyManager> getOntologyManager(OntologyFile ontologyFile, String ontologyIri, boolean createIfNotExisting) {
+		return getOntologyManager(ontologyFile, ontologyIri, createIfNotExisting, false);
 	}
 }

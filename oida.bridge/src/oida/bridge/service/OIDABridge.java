@@ -227,9 +227,9 @@ public final class OIDABridge implements IOIDABridge {
 		Optional<IOntologyManager> optMetaModelOntologyManager;
 		
 		if (oidaOntologyService.checkOntologyExistance(metaModelOntologyFile))
-			optMetaModelOntologyManager = oidaOntologyService.getOntologyManager(metaModelOntologyFile);
+			optMetaModelOntologyManager = oidaOntologyService.getOntologyManager(metaModelOntologyFile, true);
 		else
-			optMetaModelOntologyManager = oidaOntologyService.getOntologyManager(metaModelOntologyFile, OntologyConstants.OIDA_METAMODEL_ONTOLOGY_BASE_IRI + renamerStrategy.getMetaModelName(), true);
+			optMetaModelOntologyManager = oidaOntologyService.getOntologyManager(metaModelOntologyFile, OntologyConstants.OIDA_METAMODEL_ONTOLOGY_BASE_IRI + renamerStrategy.getMetaModelName(), true, true);
 
 		if (optMetaModelOntologyManager.isPresent()) {
 			IMetaModelOntologyProvider provider;
@@ -240,9 +240,9 @@ public final class OIDABridge implements IOIDABridge {
 				if (provider != null)
 					metaModelOntologyHandler = provider.createMetaModelOntology(renamerStrategy, structuringStrategy, optMetaModelOntologyManager.get(), oidaOntologyService.getReferenceOntologyManager().get().getOntology());
 				
-				metaModelOntologyHandler.getMetaModelOntologyManager().saveOntology();
+				metaModelOntologyHandler.getModelOntologyManager().saveOntology();
 				
-				LOGGER.info("Meta model ontology created: '" + metaModelOntologyHandler.getMetaModelOntologyManager().getOntology().getIri() + "'.");
+				LOGGER.info("Meta model ontology created: '" + metaModelOntologyHandler.getModelOntologyManager().getOntology().getIri() + "'.");
 				return true;
 			} catch (CoreException e) {
 				LOGGER.error("Error while creating meta model ontology.", e);
@@ -377,7 +377,7 @@ public final class OIDABridge implements IOIDABridge {
 			LOGGER.info("Secondary class-mapping established: '" + metaModelClass.getIri() + "' equals '" + referenceClass.getIri() + "'.");
 			
 			try {
-				getMetaModelHandler().get().getMetaModelOntologyManager().saveOntology();
+				getMetaModelHandler().get().getModelOntologyManager().saveOntology();
 			} catch (OntologyManagerException e) {
 				LOGGER.error("Error while saving meta model ontology.", e);
 			}

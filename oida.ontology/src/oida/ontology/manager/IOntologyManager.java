@@ -46,8 +46,10 @@ public interface IOntologyManager {
 	Ontology createOntology(String ontologyIRI) throws OntologyManagerException;
 
 	Ontology loadOntology(String iri) throws OntologyManagerException;
+	Ontology loadOntology(String iri, boolean localHierarchyOnly) throws OntologyManagerException;
 	
 	Ontology loadOntology(OntologyFile ontologyFile) throws OntologyManagerException;
+	Ontology loadOntology(OntologyFile ontologyFile, boolean localHierarchyOnly) throws OntologyManagerException;
 
 	void saveOntology() throws OntologyManagerException;
 
@@ -76,8 +78,10 @@ public interface IOntologyManager {
 //	Map<String, String> getAllNamespaces();
 
 	void addImportDeclaration(String importOntologyIRI) throws OntologyManagerException;
+	void addImportDeclaration(String importOntologyIRI, boolean localHierarchyOnly) throws OntologyManagerException;
 
 	void addImportDeclaration(Ontology importOntology) throws OntologyManagerException;
+	void addImportDeclaration(Ontology importOntology, boolean localHierarchyOnly) throws OntologyManagerException;
 
 	/**
 	 * Creates a class within the default namespace of the ontology.

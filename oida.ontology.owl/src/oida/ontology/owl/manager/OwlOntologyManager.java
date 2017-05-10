@@ -73,9 +73,7 @@ import oida.ontology.manager.IOntologyManager;
 import oida.ontology.manager.OntologyManagerException;
 import oida.ontology.manager.util.OntologyManagerUtils;
 import oida.ontology.owl.manager.util.OwlOntologyManagerMapHandler;
-import oida.ontologyMgr.OntologyFile;
 import oida.util.OIDAUtil;
-import oida.util.constants.FileConstants;
 import oida.util.constants.StringConstants;
 
 /**
@@ -96,7 +94,7 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 	private OWLXMLDocumentFormat owlPrefixManager;
 
 	private OWLReasoner reasoner;
-
+	
 	/**
 	 * Standard Constructor.
 	 */
@@ -143,7 +141,7 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 	}
 
 	@Override
-	public Ontology loadOntology(String iri) throws OntologyManagerException {
+	public Ontology loadOntology(String iri, boolean localHierarchyOnly) throws OntologyManagerException {
 		if (iri == null || iri.contentEquals(StringConstants.EMPTY))
 			return null;
 
@@ -156,7 +154,7 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 
 			mapHandler.initializeOntology(owlDataFactory, owlOntology, getOntology());
 
-			extractOntologyContent(owlOntology, getOntology(), true);
+			extractOntologyContent(owlOntology, getOntology(), !localHierarchyOnly);
 			LOGGER.info("Ontology loaded: '" + iri + "'");
 
 			return getOntology();
@@ -196,26 +194,6 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 		extractObjectPropertyHierarchy(owlOntology, ontology, includeImports);
 		extractAnnotationProperties(owlOntology, ontology, includeImports);
 		extractIndividuals(owlOntology, ontology, includeImports);
-		
-		// Optional<OwlOntologyManager> existingManagedOntology = findExistingManagedOntology(owlOntology.getOntologyID().getOntologyIRI().get());
-		// if (existingManagedOntology.isPresent()) {
-		// ontology = existingManagedOntology.get().getOntology();
-		// mapHandler.toMap(owlOntology, ontology);
-		// mapHandler.importFromOtherOwlOntologyManager(existingManagedOntology.get().mapHandler);
-		// } else {
-		// ontology = OntologyManagerUtils.generateInternalOntologyObject(owlOntology.getOntologyID().getOntologyIRI().get().toString(), owlOntology.classesInSignature(Imports.INCLUDED).count(),
-		// owlOntology.individualsInSignature().count());
-		// addThingClass(ontology);
-		// addTopObjectProperty(ontology);
-		//
-		// mapHandler.toMap(owlOntology, ontology);
-		//
-		// for (OWLOntology owlImportOntology : owlOntology.imports().collect(Collectors.toList()))
-		// ontology.getImports().add(extractOntologyContent(owlImportOntology));
-		//
-		// for (String prefixName : owlPrefixManager.getPrefixName2PrefixMap().keySet())
-		// OntologyManagerUtils.generateInternalNamespaceObject(ontology, prefixName, owlPrefixManager.getPrefixName2PrefixMap().get(prefixName));
-		// }
 	}
 
 	protected void extractImports(OWLOntology owlOntology, Ontology ontology) {
@@ -229,16 +207,17 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 		Imports imports = Imports.INCLUDED;
 		if (!includeImports)
 			imports = Imports.EXCLUDED;
-
-		List<OWLClass> allClasses = owlOntology.classesInSignature(imports).collect(Collectors.toList());
-
-		// Generate internal class objects for all OWL-classes as subclass of Thing:
+		
+		// add all classes (including the include ontologies) to the mapHandler:
+		List<OWLClass> allClasses = owlOntology.classesInSignature(Imports.INCLUDED).collect(Collectors.toList());
 		for (OWLClass owlClass : allClasses) {
 			if (!owlClass.getIRI().getIRIString().equals(mapHandler.getOwlThingClass().getIRI().getIRIString()))
-				mapHandler.toMap(owlClass, OntologyManagerUtils.generateInternalClassObject(ontology, mapHandler.getThingClass(), owlClass.getIRI().getIRIString()));
+				mapHandler.toMap(owlClass, OntologyManagerUtils.generateInternalClassObject(ontology, null, owlClass.getIRI().getIRIString()));
 		}
 
-		// Establish class hierarchy:
+		allClasses = owlOntology.classesInSignature(imports).collect(Collectors.toList());
+		
+		// Establish class hierarchy for all selected classes (including or excluding imports):
 		for (OWLClass owlClass : allClasses) {
 			Optional<OntologyClass> optInternalClass = mapHandler.getInternalClass(owlClass, ontology);
 			if (optInternalClass.isPresent()) {
@@ -256,12 +235,18 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 							internalSuperClass.getSubClasses().add(internalClass);
 							internalClass.getSuperClasses().add(internalSuperClass);
 
-							if (internalClass.getSuperClasses().contains(mapHandler.getThingClass())) {
-								mapHandler.getThingClass().getSubClasses().remove(internalClass);
-								internalClass.getSuperClasses().remove(mapHandler.getThingClass());
-							}
+//							if (internalClass.getSuperClasses().contains(mapHandler.getThingClass())) {
+//								mapHandler.getThingClass().getSubClasses().remove(internalClass);
+//								internalClass.getSuperClasses().remove(mapHandler.getThingClass());
+//							}
 						}
 					}
+				}
+				
+				// if no super class is defined, the Thing class is set:
+				if (axioms.isEmpty()) {
+					mapHandler.getThingClass().getSubClasses().add(internalClass);
+					internalClass.getSuperClasses().add(mapHandler.getThingClass());
 				}
 				
 				// load class equivalences:
@@ -317,6 +302,17 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 						mapHandler.getTopObjectProperty().getSubObjectProperties().add(internalObjectProperty);
 						internalObjectProperty.getSuperProperties().add(mapHandler.getTopObjectProperty());
 					}
+				}
+				
+				// load object property equivalences:
+				List<OWLEquivalentObjectPropertiesAxiom> equivalences = owlOntology.equivalentObjectPropertiesAxioms(owlObjectProperty).collect(Collectors.toList());
+				for (OWLEquivalentObjectPropertiesAxiom equ : equivalences) {
+					List<OWLObjectProperty> objectProperties = equ.objectPropertiesInSignature().collect(Collectors.toList());
+					
+					Optional<OntologyObjectProperty> optInternalObjectProperty1 = mapHandler.getInternalObjectProperty(objectProperties.get(0), ontology);
+					Optional<OntologyObjectProperty> optInternalObjectProperty2 = mapHandler.getInternalObjectProperty(objectProperties.get(1), ontology);
+					if (optInternalObjectProperty1.isPresent() && optInternalObjectProperty2.isPresent())
+						OntologyManagerUtils.assignObjectPropertiesEquivalent(ontology, optInternalObjectProperty1.get(), optInternalObjectProperty2.get());
 				}
 			}
 		}
@@ -417,7 +413,7 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 	// }
 
 	@Override
-	public void addImportDeclaration(String importOntologyIRIString) throws OntologyManagerException {
+	public void addImportDeclaration(String importOntologyIRIString, boolean localHierarchyOnly) throws OntologyManagerException {
 		// Check, if the import is already existing:
 		if (getOntology().getImports().stream().filter(o -> o.getIri().equals(importOntologyIRIString)).findFirst().isPresent())
 			return;
@@ -433,17 +429,12 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 
 			getOntology().getImports().add(importedOntology);
 
-			extractOntologyContent(owlImportedOntology, importedOntology, true);
+			extractOntologyContent(owlImportedOntology, importedOntology, !localHierarchyOnly);
 
 		} catch (OWLOntologyCreationException e1) {
 			// TODO Auto-generated catch block
 			e1.printStackTrace();
 		}
-	}
-
-	@Override
-	public void addImportDeclaration(Ontology importOntology) throws OntologyManagerException {
-		addImportDeclaration(importOntology.getIri());
 	}
 
 	@Override
