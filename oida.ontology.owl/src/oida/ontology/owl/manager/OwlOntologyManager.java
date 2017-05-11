@@ -209,7 +209,7 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 
 	protected void extractOntologyContent(OWLOntology owlOntology, Ontology ontology) {
 		extractImports(owlOntology, ontology);
-		extractClassHierarchy(owlOntology, ontology, mapHandler, Imports.EXCLUDED, Imports.INCLUDED);
+		extractClassHierarchy(owlOntology, ontology, mapHandler, false, Imports.INCLUDED);
 		extractObjectPropertyHierarchy(owlOntology, ontology, mapHandler, Imports.EXCLUDED, Imports.INCLUDED);
 		extractIndividuals(owlOntology, ontology, mapHandler, Imports.EXCLUDED);
 		extractAnnotationProperties(owlOntology, ontology, mapHandler, Imports.EXCLUDED);
@@ -219,7 +219,7 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 		Imports imports = Imports.INCLUDED;
 
 		extractImports(owlOntology, ontology);
-		extractClassHierarchy(owlOntology, ontology, mapHandlerWithIncludes, imports, imports);
+		extractClassHierarchy(owlOntology, ontology, mapHandlerWithIncludes, true, imports);
 		extractObjectPropertyHierarchy(owlOntology, ontology, mapHandlerWithIncludes, imports, imports);
 		extractIndividuals(owlOntology, ontology, mapHandlerWithIncludes, imports);
 		extractAnnotationProperties(owlOntology, ontology, mapHandlerWithIncludes, imports);
@@ -232,10 +232,14 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 		}
 	}
 
-	private void extractClassHierarchy(OWLOntology owlOntology, Ontology ontology, OwlOntologyManagerMapHandler mapHandler, Imports includeImportsForClasses, Imports includeImportsForSubClassAxioms) {
+	private void extractClassHierarchy(OWLOntology owlOntology, Ontology ontology, OwlOntologyManagerMapHandler mapHandler, boolean includeImportsForClasses, Imports includeImportsForSubClassAxioms) {
 		List<OntologyClass> classes = new ArrayList<OntologyClass>();
 
-		List<OWLClass> owlAllClasses = owlOntology.classesInSignature(includeImportsForClasses).collect(Collectors.toList());
+		Stream<OWLClass> classStream = owlOntology.classesInSignature();
+		if (!includeImportsForClasses)
+			classStream = classStream.filter(cl -> cl.getIRI().getNamespace().equals(getDefaultNamespace() + StringConstants.HASHTAG));
+		
+		List<OWLClass> owlAllClasses = classStream.collect(Collectors.toList());
 		for (OWLClass owlClass : owlAllClasses) {
 			if (!owlClass.getIRI().getIRIString().equals(mapHandler.getOwlThingClass().getIRI().getIRIString())) {
 				OntologyClass clazz = OntologyManagerUtils.generateInternalClassObject(ontology, null, owlClass.getIRI().getIRIString());
@@ -275,12 +279,17 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 				// load class equivalences:
 				List<OWLEquivalentClassesAxiom> equivalences = owlOntology.equivalentClassesAxioms(owlClass).collect(Collectors.toList());
 				for (OWLEquivalentClassesAxiom equ : equivalences) {
-					List<OWLClass> equivalentClasses = equ.classesInSignature().collect(Collectors.toList());
+					List<OWLClass> equivalentClasses = equ.namedClasses().filter(cl -> !cl.equals(owlClass)).collect(Collectors.toList());
 
-					Optional<OntologyClass> optInternalClass1 = mapHandler.getInternalClass(equivalentClasses.get(0));
-					Optional<OntologyClass> optInternalClass2 = mapHandler.getInternalClass(equivalentClasses.get(1));
-					if (optInternalClass1.isPresent() && optInternalClass2.isPresent())
-						OntologyManagerUtils.assignClassesEquivalent(ontology, optInternalClass1.get(), optInternalClass2.get());
+					for (OWLClass equivalentOwlCLass : equivalentClasses) {
+						Optional<OntologyClass> optInternalEquivalentClass = mapHandler.getInternalClass(equivalentOwlCLass);
+						
+						if (!optInternalEquivalentClass.isPresent())
+							optInternalEquivalentClass = mapHandlerWithIncludes.getInternalClass(equivalentOwlCLass);
+						
+						if (optInternalEquivalentClass.isPresent())
+							OntologyManagerUtils.assignClassesEquivalent(ontology, clazz, optInternalEquivalentClass.get());
+					}
 				}
 			}
 		}
