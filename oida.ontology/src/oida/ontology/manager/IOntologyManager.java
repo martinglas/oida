@@ -53,10 +53,10 @@ public interface IOntologyManager {
 	Ontology createOntology(String ontologyIRI) throws OntologyManagerException;
 
 	Ontology loadOntology(String iri) throws OntologyManagerException;
-	Ontology loadOntology(String iri, boolean localHierarchyOnly) throws OntologyManagerException;
+	Ontology loadOntology(String iri, boolean buildLocalHierarchy) throws OntologyManagerException;
 	
 	Ontology loadOntology(OntologyFile ontologyFile) throws OntologyManagerException;
-	Ontology loadOntology(OntologyFile ontologyFile, boolean localHierarchyOnly) throws OntologyManagerException;
+	Ontology loadOntology(OntologyFile ontologyFile, boolean buildLocalHierarchy) throws OntologyManagerException;
 
 	void saveOntology() throws OntologyManagerException;
 

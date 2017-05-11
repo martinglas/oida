@@ -40,13 +40,13 @@ import oida.ontology.manager.util.OntologyManagerUtils;
 public final class OwlOntologyManagerMapHandler {
 	private HashMap<String, OWLObject> owlAPIMap = new HashMap<String, OWLObject>();
 	private HashMap<String, AOntologyItem> internalAPIMap = new HashMap<String, AOntologyItem>();
-	
+
 	private HashMap<OWLAnnotation, OntologyAnnotation> owlToInternalAnnotationMap = new HashMap<OWLAnnotation, OntologyAnnotation>();
 	private HashMap<OntologyAnnotation, OWLAnnotation> internalToOwlAnnotationMap = new HashMap<OntologyAnnotation, OWLAnnotation>();
-	
+
 	private HashMap<OWLEquivalentClassesAxiom, OntologyClassEquivalence> owlToInternalClassEquivalenceMap = new HashMap<OWLEquivalentClassesAxiom, OntologyClassEquivalence>();
 	private HashMap<OntologyClassEquivalence, OWLEquivalentClassesAxiom> internalToOwlClassEquivalenceMap = new HashMap<OntologyClassEquivalence, OWLEquivalentClassesAxiom>();
-	
+
 	private HashMap<OWLEquivalentObjectPropertiesAxiom, OntologyObjectPropertyEquivalence> owlToInternalObjectPropertyEquivalenceMap = new HashMap<OWLEquivalentObjectPropertiesAxiom, OntologyObjectPropertyEquivalence>();
 	private HashMap<OntologyObjectPropertyEquivalence, OWLEquivalentObjectPropertiesAxiom> internalToOwlObjectPropertyEquivalenceMap = new HashMap<OntologyObjectPropertyEquivalence, OWLEquivalentObjectPropertiesAxiom>();
 
@@ -83,14 +83,12 @@ public final class OwlOntologyManagerMapHandler {
 		internalAPIMap.clear();
 
 		owlThingClass = owlDataFactory.getOWLThing();
-		thingClass = OntologyManagerUtils.generateInternalClassObject(ontology, null,
-				owlThingClass.getIRI().getIRIString());
+		thingClass = OntologyManagerUtils.generateInternalClassObject(ontology, null, owlThingClass.getIRI().getIRIString());
 		toMap(owlThingClass, thingClass);
 		ontology.setClassHierarchy(thingClass);
 
 		owlTopObjectProperty = owlDataFactory.getOWLTopObjectProperty();
-		topObjectProperty = OntologyManagerUtils.generateInternalObjectPropertyObject(ontology, null,
-				owlTopObjectProperty.getIRI().getIRIString());
+		topObjectProperty = OntologyManagerUtils.generateInternalObjectPropertyObject(ontology, null, owlTopObjectProperty.getIRI().getIRIString());
 		toMap(owlTopObjectProperty, topObjectProperty);
 		ontology.setObjectPropertyHierarchy(topObjectProperty);
 	}
@@ -98,9 +96,7 @@ public final class OwlOntologyManagerMapHandler {
 	/**
 	 * Internal helper method to retrieve an OWLOntology of the internal map.
 	 * 
-	 * @param o
-	 *            The Ontology object, for which the appropriate OWL-object
-	 *            should be found.
+	 * @param o The Ontology object, for which the appropriate OWL-object should be found.
 	 * @return The OWLOntology object, or null if it is not existing.z
 	 */
 	public Optional<OWLOntology> getOWLOntologyFromMap(Ontology o) {
@@ -108,15 +104,13 @@ public final class OwlOntologyManagerMapHandler {
 		if (owlObj == null || !(owlObj instanceof OWLOntology))
 			return Optional.empty();
 
-		return Optional.of((OWLOntology) owlObj);
+		return Optional.of((OWLOntology)owlObj);
 	}
 
 	/**
 	 * Internal helper method to retrieve an OWLClass of the internal map.
 	 * 
-	 * @param c
-	 *            The OntologyClass object, for which the appropriate OWL-object
-	 *            should be found.
+	 * @param c The OntologyClass object, for which the appropriate OWL-object should be found.
 	 * @return The OWLClass object, or null if it is not existing.
 	 */
 	public Optional<OWLClass> getOWLClass(final OntologyClass c) {
@@ -124,16 +118,13 @@ public final class OwlOntologyManagerMapHandler {
 		if (owlObj == null || !(owlObj instanceof OWLClass))
 			return Optional.empty();
 
-		return Optional.of((OWLClass) owlObj);
+		return Optional.of((OWLClass)owlObj);
 	}
 
 	/**
-	 * Internal helper method to retrieve an OWLNamedIndividual of the internal
-	 * map.
+	 * Internal helper method to retrieve an OWLNamedIndividual of the internal map.
 	 * 
-	 * @param i
-	 *            The OntologyIndividual object, for which the appropriate
-	 *            OWL-object should be found.
+	 * @param i The OntologyIndividual object, for which the appropriate OWL-object should be found.
 	 * @return The OWLNamedIndividual object, or null if it is not existing.
 	 */
 	public Optional<OWLNamedIndividual> getOWLIndividual(OntologyIndividual i) {
@@ -141,15 +132,13 @@ public final class OwlOntologyManagerMapHandler {
 		if (owlObj == null || !(owlObj instanceof OWLNamedIndividual))
 			return Optional.empty();
 
-		return Optional.of((OWLNamedIndividual) owlObj);
+		return Optional.of((OWLNamedIndividual)owlObj);
 	}
 
 	/**
 	 * Internal helper method to retrieve an OWLEntity of the internal map.
 	 * 
-	 * @param i
-	 *            The OntologyEntity object, for which the appropriate
-	 *            OWL-object should be found.
+	 * @param i The OntologyEntity object, for which the appropriate OWL-object should be found.
 	 * @return The OWLEntity object, or null if it is not existing.
 	 */
 	public Optional<OWLEntity> getOWLEntity(OntologyEntity i) {
@@ -157,16 +146,13 @@ public final class OwlOntologyManagerMapHandler {
 		if (owlObj == null || !(owlObj instanceof OWLEntity))
 			return Optional.empty();
 
-		return Optional.of((OWLEntity) owlObj);
+		return Optional.of((OWLEntity)owlObj);
 	}
 
 	/**
-	 * Internal helper method to retrieve an OWLObjectProperty of the internal
-	 * map.
+	 * Internal helper method to retrieve an OWLObjectProperty of the internal map.
 	 * 
-	 * @param i
-	 *            The OntologyObjectProperty object, for which the appropriate
-	 *            OWL-object should be found.
+	 * @param i The OntologyObjectProperty object, for which the appropriate OWL-object should be found.
 	 * @return The OWLObjectProperty object, or null if it is not existing.
 	 */
 	public Optional<OWLObjectProperty> getOWLObjectProperty(OntologyObjectProperty i) {
@@ -174,16 +160,13 @@ public final class OwlOntologyManagerMapHandler {
 		if (owlObj == null || !(owlObj instanceof OWLObjectProperty))
 			return Optional.empty();
 
-		return Optional.of((OWLObjectProperty) owlObj);
+		return Optional.of((OWLObjectProperty)owlObj);
 	}
 
 	/**
-	 * Internal helper method to retrieve an OWLAnnotationProperty of the
-	 * internal map.
+	 * Internal helper method to retrieve an OWLAnnotationProperty of the internal map.
 	 * 
-	 * @param i
-	 *            The OntologyAnnotationProperty object, for which the
-	 *            appropriate OWL-object should be found.
+	 * @param i The OntologyAnnotationProperty object, for which the appropriate OWL-object should be found.
 	 * @return The OWLAnnotationProperty object, or null if it is not existing.
 	 */
 	public Optional<OWLAnnotationProperty> getOWLAnnotationProperty(OntologyEntity i) {
@@ -191,23 +174,29 @@ public final class OwlOntologyManagerMapHandler {
 		if (owlObj == null || !(owlObj instanceof OWLAnnotationProperty))
 			return Optional.empty();
 
-		return Optional.of((OWLAnnotationProperty) owlObj);
+		return Optional.of((OWLAnnotationProperty)owlObj);
 	}
 
 	/**
 	 * Internal helper method to retrieve an OntologyClass of the internal map.
 	 * 
-	 * @param c
-	 *            The OWLClass object, for which the appropriate OntologyItem
-	 *            should be found.
-	 * @param o
-	 *            The containing ontology. Only necessary, if the
-	 *            TopObjectProperty is to be received. If not, it can be null.
+	 * @param c The OWLClass object, for which the appropriate OntologyItem should be found.
+	 * @return The OntologyClass object, or null, if it is not existing.
+	 */
+	public Optional<OntologyClass> getInternalClass(final OWLClass c) {
+		return getInternalClass(c, null);
+	}
+
+	/**
+	 * Internal helper method to retrieve an OntologyClass of the internal map.
+	 * 
+	 * @param c The OWLClass object, for which the appropriate OntologyItem should be found.
+	 * @param o The containing ontology. Only necessary, if the Thing class is to be received. If not, it can be null.
 	 * @return The OntologyClass object, or null, if it is not existing.
 	 */
 	public Optional<OntologyClass> getInternalClass(final OWLClass c, final Ontology o) {
-//		if (c.getIRI().equals(owlThingClass.getIRI().getIRIString()))
-//			return Optional.of(o.getClassHierarchy());
+		// if (c.getIRI().equals(owlThingClass.getIRI().getIRIString()))
+		// return Optional.of(o.getClassHierarchy());
 
 		if (internalAPIMap.containsKey(c.getIRI().getIRIString()) && internalAPIMap.get(c.getIRI().getIRIString()) instanceof OntologyClass)
 			return Optional.of((OntologyClass)internalAPIMap.get(c.getIRI().getIRIString()));
@@ -216,42 +205,41 @@ public final class OwlOntologyManagerMapHandler {
 	}
 
 	/**
-	 * Internal helper method to retrieve an OntologyIndividual of the internal
-	 * map.
+	 * Internal helper method to retrieve an OntologyIndividual of the internal map.
 	 * 
-	 * @param i
-	 *            The OWLNamedIndividual object, for which the appropriate
-	 *            OntologyItem should be found.
+	 * @param i The OWLNamedIndividual object, for which the appropriate OntologyItem should be found.
 	 * @return The OntologyIndividual object, or null, if it is not existing.
 	 */
 	public Optional<OntologyIndividual> getInternalIndividual(final OWLNamedIndividual i) {
-		if (internalAPIMap.containsKey(i.getIRI().getIRIString())
-				&& internalAPIMap.get(i.getIRI().getIRIString()) instanceof OntologyIndividual)
-			return Optional.of((OntologyIndividual) internalAPIMap.get(i.getIRI().getIRIString()));
+		if (internalAPIMap.containsKey(i.getIRI().getIRIString()) && internalAPIMap.get(i.getIRI().getIRIString()) instanceof OntologyIndividual)
+			return Optional.of((OntologyIndividual)internalAPIMap.get(i.getIRI().getIRIString()));
 
 		return Optional.empty();
 	}
 
 	/**
-	 * Internal helper method to retrieve an OntologyObjectProperty of the
-	 * internal map.
+	 * Internal helper method to retrieve an OntologyObjectProperty of the internal map.
 	 * 
-	 * @param p
-	 *            The OWLObjectProperty object, for which the appropriate
-	 *            OntologyItem should be found.
-	 * @param o
-	 *            The containing ontology. Only necessary, if the
-	 *            TopObjectProperty is to be received. If not, it can be null.
-	 * @return The OntologyObjectProperty object, or null, if it is not
-	 *         existing.
+	 * @param p The OWLObjectProperty object, for which the appropriate OntologyItem should be found.
+	 * @return The OntologyObjectProperty object, or null, if it is not existing.
+	 */
+	public Optional<OntologyObjectProperty> getInternalObjectProperty(final OWLObjectProperty p) {
+		return getInternalObjectProperty(p, null);
+	}
+	
+	/**
+	 * Internal helper method to retrieve an OntologyObjectProperty of the internal map.
+	 * 
+	 * @param p The OWLObjectProperty object, for which the appropriate OntologyItem should be found.
+	 * @param o The containing ontology. Only necessary, if the TopObjectProperty is to be received. If not, it can be null.
+	 * @return The OntologyObjectProperty object, or null, if it is not existing.
 	 */
 	public Optional<OntologyObjectProperty> getInternalObjectProperty(final OWLObjectProperty p, final Ontology o) {
-//		if (p.getIRI().getIRIString().equals(owlTopObjectProperty.getIRI().getIRIString()))
-//			return Optional.of(o.getObjectPropertyHierarchy());
+		// if (p.getIRI().getIRIString().equals(owlTopObjectProperty.getIRI().getIRIString()))
+		// return Optional.of(o.getObjectPropertyHierarchy());
 
-		if (internalAPIMap.containsKey(p.getIRI().getIRIString())
-				&& internalAPIMap.get(p.getIRI().getIRIString()) instanceof OntologyObjectProperty)
-			return Optional.of((OntologyObjectProperty) internalAPIMap.get(p.getIRI().getIRIString()));
+		if (internalAPIMap.containsKey(p.getIRI().getIRIString()) && internalAPIMap.get(p.getIRI().getIRIString()) instanceof OntologyObjectProperty)
+			return Optional.of((OntologyObjectProperty)internalAPIMap.get(p.getIRI().getIRIString()));
 
 		return Optional.empty();
 	}
@@ -259,10 +247,8 @@ public final class OwlOntologyManagerMapHandler {
 	/**
 	 * Puts an OWLObject and an internal API-object in the internal maps.
 	 * 
-	 * @param apiObj
-	 *            The OWL-API-object.
-	 * @param internalObj
-	 *            The internal API-object.
+	 * @param apiObj The OWL-API-object.
+	 * @param internalObj The internal API-object.
 	 */
 	public void toMap(OWLEntity apiObj, AOntologyItem internalObj) {
 		owlAPIMap.put(apiObj.getIRI().getIRIString(), apiObj);
@@ -270,31 +256,29 @@ public final class OwlOntologyManagerMapHandler {
 		// The thing class and the top object property are not put in the
 		// api-to-internal map, since there may exist more internal class/object
 		// property objects for them:
-		//if (apiObj != owlThingClass && apiObj != owlTopObjectProperty)
-			internalAPIMap.put(apiObj.getIRI().getIRIString(), internalObj);
+		// if (apiObj != owlThingClass && apiObj != owlTopObjectProperty)
+		internalAPIMap.put(apiObj.getIRI().getIRIString(), internalObj);
 	}
-	
+
 	public void toMap(OWLAnnotation owlAnnotation, OntologyAnnotation internalAnnotationObj) {
 		owlToInternalAnnotationMap.put(owlAnnotation, internalAnnotationObj);
 		internalToOwlAnnotationMap.put(internalAnnotationObj, owlAnnotation);
 	}
-	
+
 	public void toMap(OWLEquivalentClassesAxiom owlEquivalence, OntologyClassEquivalence internalClassEquivalenceObj) {
 		owlToInternalClassEquivalenceMap.put(owlEquivalence, internalClassEquivalenceObj);
 		internalToOwlClassEquivalenceMap.put(internalClassEquivalenceObj, owlEquivalence);
 	}
-	
+
 	public void toMap(OWLEquivalentObjectPropertiesAxiom owlEquivalence, OntologyObjectPropertyEquivalence internalObjectPropertyEquivalenceObj) {
 		owlToInternalObjectPropertyEquivalenceMap.put(owlEquivalence, internalObjectPropertyEquivalenceObj);
 		internalToOwlObjectPropertyEquivalenceMap.put(internalObjectPropertyEquivalenceObj, owlEquivalence);
 	}
 
 	/**
-	 * Inserts all owl and oida api objects of another map handler in the own
-	 * maps.
+	 * Inserts all owl and oida api objects of another map handler in the own maps.
 	 * 
-	 * @param handler
-	 *            Map handler, which api objects are inserted.
+	 * @param handler Map handler, which api objects are inserted.
 	 */
 	public void importFromOtherOwlOntologyManager(OwlOntologyManagerMapHandler handler) {
 		internalAPIMap.putAll(handler.internalAPIMap);

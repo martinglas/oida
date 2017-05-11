@@ -90,10 +90,10 @@ public abstract class AbstractOntologyManager extends EContentAdapter implements
 	}
 	
 	@Override
-	public Ontology loadOntology(OntologyFile ontologyFile, boolean localHierarchyOnly) throws OntologyManagerException {
+	public Ontology loadOntology(OntologyFile ontologyFile, boolean buildLocalHierarchy) throws OntologyManagerException {
 		Optional<File> optFile = OIDAUtil.getOntologyFileObject(ontologyFile, false);
 		if (optFile.isPresent() && optFile.get().exists()) {
-			Ontology o = loadOntology(OIDAUtil.getFileIriString(ontologyFile), localHierarchyOnly);
+			Ontology o = loadOntology(OIDAUtil.getFileIriString(ontologyFile), buildLocalHierarchy);
 			setOntologyFile(ontologyFile);
 			getOntologyWithIncludes().setOntologyFile(ontologyFile);
 			return o;
@@ -112,8 +112,8 @@ public abstract class AbstractOntologyManager extends EContentAdapter implements
 	}
 	
 	@Override
-	public void addImportDeclaration(Ontology importOntology, boolean localHierarchyOnly) throws OntologyManagerException {
-		addImportDeclaration(importOntology.getIri(), localHierarchyOnly);
+	public void addImportDeclaration(Ontology importOntology, boolean buildLocalHierarchy) throws OntologyManagerException {
+		addImportDeclaration(importOntology.getIri(), buildLocalHierarchy);
 	}
 	
 	protected void setOntology(Ontology ontology) {
