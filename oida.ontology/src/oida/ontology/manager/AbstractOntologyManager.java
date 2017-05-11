@@ -37,6 +37,10 @@ public abstract class AbstractOntologyManager extends EContentAdapter implements
 	
 	private IGlobalOntologyContext globalContext;
 	
+	private OntologyFile ontologyFile;
+	
+	protected boolean localOntologyActive = true;
+	
 	@Override
 	public void setGlobalOntologyContext(IGlobalOntologyContext context) {
 		this.globalContext = context;
@@ -58,24 +62,42 @@ public abstract class AbstractOntologyManager extends EContentAdapter implements
 		return ontologyWithIncludes;
 	}
 	
+	protected void setOntologyWithIncludes(Ontology ontology) {
+		if (this.ontologyWithIncludes != null) {
+			this.ontologyWithIncludes.eAdapters().remove(this);
+		}
+
+		this.ontologyWithIncludes = ontology;
+		this.ontologyWithIncludes.eAdapters().add(this);
+	}
+	
 	@Override
-	public Ontology getOntology() {
+	public Ontology getOntologyWithoutIncludes() {
 		return ontology;
+	}
+	
+	protected void setOntologyWithoutIncludes(Ontology ontology) {
+		if (this.ontology != null) {
+			this.ontology.eAdapters().remove(this);
+		}
+
+		this.ontology = ontology;
+		this.ontology.eAdapters().add(this);
 	}
 
 	@Override
 	public void notifyChanged(Notification notification) {
 		if (notification.getFeature().equals(OntologyPackage.eINSTANCE.getOntology_Individuals())) {
-			ontologyWithIncludes.setNrOfIndividuals(ontologyWithIncludes.getIndividuals().size());
-			ontology.setNrOfIndividuals(ontology.getIndividuals().size());
+			getOntologyWithIncludes().setNrOfIndividuals(getOntologyWithIncludes().getIndividuals().size());
+			getOntologyWithoutIncludes().setNrOfIndividuals(getOntologyWithoutIncludes().getIndividuals().size());
 		}
 		if (notification.getFeature().equals(OntologyPackage.eINSTANCE.getOntology_Classes())) {
-			ontologyWithIncludes.setNrOfClasses(ontologyWithIncludes.getClasses().size());
-			ontology.setNrOfClasses(ontology.getClasses().size());
+			getOntologyWithIncludes().setNrOfClasses(getOntologyWithIncludes().getClasses().size());
+			getOntologyWithoutIncludes().setNrOfClasses(getOntologyWithoutIncludes().getClasses().size());
 		}
 		if (notification.getFeature().equals(OntologyPackage.eINSTANCE.getOntology_ObjectProperties())) {
-			ontologyWithIncludes.setNrOfObjectProperties(ontologyWithIncludes.getObjectProperties().size());
-			ontology.setNrOfObjectProperties(ontology.getObjectProperties().size());
+			getOntologyWithIncludes().setNrOfObjectProperties(getOntologyWithIncludes().getObjectProperties().size());
+			getOntologyWithoutIncludes().setNrOfObjectProperties(getOntologyWithoutIncludes().getObjectProperties().size());
 		}
 	}
 	
@@ -95,57 +117,40 @@ public abstract class AbstractOntologyManager extends EContentAdapter implements
 		if (optFile.isPresent() && optFile.get().exists()) {
 			Ontology o = loadOntology(OIDAUtil.getFileIriString(ontologyFile), buildLocalHierarchy);
 			setOntologyFile(ontologyFile);
-			getOntologyWithIncludes().setOntologyFile(ontologyFile);
 			return o;
 		} else
 			throw new OntologyManagerException("Error while loading ontology: File doesn't exist.");
 	}
-	
-	@Override
-	public void addImportDeclaration(String importOntologyIRI) throws OntologyManagerException {
-		addImportDeclaration(importOntologyIRI, false);
-	}
-	
+
 	@Override
 	public void addImportDeclaration(Ontology importOntology) throws OntologyManagerException {
-		addImportDeclaration(importOntology.getIri(), false);
+		addImportDeclaration(importOntology.getIri());
+	}
+
+	@Override
+	public void setOntologyFile(OntologyFile file) {
+		ontologyFile = file;
+	}
+
+	@Override
+	public Optional<OntologyFile> getOntologyFile() {
+		if (ontologyFile != null)
+			return Optional.of(ontologyFile);
+		else
+			return Optional.empty();
 	}
 	
 	@Override
-	public void addImportDeclaration(Ontology importOntology, boolean buildLocalHierarchy) throws OntologyManagerException {
-		addImportDeclaration(importOntology.getIri(), buildLocalHierarchy);
+	public Ontology getActiveOntology() {
+		if (localOntologyActive)
+			return getOntologyWithoutIncludes();
+		else
+			return getOntologyWithIncludes();
 	}
 	
-	protected void setOntology(Ontology ontology) {
-		if (this.ontology != null) {
-			this.ontology.eAdapters().remove(this);
-		}
-
-		this.ontology = ontology;
-		this.ontology.eAdapters().add(this);
-	}
-	
-	protected void setOntologyWithIncludes(Ontology ontology) {
-		if (this.ontologyWithIncludes != null) {
-			this.ontologyWithIncludes.eAdapters().remove(this);
-		}
-
-		this.ontologyWithIncludes = ontology;
-		this.ontologyWithIncludes.eAdapters().add(this);
-	}
-
-	public void setOntologyFile(OntologyFile file) {
-		if (this.ontologyWithIncludes != null) {
-			this.ontologyWithIncludes.setOntologyFile(file);
-		}
-	}
-
-	public OntologyFile getOntologyFile() {
-		if (this.ontologyWithIncludes != null) {
-			return this.ontologyWithIncludes.getOntologyFile();
-		} else {
-			return null;
-		}
+	@Override
+	public void setLocalOntologyActive(boolean localOntologyActive) {
+		this.localOntologyActive = localOntologyActive;
 	}
 
 	@Override
@@ -202,7 +207,7 @@ public abstract class AbstractOntologyManager extends EContentAdapter implements
 
 	@Override
 	public OntologyClass getClass(final String name, final String prefix) {
-		Optional<OntologyClass> opt = ontologyWithIncludes.getClasses().stream().filter(cl -> cl.getName().equals(name) && cl.getPrefix().equals(prefix)).findFirst();
+		Optional<OntologyClass> opt = getActiveOntology().getClasses().stream().filter(cl -> cl.getName().equals(name) && cl.getPrefix().equals(prefix)).findFirst();
 
 		if (opt.isPresent()) {
 			return opt.get();
@@ -213,7 +218,7 @@ public abstract class AbstractOntologyManager extends EContentAdapter implements
 
 	@Override
 	public Stream<OntologyClass> getAllClasses() {
-		return ontologyWithIncludes.getClasses().stream();
+		return getActiveOntology().getClasses().stream();
 	}
 
 	@Override
@@ -223,7 +228,7 @@ public abstract class AbstractOntologyManager extends EContentAdapter implements
 	
 	@Override
 	public OntologyIndividual getIndividual(final String iri) {
-		Optional<OntologyIndividual> opt = ontologyWithIncludes.getIndividuals().stream().filter(cl -> cl.getIri().equals(iri)).findFirst();
+		Optional<OntologyIndividual> opt = getActiveOntology().getIndividuals().stream().filter(cl -> cl.getIri().equals(iri)).findFirst();
 
 		if (opt.isPresent())
 			return opt.get();
@@ -233,7 +238,7 @@ public abstract class AbstractOntologyManager extends EContentAdapter implements
 
 	@Override
 	public Stream<OntologyIndividual> getAllIndividuals() {
-		return ontologyWithIncludes.getIndividuals().stream();
+		return getActiveOntology().getIndividuals().stream();
 	}
 
 	@Override

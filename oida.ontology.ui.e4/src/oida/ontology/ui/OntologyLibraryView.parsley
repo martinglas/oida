@@ -8,8 +8,8 @@ import org.eclipse.swt.SWT
 
 /**
  * 
+ * @author Michael Shamiyeh
  * @since 2016-11-08
- * @author Michael.Shamiyeh
  *
  */
 module oida.ontology.ui.OntologyLibraryView {
@@ -28,8 +28,8 @@ module oida.ontology.ui.OntologyLibraryView {
 	featuresProvider {
 		features {
 			Library -> owner, creationDate, referenceOntology
-			LocalReferenceOntologyFileSet -> path, fileName, maintenanceFileName
-			GitRepoOntologyEntry -> path, fileName, maintenanceFileName, repoURL, gitUsername, gitPassword
+			LocalReferenceOntologyFileSet -> path, fileName, maintenanceFileName, loadAtStartup
+			GitRepoOntologyEntry -> path, fileName, maintenanceFileName, repoURL, gitUsername, gitPassword, loadAtStartup
 		}
 	}
 
@@ -54,6 +54,7 @@ module oida.ontology.ui.OntologyLibraryView {
 			LocalReferenceOntologyFileSet : path -> "Path: "
 			LocalReferenceOntologyFileSet : fileName -> "File: "
 			LocalReferenceOntologyFileSet : maintenanceFileName -> "Maintenance Ontology: "
+			LocalReferenceOntologyFileSet : loadAtStartup -> "Load automatically at Start-Up: "
 
 			GitRepoOntologyEntry : path -> "Path: "
 			GitRepoOntologyEntry : fileName -> "File: "
@@ -61,6 +62,7 @@ module oida.ontology.ui.OntologyLibraryView {
 			GitRepoOntologyEntry : repoURL -> "Git Repository URL: "
 			GitRepoOntologyEntry : gitUsername -> "Username: "
 			GitRepoOntologyEntry : gitPassword -> "Password: "
+			GitRepoOntologyEntry : loadAtStartup -> "Load automatically at Start-Up: "
 		}
 	}
 	

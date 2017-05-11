@@ -103,7 +103,7 @@ public class EMFModelChangeHandler extends AbstractModelChangeHandler {
 	}
 
 	private void generateLocalNamespace() {
-		MODELONT_PREFIX = SYMO_MODELONT_NS + getModelOntologyManager().getOntologyWithIncludes().getOntologyFile().getFileName();
+		MODELONT_PREFIX = SYMO_MODELONT_NS + getModelOntologyManager().getOntologyFile().get().getFileName();
 
 		// if (!getModelOntologyManager().isNamespaceExisting(MODELONT_PREFIX))
 		// getModelOntologyManager().addNamespace(MODELONT_PREFIX, namespace);
@@ -225,17 +225,5 @@ public class EMFModelChangeHandler extends AbstractModelChangeHandler {
 		if (referenceObjectProperty.isPresent() && containerIndividual.isPresent() && individual.isPresent())
 		
 		modelOntologyManager.createObjectPropertyAssertion(referenceObjectProperty.get(), containerIndividual.get(), individual.get());
-	}
-
-	@Override
-	public String getModelOntologyPrefix() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setModelOntologyPrefix() {
-		// TODO Auto-generated method stub
-
 	}
 }

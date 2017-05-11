@@ -238,11 +238,11 @@ public final class OIDABridge implements IOIDABridge {
 						Activator.OIDA_METAMODELONTOLOGY_PROVIDER_EXTENSIONPOINT_ID);
 
 				if (provider != null)
-					metaModelOntologyHandler = provider.createMetaModelOntology(renamerStrategy, structuringStrategy, optMetaModelOntologyManager.get(), oidaOntologyService.getReferenceOntologyManager().get().getOntologyWithIncludes());
+					metaModelOntologyHandler = provider.createMetaModelOntology(renamerStrategy, structuringStrategy, optMetaModelOntologyManager.get(), oidaOntologyService.getReferenceOntologyManager().get().getActiveOntology());
 				
 				metaModelOntologyHandler.getModelOntologyManager().saveOntology();
 				
-				LOGGER.info("Meta model ontology created: '" + metaModelOntologyHandler.getModelOntologyManager().getOntologyWithIncludes().getIri() + "'.");
+				LOGGER.info("Meta model ontology created: '" + metaModelOntologyHandler.getModelOntologyManager().getActiveOntology().getIri() + "'.");
 				return true;
 			} catch (CoreException e) {
 				LOGGER.error("Error while creating meta model ontology.", e);

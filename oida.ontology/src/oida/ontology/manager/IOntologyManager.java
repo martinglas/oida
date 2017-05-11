@@ -48,15 +48,24 @@ public interface IOntologyManager {
 	 * 
 	 * @return an Ontology object.
 	 */
-	Ontology getOntology();
+	Ontology getOntologyWithoutIncludes();
+	
+	/**
+	 * Returns the currently active ontology representation (with or without includes), where changes are applied.
+	 * 
+	 * @return an Ontology object.
+	 */
+	Ontology getActiveOntology();
+	
+	void setLocalOntologyActive(boolean localOntologyActive);
 
-	Ontology createOntology(String ontologyIRI) throws OntologyManagerException;
+	Ontology createOntology(String ontologyIRI, boolean localOntologyActive) throws OntologyManagerException;
 
 	Ontology loadOntology(String iri) throws OntologyManagerException;
-	Ontology loadOntology(String iri, boolean buildLocalHierarchy) throws OntologyManagerException;
+	Ontology loadOntology(String iri, boolean localOntologyActive) throws OntologyManagerException;
 	
 	Ontology loadOntology(OntologyFile ontologyFile) throws OntologyManagerException;
-	Ontology loadOntology(OntologyFile ontologyFile, boolean buildLocalHierarchy) throws OntologyManagerException;
+	Ontology loadOntology(OntologyFile ontologyFile, boolean localOntologyActive) throws OntologyManagerException;
 
 	void saveOntology() throws OntologyManagerException;
 
@@ -64,31 +73,19 @@ public interface IOntologyManager {
 
 	void setOntologyFile(OntologyFile ontologyFile);
 
-	OntologyFile getOntologyFile();
+	 Optional<OntologyFile> getOntologyFile();
 
 	void clearOntologyManager();
 
 	void initializeReasoner();
 
 	void addGlobalIRIToLocalPathMapping(String iri, String localPath);
-	
-//	void addNamespace(String prefix, String namespace);
-//
-//	void addNamespace(String prefix, String namespace, boolean setDefault);
-//
-//	boolean isNamespaceExisting(String prefix);
 
 	String getDefaultNamespace();
 
-//	String getNamespace(String prefix);
-//
-//	Map<String, String> getAllNamespaces();
-
 	void addImportDeclaration(String importOntologyIRI) throws OntologyManagerException;
-	void addImportDeclaration(String importOntologyIRI, boolean localHierarchyOnly) throws OntologyManagerException;
 
 	void addImportDeclaration(Ontology importOntology) throws OntologyManagerException;
-	void addImportDeclaration(Ontology importOntology, boolean localHierarchyOnly) throws OntologyManagerException;
 
 	/**
 	 * Creates a class within the default namespace of the ontology.

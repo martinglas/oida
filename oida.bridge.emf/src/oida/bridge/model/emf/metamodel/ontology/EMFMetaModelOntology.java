@@ -53,7 +53,7 @@ public class EMFMetaModelOntology extends AbstractModelChangeHandler {
 		else {
 			// add reference ontology to includes:
 			try {
-				manager.addImportDeclaration(referenceOntology, true);
+				manager.addImportDeclaration(referenceOntology);
 			} catch (OntologyManagerException e) {
 				e.printStackTrace();
 			}
@@ -145,18 +145,6 @@ public class EMFMetaModelOntology extends AbstractModelChangeHandler {
 					ontologyManager.assignObjectPropertyDomain(referenceObjectProperty, domainClass.get());
 			}
 		}
-	}
-
-	@Override
-	public String getModelOntologyPrefix() {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void setModelOntologyPrefix() {
-		// TODO Auto-generated method stub
-
 	}
 
 	@Override

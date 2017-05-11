@@ -52,7 +52,7 @@ public abstract class AbstractModelChangeHandler implements IModelChangeHandler 
 
 	private MappingSet mappings = BridgemodelFactory.eINSTANCE.createMappingSet();
 
-	protected void initialiyeCollections() {
+	protected void initializeCollections() {
 		modelToOntologyMap.clear();
 		mappings.getMappings().clear();
 	}
@@ -140,7 +140,7 @@ public abstract class AbstractModelChangeHandler implements IModelChangeHandler 
 	@Override
 	public void startChangeTracking(Object modelObject, IOntologyManager modelOntologyManager) {
 		setModelObject(modelObject);
-		initialiyeCollections();
+		initializeCollections();
 
 		try {
 			modelOntologyManager.addImportDeclaration(getMetaModelOntologyManager().getOntologyWithIncludes());
@@ -217,11 +217,7 @@ public abstract class AbstractModelChangeHandler implements IModelChangeHandler 
 			System.out.println("OIDA Model Change Handler: Renamed individual: " + newIndividualID);
 		}
 	}
-
-	protected void changeIndividualNameAnnotation() {
-
-	}
-
+	
 	protected OntologyClass createOntologyClassForMetaModelClass(Object clazzObject) {
 		if (!modelToOntologyMap.containsKey(clazzObject)) {
 			String className = getRenamerStrategy().getClassName((EClass)clazzObject);

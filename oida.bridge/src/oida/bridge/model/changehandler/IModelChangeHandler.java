@@ -33,9 +33,6 @@ public interface IModelChangeHandler {
 	IOntologyManager getMetaModelOntologyManager();
 	IOntologyManager getModelOntologyManager();
 	
-	String getModelOntologyPrefix();
-	void setModelOntologyPrefix();
-	
 	void initializeChangeHandler(IRenamerStrategy renamerStrategy, IStructuringStrategy structuringStrategy, IOntologyManager metaModelOntology);
 	
 	void startChangeTracking(Object modelObject, IOntologyManager modelOntologyManager);

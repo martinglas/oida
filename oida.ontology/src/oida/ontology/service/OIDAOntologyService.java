@@ -18,11 +18,14 @@ import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
+import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.provider.INotifyChangedListener;
 import org.eclipse.emf.edit.provider.resource.ResourceItemProviderAdapterFactory;
 import org.eclipse.emf.parsley.edit.domain.InjectableAdapterFactoryEditingDomain;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import oida.ontology.Activator;
 import oida.ontology.Ontology;
@@ -38,16 +41,19 @@ import oida.ontologyMgr.provider.OntologyMgrItemProviderAdapterFactory;
 import oida.util.ExtensionPointUtil;
 import oida.util.OIDAUtil;
 import oida.util.constants.FileConstants;
+import oida.util.constants.StringConstants;
 
 /**
  * 
- * @author Michael.Shamiyeh
+ * @author Michael Shamiyeh
  * @since 13.12.2016
  *
  */
 @Creatable
 @Singleton
-public final class OIDAOntologyService extends AbstractOIDAOntologyService implements INotifyChangedListener, IGlobalOntologyContext {
+public final class OIDAOntologyService extends EContentAdapter implements INotifyChangedListener, IGlobalOntologyContext, IOIDAOntologyService {
+	protected static Logger LOGGER = LoggerFactory.getLogger(OIDAOntologyService.class);
+	
 	private URI uriLibrary = URI.createFileURI(OIDAUtil.getOIDAWorkPath() + FileConstants.ONTOLOGY_LIBRARY_FILE);
 	private URI uriManager = URI.createFileURI(OIDAUtil.getOIDAWorkPath() + FileConstants.ONTOLOGY_MANAGER_FILE);
 	
@@ -56,16 +62,17 @@ public final class OIDAOntologyService extends AbstractOIDAOntologyService imple
 
 	private IOntologyManagerFactory managerFactory;
 
-	private Map<Ontology, IOntologyManager> managedOntologies;
+	private Map<String, OntologyFile> iriMappings = new HashMap<String, OntologyFile>();
+	
+	private IOntologyManager referenceOntologyManager;
+	
+	private Map<Ontology, IOntologyManager> managedOntologies = new HashMap<Ontology, IOntologyManager>();
 
 	private Resource managedOntologyResource;
 
-	// TODO split in multiple methods:
 	public OIDAOntologyService() {
 		super();
-
-		LOGGER.info("Initialization started.");
-
+		
 		OntologyMgrItemProviderAdapterFactory adapterFactory = new OntologyMgrItemProviderAdapterFactory();
 		// adapterFactory.addListener(this);
 
@@ -75,8 +82,12 @@ public final class OIDAOntologyService extends AbstractOIDAOntologyService imple
 
 		editingDomain = new InjectableAdapterFactoryEditingDomain(composedAdapterFactory);
 
-		managedOntologies = new HashMap<Ontology, IOntologyManager>();
-
+		tryInitialization();
+	}
+	
+	private void tryInitialization() {
+		LOGGER.info("Initializing OIDA Ontology Service...");
+		
 		libraryResource = loadExistingOIDAServiceData(uriLibrary);
 		managedOntologyResource = editingDomain.createResource(uriManager.toString());
 
@@ -94,17 +105,52 @@ public final class OIDAOntologyService extends AbstractOIDAOntologyService imple
 		} catch (CoreException e) {
 			LOGGER.error("Initialized without an Ontology Manager Factory.", e);
 		}
+		
+		autoLoadOntologies();
+		
+		LOGGER.info("OIDA Ontology Service initialized.");
+	}
 
+	@Override
+	public Optional<IOntologyManager> getReferenceOntologyManager() {
+		if (referenceOntologyManager == null) {
+			Optional<IOntologyManager> optReferencOntManager = loadReferenceOntology();
+			
+			if (optReferencOntManager.isPresent())
+				referenceOntologyManager = optReferencOntManager.get();
+				else
+				return Optional.empty();
+		}
+		
+		return Optional.of(referenceOntologyManager);
+	}
+	
+	@Override
+	public Optional<IOntologyManager> loadReferenceOntology() {
 		if (getLibrary().getReferenceOntology() != null) {
 			LOGGER.info("Loading reference ontology...");
 			
-			Optional<IOntologyManager> optReferenceOntologyMgr = getOntologyManager(getLibrary().getReferenceOntology());
-			if (optReferenceOntologyMgr.isPresent())
-				setReferenceOntologyManager(optReferenceOntologyMgr.get());
-		} else
+			Optional<IOntologyManager> optRefOntManager = getOntologyManager(getLibrary().getReferenceOntology());
+			
+			if (optRefOntManager.isPresent())
+				LOGGER.info("Reference ontology loaded: '" + optRefOntManager.get().getOntologyWithIncludes().getIri() + "'.");
+			else
+				LOGGER.error("Reference ontology couldn't be loaded.");
+			
+			return optRefOntManager;
+				
+		} else {
 			LOGGER.info("No reference ontology set.");
+			return Optional.empty();
+		}
+	}
 
-		LOGGER.info("Service registered.");
+	public void autoLoadOntologies() {
+		LOGGER.info("Auto-Load ontologies are loaded...");
+		for (OntologyFile ontologyFile : getLibrary().getOntologies()) {
+			if (ontologyFile.isLoadAtStartup())
+				getOntologyManager(ontologyFile);
+		}
 	}
 
 	public Resource loadExistingOIDAServiceData(URI oidaServiceDataFileURI) {
@@ -131,32 +177,64 @@ public final class OIDAOntologyService extends AbstractOIDAOntologyService imple
 		return null;
 	}
 
+	@Override
 	public EditingDomain getEditingDomain() {
 		return editingDomain;
 	}
 
+	@Override
 	public Resource getLibraryResource() {
 		return libraryResource;
 	}
-
-	@Override
-	public void notifyChanged(Notification notification) {
-		if (notification.getFeature() != null) {
-			if (notification.getFeature() == OntologyMgrPackage.eINSTANCE.getLibrary_ReferenceOntology()) {
-				Optional<IOntologyManager> referenceOntologyMgr = getOntologyManager((OntologyFile)notification.getNewValue());
-				if (referenceOntologyMgr.isPresent())
-					setReferenceOntologyManager(referenceOntologyMgr.get());
-			}
-		}
-	}
-
+	
 	@Override
 	public Resource getManagedOntologiesResource() {
 		return managedOntologyResource;
 	}
 
 	@Override
-	public Optional<IOntologyManager> getOntologyManager(OntologyFile ontologyFile, String ontologyIri, boolean createIfNotExisting, boolean localHierarchyOnly) {
+	public void notifyChanged(Notification notification) {
+		if (notification.getFeature() != null) {
+			if (notification.getFeature() == OntologyMgrPackage.eINSTANCE.getLibrary_ReferenceOntology()) {
+				Optional<IOntologyManager> optReferenceOntologyMgr = getOntologyManager((OntologyFile)notification.getNewValue());
+				if (optReferenceOntologyMgr.isPresent())
+					referenceOntologyManager = optReferenceOntologyMgr.get();
+			}
+		}
+	}
+
+	@Override
+	public boolean checkOntologyExistance(String iri) {
+		return iriMappings.containsKey(iri);
+	}
+	
+	@Override
+	public boolean checkOntologyExistance(OntologyFile ontologyFile) {
+		File checkFile = new File(ontologyFile.getPath() + ontologyFile.getFileName());
+		
+		if (checkFile.exists() && checkFile.isFile())
+			return true;
+		
+		return false;
+	}
+	
+	@Override
+	public Optional<IOntologyManager> getOntologyManager(OntologyFile ontologyFile) {
+		return getOntologyManager(ontologyFile, StringConstants.EMPTY, false, false);
+	}
+	
+	@Override
+	public Optional<IOntologyManager> getOntologyManager(OntologyFile ontologyFile, boolean localOntologyActive) {
+		return getOntologyManager(ontologyFile, StringConstants.EMPTY, false, localOntologyActive);
+	}
+	
+	@Override
+	public Optional<IOntologyManager> getOntologyManager(OntologyFile ontologyFile, String ontologyIri, boolean localOntologyActive) {
+		return getOntologyManager(ontologyFile, ontologyIri, localOntologyActive, false);
+	}
+
+	@Override
+	public Optional<IOntologyManager> getOntologyManager(OntologyFile ontologyFile, String ontologyIri, boolean createIfNotExisting, boolean localOntologyActive) {
 		// return existing ontology manager if possible:
 		if (ontologyFile != null && managedOntologies.containsKey(ontologyFile))
 			return Optional.of(managedOntologies.get(ontologyFile));
@@ -168,7 +246,7 @@ public final class OIDAOntologyService extends AbstractOIDAOntologyService imple
 		if (ontologyFile == null) {
 			if (ontologyIri != null) {
 				try {
-					Ontology ontology = mgr.createOntology(ontologyIri);
+					Ontology ontology = mgr.createOntology(ontologyIri, localOntologyActive);
 					managedOntologyResource.getContents().add(mgr.getOntologyWithIncludes());
 					managedOntologies.put(ontology, mgr);
 					copyIRIMappingsToManager(mgr);
@@ -185,7 +263,7 @@ public final class OIDAOntologyService extends AbstractOIDAOntologyService imple
 		} else {
 			try {
 				copyIRIMappingsToManager(mgr);
-				Ontology ontology = mgr.loadOntology(ontologyFile, localHierarchyOnly);
+				Ontology ontology = mgr.loadOntology(ontologyFile, localOntologyActive);
 				managedOntologyResource.getContents().add(mgr.getOntologyWithIncludes());
 				managedOntologies.put(ontology, mgr);
 				iriMappings.put(ontology.getIri(), ontologyFile);
@@ -197,9 +275,9 @@ public final class OIDAOntologyService extends AbstractOIDAOntologyService imple
 					try {
 						Ontology ontology;
 						if (ontologyIri != null)
-							ontology = mgr.createOntology(ontologyIri);
+							ontology = mgr.createOntology(ontologyIri, localOntologyActive);
 						else
-							ontology = mgr.createOntology(OIDAUtil.getFileIriString(ontologyFile));
+							ontology = mgr.createOntology(OIDAUtil.getFileIriString(ontologyFile), localOntologyActive);
 						
 						mgr.setOntologyFile(ontologyFile);
 						managedOntologyResource.getContents().add(mgr.getOntologyWithIncludes());
