@@ -37,7 +37,14 @@ public interface IOntologyManager {
 	void setGlobalOntologyContext(IGlobalOntologyContext context);
 
 	/**
-	 * Returns the managed ontology.
+	 * Returns the managed ontology, with all objects of included ontologies.
+	 * 
+	 * @return an Ontology object.
+	 */
+	Ontology getOntologyWithIncludes();
+	
+	/**
+	 * Returns the managed ontology, without included ontlogies.
 	 * 
 	 * @return an Ontology object.
 	 */

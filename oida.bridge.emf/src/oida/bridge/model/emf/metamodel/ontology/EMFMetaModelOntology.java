@@ -48,7 +48,7 @@ public class EMFMetaModelOntology extends AbstractModelChangeHandler {
 		setStructuringStrategy(structuringStrategy);
 		
 		// check if the passed ontology manager has imports, to determine if the ontology has been created already: 
-		if (manager.getOntology().getImports().size() > 0)
+		if (manager.getOntologyWithIncludes().getImports().size() > 0)
 			setModelOntologyManager(manager);
 		else {
 			// add reference ontology to includes:
@@ -71,7 +71,7 @@ public class EMFMetaModelOntology extends AbstractModelChangeHandler {
 		setModelOntologyManager(modelOntologyManager);
 
 		try {
-			modelOntologyManager.addImportDeclaration(OIDAModelBaseOntology.getInstance().getOntologyManager().getOntology());
+			modelOntologyManager.addImportDeclaration(OIDAModelBaseOntology.getInstance().getOntologyManager().getOntologyWithIncludes());
 
 			emfReferenceObjectProperty = modelOntologyManager.createObjectProperty(EMFONTOLOGY_REFERENCE_NAME);
 			modelOntologyManager.setObjectPropertyCharacteristics(emfReferenceObjectProperty, false, false, false, false, false, false, false);

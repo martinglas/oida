@@ -1,6 +1,8 @@
 package oida.util;
 
 import java.io.File;
+import java.io.IOException;
+import java.util.Optional;
 
 import org.eclipse.core.resources.ResourcesPlugin;
 
@@ -53,6 +55,41 @@ public class OIDAUtil {
 		ontologyFileObject.setFileName(file.getName());
 		
 		return ontologyFileObject;
+	}
+	
+	public static Optional<File> getOntologyFileObject(OntologyFile ontologyFile, boolean createIfNotExisting) {
+		if (ontologyFile.getPath() == null) {
+			//LOGGER.error("GetOntologyFile for '" + ontologyFile.toString() + "': Ontology file path is not set.");
+			return Optional.empty();
+		}
+
+		if (ontologyFile.getFileName() == null) {
+			//LOGGER.error("GetOntologyFile for '" + ontologyFile.toString() + "': Ontology filename is not set.");
+			return Optional.empty();
+		}
+		
+		if (!ontologyFile.getPath().endsWith(StringConstants.BACKSLASH))
+			ontologyFile.setPath(ontologyFile.getPath().concat(StringConstants.BACKSLASH));
+
+		File file = new File(ontologyFile.getPath() + ontologyFile.getFileName());
+
+		if (!file.exists()) {
+			if (createIfNotExisting) {
+				try {
+					file.createNewFile();
+					//LOGGER.info("GetOntologyFile for '" + ontologyFile.toString() + "': Ontology file '" + file.getAbsolutePath() + "' has been created.");
+					return Optional.of(file);
+				} catch (IOException e) {
+					//LOGGER.error("GetOntologyFile for '" + ontologyFile.toString() + "': Error while creating file '" + file.getAbsolutePath() + "'.", e);
+					return Optional.empty();
+				}
+			} else {
+				//LOGGER.warn("GetOntologyFile for '" + ontologyFile.toString() + "': Ontology file '" + file.getAbsolutePath() + "' doesn't exist and has NOT been created.");
+				return Optional.empty();
+			}
+		} else {
+			return Optional.of(file);
+		}
 	}
 	
 	public static String getFileIriString(OntologyFile ontologyFile) {

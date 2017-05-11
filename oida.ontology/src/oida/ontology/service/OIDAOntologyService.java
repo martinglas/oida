@@ -169,7 +169,7 @@ public final class OIDAOntologyService extends AbstractOIDAOntologyService imple
 			if (ontologyIri != null) {
 				try {
 					Ontology ontology = mgr.createOntology(ontologyIri);
-					managedOntologyResource.getContents().add(mgr.getOntology());
+					managedOntologyResource.getContents().add(mgr.getOntologyWithIncludes());
 					managedOntologies.put(ontology, mgr);
 					copyIRIMappingsToManager(mgr);
 					return Optional.of(mgr);
@@ -186,7 +186,7 @@ public final class OIDAOntologyService extends AbstractOIDAOntologyService imple
 			try {
 				copyIRIMappingsToManager(mgr);
 				Ontology ontology = mgr.loadOntology(ontologyFile, localHierarchyOnly);
-				managedOntologyResource.getContents().add(mgr.getOntology());
+				managedOntologyResource.getContents().add(mgr.getOntologyWithIncludes());
 				managedOntologies.put(ontology, mgr);
 				iriMappings.put(ontology.getIri(), ontologyFile);
 
@@ -202,7 +202,7 @@ public final class OIDAOntologyService extends AbstractOIDAOntologyService imple
 							ontology = mgr.createOntology(OIDAUtil.getFileIriString(ontologyFile));
 						
 						mgr.setOntologyFile(ontologyFile);
-						managedOntologyResource.getContents().add(mgr.getOntology());
+						managedOntologyResource.getContents().add(mgr.getOntologyWithIncludes());
 						managedOntologies.put(ontology, mgr);
 						iriMappings.put(ontology.getIri(), ontologyFile);
 						copyIRIMappingsToManager(mgr);
@@ -222,7 +222,7 @@ public final class OIDAOntologyService extends AbstractOIDAOntologyService imple
 	@Override
 	public Optional<IOntologyManager> findOntology(String ontologyIRI) {
 		for (IOntologyManager manager : managedOntologies.values()) {
-			Optional<IOntologyManager> foundOntology = findOntologyWithin(manager.getOntology(), ontologyIRI);
+			Optional<IOntologyManager> foundOntology = findOntologyWithin(manager.getOntologyWithIncludes(), ontologyIRI);
 
 			if (foundOntology.isPresent())
 				return foundOntology;

@@ -7,10 +7,7 @@ Bundle-ClassPath: .
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Export-Package: bridgemodel,
- bridgemodel.impl,
- bridgemodel.util,
- oida.ontology,
+Export-Package: oida.ontology,
  oida.ontology.impl,
  oida.ontology.util,
  oida.ontologyMgr,

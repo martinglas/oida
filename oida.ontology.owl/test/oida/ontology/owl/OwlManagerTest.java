@@ -74,7 +74,7 @@ public class OwlManagerTest {
 
 	@Test
 	public void testCreateOntology() {
-		assertNotNull(manager.getOntology());
+		assertNotNull(manager.getOntologyWithIncludes());
 	}
 
 	@Test

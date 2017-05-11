@@ -103,7 +103,7 @@ public class EMFModelChangeHandler extends AbstractModelChangeHandler {
 	}
 
 	private void generateLocalNamespace() {
-		MODELONT_PREFIX = SYMO_MODELONT_NS + getModelOntologyManager().getOntology().getOntologyFile().getFileName();
+		MODELONT_PREFIX = SYMO_MODELONT_NS + getModelOntologyManager().getOntologyWithIncludes().getOntologyFile().getFileName();
 
 		// if (!getModelOntologyManager().isNamespaceExisting(MODELONT_PREFIX))
 		// getModelOntologyManager().addNamespace(MODELONT_PREFIX, namespace);

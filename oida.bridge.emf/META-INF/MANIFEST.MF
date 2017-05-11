@@ -6,9 +6,9 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: Bauhaus Luftfahrt e.V.
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: org.eclipse.emf.ecore;bundle-version="2.12.0",
- oida.ontology.model,
  oida.bridge,
- oida.util;bundle-version="1.0.0"
+ oida.util;bundle-version="1.0.0",
+ oida.bridge.model;bundle-version="0.1.0"
 Import-Package: oida.ontology.manager,
  oida.ontology.predefined,
  oida.ontology.service
