@@ -74,7 +74,7 @@ public class OwlManagerTest {
 
 	@Test
 	public void testCreateOntology() {
-		assertNotNull(manager.getOntologyWithIncludes());
+		assertNotNull(manager.getOntology());
 	}
 
 	@Test
@@ -119,9 +119,9 @@ public class OwlManagerTest {
 		manager.createClass(CLASSNAME_AIRCRAFT);
 		manager.createClass(CLASSNAME_FIXEDWING);
 		
-		manager.assignSubClassToSuperClass(manager.getClass(CLASSNAME_FIXEDWING), manager.getClass(CLASSNAME_AIRCRAFT));
+		manager.assignSubClassToSuperClass(manager.getClass(CLASSNAME_FIXEDWING).get(), manager.getClass(CLASSNAME_AIRCRAFT).get());
 		
-		assertEquals(manager.getClass(CLASSNAME_FIXEDWING), manager.getClass(CLASSNAME_AIRCRAFT).getSubClasses().get(0));
+		assertEquals(manager.getClass(CLASSNAME_FIXEDWING), manager.getClass(CLASSNAME_AIRCRAFT).get().getSubClasses().get(0));
 	}
 	
 	@Test

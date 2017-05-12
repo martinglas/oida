@@ -38,7 +38,7 @@ public class MetaModelClassHierarchyViewPart extends AbstractTreeViewPart {
 	@Override
 	protected Object getViewObject() {
 		if (oidaBridge.getMetaModelHandler().isPresent())
-			return oidaBridge.getMetaModelHandler().get().getModelOntologyManager().getActiveOntology();
+			return oidaBridge.getMetaModelHandler().get().getModelOntologyManager().getOntology().getLocalOntology();
 		else
 			return null;
 	}

@@ -133,7 +133,7 @@ public final class OIDAOntologyService extends EContentAdapter implements INotif
 			Optional<IOntologyManager> optRefOntManager = getOntologyManager(getLibrary().getReferenceOntology());
 			
 			if (optRefOntManager.isPresent())
-				LOGGER.info("Reference ontology loaded: '" + optRefOntManager.get().getOntologyWithIncludes().getIri() + "'.");
+				LOGGER.info("Reference ontology loaded: '" + optRefOntManager.get().getOntology().getIri() + "'.");
 			else
 				LOGGER.error("Reference ontology couldn't be loaded.");
 			
@@ -246,10 +246,9 @@ public final class OIDAOntologyService extends EContentAdapter implements INotif
 		if (ontologyFile == null) {
 			if (ontologyIri != null) {
 				try {
-					Ontology ontology = mgr.createOntology(ontologyIri, localOntologyActive);
-					managedOntologyResource.getContents().add(mgr.getOntologyWithIncludes());
+					Ontology ontology = mgr.createOntology(ontologyIri);
+					managedOntologyResource.getContents().add(mgr.getOntology());
 					managedOntologies.put(ontology, mgr);
-					copyIRIMappingsToManager(mgr);
 					return Optional.of(mgr);
 				} catch (OntologyManagerException e) {
 					LOGGER.error("Ontology with IRI '" + ontologyIri + "' could not be created.", e);
@@ -262,9 +261,8 @@ public final class OIDAOntologyService extends EContentAdapter implements INotif
 			}
 		} else {
 			try {
-				copyIRIMappingsToManager(mgr);
-				Ontology ontology = mgr.loadOntology(ontologyFile, localOntologyActive);
-				managedOntologyResource.getContents().add(mgr.getOntologyWithIncludes());
+				Ontology ontology = mgr.loadOntology(ontologyFile);
+				managedOntologyResource.getContents().add(mgr.getOntology());
 				managedOntologies.put(ontology, mgr);
 				iriMappings.put(ontology.getIri(), ontologyFile);
 
@@ -275,15 +273,14 @@ public final class OIDAOntologyService extends EContentAdapter implements INotif
 					try {
 						Ontology ontology;
 						if (ontologyIri != null)
-							ontology = mgr.createOntology(ontologyIri, localOntologyActive);
+							ontology = mgr.createOntology(ontologyIri);
 						else
-							ontology = mgr.createOntology(OIDAUtil.getFileIriString(ontologyFile), localOntologyActive);
+							ontology = mgr.createOntology(OIDAUtil.getFileIriString(ontologyFile));
 						
 						mgr.setOntologyFile(ontologyFile);
-						managedOntologyResource.getContents().add(mgr.getOntologyWithIncludes());
+						managedOntologyResource.getContents().add(mgr.getOntology());
 						managedOntologies.put(ontology, mgr);
 						iriMappings.put(ontology.getIri(), ontologyFile);
-						copyIRIMappingsToManager(mgr);
 
 						LOGGER.info("Added new ontology manager for: " + ontologyFile.getFileName() + ".");
 						return Optional.of(mgr);
@@ -300,7 +297,7 @@ public final class OIDAOntologyService extends EContentAdapter implements INotif
 	@Override
 	public Optional<IOntologyManager> findOntology(String ontologyIRI) {
 		for (IOntologyManager manager : managedOntologies.values()) {
-			Optional<IOntologyManager> foundOntology = findOntologyWithin(manager.getOntologyWithIncludes(), ontologyIRI);
+			Optional<IOntologyManager> foundOntology = findOntologyWithin(manager.getOntology(), ontologyIRI);
 
 			if (foundOntology.isPresent())
 				return foundOntology;
@@ -322,9 +319,9 @@ public final class OIDAOntologyService extends EContentAdapter implements INotif
 
 		return Optional.empty();
 	}
-	
-	private void copyIRIMappingsToManager(IOntologyManager manager) {
-		for (String key : iriMappings.keySet())
-			manager.addGlobalIRIToLocalPathMapping(key, OIDAUtil.getFileIriString(iriMappings.get(key)));
+
+	@Override
+	public Map<String, OntologyFile> getGlobalIRIToLocalIRIMappings() {
+		return iriMappings;
 	}
 }

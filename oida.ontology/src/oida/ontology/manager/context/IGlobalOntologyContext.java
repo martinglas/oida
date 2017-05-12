@@ -5,9 +5,11 @@
  ******************************************************************************/
 package oida.ontology.manager.context;
 
+import java.util.Map;
 import java.util.Optional;
 
 import oida.ontology.manager.IOntologyManager;
+import oida.ontologyMgr.OntologyFile;
 
 /**
  * 
@@ -18,8 +20,16 @@ import oida.ontology.manager.IOntologyManager;
 public interface IGlobalOntologyContext {
 	/**
 	 * Searches the global ontology context for an ontology having a specific IRI.
+	 * 
 	 * @param ontologyIRI The IRI of the wanted ontology.
 	 * @return An optional object containing the appropriate ontology manager if existing.
 	 */
 	Optional<IOntologyManager> findOntology(String ontologyIRI);
+	
+	/**
+	 * Holds a map of local paths for ontologies with global iris.
+	 * 
+	 * @return a map with the global iris as keys, and OntologyFile objects containing the local path as values.
+	 */
+	Map<String, OntologyFile> getGlobalIRIToLocalIRIMappings();
 }

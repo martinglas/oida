@@ -238,11 +238,11 @@ public final class OIDABridge implements IOIDABridge {
 						Activator.OIDA_METAMODELONTOLOGY_PROVIDER_EXTENSIONPOINT_ID);
 
 				if (provider != null)
-					metaModelOntologyHandler = provider.createMetaModelOntology(renamerStrategy, structuringStrategy, optMetaModelOntologyManager.get(), oidaOntologyService.getReferenceOntologyManager().get().getActiveOntology());
+					metaModelOntologyHandler = provider.createMetaModelOntology(renamerStrategy, structuringStrategy, optMetaModelOntologyManager.get(), oidaOntologyService.getReferenceOntologyManager().get().getOntology());
 				
 				metaModelOntologyHandler.getModelOntologyManager().saveOntology();
 				
-				LOGGER.info("Meta model ontology created: '" + metaModelOntologyHandler.getModelOntologyManager().getActiveOntology().getIri() + "'.");
+				LOGGER.info("Meta model ontology created: '" + metaModelOntologyHandler.getModelOntologyManager().getOntology().getIri() + "'.");
 				return true;
 			} catch (CoreException e) {
 				LOGGER.error("Error while creating meta model ontology.", e);
@@ -294,10 +294,10 @@ public final class OIDABridge implements IOIDABridge {
 		modelHandlerMap.put(modelObject, changeHandler);
 
 		for (IRecommender rec : recommenderPrimary)
-			rec.initializeRecommenderForModel(changeHandler.getModelOntologyManager().getOntologyWithIncludes(), oidaOntologyService.getReferenceOntologyManager().get().getOntologyWithIncludes());
+			rec.initializeRecommenderForModel(changeHandler.getModelOntologyManager().getOntology(), oidaOntologyService.getReferenceOntologyManager().get().getOntology());
 
 		for (IRecommender rec : recommenderSecondary)
-			rec.initializeRecommenderForModel(changeHandler.getModelOntologyManager().getOntologyWithIncludes(), oidaOntologyService.getReferenceOntologyManager().get().getOntologyWithIncludes());
+			rec.initializeRecommenderForModel(changeHandler.getModelOntologyManager().getOntology(), oidaOntologyService.getReferenceOntologyManager().get().getOntology());
 	}
 
 	@Override

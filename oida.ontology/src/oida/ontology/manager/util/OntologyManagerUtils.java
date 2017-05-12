@@ -21,17 +21,19 @@ import oida.util.constants.StringConstants;
 
 /**
  * 
- * @author Michael.Shamiyeh
+ * @author Michael Shamiyeh
  * @since 2017-04-03
  *
  */
 public class OntologyManagerUtils {
-	public static Ontology generateInternalOntologyObject(String name, long nrOfClasses, long nrOfIndividuals) {
+	public static Ontology generateInternalOntologyObject(String iri) {
 		Ontology newOntology = OntologyFactory.eINSTANCE.createOntology();
-		newOntology.setName(name);
-		newOntology.setIri(name);
-		newOntology.setNrOfClasses(nrOfClasses);
-		newOntology.setNrOfIndividuals(nrOfIndividuals);
+		newOntology.setIri(iri);
+
+		Ontology newLocalOntology = OntologyFactory.eINSTANCE.createOntology();
+		newLocalOntology.setIri(iri);
+		newOntology.setLocalOntology(newLocalOntology);
+		
 		return newOntology;
 	}
 
@@ -58,17 +60,30 @@ public class OntologyManagerUtils {
 		if (ontology != null)
 			ontology.getClasses().add(newClass);
 		
-		if (superClass != null) {
-			superClass.getSubClasses().add(newClass);
-			newClass.getSuperClasses().add(superClass);
-		}
+		if (superClass != null)
+			assignSubClassToSuperClass(newClass, superClass);
 
 		return newClass;
 	}
+	
+	public static void assignSubClassToSuperClass(OntologyClass subClass, OntologyClass superClass) {
+		subClass.getSuperClasses().add(superClass);
+		superClass.getSubClasses().add(subClass);
+	}
+	
+	public static void assignSubObjectPropertyToSuperObjectProperty(OntologyObjectProperty subProperty, OntologyObjectProperty superProperty) {
+		subProperty.getSuperProperties().add(superProperty);
+		superProperty.getSubObjectProperties().add(subProperty);
+	}
+	
+	public static void assignIndividualToClass(OntologyIndividual individual, OntologyClass clazz) {
+		individual.getTypes().add(clazz);
+		clazz.getIndividuals().add(individual);
+	}
 
-	public static OntologyIndividual generateInternalIndividualObject(Ontology ontology, final String name, final String prefix) {
+	public static OntologyIndividual generateInternalIndividualObject(Ontology ontology, final String name, final String namespace) {
 		OntologyIndividual newIndividual = OntologyFactory.eINSTANCE.createOntologyIndividual();
-		setOntologyEntityData(newIndividual, ontology, name, prefix);
+		setOntologyEntityData(newIndividual, ontology, name, namespace);
 		ontology.getIndividuals().add(newIndividual);
 
 		return newIndividual;
@@ -83,10 +98,8 @@ public class OntologyManagerUtils {
 		setOntologyEntityData(newProperty, ontology, name, prefix);
 		ontology.getObjectProperties().add(newProperty);
 
-		if (superObjectProperty != null) {
-			superObjectProperty.getSubObjectProperties().add(newProperty);
-			newProperty.getSuperProperties().add(superObjectProperty);
-		}
+		if (superObjectProperty != null)
+			assignSubObjectPropertyToSuperObjectProperty(newProperty, superObjectProperty);
 		
 		return newProperty;
 	}
@@ -153,13 +166,13 @@ public class OntologyManagerUtils {
 		return equivalence;
 	}
 
-	public static void setOntologyEntityData(OntologyEntity entity, Ontology ontology, String name, String prefix) {
+	public static void setOntologyEntityData(OntologyEntity entity, Ontology ontology, final String name, final String namespace) {
 		if (ontology != null)
 			entity.setContainingOntology(ontology);
 		
-		entity.setIri(buildFullIRIString(name, prefix));
+		entity.setIri(buildFullIRIString(name, namespace));
 		entity.setName(name);
-		entity.setPrefix(prefix);
+		entity.setPrefix(namespace);
 	}
 
 	public static void changeOntologyEntityName(OntologyEntity entity, String newName) {

@@ -17,8 +17,10 @@ import org.slf4j.LoggerFactory;
 import oida.ontology.Ontology;
 import oida.ontology.OntologyAnnotationProperty;
 import oida.ontology.OntologyClass;
+import oida.ontology.OntologyClassEquivalence;
 import oida.ontology.OntologyIndividual;
 import oida.ontology.OntologyObjectProperty;
+import oida.ontology.OntologyObjectPropertyEquivalence;
 import oida.ontology.OntologyPackage;
 import oida.ontology.manager.context.IGlobalOntologyContext;
 import oida.ontology.manager.util.OntologyManagerUtils;
@@ -54,29 +56,14 @@ public abstract class AbstractOntologyManager extends EContentAdapter implements
 		return this.globalContext;
 	}
 	
-	private Ontology ontologyWithIncludes;
 	private Ontology ontology;
 	
 	@Override
-	public Ontology getOntologyWithIncludes() {
-		return ontologyWithIncludes;
-	}
-	
-	protected void setOntologyWithIncludes(Ontology ontology) {
-		if (this.ontologyWithIncludes != null) {
-			this.ontologyWithIncludes.eAdapters().remove(this);
-		}
-
-		this.ontologyWithIncludes = ontology;
-		this.ontologyWithIncludes.eAdapters().add(this);
-	}
-	
-	@Override
-	public Ontology getOntologyWithoutIncludes() {
+	public Ontology getOntology() {
 		return ontology;
 	}
 	
-	protected void setOntologyWithoutIncludes(Ontology ontology) {
+	protected void setOntology(Ontology ontology) {
 		if (this.ontology != null) {
 			this.ontology.eAdapters().remove(this);
 		}
@@ -88,34 +75,24 @@ public abstract class AbstractOntologyManager extends EContentAdapter implements
 	@Override
 	public void notifyChanged(Notification notification) {
 		if (notification.getFeature().equals(OntologyPackage.eINSTANCE.getOntology_Individuals())) {
-			getOntologyWithIncludes().setNrOfIndividuals(getOntologyWithIncludes().getIndividuals().size());
-			getOntologyWithoutIncludes().setNrOfIndividuals(getOntologyWithoutIncludes().getIndividuals().size());
+			getOntology().setNrOfIndividuals(getOntology().getIndividuals().size());
+			getOntology().getLocalOntology().setNrOfIndividuals(getOntology().getLocalOntology().getIndividuals().size());
 		}
 		if (notification.getFeature().equals(OntologyPackage.eINSTANCE.getOntology_Classes())) {
-			getOntologyWithIncludes().setNrOfClasses(getOntologyWithIncludes().getClasses().size());
-			getOntologyWithoutIncludes().setNrOfClasses(getOntologyWithoutIncludes().getClasses().size());
+			getOntology().setNrOfClasses(getOntology().getClasses().size());
+			getOntology().getLocalOntology().setNrOfClasses(getOntology().getLocalOntology().getClasses().size());
 		}
 		if (notification.getFeature().equals(OntologyPackage.eINSTANCE.getOntology_ObjectProperties())) {
-			getOntologyWithIncludes().setNrOfObjectProperties(getOntologyWithIncludes().getObjectProperties().size());
-			getOntologyWithoutIncludes().setNrOfObjectProperties(getOntologyWithoutIncludes().getObjectProperties().size());
+			getOntology().setNrOfObjectProperties(getOntology().getObjectProperties().size());
+			getOntology().getLocalOntology().setNrOfObjectProperties(getOntology().getLocalOntology().getObjectProperties().size());
 		}
-	}
-	
-	@Override
-	public Ontology loadOntology(String iri) throws OntologyManagerException {
-		return loadOntology(iri, false);
 	}
 	
 	@Override
 	public Ontology loadOntology(OntologyFile ontologyFile) throws OntologyManagerException {
-		return loadOntology(ontologyFile, false);
-	}
-	
-	@Override
-	public Ontology loadOntology(OntologyFile ontologyFile, boolean buildLocalHierarchy) throws OntologyManagerException {
 		Optional<File> optFile = OIDAUtil.getOntologyFileObject(ontologyFile, false);
 		if (optFile.isPresent() && optFile.get().exists()) {
-			Ontology o = loadOntology(OIDAUtil.getFileIriString(ontologyFile), buildLocalHierarchy);
+			Ontology o = loadOntology(OIDAUtil.getFileIriString(ontologyFile));
 			setOntologyFile(ontologyFile);
 			return o;
 		} else
@@ -138,19 +115,6 @@ public abstract class AbstractOntologyManager extends EContentAdapter implements
 			return Optional.of(ontologyFile);
 		else
 			return Optional.empty();
-	}
-	
-	@Override
-	public Ontology getActiveOntology() {
-		if (localOntologyActive)
-			return getOntologyWithoutIncludes();
-		else
-			return getOntologyWithIncludes();
-	}
-	
-	@Override
-	public void setLocalOntologyActive(boolean localOntologyActive) {
-		this.localOntologyActive = localOntologyActive;
 	}
 
 	@Override
@@ -177,13 +141,13 @@ public abstract class AbstractOntologyManager extends EContentAdapter implements
 	}
 
 	@Override
-	public OntologyIndividual createIndividualOfClass(String individualName, String className) {
-		return createIndividualOfClass(individualName, createClass(className));
+	public OntologyIndividual createIndividual(final String name) {
+		return createIndividual(name, StringConstants.EMPTY);
 	}
-
+	
 	@Override
-	public OntologyIndividual createIndividualOfClass(String individualName, String individualPrefix, String className, String classPrefix) {
-		return createIndividualOfClass(individualName, individualPrefix, createClass(className, classPrefix));
+	public OntologyIndividual createIndividualOfClass(final String individualName, final String className) {
+		return createIndividualOfClass(individualName, createClass(className));
 	}
 
 	@Override
@@ -201,44 +165,43 @@ public abstract class AbstractOntologyManager extends EContentAdapter implements
 	}
 
 	@Override
-	public OntologyClass getClass(final String name) {
-		return getClass(name, StringConstants.EMPTY);
+	public Optional<OntologyClass> getClass(final String iri) {
+		return getOntology().getClasses().stream().filter(cl -> cl.getIri().equals(iri)).findFirst();
 	}
 
 	@Override
-	public OntologyClass getClass(final String name, final String prefix) {
-		Optional<OntologyClass> opt = getActiveOntology().getClasses().stream().filter(cl -> cl.getName().equals(name) && cl.getPrefix().equals(prefix)).findFirst();
-
-		if (opt.isPresent()) {
-			return opt.get();
-		} else {
-			return null;
-		}
+	public Optional<OntologyClass> getClass(final String name, final String namespace) {
+		return getClass(OntologyManagerUtils.buildFullIRIString(name, namespace));
 	}
 
 	@Override
 	public Stream<OntologyClass> getAllClasses() {
-		return getActiveOntology().getClasses().stream();
+		return getOntology().getClasses().stream();
 	}
 
 	@Override
-	public OntologyIndividual getIndividual(final String name, final String prefix) {
-		return getIndividual(OntologyManagerUtils.buildFullIRIString(name, prefix));
+	public Optional<OntologyIndividual> getIndividual(final String iri) {
+		return getOntology().getIndividuals().stream().filter(cl -> cl.getIri().equals(iri)).findFirst();
 	}
 	
 	@Override
-	public OntologyIndividual getIndividual(final String iri) {
-		Optional<OntologyIndividual> opt = getActiveOntology().getIndividuals().stream().filter(cl -> cl.getIri().equals(iri)).findFirst();
-
-		if (opt.isPresent())
-			return opt.get();
-		else
-			return null;
+	public Optional<OntologyIndividual> getIndividual(final String name, final String namespace) {
+		return getIndividual(OntologyManagerUtils.buildFullIRIString(name, namespace));
+	}
+	
+	@Override
+	public Optional<OntologyObjectProperty> getObjectProperty(final String name, final String namespace) {
+		return getObjectProperty(OntologyManagerUtils.buildFullIRIString(name, namespace));
+	}
+	
+	@Override
+	public Optional<OntologyObjectProperty> getObjectProperty(final String iri) {
+		return getOntology().getObjectProperties().stream().filter(op -> op.getIri().equals(iri)).findFirst();
 	}
 
 	@Override
 	public Stream<OntologyIndividual> getAllIndividuals() {
-		return getActiveOntology().getIndividuals().stream();
+		return getOntology().getIndividuals().stream();
 	}
 
 	@Override
@@ -312,5 +275,15 @@ public abstract class AbstractOntologyManager extends EContentAdapter implements
 	@Override
 	public OntologyAnnotationProperty createAnnotationProperty(String propertyName) {
 		return createAnnotationProperty(propertyName, StringConstants.EMPTY);
+	}
+	
+	@Override
+	public Stream<OntologyClassEquivalence> getAllClassEquivalences() {
+		return getOntology().getClassEquivalences().stream();
+	}
+	
+	@Override
+	public Stream<OntologyObjectPropertyEquivalence> getAllObjectPropertyEquivalences() {
+		return getOntology().getObjectPropertyEquivalences().stream();
 	}
 }

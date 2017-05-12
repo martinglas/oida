@@ -129,11 +129,10 @@ public class EMFModelChangeHandler extends AbstractModelChangeHandler {
 
 		// Create Individuals
 		for (EObject eObject : comprisedEObjects) {
-			OntologyClass ontologyClass = getMetaModelOntologyManager().getClass(getRenamerStrategy().getClassName(eObject.eClass()), getMetaModelOntologyManager().getDefaultNamespace());
-//			Optional<OntologyClass> optOntologyClass = getOntologyClassForModelElement(eObject.eClass());
-//			
-//			if (optOntologyClass.isPresent())
-				createIndividualForModelObject(eObject, ontologyClass);
+			Optional<OntologyClass> optOntologyClass = getMetaModelOntologyManager().getClass(getRenamerStrategy().getClassName(eObject.eClass()), getMetaModelOntologyManager().getDefaultNamespace());
+			
+			if (optOntologyClass.isPresent())
+				createIndividualForModelObject(eObject, optOntologyClass.get());
 		}
 
 		for (EObject eObject : comprisedEObjects)

@@ -38,7 +38,7 @@ public class ReferenceOntologyClassViewPart extends AbstractTreeViewPart {
 	@Override
 	protected Object getViewObject() {
 		if (oidaService.getReferenceOntologyManager().isPresent())
-			return oidaService.getReferenceOntologyManager().get().getOntologyWithIncludes();
+			return oidaService.getReferenceOntologyManager().get().getOntology();
 		
 		return null;
 	}
