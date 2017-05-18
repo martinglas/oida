@@ -1,7 +1,5 @@
 package oida.bridge.ui.e4.part;
 
-import java.util.Optional;
-
 import javax.annotation.PostConstruct;
 
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
@@ -11,7 +9,6 @@ import org.eclipse.emf.parsley.viewers.ViewerFactory;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
-import org.eclipse.jface.viewers.StructuredSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -24,7 +21,6 @@ import org.eclipse.swt.widgets.Label;
 
 import com.google.inject.Injector;
 
-import bridgemodel.ClassEqualsMapping;
 import bridgemodel.Recommendation;
 import oida.bridge.service.IOIDABridge;
 import oida.bridge.ui.ClassHierarchyView.ClassHierarchyViewInjectorProvider;
@@ -58,9 +54,6 @@ public class MetaModelClassMappingPart {
 		Injector injector = ClassHierarchyViewInjectorProvider.getInjector();
 
 		ViewerFactory classHierarchyViewerFactory = injector.getInstance(ViewerFactory.class);
-
-		Label metaModelLabel = new Label(parent, SWT.NONE);
-		metaModelLabel.setText("Meta Model Class Hierarchy");
 
 		selectionService.addSelectionListener(ReferenceOntologyClassHierarchyPart.PART_ID, new ISelectionListener() {
 			@Override

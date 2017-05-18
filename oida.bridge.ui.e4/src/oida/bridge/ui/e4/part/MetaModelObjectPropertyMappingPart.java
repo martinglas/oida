@@ -22,7 +22,6 @@ import org.eclipse.swt.widgets.Label;
 
 import com.google.inject.Injector;
 
-import bridgemodel.ClassEqualsMapping;
 import bridgemodel.ObjectPropertyEqualsMapping;
 import oida.bridge.service.IOIDABridge;
 import oida.bridge.ui.ObjectPropertyHierarchyView.ObjectPropertyHierarchyViewInjectorProvider;

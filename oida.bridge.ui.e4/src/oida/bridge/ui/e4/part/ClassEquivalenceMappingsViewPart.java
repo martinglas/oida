@@ -31,8 +31,8 @@ import oida.ontology.ui.view.ClassEquivalenceMappingsView.ClassEquivalenceMappin
  * @since 2017-04-18
  *
  */
-public class ClassEqualsMappingsViewPart {
-	public static final String PART_ID = "oida.bridge.ui.e4.part.classmappingspart";
+public class ClassEquivalenceMappingsViewPart {
+	public static final String PART_ID = "oida.bridge.ui.e4.part.classequivalencemappingsviewpart";
 
 	private TreeFormComposite treeFormComposite;
 

@@ -5,9 +5,11 @@ import javax.inject.Inject;
 import javax.annotation.PostConstruct;
 import org.eclipse.swt.widgets.Composite;
 
-public class RelationsViewPart {
+public class ReferenceOntologyObjectPropertyHierarchyPart {
+	public static final String PART_ID = "oida.bridge.ui.e4.part.referenceontologyobjectpropertyhierarchy";
+	
 	@Inject
-	public RelationsViewPart() {
+	public ReferenceOntologyObjectPropertyHierarchyPart() {
 		
 	}
 	
@@ -15,8 +17,4 @@ public class RelationsViewPart {
 	public void postConstruct(Composite parent) {
 		
 	}
-	
-	
-	
-	
 }
