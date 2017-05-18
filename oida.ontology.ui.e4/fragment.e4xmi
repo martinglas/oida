@@ -49,7 +49,7 @@
     </elements>
   </fragments>
   <fragments xsi:type="fragment:StringModelFragment" xmi:id="_gVCPQDYwEeegxPMCvfCCuQ" featurename="children" parentElementId="de.symo.application.trimbar.status">
-    <elements xsi:type="menu:ToolBar" xmi:id="_iae40DYwEeegxPMCvfCCuQ" elementId="oida.ontology.ui.e4.statusbar">
+    <elements xsi:type="menu:ToolBar" xmi:id="_iae40DYwEeegxPMCvfCCuQ" elementId="oida.ontology.ui.e4.statusbar" toBeRendered="false" visible="false">
       <children xsi:type="menu:HandledToolItem" xmi:id="_o7V9wDYwEeegxPMCvfCCuQ" elementId="oida.ontology.ui.e4.handledtoolitem.ontologymanagement" label="Ontology Management">
         <menu xmi:id="_rYv0UDYwEeegxPMCvfCCuQ" elementId="oida.ontology.ui.e4.menu.0"/>
       </children>

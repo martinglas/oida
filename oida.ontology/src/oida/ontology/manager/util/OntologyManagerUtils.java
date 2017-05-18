@@ -17,6 +17,7 @@ import oida.ontology.OntologyNamespace;
 import oida.ontology.OntologyObjectProperty;
 import oida.ontology.OntologyObjectPropertyAssertion;
 import oida.ontology.OntologyObjectPropertyEquivalence;
+import oida.ontology.OntologySubClassAssignment;
 import oida.util.constants.StringConstants;
 
 /**
@@ -66,9 +67,15 @@ public class OntologyManagerUtils {
 		return newClass;
 	}
 	
-	public static void assignSubClassToSuperClass(OntologyClass subClass, OntologyClass superClass) {
+	public static OntologySubClassAssignment assignSubClassToSuperClass(OntologyClass subClass, OntologyClass superClass) {
+		OntologySubClassAssignment assignment = OntologyFactory.eINSTANCE.createOntologySubClassAssignment();
+		assignment.setSubClass(subClass);
+		assignment.setSuperClass(superClass);
+		
 		subClass.getSuperClasses().add(superClass);
 		superClass.getSubClasses().add(subClass);
+		
+		return assignment;
 	}
 	
 	public static void assignSubObjectPropertyToSuperObjectProperty(OntologyObjectProperty subProperty, OntologyObjectProperty superProperty) {
@@ -116,9 +123,9 @@ public class OntologyManagerUtils {
 		return property;
 	}
 	
-	public static OntologyAnnotationProperty generateInternalAnnotationPropertyObject(Ontology ontology, final String name, final String prefix) {
+	public static OntologyAnnotationProperty generateInternalAnnotationPropertyObject(Ontology ontology, final String name, final String namespace) {
 		OntologyAnnotationProperty property = OntologyFactory.eINSTANCE.createOntologyAnnotationProperty();
-		setOntologyEntityData(property, ontology, name, prefix);
+		setOntologyEntityData(property, ontology, name, namespace);
 		ontology.getAnnotationProperties().add(property);
 
 		return property;

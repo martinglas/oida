@@ -21,12 +21,15 @@
     <eLiterals name="equivalentTo" value="1"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="MappingSet">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="mappings" upperBound="-1"
-        eType="#//Mapping" eOpposite="#//Mapping/mappingSet"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="instanceMappings" upperBound="-1"
+        eType="#//InstanceOfMapping"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="classMappings" upperBound="-1"
+        eType="#//ClassEqualsMapping"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="objectPropertyMappings"
+        upperBound="-1" eType="#//ObjectPropertyEqualsMapping"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Mapping">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="mappingSet" eType="#//MappingSet"
-        eOpposite="#//MappingSet/mappings"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="mappingSet" eType="#//MappingSet"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="InstanceOfMapping" eSuperTypes="#//Mapping">
     <eStructuralFeatures xsi:type="ecore:EReference" name="individual" lowerBound="1"
@@ -39,11 +42,15 @@
         eType="ecore:EClass ../../oida.ontology.model/model/oida.ecore#//ontology/OntologyClass"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="clazz2" lowerBound="1"
         eType="ecore:EClass ../../oida.ontology.model/model/oida.ecore#//ontology/OntologyClass"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="equivalence" lowerBound="1"
+        eType="ecore:EClass ../../oida.ontology.model/model/oida.ecore#//ontology/OntologyClassEquivalence"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="ObjectPropertyEqualsMapping" eSuperTypes="#//EqualsMapping">
     <eStructuralFeatures xsi:type="ecore:EReference" name="objectProperty1" lowerBound="1"
         eType="ecore:EClass ../../oida.ontology.model/model/oida.ecore#//ontology/OntologyObjectProperty"/>
     <eStructuralFeatures xsi:type="ecore:EReference" name="objectProperty2" lowerBound="1"
         eType="ecore:EClass ../../oida.ontology.model/model/oida.ecore#//ontology/OntologyObjectProperty"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="equivalence" lowerBound="1"
+        eType="ecore:EClass ../../oida.ontology.model/model/oida.ecore#//ontology/OntologyObjectPropertyEquivalence"/>
   </eClassifiers>
 </ecore:EPackage>

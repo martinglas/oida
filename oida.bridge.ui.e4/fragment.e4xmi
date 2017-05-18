@@ -3,10 +3,12 @@
   <fragments xsi:type="fragment:StringModelFragment" xmi:id="_jBcT4AWYEeeRVMQ9MYdBLQ" featurename="commands" parentElementId="de.symo.application.e4.application">
     <elements xsi:type="commands:Command" xmi:id="_lRPzUAWYEeeRVMQ9MYdBLQ" elementId="oida.bridge.ui.e4.command.mapelement" commandName="Map Primary"/>
     <elements xsi:type="commands:Command" xmi:id="_U0uzECIfEeepS7FG1PlakA" elementId="oida.bridge.ui.e4.command.mapsecondary" commandName="Map Secondary"/>
+    <elements xsi:type="commands:Command" xmi:id="_RC9zIDuxEeeh2-7Emt4u-Q" elementId="oida.bridge.ui.e4.command.findmappedclasses" commandName="Find Mapped Classes"/>
   </fragments>
   <fragments xsi:type="fragment:StringModelFragment" xmi:id="_oPVXEApkEeepYbfRV01uyg" featurename="handlers" parentElementId="de.symo.application.e4.application">
     <elements xsi:type="commands:Handler" xmi:id="_tn_d0ApkEeepYbfRV01uyg" elementId="oida.bridge.ui.e4.handler.mapelement" contributionURI="bundleclass://oida.bridge.ui.e4/oida.bridge.ui.e4.handler.MapPrimaryHandler" command="_lRPzUAWYEeeRVMQ9MYdBLQ"/>
     <elements xsi:type="commands:Handler" xmi:id="_Zda1cCIfEeepS7FG1PlakA" elementId="oida.bridge.ui.e4.handler.0" contributionURI="bundleclass://oida.bridge.ui.e4/oida.bridge.ui.e4.handler.MapSecondaryHandler" command="_U0uzECIfEeepS7FG1PlakA"/>
+    <elements xsi:type="commands:Handler" xmi:id="_VSix8DuxEeeh2-7Emt4u-Q" elementId="oida.bridge.ui.e4.handler.1" contributionURI="bundleclass://oida.bridge.ui.e4/oida.bridge.ui.e4.handler.FindMappedClassesHandler" command="_RC9zIDuxEeeh2-7Emt4u-Q"/>
   </fragments>
   <fragments xsi:type="fragment:StringModelFragment" xmi:id="_bWHmABrYEeeFu6vNfOMXuw" featurename="descriptors" parentElementId="de.symo.application.e4.application">
     <elements xsi:type="basic:PartDescriptor" xmi:id="_sivqEBrYEeeFu6vNfOMXuw" elementId="oida.bridge.ui.e4.partdescriptor.oidaprimarymapping" label="OIDA Primary Mapping" closeable="true" contributionURI="bundleclass://oida.bridge.ui.e4/oida.bridge.ui.e4.part.PrimaryRecommendationsViewPart">
@@ -17,25 +19,31 @@
     <elements xsi:type="basic:PartDescriptor" xmi:id="_eBbsQCQZEee87prP5ogXPA" elementId="oida.bridge.ui.e4.partdescriptor.oidamappingview" label="OIDA Mapping View" contributionURI="bundleclass://oida.bridge.ui.e4/oida.bridge.ui.e4.part.MappingViewPart"/>
   </fragments>
   <fragments xsi:type="fragment:StringModelFragment" xmi:id="_l0CG4CQOEee87prP5ogXPA" featurename="children" parentElementId="de.symo.application.mainwindow.perspectivestack">
-    <elements xsi:type="advanced:Perspective" xmi:id="_plyhQCQOEee87prP5ogXPA" elementId="oida.bridge.ui.e4.perspective.oidamapping" label="OIDA Mapping">
-      <children xsi:type="basic_1:PartSashContainer" xmi:id="_AnvIACQREee87prP5ogXPA" elementId="oida.bridge.ui.e4.partsashcontainer.0">
-        <children xsi:type="basic_1:PartSashContainer" xmi:id="_w6eMYCmLEeepp_-SYWtz7w" elementId="oida.bridge.ui.e4.partsashcontainer.1" horizontal="true">
-          <children xsi:type="basic_1:PartStack" xmi:id="_FMYdwDP9Eee8YbmpPlwRbw" elementId="oida.bridge.ui.e4.partstack.0">
-            <children xsi:type="basic_1:Part" xmi:id="_D7JZgCQREee87prP5ogXPA" elementId="oida.bridge.ui.e4.part.metamodelclasshierarchyview" contributionURI="bundleclass://oida.bridge.ui.e4/oida.bridge.ui.e4.part.MetaModelClassHierarchyViewPart" label="Meta Model Class Hierarchy">
-              <toolbar xmi:id="_vkLJwDP9Eee8YbmpPlwRbw" elementId="oida.bridge.ui.e4.toolbar.0">
-                <children xsi:type="menu:HandledToolItem" xmi:id="_x58HQDP9Eee8YbmpPlwRbw" elementId="oida.bridge.ui.e4.handledtoolitem.map" label="Map" command="_U0uzECIfEeepS7FG1PlakA"/>
-              </toolbar>
+    <elements xsi:type="advanced:Perspective" xmi:id="_plyhQCQOEee87prP5ogXPA" elementId="oida.bridge.ui.e4.perspective.oidamapping" label="OIDA Mapping" iconURI="platform:/plugin/oida.bridge.ui.e4/icons/Mapping_16.png">
+      <children xsi:type="basic_1:PartSashContainer" xmi:id="_7bcvkDuZEeeuio0AsV1QsA" elementId="oida.bridge.ui.e4.partsashcontainer.1" horizontal="true">
+        <children xsi:type="basic_1:PartSashContainer" xmi:id="_AnvIACQREee87prP5ogXPA" elementId="oida.bridge.ui.e4.partsashcontainer.0" containerData="80">
+          <children xsi:type="basic_1:PartSashContainer" xmi:id="_kmIvQDuaEeeuio0AsV1QsA" elementId="oida.bridge.ui.e4.partsashcontainer.2" containerData="70" horizontal="true">
+            <children xsi:type="basic_1:PartStack" xmi:id="_FMYdwDP9Eee8YbmpPlwRbw" elementId="oida.bridge.ui.e4.partstack.0" containerData="50">
+              <children xsi:type="basic_1:Part" xmi:id="_D7JZgCQREee87prP5ogXPA" elementId="oida.bridge.ui.e4.part.metamodelclassmappingpart" contributionURI="bundleclass://oida.bridge.ui.e4/oida.bridge.ui.e4.part.MetaModelClassMappingPart" label="Meta Model Class Hierarchy" iconURI="platform:/plugin/oida.bridge.ui.e4/icons/Class_16.png"/>
+              <children xsi:type="basic_1:Part" xmi:id="_O8V4MDrdEeeGr5Dk53raOA" elementId="oida.bridge.ui.e4.part.metamodelobjectproperties" toBeRendered="false" visible="false" contributionURI="bundleclass://oida.bridge.ui.e4/oida.bridge.ui.e4.part.MetaModelObjectPropertyMappingPart" label="Meta Model Object Properties" iconURI="platform:/plugin/oida.bridge.ui.e4/icons/ObjectProperty_16.png"/>
+            </children>
+            <children xsi:type="basic_1:PartStack" xmi:id="_HuFJYDubEeeuio0AsV1QsA" elementId="oida.bridge.ui.e4.partstack.2" containerData="50">
+              <children xsi:type="basic_1:Part" xmi:id="_owAusDuaEeeuio0AsV1QsA" elementId="oida.bridge.ui.e4.part.classmappingspart" contributionURI="bundleclass://oida.bridge.ui.e4/oida.bridge.ui.e4.part.ClassEqualsMappingsViewPart" label="Mapping" iconURI="platform:/plugin/oida.bridge.ui.e4/icons/Mapping_16.png">
+                <toolbar xmi:id="_OBQVoDuxEeeh2-7Emt4u-Q" elementId="oida.bridge.ui.e4.toolbar.0" toBeRendered="false" visible="false">
+                  <children xsi:type="menu:HandledToolItem" xmi:id="_OTeuEDuxEeeh2-7Emt4u-Q" elementId="oida.bridge.ui.e4.handledtoolitem.findclasses" label="Find Classes" command="_RC9zIDuxEeeh2-7Emt4u-Q"/>
+                </toolbar>
+              </children>
             </children>
           </children>
-          <children xsi:type="basic_1:PartStack" xmi:id="_fZP90DP-Eee8YbmpPlwRbw" elementId="oida.bridge.ui.e4.partstack.1">
-            <children xsi:type="basic_1:Part" xmi:id="_ETY6YCQREee87prP5ogXPA" elementId="oida.bridge.ui.e4.part.referenceontologyclasshierarchy" contributionURI="bundleclass://oida.bridge.ui.e4/oida.bridge.ui.e4.part.ReferenceOntologyClassViewPart" label="Reference Ontology Class Hierarchy"/>
-          </children>
+          <children xsi:type="basic_1:Part" xmi:id="_yic20CmLEeepp_-SYWtz7w" elementId="oida.bridge.ui.e4.part.secondaryrecommendationspart" containerData="30" contributionURI="bundleclass://oida.bridge.ui.e4/oida.bridge.ui.e4.part.SecondaryRecommendationsViewPart" label="Secondary Recommendations"/>
         </children>
-        <children xsi:type="basic_1:Part" xmi:id="_yic20CmLEeepp_-SYWtz7w" elementId="oida.bridge.ui.e4.part.metamodelrelations" contributionURI="bundleclass://oida.bridge.ui.e4/oida.bridge.ui.e4.part.RelationsViewPart" label="Meta Model Relations"/>
+        <children xsi:type="basic_1:PartStack" xmi:id="_65bAkDuZEeeuio0AsV1QsA" elementId="oida.bridge.ui.e4.partstack.1" containerData="20">
+          <children xsi:type="basic_1:Part" xmi:id="_-LTBADuZEeeuio0AsV1QsA" elementId="oida.bridge.ui.e4.part.referenceontologyclasshierarchy" contributionURI="bundleclass://oida.bridge.ui.e4/oida.bridge.ui.e4.part.ReferenceOntologyClassHierarchyPart" label="Reference Ontology Class Hierarchy" iconURI="platform:/plugin/oida.bridge.ui.e4/icons/Class_16.png"/>
+        </children>
       </children>
     </elements>
   </fragments>
   <fragments xsi:type="fragment:StringModelFragment" xmi:id="_YefDcDVkEee2Yb9g_LH5sA" featurename="children" parentElementId="de.symo.application.trimbar.0">
-    <elements xsi:type="menu:ToolControl" xmi:id="_fktfQDVkEee2Yb9g_LH5sA" elementId="oida.bridge.ui.e4.toolcontrol.0" contributionURI="bundleclass://oida.bridge.ui.e4/oida.bridge.ui.e4.toolcontrol.BridgeStateViewControl"/>
+    <elements xsi:type="menu:ToolControl" xmi:id="_fktfQDVkEee2Yb9g_LH5sA" elementId="oida.bridge.ui.e4.toolcontrol.0" toBeRendered="false" visible="false" contributionURI="bundleclass://oida.bridge.ui.e4/oida.bridge.ui.e4.toolcontrol.BridgeStateViewControl"/>
   </fragments>
 </fragment:ModelFragments>

@@ -53,12 +53,13 @@ public interface IOntologyManager {
 	
 	void setOntologyFile(OntologyFile ontologyFile);
 
-	
 	Ontology createOntology(String ontologyIRI) throws OntologyManagerException;
 
 	Ontology loadOntology(String iri) throws OntologyManagerException;
 
 	Ontology loadOntology(OntologyFile ontologyFile) throws OntologyManagerException;
+	
+	void refreshOntologyRepresentation(boolean buildLocalRepresentation);
 
 	void saveOntology() throws OntologyManagerException;
 
@@ -132,15 +133,15 @@ public interface IOntologyManager {
 	
 	OntologyObjectProperty createObjectProperty(String propertyName);
 
-	OntologyObjectProperty createObjectProperty(String propertyName, OntologyClass range);
+	OntologyObjectProperty createObjectProperty(String propertyName, OntologyClass domain);
 
-	OntologyObjectProperty createObjectProperty(String propertyName, OntologyClass range, OntologyClass domain);
+	OntologyObjectProperty createObjectProperty(String propertyName, OntologyClass domain, OntologyClass range);
 
 	OntologyObjectProperty createObjectProperty(String propertyName, String namespace);
 
-	OntologyObjectProperty createObjectProperty(String propertyName, String namespace, OntologyClass range);
+	OntologyObjectProperty createObjectProperty(String propertyName, String namespace, OntologyClass domain);
 
-	OntologyObjectProperty createObjectProperty(String propertyName, String namespace, OntologyClass range, OntologyClass domain);
+	OntologyObjectProperty createObjectProperty(String propertyName, String namespace, OntologyClass domain, OntologyClass range);
 	
 	void assignSubObjectPropertyToSuperObjectProperty(OntologyObjectProperty subProperty, OntologyObjectProperty superProperty);
 	
@@ -187,8 +188,12 @@ public interface IOntologyManager {
 	void renameEntity(OntologyEntity entity, String newName);
 	
 	Optional<OntologyClassEquivalence> assignClassEquivalence(OntologyClass clazz, OntologyClass equivalentClazz);
+	
+	void removeClassEquivalence(OntologyClassEquivalence equivalence);
 
 	Optional<OntologyObjectPropertyEquivalence> assignObjectPropertyEquivalence(OntologyObjectProperty objectProperty, OntologyObjectProperty equivalentObjectProperty);
+	
+	void removeObjectPropertyEquivalence(OntologyObjectPropertyEquivalence equivalence);
 
 	Stream<OntologyClassEquivalence> getAllClassEquivalences();
 

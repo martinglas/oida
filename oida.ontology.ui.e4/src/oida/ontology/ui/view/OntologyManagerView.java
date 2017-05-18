@@ -5,7 +5,7 @@
  ******************************************************************************/
 package oida.ontology.ui.view;
 
-import org.eclipse.emf.parsley.views.SaveableTreeWithColumnsView;
+import org.eclipse.emf.parsley.views.SaveableTableView;
 
-public class OntologyManagerView extends SaveableTreeWithColumnsView {
+public class OntologyManagerView extends SaveableTableView {
 }

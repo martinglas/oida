@@ -17,7 +17,7 @@ module oida.ontology.ui.OntologyManagerView {
 	
 	featuresProvider {
 		features {
-			Ontology -> name, nrOfClasses, nrOfIndividuals
+			Ontology -> iri, nrOfClasses, nrOfIndividuals
 		}
 	}
 
@@ -36,9 +36,19 @@ module oida.ontology.ui.OntologyManagerView {
 		}
 	}
 	
+	tableViewerContentProvider {
+		elements {
+			Ontology o -> {
+				o.iri
+				o.nrOfClasses
+				o.nrOfIndividuals
+			}
+		}
+	}
+	
 	featureCaptionProvider {
 		text {
-			Ontology : name -> "Name"
+			Ontology : iri -> "IRI"
 			Ontology : nrOfClasses -> "Classes"
 			Ontology : nrOfIndividuals -> "Individuals"
 		}

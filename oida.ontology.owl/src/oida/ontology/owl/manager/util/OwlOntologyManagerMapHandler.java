@@ -8,7 +8,6 @@ package oida.ontology.owl.manager.util;
 import java.util.HashMap;
 import java.util.Optional;
 
-import org.semanticweb.owlapi.model.OWLAnnotation;
 import org.semanticweb.owlapi.model.OWLAnnotationProperty;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLDataFactory;
@@ -19,21 +18,22 @@ import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObject;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLOntology;
+import org.semanticweb.owlapi.model.OWLSubClassOfAxiom;
 
 import oida.ontology.AOntologyItem;
 import oida.ontology.Ontology;
-import oida.ontology.OntologyAnnotation;
 import oida.ontology.OntologyClass;
 import oida.ontology.OntologyClassEquivalence;
 import oida.ontology.OntologyEntity;
 import oida.ontology.OntologyIndividual;
 import oida.ontology.OntologyObjectProperty;
 import oida.ontology.OntologyObjectPropertyEquivalence;
+import oida.ontology.OntologySubClassAssignment;
 import oida.ontology.manager.util.OntologyManagerUtils;
 
 /**
  * 
- * @author Michael.Shamiyeh
+ * @author Michael Shamiyeh
  * @since 2017-04-03
  *
  */
@@ -41,14 +41,8 @@ public final class OwlOntologyManagerMapHandler {
 	private HashMap<String, OWLObject> owlAPIMap = new HashMap<String, OWLObject>();
 	private HashMap<String, AOntologyItem> internalAPIMap = new HashMap<String, AOntologyItem>();
 
-	private HashMap<OWLAnnotation, OntologyAnnotation> owlToInternalAnnotationMap = new HashMap<OWLAnnotation, OntologyAnnotation>();
-	private HashMap<OntologyAnnotation, OWLAnnotation> internalToOwlAnnotationMap = new HashMap<OntologyAnnotation, OWLAnnotation>();
-
-	private HashMap<OWLEquivalentClassesAxiom, OntologyClassEquivalence> owlToInternalClassEquivalenceMap = new HashMap<OWLEquivalentClassesAxiom, OntologyClassEquivalence>();
-	private HashMap<OntologyClassEquivalence, OWLEquivalentClassesAxiom> internalToOwlClassEquivalenceMap = new HashMap<OntologyClassEquivalence, OWLEquivalentClassesAxiom>();
-
-	private HashMap<OWLEquivalentObjectPropertiesAxiom, OntologyObjectPropertyEquivalence> owlToInternalObjectPropertyEquivalenceMap = new HashMap<OWLEquivalentObjectPropertiesAxiom, OntologyObjectPropertyEquivalence>();
-	private HashMap<OntologyObjectPropertyEquivalence, OWLEquivalentObjectPropertiesAxiom> internalToOwlObjectPropertyEquivalenceMap = new HashMap<OntologyObjectPropertyEquivalence, OWLEquivalentObjectPropertiesAxiom>();
+	private HashMap<OWLObject, AOntologyItem> owlToInternalMap = new HashMap<OWLObject, AOntologyItem>();
+	private HashMap<AOntologyItem, OWLObject> internalToOwlMap = new HashMap<AOntologyItem, OWLObject>();
 
 	private OWLClass owlThingClass;
 	private OntologyClass thingClass;
@@ -177,6 +171,40 @@ public final class OwlOntologyManagerMapHandler {
 		return Optional.of((OWLAnnotationProperty)owlObj);
 	}
 
+	public Optional<OWLEquivalentObjectPropertiesAxiom> getOWLEqivalentObjectPropertiesAxiom(OntologyObjectPropertyEquivalence i) {
+		OWLObject owlObj = owlAPIMap.get(i.getIri());
+		if (owlObj == null || !(owlObj instanceof OWLEquivalentObjectPropertiesAxiom))
+			return Optional.empty();
+
+		return Optional.of((OWLEquivalentObjectPropertiesAxiom)owlObj);
+	}
+
+	public Optional<OWLEquivalentClassesAxiom> getOWLEqivalentClassesAxiom(OntologyClassEquivalence i) {
+		OWLObject owlObj = owlAPIMap.get(i.getIri());
+		if (owlObj == null || !(owlObj instanceof OWLEquivalentClassesAxiom))
+			return Optional.empty();
+
+		return Optional.of((OWLEquivalentClassesAxiom)owlObj);
+	}
+
+	public Optional<OWLSubClassOfAxiom> getOWLSubClassOfAxiom(OntologySubClassAssignment assignment) {
+		OWLObject owlObj = internalToOwlMap.get(assignment.getIri());
+		if (owlObj == null || !(owlObj instanceof OWLSubClassOfAxiom))
+			return Optional.empty();
+
+		return Optional.of((OWLSubClassOfAxiom)owlObj);
+	}
+
+	public Optional<OWLSubClassOfAxiom> getSubClassAssignment(OntologyClass subClass, OntologyClass superClass) {
+		for (AOntologyItem ontologyItem : internalToOwlMap.keySet()) {
+			if (ontologyItem instanceof OntologySubClassAssignment)
+				if (((OntologySubClassAssignment)ontologyItem).getSubClass().equals(subClass) && ((OntologySubClassAssignment)ontologyItem).getSuperClass().equals(superClass))
+					return getOWLSubClassOfAxiom((OntologySubClassAssignment)ontologyItem);
+		}
+
+		return Optional.empty();
+	}
+
 	/**
 	 * Internal helper method to retrieve an OntologyClass of the internal map.
 	 * 
@@ -226,7 +254,7 @@ public final class OwlOntologyManagerMapHandler {
 	public Optional<OntologyObjectProperty> getInternalObjectProperty(final OWLObjectProperty p) {
 		return getInternalObjectProperty(p, null);
 	}
-	
+
 	/**
 	 * Internal helper method to retrieve an OntologyObjectProperty of the internal map.
 	 * 
@@ -240,6 +268,36 @@ public final class OwlOntologyManagerMapHandler {
 
 		if (internalAPIMap.containsKey(p.getIRI().getIRIString()) && internalAPIMap.get(p.getIRI().getIRIString()) instanceof OntologyObjectProperty)
 			return Optional.of((OntologyObjectProperty)internalAPIMap.get(p.getIRI().getIRIString()));
+
+		return Optional.empty();
+	}
+
+	/**
+	 * Internal helper method to retrieve an OntologyEntity of the internal map.
+	 * 
+	 * @param c The OWLEntity object, for which the appropriate OntologyItem should be found.
+	 * @return The OntologyEntity object, or null, if it is not existing.
+	 */
+	public Optional<OntologyEntity> getInternalEntity(final OWLEntity e) {
+		if (internalAPIMap.containsKey(e.getIRI().getIRIString()) && internalAPIMap.get(e.getIRI().getIRIString()) instanceof OntologyEntity)
+			return Optional.of((OntologyEntity)internalAPIMap.get(e.getIRI().getIRIString()));
+
+		return Optional.empty();
+	}
+
+	public Optional<OntologySubClassAssignment> getInternalSubClassOfAxiom(final OWLSubClassOfAxiom axiom) {
+		if (internalToOwlMap.containsKey(axiom) && internalToOwlMap.get(axiom) instanceof OntologySubClassAssignment)
+			return Optional.of((OntologySubClassAssignment)internalToOwlMap.get(axiom));
+
+		return Optional.empty();
+	}
+
+	public Optional<OntologySubClassAssignment> getInternalSubClassAssignment(OntologyClass subClass, OntologyClass superClass) {
+		for (AOntologyItem ontologyItem : internalToOwlMap.keySet()) {
+			if (ontologyItem instanceof OntologySubClassAssignment)
+				if (((OntologySubClassAssignment)ontologyItem).getSubClass().equals(subClass) && ((OntologySubClassAssignment)ontologyItem).getSuperClass().equals(superClass))
+					return Optional.of((OntologySubClassAssignment)ontologyItem);
+		}
 
 		return Optional.empty();
 	}
@@ -260,28 +318,23 @@ public final class OwlOntologyManagerMapHandler {
 		internalAPIMap.put(apiObj.getIRI().getIRIString(), internalObj);
 	}
 
-	public void toMap(OWLAnnotation owlAnnotation, OntologyAnnotation internalAnnotationObj) {
-		owlToInternalAnnotationMap.put(owlAnnotation, internalAnnotationObj);
-		internalToOwlAnnotationMap.put(internalAnnotationObj, owlAnnotation);
+	public void toMap(OWLObject apiObj, AOntologyItem internalObj) {
+		owlToInternalMap.put(apiObj, internalObj);
+		internalToOwlMap.put(internalObj, apiObj);
 	}
 
-	public void toMap(OWLEquivalentClassesAxiom owlEquivalence, OntologyClassEquivalence internalClassEquivalenceObj) {
-		owlToInternalClassEquivalenceMap.put(owlEquivalence, internalClassEquivalenceObj);
-		internalToOwlClassEquivalenceMap.put(internalClassEquivalenceObj, owlEquivalence);
+	public boolean containsKey(AOntologyItem internalObj) {
+		return internalAPIMap.containsKey(internalObj);
 	}
 
-	public void toMap(OWLEquivalentObjectPropertiesAxiom owlEquivalence, OntologyObjectPropertyEquivalence internalObjectPropertyEquivalenceObj) {
-		owlToInternalObjectPropertyEquivalenceMap.put(owlEquivalence, internalObjectPropertyEquivalenceObj);
-		internalToOwlObjectPropertyEquivalenceMap.put(internalObjectPropertyEquivalenceObj, owlEquivalence);
-	}
+	public Optional<OWLSubClassOfAxiom> removeSubClassAssignment(OntologySubClassAssignment assignment) {
+		OWLSubClassOfAxiom owlAxiom = (OWLSubClassOfAxiom)internalToOwlMap.get(assignment);
+		if (owlAxiom == null)
+			return Optional.empty();
+		
+		internalToOwlMap.remove(assignment);
+		owlToInternalMap.remove(owlAxiom);
 
-	/**
-	 * Inserts all owl and oida api objects of another map handler in the own maps.
-	 * 
-	 * @param handler Map handler, which api objects are inserted.
-	 */
-	public void importFromOtherOwlOntologyManager(OwlOntologyManagerMapHandler handler) {
-		internalAPIMap.putAll(handler.internalAPIMap);
-		owlAPIMap.putAll(handler.owlAPIMap);
+		return Optional.of(owlAxiom);
 	}
 }

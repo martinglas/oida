@@ -1,5 +1,5 @@
+import bridgemodel.ClassEqualsMapping
 import oida.bridge.ui.view.MappingView
-import oida.ontology.OntologyClass
 
 /**
  * 
@@ -17,7 +17,21 @@ module oida.ontology.ui.view.MappingView {
 	
 	featuresProvider {
 		features {
-			OntologyClass -> containingOntology, name, prefix, superClasses, subClasses
+			ClassEqualsMapping -> clazz1, clazz2
 		}
 	}
+
+	formControlFactory {
+		control {
+			ClassEqualsMapping : clazz1 -> createLabel(clazz1.name)
+			ClassEqualsMapping : clazz2 -> createLabel(clazz2.name)
+		}
+	}
+	
+	formFeatureCaptionProvider{
+			text{
+				ClassEqualsMapping:clazz1 -> "Meta Model Class:"
+				ClassEqualsMapping:clazz2 -> "Reference Class:"
+			}
+		}
 }

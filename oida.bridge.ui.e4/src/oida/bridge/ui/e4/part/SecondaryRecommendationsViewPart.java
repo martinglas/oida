@@ -1,4 +1,3 @@
- 
 package oida.bridge.ui.e4.part;
 
 import javax.annotation.PostConstruct;
@@ -18,14 +17,8 @@ import bridgemodel.BridgemodelPackage;
 import oida.bridge.service.IOIDABridge;
 import oida.bridge.ui.RecommendationsView.RecommendationsViewInjectorProvider;
 
-/**
- * 
- * @author Michael Shamiyeh
- * @since 2017-04-13
- *
- */
 public class SecondaryRecommendationsViewPart {
-	public static final String PART_ID = "oida.bridge.ui.e4.partdescriptor.oidasecondarymapping";
+	public static final String PART_ID = "oida.bridge.ui.e4.part.secondaryrecommendationspart";
 
 	private TableViewer tableViewer;
 
@@ -41,8 +34,9 @@ public class SecondaryRecommendationsViewPart {
 		tableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			public void selectionChanged(SelectionChangedEvent event) {
 				IStructuredSelection selection = (IStructuredSelection)event.getSelection();
-				// set the selection to the service
-				selectionService.setSelection(selection.size() == 1 ? selection.getFirstElement() : selection.toArray());
+				
+				if (!selection.isEmpty())
+					selectionService.setSelection(selection.getFirstElement());
 			}
 		});
 	}

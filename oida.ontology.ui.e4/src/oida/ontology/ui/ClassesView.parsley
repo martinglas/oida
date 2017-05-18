@@ -38,5 +38,9 @@ module oida.ontology.ui.ClassesView {
 			Ontology o -> o.name
 			OntologyClass c -> c.name
 		}
+		
+		image {
+			OntologyClass -> "Class_16.png"
+		}
 	}
 }

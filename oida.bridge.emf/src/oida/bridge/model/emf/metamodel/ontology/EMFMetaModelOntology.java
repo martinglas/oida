@@ -61,7 +61,7 @@ public class EMFMetaModelOntology extends AbstractModelChangeHandler {
 			initializeModelOntology(manager);
 		}
 		
-		extractMappings(manager);
+		//extractMappings(manager);
 
 		return getModelOntologyManager();
 	}
@@ -73,10 +73,10 @@ public class EMFMetaModelOntology extends AbstractModelChangeHandler {
 		try {
 			modelOntologyManager.addImportDeclaration(OIDAModelBaseOntology.getInstance().getOntologyManager().getOntology());
 
-			emfReferenceObjectProperty = modelOntologyManager.createObjectProperty(EMFONTOLOGY_REFERENCE_NAME);
+			emfReferenceObjectProperty = modelOntologyManager.createObjectProperty(EMFONTOLOGY_REFERENCE_NAME, modelOntologyManager.getDefaultNamespace());
 			modelOntologyManager.setObjectPropertyCharacteristics(emfReferenceObjectProperty, false, false, false, false, false, false, false);
 
-			emfReferenceBiDirectionalObjectProperty = modelOntologyManager.createObjectProperty(EMFONTOLOGY_REFERENCE_BIDIR_NAME);
+			emfReferenceBiDirectionalObjectProperty = modelOntologyManager.createObjectProperty(EMFONTOLOGY_REFERENCE_BIDIR_NAME, modelOntologyManager.getDefaultNamespace());
 			modelOntologyManager.setObjectPropertyCharacteristics(emfReferenceBiDirectionalObjectProperty, false, false, false, true, false, false, false);
 		} catch (OntologyManagerException e) {
 			e.printStackTrace();
@@ -133,7 +133,7 @@ public class EMFMetaModelOntology extends AbstractModelChangeHandler {
 		for (EReference strFeature : eClass.getEAllReferences()) {
 			String relationID = getRenamerStrategy().getRelationID(strFeature);
 			OntologyObjectProperty referenceObjectProperty = createOntologyObjectPropertyForMetaModelRelation(relationID, getOntologyClassForModelElement(eClass).get());
-
+			
 			if (strFeature.getEOpposite() == null)
 				ontologyManager.assignSubObjectPropertyToSuperObjectProperty(referenceObjectProperty, emfReferenceObjectProperty);
 			else

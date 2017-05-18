@@ -13,3 +13,4 @@ hs_err_pid*
 emfparsley-gen
 src-gen
 src-gen
+/oida.ontology.ui.e4/icons/*.psd

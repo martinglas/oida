@@ -8,6 +8,7 @@ import bridgemodel.BridgemodelFactory;
 import bridgemodel.Recommendation;
 import bridgemodel.RecommendationType;
 import oida.bridge.recommender.AbstractRecommender;
+import oida.bridge.service.IOIDABridge;
 import oida.ontology.Ontology;
 import oida.ontology.OntologyEntity;
 import oida.util.constants.StringConstants;
@@ -25,7 +26,7 @@ public abstract class AbstractNameRecommender<T extends OntologyEntity> extends 
 	}
 	
 	@Override
-	public List<Recommendation> findRecommendationsForSelectedModelElement(OntologyEntity selectedModelElement) {
+	public List<Recommendation> findRecommendationsForSelectedModelElement(OntologyEntity selectedModelElement, IOIDABridge oidaBridge) {
 		List<Recommendation> recommendations = new ArrayList<Recommendation>();
 
 		String selectedElementName = getSearchName(selectedModelElement);

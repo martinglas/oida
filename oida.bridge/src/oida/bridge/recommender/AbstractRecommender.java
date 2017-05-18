@@ -49,7 +49,4 @@ public abstract class AbstractRecommender extends EContentAdapter implements IRe
 	public boolean isActive() {
 		return active;
 	}
-	
-//	@Override
-//	public abstract void notifyChanged(Notification notification);
 }

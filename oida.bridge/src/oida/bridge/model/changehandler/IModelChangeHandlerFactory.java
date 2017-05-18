@@ -1,9 +1,5 @@
 package oida.bridge.model.changehandler;
 
-import oida.bridge.model.strategy.IRenamerStrategy;
-import oida.bridge.model.strategy.IStructuringStrategy;
-import oida.ontology.manager.IOntologyManager;
-
 /**
  * 
  * @author Michael Shamiyeh
@@ -16,5 +12,5 @@ public interface IModelChangeHandlerFactory {
 	 * 
 	 * @return Model Change Handler object.
 	 */
-	IModelChangeHandler getChangeHandler(IRenamerStrategy renamerStrategy, IStructuringStrategy structuringStrategy, IOntologyManager metaModelOntology);
+	IModelChangeHandler getChangeHandler();
 }

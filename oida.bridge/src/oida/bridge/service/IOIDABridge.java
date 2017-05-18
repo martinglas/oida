@@ -10,9 +10,13 @@ import java.util.Optional;
 
 import org.eclipse.emf.ecore.resource.Resource;
 
+import bridgemodel.ClassEqualsMapping;
+import bridgemodel.MappingSet;
+import bridgemodel.ObjectPropertyEqualsMapping;
 import bridgemodel.Recommendation;
 import oida.bridge.model.changehandler.IModelChangeHandler;
 import oida.ontology.OntologyClass;
+import oida.ontology.OntologyObjectProperty;
 
 /**
  * The OIDA bridge is the interface for model handling applications to OIDA.
@@ -92,6 +96,8 @@ public interface IOIDABridge {
 	 */
 	void reportModelSelectionChanged(Object modelObject, Object firstSelectedElement);
 	
+	void reportMetaModelSelectionChanged(Object selectedObject);
+	
 	/**
 	 * Provides ontology class recommendations for the currently selected model element.
 	 * 
@@ -118,7 +124,22 @@ public interface IOIDABridge {
 	 * 
 	 * @param selectedRecommendation A Recommendation object, containing the selected reference ontology entity.
 	 */
-	void establishSecondaryMapping(OntologyClass metaModelClass, OntologyClass referenceClass);
+	void establishSecondaryClassMapping(OntologyClass metaModelClass, OntologyClass referenceClass);
+	
+	void removeSecondaryClassMapping(OntologyClass selectedMetaModelClass);
+	
+	Optional<ClassEqualsMapping> getClassMapping(OntologyClass selectedMetaModelClass);
+	
+	void establishSecondaryObjectPropertyMapping(OntologyObjectProperty selectedMetaModelObjectProperty, OntologyObjectProperty selectedReferenceOntologyObjectProperty);
+
+	void removeSecondaryObjectPropertyMapping(OntologyObjectProperty selectedMetaModelObjectProperty);
+	
+	Optional<ObjectPropertyEqualsMapping> getObjectPropertyMapping(OntologyObjectProperty selectedMetaModelObjectProperty);
+	
+	MappingSet getMetaModelMappings();
 	
 	Optional<IModelChangeHandler> getModelChangeHandler(Object model);
+
+	void setSecondaryRecommendationSystemEnabled(boolean enabled);
+	boolean isSecondaryRecommendationSystemEnabled();
 }

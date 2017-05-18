@@ -7,27 +7,19 @@ package oida.bridge.model.changehandler;
 
 import java.util.HashMap;
 import java.util.Optional;
-import java.util.stream.Collectors;
-import java.util.stream.Stream;
 
 import org.eclipse.emf.ecore.EClass;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import bridgemodel.BridgemodelFactory;
-import bridgemodel.ClassEqualsMapping;
-import bridgemodel.MappingSet;
-import bridgemodel.ObjectPropertyEqualsMapping;
 import oida.bridge.model.ontology.OIDAModelBaseOntology;
 import oida.bridge.model.strategy.IRenamerStrategy;
 import oida.bridge.model.strategy.IStructuringStrategy;
 import oida.ontology.OntologyAnnotation;
 import oida.ontology.OntologyClass;
-import oida.ontology.OntologyClassEquivalence;
 import oida.ontology.OntologyEntity;
 import oida.ontology.OntologyIndividual;
 import oida.ontology.OntologyObjectProperty;
-import oida.ontology.OntologyObjectPropertyEquivalence;
 import oida.ontology.manager.IOntologyManager;
 import oida.ontology.manager.OntologyManagerException;
 
@@ -50,11 +42,8 @@ public abstract class AbstractModelChangeHandler implements IModelChangeHandler 
 
 	private HashMap<Object, OntologyEntity> modelToOntologyMap = new HashMap<Object, OntologyEntity>();
 
-	private MappingSet mappings = BridgemodelFactory.eINSTANCE.createMappingSet();
-
 	protected void initializeCollections() {
 		modelToOntologyMap.clear();
-		mappings.getMappings().clear();
 	}
 
 	@Override
@@ -126,27 +115,20 @@ public abstract class AbstractModelChangeHandler implements IModelChangeHandler 
 		this.structuringStrategy = structuringStrategy;
 	}
 
-	public MappingSet getMappings() {
-		return mappings;
-	}
-
 	@Override
-	public void initializeChangeHandler(IRenamerStrategy renamerStrategy, IStructuringStrategy structuringStrategy, IOntologyManager metaModelOntology) {
+	public void startChangeTracking(IRenamerStrategy renamerStrategy, IStructuringStrategy structuringStrategy, IOntologyManager metaModelOntology, IOntologyManager modelOntologyManager, Object modelObject) {
 		setRenamerStrategy(renamerStrategy);
 		setStructuringStrategy(structuringStrategy);
 		setMetaModelOntologyManager(metaModelOntology);
-	}
-
-	@Override
-	public void startChangeTracking(Object modelObject, IOntologyManager modelOntologyManager) {
+		setModelOntologyManager(modelOntologyManager);
 		setModelObject(modelObject);
+		
 		initializeCollections();
 
 		try {
 			modelOntologyManager.addImportDeclaration(getMetaModelOntologyManager().getOntology());
-			setModelOntologyManager(modelOntologyManager);
+			
 			initializeModelOntology(modelOntologyManager);
-			extractMappings(modelOntologyManager);
 
 			try {
 				getModelOntologyManager().saveOntology();
@@ -159,42 +141,6 @@ public abstract class AbstractModelChangeHandler implements IModelChangeHandler 
 	}
 
 	protected abstract IOntologyManager initializeModelOntology(IOntologyManager modelOntologyManager);
-
-	@Override
-	public Optional<ClassEqualsMapping> establishClassMapping(OntologyClass class1, OntologyClass class2) {
-		Optional<OntologyClassEquivalence> optEquivalence = getModelOntologyManager().assignClassEquivalence(class1, class2);
-		
-		if (optEquivalence.isPresent())
-			return Optional.of(createClassMapping(optEquivalence.get()));
-		
-		return Optional.empty();
-	}
-	
-	@Override
-	public Optional<ObjectPropertyEqualsMapping> establishObjectPropertyMapping(OntologyObjectProperty objectProperty1, OntologyObjectProperty objectProperty2) {
-		Optional<OntologyObjectPropertyEquivalence> optEquivalence = getMetaModelOntologyManager().assignObjectPropertyEquivalence(objectProperty1, objectProperty2);
-		
-		if (optEquivalence.isPresent())
-			return Optional.of(createObjectPropertyMapping(optEquivalence.get()));
-		
-		return Optional.empty();
-	}
-	
-	protected void extractMappings(IOntologyManager modelOntologyManager) {
-		// class equivalences
-		Stream<OntologyClassEquivalence> equivalences = modelOntologyManager.getAllClassEquivalences();
-		for (OntologyClassEquivalence equ : equivalences.collect(Collectors.toList())) {
-			if (!equ.getClass1().getPrefix().equals(equ.getClass2().getPrefix()))
-				createClassMapping(equ);
-		}
-
-		// object property equivalences
-		Stream<OntologyObjectPropertyEquivalence> opEquivalences = modelOntologyManager.getAllObjectPropertyEquivalences();
-		for (OntologyObjectPropertyEquivalence equ : opEquivalences.collect(Collectors.toList())) {
-			if (!equ.getObjectProperty1().getPrefix().equals(equ.getObjectProperty2().getPrefix()))
-				createObjectPropertyMapping(equ);
-		}
-	}
 
 	protected OntologyIndividual createIndividualForModelObject(Object modelObject, OntologyClass ontologyClass) {
 		if (!modelToOntologyMap.containsKey(modelObject)) {
@@ -231,36 +177,14 @@ public abstract class AbstractModelChangeHandler implements IModelChangeHandler 
 			return (OntologyClass)modelToOntologyMap.get(clazzObject);
 	}
 
-	protected OntologyObjectProperty createOntologyObjectPropertyForMetaModelRelation(String relationID, OntologyClass range) {
+	protected OntologyObjectProperty createOntologyObjectPropertyForMetaModelRelation(String relationID, OntologyClass domain) {
 		if (!modelToOntologyMap.containsKey(relationID)) {
-			OntologyObjectProperty oOP = modelOntologyManager.createObjectProperty(relationID, modelOntologyManager.getDefaultNamespace(), range);
+			OntologyObjectProperty oOP = modelOntologyManager.createObjectProperty(relationID, modelOntologyManager.getDefaultNamespace(), domain);
 			modelToOntologyMap.put(relationID, oOP);
 			System.out.println("OIDA Model Change Handler: " + "Object Property created: '" + oOP.getName() + "'.");
 
 			return oOP;
 		} else
 			return (OntologyObjectProperty)modelToOntologyMap.get(relationID);
-	}
-	
-	protected ClassEqualsMapping createClassMapping(OntologyClassEquivalence equivalence) {
-		ClassEqualsMapping mapping = BridgemodelFactory.eINSTANCE.createClassEqualsMapping();
-		mapping.setClazz1(equivalence.getClass1());
-		mapping.setClazz2(equivalence.getClass2());
-		mappings.getMappings().add(mapping);
-		
-		equivalence.getClass1().setMappingExists(true);
-		
-		return mapping;
-	}
-	
-	protected ObjectPropertyEqualsMapping createObjectPropertyMapping(OntologyObjectPropertyEquivalence equivalence) {
-		ObjectPropertyEqualsMapping mapping = BridgemodelFactory.eINSTANCE.createObjectPropertyEqualsMapping();
-		mapping.setObjectProperty1(equivalence.getObjectProperty1());
-		mapping.setObjectProperty2(equivalence.getObjectProperty2());
-		mappings.getMappings().add(mapping);
-		
-		equivalence.getObjectProperty1().setMappingExists(true);
-		
-		return mapping;
 	}
 }

@@ -1,0 +1,56 @@
+import oida.bridge.ui.view.ObjectPropertyHierarchyView
+import oida.ontology.Ontology
+import oida.ontology.OntologyObjectProperty
+import org.eclipse.swt.SWT
+import org.eclipse.swt.widgets.Display
+
+/**
+ * 
+ * @since 2017-04-25
+ * @author Michael Shamiyeh
+ * 
+ */
+module oida.bridge.ui.ObjectPropertyHierarchyView {
+	parts {
+		viewpart oida.bridge.ui.view.ObjectPropertyHierarchyView {
+			viewname "Object Property"
+			viewclass ObjectPropertyHierarchyView
+		}
+	}
+	
+	featuresProvider {
+		features {
+			Ontology -> objectPropertyHierarchy
+			OntologyObjectProperty -> subObjectProperties
+		}
+	}
+
+	viewerContentProvider {
+		elements {
+			Ontology -> objectPropertyHierarchy
+		}
+		children {
+			Ontology -> objectPropertyHierarchy
+			OntologyObjectProperty op -> op.subObjectProperties
+		}
+	}
+
+	labelProvider {
+		text {
+			Ontology o -> o.name
+			OntologyObjectProperty op -> op.name
+		}
+		
+		image {
+			OntologyObjectProperty -> "ObjectProperty_16.png"
+		}
+		
+		background {
+			OntologyObjectProperty op ->
+			if (op.mappingExists)
+				Display.getCurrent().getSystemColor(SWT.COLOR_GREEN)
+			else
+				Display.getCurrent().getSystemColor(SWT.COLOR_WHITE)
+		}
+	}
+}

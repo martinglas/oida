@@ -7,14 +7,9 @@ package oida.bridge.model.changehandler;
 
 import java.util.Optional;
 
-import bridgemodel.ClassEqualsMapping;
-import bridgemodel.MappingSet;
-import bridgemodel.ObjectPropertyEqualsMapping;
 import oida.bridge.model.strategy.IRenamerStrategy;
 import oida.bridge.model.strategy.IStructuringStrategy;
-import oida.ontology.OntologyClass;
 import oida.ontology.OntologyEntity;
-import oida.ontology.OntologyObjectProperty;
 import oida.ontology.manager.IOntologyManager;
 
 /**
@@ -32,19 +27,17 @@ public interface IModelChangeHandler {
 	
 	IOntologyManager getMetaModelOntologyManager();
 	IOntologyManager getModelOntologyManager();
-	
-	void initializeChangeHandler(IRenamerStrategy renamerStrategy, IStructuringStrategy structuringStrategy, IOntologyManager metaModelOntology);
-	
-	void startChangeTracking(Object modelObject, IOntologyManager modelOntologyManager);
+
+	void startChangeTracking(IRenamerStrategy renamerStrategy, IStructuringStrategy structuringStrategy, IOntologyManager metaModelOntology, IOntologyManager modelOntologyManager, Object modelObject);
 
 	Object getModelObject();
 	
 	Optional<OntologyEntity> getOntologyEntityForModelElement(Object modelElement);
 	
-	MappingSet getMappings();
-	
-	Optional<ClassEqualsMapping> establishClassMapping(OntologyClass class1, OntologyClass class2);
-	Optional<ObjectPropertyEqualsMapping> establishObjectPropertyMapping(OntologyObjectProperty objectProperty1, OntologyObjectProperty objectProperty2);
+//	MappingSet getMappings();
+//	
+//	Optional<ClassEqualsMapping> establishClassMapping(OntologyClass class1, OntologyClass class2);
+//	Optional<ObjectPropertyEqualsMapping> establishObjectPropertyMapping(OntologyObjectProperty objectProperty1, OntologyObjectProperty objectProperty2);
 	
 	void closeModelOntology();
 }

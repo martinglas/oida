@@ -1,0 +1,60 @@
+import bridgemodel.ClassEqualsMapping
+import oida.bridge.ui.view.ClassEquivalenceMappingsView
+import bridgemodel.MappingSet
+
+/**
+ * 
+ * @since 2016-11-08
+ * @author Michael.Shamiyeh
+ * 
+ */
+module oida.ontology.ui.view.ClassEquivalenceMappingsView {
+	parts {
+		viewpart oida.bridge.ui.view.ClassEquivalenceMappingsView {
+			viewname "Class-Equivalence Mappings"
+			viewclass ClassEquivalenceMappingsView
+		}
+	}
+	
+	featuresProvider {
+		features {
+			MappingSet -> classMappings
+			ClassEqualsMapping -> clazz1, clazz2
+		}
+	}
+
+	viewerContentProvider {
+		elements {
+			MappingSet -> classMappings
+		}
+		children {
+			MappingSet -> classMappings
+		}
+	}
+	
+	labelProvider {
+		text {
+			ClassEqualsMapping m -> {
+				m.clazz1.name + " -> " + m.clazz2.name
+			}
+		}
+		
+		image {
+			ClassEqualsMapping -> "Mapping_16.png"
+		}
+	}
+
+	formControlFactory {
+		control {
+			ClassEqualsMapping : clazz1 -> createLabel(clazz1.iri)
+			ClassEqualsMapping : clazz2 -> createLabel(clazz2.iri)
+		}
+	}
+	
+	formFeatureCaptionProvider{
+		text{
+			ClassEqualsMapping:clazz1 -> "Meta Model Class:"
+			ClassEqualsMapping:clazz2 -> "Reference Class:"
+		}
+	}
+}

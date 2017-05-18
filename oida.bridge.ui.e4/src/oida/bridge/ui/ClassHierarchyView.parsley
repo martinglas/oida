@@ -1,0 +1,55 @@
+import oida.ontology.Ontology
+import oida.ontology.OntologyClass
+import oida.bridge.ui.view.ClassHierarchyView
+import org.eclipse.swt.widgets.Display
+
+/**
+ * 
+ * @since 2017-04-25
+ * @author Michael Shamiyeh
+ * 
+ */
+module oida.bridge.ui.ClassHierarchyView {
+	parts {
+		viewpart oida.bridge.ui.view.ClassHierarchyView {
+			viewname "Class Hierarchy"
+			viewclass ClassHierarchyView
+		}
+	}
+	
+	featuresProvider {
+		features {
+			Ontology -> classHierarchy
+			OntologyClass -> subClasses
+		}
+	}
+
+	viewerContentProvider {
+		elements {
+			Ontology -> classHierarchy
+		}
+		children {
+			Ontology -> classHierarchy
+			OntologyClass c -> c.subClasses
+		}
+	}
+
+	labelProvider {
+		text {
+			Ontology o -> o.name
+			OntologyClass c -> c.name
+		}
+		
+		image {
+			OntologyClass -> "Class_16.png"
+		}
+		
+		background {
+			OntologyClass c ->
+			if (c.mappingExists)
+				Display.getCurrent().getSystemColor(SWT.COLOR_GREEN)
+			else
+				Display.getCurrent().getSystemColor(SWT.COLOR_WHITE)
+		}
+	}
+}

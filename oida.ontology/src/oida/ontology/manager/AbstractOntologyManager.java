@@ -64,10 +64,6 @@ public abstract class AbstractOntologyManager extends EContentAdapter implements
 	}
 	
 	protected void setOntology(Ontology ontology) {
-		if (this.ontology != null) {
-			this.ontology.eAdapters().remove(this);
-		}
-
 		this.ontology = ontology;
 		this.ontology.eAdapters().add(this);
 	}
@@ -220,22 +216,22 @@ public abstract class AbstractOntologyManager extends EContentAdapter implements
 	}
 
 	@Override
-	public OntologyObjectProperty createObjectProperty(String propertyName, OntologyClass range) {
-		return createObjectProperty(propertyName, StringConstants.EMPTY, range);
+	public OntologyObjectProperty createObjectProperty(String propertyName, OntologyClass domain) {
+		return createObjectProperty(propertyName, StringConstants.EMPTY, domain);
 	}
 
 	@Override
-	public OntologyObjectProperty createObjectProperty(String propertyName, OntologyClass range, OntologyClass domain) {
-		return createObjectProperty(propertyName, StringConstants.EMPTY, range, domain);
+	public OntologyObjectProperty createObjectProperty(String propertyName, OntologyClass domain, OntologyClass range) {
+		return createObjectProperty(propertyName, StringConstants.EMPTY, domain, range);
 	}
 
 	@Override
-	public OntologyObjectProperty createObjectProperty(String propertyName, String prefix, OntologyClass range) {
-		return createObjectProperty(propertyName, prefix, range, null);
+	public OntologyObjectProperty createObjectProperty(String propertyName, String prefix, OntologyClass domain) {
+		return createObjectProperty(propertyName, prefix, domain, null);
 	}
 
 	@Override
-	public OntologyObjectProperty createObjectProperty(String propertyName, String prefix, OntologyClass range, OntologyClass domain) {
+	public OntologyObjectProperty createObjectProperty(String propertyName, String prefix, OntologyClass domain, OntologyClass range) {
 		OntologyObjectProperty property = createObjectProperty(propertyName, prefix);
 
 		if (range != null)
