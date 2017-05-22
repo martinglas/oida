@@ -24,3 +24,5 @@ Import-Package: javax.inject;version="1.0.0",
  oida.ontology.service,
  oida.util.constants
 Bundle-ActivationPolicy: lazy
+Export-Package: oida.ontology.ui.ClassDetailView,
+ oida.ontology.ui.e4.part

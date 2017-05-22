@@ -78,7 +78,7 @@ public final class OIDABridge implements IOIDABridge {
 
 	private IModelChangeHandler metaModelOntologyHandler;
 
-	private MappingSet metaModelMappingSet;
+	private Resource metaModelClassMappingsResource;
 
 	private Map<Object, IModelChangeHandler> modelHandlerMap = new HashMap<Object, IModelChangeHandler>();
 
@@ -107,13 +107,14 @@ public final class OIDABridge implements IOIDABridge {
 
 		AdapterFactoryEditingDomain editingDomain = new AdapterFactoryEditingDomain(composedAdapterFactory, new BasicCommandStack());
 
+		metaModelClassMappingsResource = editingDomain.createResource("http://de.oida/bridge/classmappings");
+		metaModelClassMappingsResource.getContents().add(BridgemodelFactory.eINSTANCE.createMappingSet());
+		
 		currentPrimaryRecommendationsResource = editingDomain.createResource("http://de.oida/bridge/currentprimaryrecommendations");
 		currentPrimaryRecommendationsResource.getContents().add(BridgemodelFactory.eINSTANCE.createRecommendationSet());
 
 		currentSecondaryRecommendationsResource = editingDomain.createResource("http://de.oida/bridge/currentsecondaryrecommendations");
 		currentSecondaryRecommendationsResource.getContents().add(BridgemodelFactory.eINSTANCE.createRecommendationSet());
-
-		metaModelMappingSet = BridgemodelFactory.eINSTANCE.createMappingSet();
 
 		if (!extensionPointsReady)
 			extensionPointsReady = tryInitExtensions();
@@ -433,7 +434,7 @@ public final class OIDABridge implements IOIDABridge {
 				metaModelClass.setMappingExists(true);
 				referenceClass.setMappingExists(true);
 
-				metaModelMappingSet.getClassMappings().add(mapping);
+				getMetaModelMappings().getClassMappings().add(mapping);
 
 				LOGGER.info("Secondary class-mapping established: '" + metaModelClass.getIri() + "' equals '" + referenceClass.getIri() + "'.");
 
@@ -472,7 +473,7 @@ public final class OIDABridge implements IOIDABridge {
 	}
 
 	public Optional<ClassEqualsMapping> getClassMapping(OntologyClass selectedClass) {
-		for (ClassEqualsMapping mapping : metaModelMappingSet.getClassMappings())
+		for (ClassEqualsMapping mapping : getMetaModelMappings().getClassMappings())
 			if (mapping.getClazz1().equals(selectedClass) || mapping.getClazz2().equals(selectedClass))
 				return Optional.of(mapping);
 
@@ -494,7 +495,7 @@ public final class OIDABridge implements IOIDABridge {
 				selectedMetaModelObjectProperty.setMappingExists(true);
 				selectedReferenceOntologyObjectProperty.setMappingExists(true);
 
-				metaModelMappingSet.getObjectPropertyMappings().add(mapping);
+				getMetaModelMappings().getObjectPropertyMappings().add(mapping);
 
 				LOGGER.info("Secondary object property-mapping established: '" + selectedMetaModelObjectProperty.getIri() + "' equals '" + selectedReferenceOntologyObjectProperty.getIri() + "'.");
 
@@ -509,7 +510,7 @@ public final class OIDABridge implements IOIDABridge {
 
 	@Override
 	public Optional<ObjectPropertyEqualsMapping> getObjectPropertyMapping(OntologyObjectProperty selectedMetaModelObjectProperty) {
-		for (ObjectPropertyEqualsMapping mapping : metaModelMappingSet.getObjectPropertyMappings())
+		for (ObjectPropertyEqualsMapping mapping : getMetaModelMappings().getObjectPropertyMappings())
 			if (mapping.getObjectProperty1().equals(selectedMetaModelObjectProperty))
 				return Optional.of(mapping);
 
@@ -518,14 +519,14 @@ public final class OIDABridge implements IOIDABridge {
 
 	@Override
 	public void removeSecondaryObjectPropertyMapping(OntologyObjectProperty selectedMetaModelObjectProperty) {
-		for (ObjectPropertyEqualsMapping mapping : metaModelMappingSet.getObjectPropertyMappings()) {
+		for (ObjectPropertyEqualsMapping mapping : getMetaModelMappings().getObjectPropertyMappings()) {
 			if (mapping.getObjectProperty1().equals(selectedMetaModelObjectProperty)) {
 				mapping.getObjectProperty1().setMappingExists(false);
 				mapping.getObjectProperty2().setMappingExists(false);
 
 				getMetaModelHandler().get().getModelOntologyManager().removeObjectPropertyEquivalence(mapping.getEquivalence());
 
-				metaModelMappingSet.getObjectPropertyMappings().remove(mapping);
+				getMetaModelMappings().getObjectPropertyMappings().remove(mapping);
 				return;
 			}
 		}
@@ -533,14 +534,14 @@ public final class OIDABridge implements IOIDABridge {
 
 	@Override
 	public void removeSecondaryClassMapping(OntologyClass selectedMetaModelClass) {
-		for (ClassEqualsMapping mapping : metaModelMappingSet.getClassMappings()) {
+		for (ClassEqualsMapping mapping : getMetaModelMappings().getClassMappings()) {
 			if (mapping.getClazz1().equals(selectedMetaModelClass)) {
 				mapping.getClazz1().setMappingExists(false);
 				mapping.getClazz2().setMappingExists(false);
 
 				getMetaModelHandler().get().getModelOntologyManager().removeClassEquivalence(((ClassEqualsMapping)mapping).getEquivalence());
 
-				metaModelMappingSet.getClassMappings().remove(mapping);
+				getMetaModelMappings().getClassMappings().remove(mapping);
 				return;
 			}
 		}
@@ -552,7 +553,7 @@ public final class OIDABridge implements IOIDABridge {
 		mapping.setClazz2(referenceClass);
 		mapping.setEquivalence(equivalence);
 
-		metaModelMappingSet.getClassMappings().add(mapping);
+		getMetaModelMappings().getClassMappings().add(mapping);
 
 		metaModelClass.setMappingExists(true);
 		referenceClass.setMappingExists(true);
@@ -567,7 +568,7 @@ public final class OIDABridge implements IOIDABridge {
 		mapping.setObjectProperty2(equivalence.getObjectProperty2());
 		mapping.setEquivalence(equivalence);
 
-		metaModelMappingSet.getObjectPropertyMappings().add(mapping);
+		getMetaModelMappings().getObjectPropertyMappings().add(mapping);
 
 		metaModelObjProperty.setMappingExists(true);
 		referenceObjProperty.setMappingExists(true);
@@ -605,11 +606,6 @@ public final class OIDABridge implements IOIDABridge {
 	}
 
 	@Override
-	public MappingSet getMetaModelMappings() {
-		return metaModelMappingSet;
-	}
-
-	@Override
 	public void setSecondaryRecommendationSystemEnabled(boolean enabled) {
 		secondaryRecommendationSystemEnabled = enabled;
 	}
@@ -617,5 +613,14 @@ public final class OIDABridge implements IOIDABridge {
 	@Override
 	public boolean isSecondaryRecommendationSystemEnabled() {
 		return secondaryRecommendationSystemEnabled;
+	}
+
+	public MappingSet getMetaModelMappings() {
+		return (MappingSet)metaModelClassMappingsResource.getContents().get(0);
+	}
+	
+	@Override
+	public Resource getMetaModelMappingsResource() {
+		return metaModelClassMappingsResource;
 	}
 }

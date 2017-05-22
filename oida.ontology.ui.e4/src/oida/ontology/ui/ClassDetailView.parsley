@@ -1,0 +1,44 @@
+import oida.ontology.OntologyClass
+import oida.ontology.ui.view.ClassDetailView
+
+/**
+ * 
+ * @since 2016-11-08
+ * @author Michael Shamiyeh
+ * 
+ */
+module oida.ontology.ui.ClassDetailView {
+	parts {
+		viewpart oida.ontology.ui.view.ClassDetailView {
+			viewname "Class Details"
+			viewclass ClassDetailView
+		}
+	}
+	
+	featuresProvider {
+		features {
+			OntologyClass -> name, prefix, superClasses, subClasses, equivalentClasses, annotations
+		}
+	}
+	
+	labelProvider {
+		text {
+			OntologyClass -> name
+		}
+		
+		image {
+			OntologyClass -> "Class_16.png"
+		}
+	}
+	
+	featureCaptionProvider {
+		text {
+			OntologyClass : name -> "Name:"
+			OntologyClass : prefix -> "Prefix:"
+			OntologyClass : superClasses -> "Super Classes:"
+			OntologyClass : subClasses -> "Sub Classes:"
+			OntologyClass : equivalentClasses -> "Equivalent Classes:"
+			OntologyClass : annotations -> "Annotations:"
+		}
+	}
+}

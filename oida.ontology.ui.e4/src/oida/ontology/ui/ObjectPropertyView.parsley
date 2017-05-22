@@ -38,5 +38,9 @@ module oida.ontology.ui.ObjectPropertyView {
 			Ontology o -> o.name
 			OntologyObjectProperty p -> p.name
 		}
+		
+		image {
+			OntologyObjectProperty -> "ObjectProperty_16.png"
+		}
 	}
 }

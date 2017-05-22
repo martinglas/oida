@@ -30,9 +30,11 @@
             </children>
           </children>
         </children>
-        <children xsi:type="basic:PartStack" xmi:id="_K7oIAJq8EeaelOAnCMy4mw" elementId="de.symo.application.partstack.2" containerData="60"/>
+        <children xsi:type="basic:PartStack" xmi:id="_K7oIAJq8EeaelOAnCMy4mw" elementId="de.symo.application.partstack.2" containerData="60">
+          <children xsi:type="basic:Part" xmi:id="_ZRnGUDyzEeef1_9Ke6NtTg" elementId="oida.ontology.ui.e4.part.classdetails" contributionURI="bundleclass://oida.ontology.ui.e4/oida.ontology.ui.e4.part.ClassDetailViewPart" label="Class Details" iconURI="platform:/plugin/oida.ontology.ui.e4/icons/Class_16.png"/>
+        </children>
         <children xsi:type="basic:PartSashContainer" xmi:id="_SgSKsKaNEea4d_GmOhDBEg" elementId="de.symo.application.partsashcontainer.4" containerData="20">
-          <children xsi:type="basic:PartStack" xmi:id="_hBUJwPLBEealUutgcq5XYw" elementId="oida.ontology.ui.e4.partstack.1">
+          <children xsi:type="basic:PartStack" xmi:id="_hBUJwPLBEealUutgcq5XYw" elementId="oida.ontology.ui.e4.partstack.1" toBeRendered="false" visible="false">
             <children xsi:type="basic:Part" xmi:id="_iUZiQPLBEealUutgcq5XYw" elementId="oida.ontology.ui.e4.part.namespaces" contributionURI="bundleclass://oida.ontology.ui.e4/oida.ontology.ui.e4.part.NamespacesViewPart" label="Namespaces"/>
           </children>
           <children xsi:type="basic:PartStack" xmi:id="_T3-WYKaNEea4d_GmOhDBEg" elementId="de.symo.application.partstack.0">

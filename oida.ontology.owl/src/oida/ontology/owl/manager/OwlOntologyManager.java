@@ -377,7 +377,7 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 			mapHandler.toMap(owlIndividual, individual);
 
 			for (OWLClassAssertionAxiom a : allClassAssertionAxioms) {
-				if (a.getClassExpression().isOWLClass()) {
+				if (a.getIndividual().equals(owlIndividual) && a.getClassExpression().isOWLClass()) {
 					Optional<OntologyClass> optC = mapHandler.getInternalClass(a.getClassExpression().asOWLClass(), ontology);
 					if (optC.isPresent()) {
 						optC.get().getIndividuals().add(individual);
@@ -389,8 +389,9 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 	}
 
 	private void extractAnnotationProperties(Ontology ontology, List<OWLAnnotationProperty> allAnnotationProperties, OwlOntologyManagerMapHandler mapHandler) {
-		for (OWLAnnotationProperty owlAnnotationProperty : allAnnotationProperties)
+		for (OWLAnnotationProperty owlAnnotationProperty : allAnnotationProperties) {
 			mapHandler.toMap(owlAnnotationProperty, OntologyManagerUtils.generateInternalAnnotationPropertyObject(ontology, owlAnnotationProperty.getIRI().getIRIString()));
+		}
 	}
 
 	@Override

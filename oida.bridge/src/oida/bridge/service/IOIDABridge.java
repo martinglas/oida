@@ -136,6 +136,8 @@ public interface IOIDABridge {
 	
 	Optional<ObjectPropertyEqualsMapping> getObjectPropertyMapping(OntologyObjectProperty selectedMetaModelObjectProperty);
 	
+	Resource getMetaModelMappingsResource();
+	
 	MappingSet getMetaModelMappings();
 	
 	Optional<IModelChangeHandler> getModelChangeHandler(Object model);

@@ -27,7 +27,7 @@ module oida.ontology.ui.IndividualsView {
 		elements {
 			OntologyClass -> individuals
 		}
-		children{
+		children {
 			OntologyClass -> individuals
 		}
 	}
@@ -37,7 +37,6 @@ module oida.ontology.ui.IndividualsView {
 			OntologyIndividual i -> i.name
 		}
 		image {
-			OntologyClass -> "Class_16.png"
 			OntologyIndividual -> "Individual_16.png"
 		}
 	}

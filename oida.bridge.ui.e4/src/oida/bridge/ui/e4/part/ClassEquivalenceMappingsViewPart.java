@@ -14,7 +14,10 @@ import org.eclipse.e4.ui.workbench.modeling.ESelectionService;
 import org.eclipse.e4.ui.workbench.modeling.ISelectionListener;
 import org.eclipse.emf.parsley.composite.TreeFormComposite;
 import org.eclipse.emf.parsley.composite.TreeFormFactory;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
+import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Composite;
 
@@ -44,10 +47,17 @@ public class ClassEquivalenceMappingsViewPart {
 		TreeFormFactory treeFormFactory = injector.getInstance(TreeFormFactory.class);
 		// create the tree-form composite
 
-		treeFormComposite = treeFormFactory.createTreeFormComposite(parent, SWT.NONE);
+		treeFormComposite = treeFormFactory.createTreeFormComposite(parent, SWT.SINGLE);
 
 		// update the composite
-		treeFormComposite.update(oidaBridge.getMetaModelMappings());
+		treeFormComposite.update(oidaBridge.getMetaModelMappingsResource());
+		
+		treeFormComposite.getViewer().addSelectionChangedListener(new ISelectionChangedListener() {
+			@Override
+			public void selectionChanged(SelectionChangedEvent event) {
+				selectionService.setSelection(((TreeSelection)event.getSelection()).getFirstElement());
+			}
+		});
 		
 		selectionService.addSelectionListener(MetaModelClassMappingPart.PART_ID, new ISelectionListener() {
 			@Override
@@ -56,7 +66,8 @@ public class ClassEquivalenceMappingsViewPart {
 					Optional<ClassEqualsMapping> optMapping = oidaBridge.getClassMapping((OntologyClass)selection);
 
 					if (optMapping.isPresent()) {
-						treeFormComposite.getViewer().setSelection(new StructuredSelection(optMapping.get()));
+						StructuredSelection internalSelection = new StructuredSelection(optMapping.get());
+						treeFormComposite.getViewer().setSelection(internalSelection);
 					}
 				}
 			}

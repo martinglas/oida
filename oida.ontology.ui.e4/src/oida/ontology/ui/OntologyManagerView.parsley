@@ -15,27 +15,12 @@ module oida.ontology.ui.OntologyManagerView {
 		}
 	}
 	
-	featuresProvider {
+	tableFeaturesProvider {
 		features {
 			Ontology -> iri, nrOfClasses, nrOfIndividuals
 		}
 	}
-
-	viewerContentProvider {
-		elements {
-			Ontology -> imports
-		}
-		children {
-			Ontology -> imports
-		}
-	}
-
-	labelProvider {
-		text {
-			Ontology o -> o.name
-		}
-	}
-	
+		
 	tableViewerContentProvider {
 		elements {
 			Ontology o -> {
