@@ -1,3 +1,8 @@
+/*******************************************************************************
+ * <copyright> Copyright (c) 2009-2017 Bauhaus Luftfahrt e.V.. All rights reserved. This program and the accompanying
+ * materials are made available under the terms of the Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html </copyright>
+ ******************************************************************************/
 package oida.bridge.ui.e4.part;
 
 import javax.annotation.PostConstruct;
@@ -17,6 +22,12 @@ import bridgemodel.BridgemodelPackage;
 import oida.bridge.service.IOIDABridge;
 import oida.bridge.ui.RecommendationsView.RecommendationsViewInjectorProvider;
 
+/**
+ * 
+ * @author Michael Shamiyeh
+ * @since 2017-04-18
+ *
+ */
 public class SecondaryRecommendationsViewPart {
 	public static final String PART_ID = "oida.bridge.ui.e4.part.secondaryrecommendationspart";
 

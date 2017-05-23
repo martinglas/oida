@@ -1,8 +1,14 @@
 package oida.bridge.recommender.name;
 
+import java.util.List;
+
+import bridgemodel.Recommendation;
 import bridgemodel.RecommendationType;
+import oida.bridge.recommender.IClassRecommender;
+import oida.bridge.service.IOIDABridge;
+import oida.ontology.Ontology;
+import oida.ontology.OntologyClass;
 import oida.ontology.OntologyEntity;
-import oida.ontology.OntologyIndividual;
 
 /**
  * 
@@ -10,18 +16,18 @@ import oida.ontology.OntologyIndividual;
  * @since 2017-04-13
  *
  */
-public class ClassNameRecommender extends IndividualNameRecommender {
+public class ClassNameRecommender extends AbstractNameRecommender<OntologyClass> implements IClassRecommender {
 	private final String NAME = "Class Name Recommender";
 	
 	@Override
-	protected String getRecommenderName() {
+	public String getName() {
 		return NAME;
 	}
 	
 	@Override
 	protected String getSearchName(OntologyEntity entity) {
-		if (entity instanceof OntologyIndividual && !((OntologyIndividual)entity).getTypes().isEmpty())
-			return ((OntologyIndividual)entity).getTypes().get(0).getName();
+		if (entity instanceof OntologyClass)
+			return ((OntologyClass)entity).getName();
 		
 		return null;
 	}
@@ -29,5 +35,20 @@ public class ClassNameRecommender extends IndividualNameRecommender {
 	@Override
 	protected RecommendationType getRecommendationType() {
 		return RecommendationType.EQUIVALENT_TO;
+	}
+
+	@Override
+	public void initializeRecommenderForMetaModel(Ontology observedMetaModelOntology, Ontology referenceOntology) {
+		initializeRecommender(observedMetaModelOntology, referenceOntology);
+	}
+
+	@Override
+	public List<Recommendation> findRecommendationsForSelectedClass(OntologyClass selectedModelElement, IOIDABridge oidaBridge) {
+		return findRecommendationsForSelectedModelElement(selectedModelElement, oidaBridge);
+	}
+
+	@Override
+	protected List<OntologyClass> getSearchEntityList() {
+		return getReferenceOntology().getClasses();
 	}
 }

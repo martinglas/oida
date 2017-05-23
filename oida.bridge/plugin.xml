@@ -2,10 +2,11 @@
 <?eclipse version="3.4"?>
 <plugin>
    <extension-point id="oida.bridge.model.renamerstrategy" name="Model Renamer Strategy" schema="schema/oida.bridge.model.renamerstrategy.exsd"/>
-   <extension-point id="oida.bridge.recommender.primary" name="Primary Recommender Extension Point" schema="schema/oida.bridge.recommender.primary.exsd"/>
    <extension-point id="oida.bridge.model.structuringstrategy" name="Structural Strategy" schema="schema/oida.bridge.model.structuringstrategy.exsd"/>
-   <extension-point id="oida.bridge.recommender.secondary" name="Secondary Recommender Extension Point" schema="schema/oida.bridge.recommender.secondary.exsd"/>
    <extension-point id="oida.bridge.model.changehandler" name="Model Change Handler Extension Point" schema="schema/oida.bridge.model.changehandler.exsd"/>
    <extension-point id="oida.bridge.model.metamodelontologyprovider" name="Meta Model Ontology Provider" schema="schema/oida.bridge.model.metamodelontologyprovider.exsd"/>
-
+   <extension-point id="oida.bridge.recommender.primary" name="Primary Recommender Extension Point" schema="schema/oida.bridge.recommender.primary.exsd"/>
+   <extension-point id="oida.bridge.recommender.secondary.class" name="Secondary Class-Recommender Extension Point" schema="schema/oida.bridge.recommender.secondary.class.exsd"/>
+   <extension-point id="oida.bridge.recommender.secondary.objectproperty" name="Secondary ObjectProperty-Recommender Extension Point" schema="schema/oida.bridge.recommender.secondary.objectproperty.exsd"/>
+   <extension-point id="oida.bridge.recommender.secondary.datatypeproperty" name="Secondary DatatypeProperty-Recommender Extension Point" schema="schema/oida.bridge.recommender.secondary.datatype.exsd"/>
 </plugin>

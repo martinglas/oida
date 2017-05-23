@@ -13,10 +13,17 @@ module oida.bridge.ui.RecommendationsView {
 		}
 	}
 	
+	tableFeaturesProvider {
+		features {
+			Recommendation -> recommendedEntity, reliability, recommenderName, recommenderMessage
+		}
+	}
+	
 	featureCaptionProvider {
 		text {
 			Recommendation:recommenderName -> "Source"
 			Recommendation:recommendedEntity -> "Recommended Concept"
+			Recommendation:reliability -> "Reliability"
 			Recommendation:recommenderMessage -> "Comment"
 		}
 	}

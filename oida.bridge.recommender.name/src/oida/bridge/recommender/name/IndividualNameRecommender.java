@@ -3,8 +3,12 @@ package oida.bridge.recommender.name;
 import java.util.List;
 import java.util.Optional;
 
+import bridgemodel.Recommendation;
 import bridgemodel.RecommendationType;
 import oida.bridge.model.ontology.OIDAModelBaseOntology;
+import oida.bridge.recommender.IPrimaryRecommender;
+import oida.bridge.service.IOIDABridge;
+import oida.ontology.Ontology;
 import oida.ontology.OntologyAnnotation;
 import oida.ontology.OntologyClass;
 import oida.ontology.OntologyEntity;
@@ -17,12 +21,22 @@ import oida.util.constants.StringConstants;
  * @since 2017-04-13
  *
  */
-public class IndividualNameRecommender  extends AbstractNameRecommender<OntologyClass> {
+public class IndividualNameRecommender extends AbstractNameRecommender<OntologyClass> implements IPrimaryRecommender {
 	private final String NAME = "Individual Name Recommender";
 	
 	@Override
-	protected String getRecommenderName() {
+	public String getName() {
 		return NAME;
+	}
+	
+	@Override
+	public void initializeRecommenderForModel(Ontology observedModelOntology, Ontology referenceOntology) {
+		initializeRecommender(observedModelOntology, referenceOntology);
+	}
+	
+	@Override
+	public List<Recommendation> findRecommendationsForSelectedIndividual(OntologyIndividual selectedModelElement, IOIDABridge oidaBridge) {
+		return findRecommendationsForSelectedModelElement(selectedModelElement, oidaBridge);
 	}
 
 	@Override
@@ -47,5 +61,5 @@ public class IndividualNameRecommender  extends AbstractNameRecommender<Ontology
 	@Override
 	protected RecommendationType getRecommendationType() {
 		return RecommendationType.INSTANCE_OF;
-	}
+	}	
 }

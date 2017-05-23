@@ -31,9 +31,11 @@ public class MetaModelClassDetailsViewPart {
 				if (formComposite != null)
 					formComposite.dispose();
 
-				formComposite = viewerFactory.createFormDetailReadOnlyComposite(parent, SWT.NONE);
-				formComposite.init(((ClassEqualsMapping)selection).getClazz1());
-				parent.layout();
+				if (selection instanceof ClassEqualsMapping) {
+					formComposite = viewerFactory.createFormDetailReadOnlyComposite(parent, SWT.NONE);
+					formComposite.init(((ClassEqualsMapping)selection).getClazz1());
+					parent.layout();
+				}
 			}
 		});
 	}

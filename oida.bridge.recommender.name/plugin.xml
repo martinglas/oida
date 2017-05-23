@@ -8,15 +8,21 @@
       </client>
    </extension>
    <extension
-         point="oida.bridge.recommender.secondary">
+         point="oida.bridge.recommender.secondary.class">
       <client
             class="oida.bridge.recommender.name.ClassNameRecommender">
       </client>
    </extension>
    <extension
-         point="oida.bridge.recommender.secondary">
+         point="oida.bridge.recommender.secondary.objectproperty">
       <client
             class="oida.bridge.recommender.name.ObjectPropertyNameRecommender">
+      </client>
+   </extension>
+   <extension
+         point="oida.bridge.recommender.secondary.datatypeproperty">
+      <client
+            class="oida.bridge.recommender.name.DatatypePropertyNameRecommender">
       </client>
    </extension>
 </plugin>

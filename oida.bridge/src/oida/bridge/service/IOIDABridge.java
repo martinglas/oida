@@ -11,12 +11,15 @@ import java.util.Optional;
 import org.eclipse.emf.ecore.resource.Resource;
 
 import bridgemodel.ClassEqualsMapping;
-import bridgemodel.MappingSet;
+import bridgemodel.ClassMappingSet;
+import bridgemodel.InstanceMappingSet;
 import bridgemodel.ObjectPropertyEqualsMapping;
+import bridgemodel.ObjectPropertyMappingSet;
 import bridgemodel.Recommendation;
 import oida.bridge.model.changehandler.IModelChangeHandler;
 import oida.ontology.OntologyClass;
 import oida.ontology.OntologyObjectProperty;
+import oida.ontology.manager.IOntologyManager;
 
 /**
  * The OIDA bridge is the interface for model handling applications to OIDA.
@@ -136,12 +139,19 @@ public interface IOIDABridge {
 	
 	Optional<ObjectPropertyEqualsMapping> getObjectPropertyMapping(OntologyObjectProperty selectedMetaModelObjectProperty);
 	
-	Resource getMetaModelMappingsResource();
+	Resource getMetaModelClassMappingsResource();
+	ClassMappingSet getMetaModelClassMappings();
 	
-	MappingSet getMetaModelMappings();
+	Resource getMetaModelObjectPropertyMappingsResource();
+	ObjectPropertyMappingSet getMetaModelObjectPropertyMappings();
+	
+	Resource getModelMappingsResource();
+	InstanceMappingSet getModelMappings();
 	
 	Optional<IModelChangeHandler> getModelChangeHandler(Object model);
 
 	void setSecondaryRecommendationSystemEnabled(boolean enabled);
 	boolean isSecondaryRecommendationSystemEnabled();
+	
+	IOntologyManager getReferenceOntology();
 }

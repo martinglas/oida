@@ -15,21 +15,30 @@
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="recommenderName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="recommenderMessage" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     <eStructuralFeatures xsi:type="ecore:EAttribute" name="recommendationType" eType="#//RecommendationType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="reliability" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AggregatedRecommendation" eSuperTypes="#//Recommendation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="recommendations" upperBound="-1"
+        eType="#//Recommendation"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EEnum" name="RecommendationType">
     <eLiterals name="instanceOf"/>
     <eLiterals name="equivalentTo" value="1"/>
   </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="MappingSet">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="instanceMappings" upperBound="-1"
-        eType="#//InstanceOfMapping"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ClassMappingSet">
     <eStructuralFeatures xsi:type="ecore:EReference" name="classMappings" upperBound="-1"
         eType="#//ClassEqualsMapping"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InstanceMappingSet">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="instanceMappings" upperBound="-1"
+        eType="#//InstanceOfMapping"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ObjectPropertyMappingSet">
     <eStructuralFeatures xsi:type="ecore:EReference" name="objectPropertyMappings"
         upperBound="-1" eType="#//ObjectPropertyEqualsMapping"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="Mapping">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="mappingSet" eType="#//MappingSet"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="mappingSet" eType="#//ClassMappingSet"/>
   </eClassifiers>
   <eClassifiers xsi:type="ecore:EClass" name="InstanceOfMapping" eSuperTypes="#//Mapping">
     <eStructuralFeatures xsi:type="ecore:EReference" name="individual" lowerBound="1"
