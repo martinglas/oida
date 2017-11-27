@@ -12,13 +12,10 @@ import javax.annotation.PostConstruct;
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
 import org.eclipse.e4.ui.workbench.modeling.ESelectionService;
 import org.eclipse.e4.ui.workbench.modeling.ISelectionListener;
-import org.eclipse.emf.edit.tree.TreeFactory;
 import org.eclipse.emf.parsley.viewers.ViewerFactory;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
-import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
 import org.eclipse.jface.viewers.StructuredSelection;
-import org.eclipse.jface.viewers.TableViewer;
 import org.eclipse.jface.viewers.TreeSelection;
 import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.SWT;
@@ -26,11 +23,9 @@ import org.eclipse.swt.widgets.Composite;
 
 import com.google.inject.Injector;
 
-import bridgemodel.BridgemodelPackage;
 import bridgemodel.ClassEqualsMapping;
 import oida.bridge.service.IOIDABridge;
 import oida.ontology.OntologyClass;
-import oida.ontology.ui.e4.part.OntologyManagerPart;
 import oida.ontology.ui.view.ClassEquivalenceMappingsView.ClassEquivalenceMappingsViewInjectorProvider;
 
 /**
