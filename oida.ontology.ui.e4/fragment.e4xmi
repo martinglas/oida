@@ -22,17 +22,20 @@
               </toolbar>
             </children>
           </children>
-          <children xsi:type="basic:PartStack" xmi:id="_Klm0sJq8EeaelOAnCMy4mw" elementId="de.symo.application.partstack.knowledge.leftbottom" containerData="50">
+          <children xsi:type="basic:PartStack" xmi:id="_Klm0sJq8EeaelOAnCMy4mw" elementId="de.symo.application.partstack.knowledge.leftbottom" containerData="50"/>
+        </children>
+        <children xsi:type="basic:PartSashContainer" xmi:id="_THJPgNZ_Eee9wLEB_pWVkw" elementId="oida.ontology.ui.e4.partsashcontainer.0" containerData="60">
+          <children xsi:type="basic:PartStack" xmi:id="_K7oIAJq8EeaelOAnCMy4mw" elementId="de.symo.application.partstack.2" containerData="70">
+            <children xsi:type="basic:Part" xmi:id="_ZRnGUDyzEeef1_9Ke6NtTg" elementId="oida.ontology.ui.e4.part.classdetails" contributionURI="bundleclass://oida.ontology.ui.e4/oida.ontology.ui.e4.part.ClassDetailViewPart" label="Class Details" iconURI="platform:/plugin/oida.ontology.ui.e4/icons/Class_16.png"/>
+            <children xsi:type="basic:Part" xmi:id="_3bCfoNNvEee3z7o4J7fEng" elementId="oida.ontology.ui.e4.part.context" contributionURI="bundleclass://oida.ontology.ui.e4/oida.ontology.ui.e4.part.classcontext.ClassContextViewPart" label="Context"/>
+          </children>
+          <children xsi:type="basic:PartStack" xmi:id="_W_GYgNZ_Eee9wLEB_pWVkw" elementId="oida.ontology.ui.e4.partstack.3" containerData="30">
             <children xsi:type="basic:Part" xmi:id="_TqfhMLJYEeaw4puSHi5CMg" elementId="oida.ontology.ui.e4.part.ontologymanager" contributionURI="bundleclass://oida.ontology.ui.e4/oida.ontology.ui.e4.part.OntologyManagerPart" label="Ontology Manager">
               <toolbar xmi:id="_Ff6C4PkGEeatKqZLJkxOvw" elementId="oida.ontology.ui.e4.toolbar.1">
                 <children xsi:type="menu:HandledToolItem" xmi:id="_GMxI4PkGEeatKqZLJkxOvw" elementId="oida.ontology.ui.e4.handledtoolitem.startreasoning" label="Start Reasoning" iconURI="platform:/plugin/oida.ontology.ui.e4/icons/Reasoning_16.png" command="_MvqOIPkGEeatKqZLJkxOvw"/>
               </toolbar>
             </children>
           </children>
-        </children>
-        <children xsi:type="basic:PartStack" xmi:id="_K7oIAJq8EeaelOAnCMy4mw" elementId="de.symo.application.partstack.2" containerData="60">
-          <children xsi:type="basic:Part" xmi:id="_ZRnGUDyzEeef1_9Ke6NtTg" elementId="oida.ontology.ui.e4.part.classdetails" contributionURI="bundleclass://oida.ontology.ui.e4/oida.ontology.ui.e4.part.ClassDetailViewPart" label="Class Details" iconURI="platform:/plugin/oida.ontology.ui.e4/icons/Class_16.png"/>
-          <children xsi:type="basic:Part" xmi:id="_3bCfoNNvEee3z7o4J7fEng" elementId="oida.ontology.ui.e4.part.context" contributionURI="bundleclass://oida.ontology.ui.e4/oida.ontology.ui.e4.part.classcontext.ClassContextViewPart" label="Context"/>
         </children>
         <children xsi:type="basic:PartSashContainer" xmi:id="_SgSKsKaNEea4d_GmOhDBEg" elementId="de.symo.application.partsashcontainer.4" containerData="20">
           <children xsi:type="basic:PartStack" xmi:id="_hBUJwPLBEealUutgcq5XYw" elementId="oida.ontology.ui.e4.partstack.1" toBeRendered="false" visible="false">

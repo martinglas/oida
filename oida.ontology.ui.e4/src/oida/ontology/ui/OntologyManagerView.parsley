@@ -1,5 +1,6 @@
-import oida.ontology.Ontology
+import oida.ontology.OntologyPackage
 import oida.ontology.ui.view.OntologyManagerView
+import oida.ontology.Ontology
 
 /**
  * 
@@ -15,27 +16,23 @@ module oida.ontology.ui.OntologyManagerView {
 		}
 	}
 	
-	tableFeaturesProvider {
+	configurator {
+		eClass {
+			OntologyManagerView -> OntologyPackage.Literals.ONTOLOGY
+		}
+	}
+	
+	featuresProvider {
 		features {
 			Ontology -> iri, nrOfClasses, nrOfIndividuals
 		}
 	}
-		
-	tableViewerContentProvider {
-		elements {
-			Ontology o -> {
-				o.iri
-				o.nrOfClasses
-				o.nrOfIndividuals
-			}
-		}
-	}
-	
+
 	featureCaptionProvider {
 		text {
-			Ontology : iri -> "IRI"
-			Ontology : nrOfClasses -> "Classes"
-			Ontology : nrOfIndividuals -> "Individuals"
+			Ontology : iri -> 'IRI'
+			Ontology : nrOfClasses -> 'Classes'
+			Ontology : nrOfIndividuals -> 'Individuals'
 		}
 	}
 }
