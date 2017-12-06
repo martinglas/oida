@@ -24,7 +24,6 @@ import bridgemodel.Recommendation;
 import oida.bridge.service.IOIDABridge;
 import oida.bridge.ui.ClassHierarchyView.ClassHierarchyViewInjectorProvider;
 import oida.ontology.OntologyClass;
-import oida.ontology.service.IOIDAOntologyService;
 
 /**
  * 
@@ -46,7 +45,7 @@ public class MetaModelClassMappingPart {
 	private Button removeMappingButton;
 
 	@PostConstruct
-	public void postConstruct(Composite parent, ESelectionService selectionService, MPart part, IOIDABridge oidaBridge, IOIDAOntologyService oidaService) {
+	public void postConstruct(Composite parent, ESelectionService selectionService, MPart part, IOIDABridge oidaBridge) {
 		parent.setLayout(new GridLayout(1, false));
 		parent.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
@@ -133,6 +132,6 @@ public class MetaModelClassMappingPart {
 			}
 		});
 
-		classHierarchyViewerFactory.initialize(metaModelClassesTreeViewer, oidaBridge.getMetaModelHandler().get().getModelOntologyManager().getOntology().getLocalOntology());
+		classHierarchyViewerFactory.initialize(metaModelClassesTreeViewer, oidaBridge.getModelOntology().get().getLocalOntology());
 	}
 }

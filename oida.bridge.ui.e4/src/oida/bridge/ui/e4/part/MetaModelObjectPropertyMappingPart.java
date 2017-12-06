@@ -26,7 +26,6 @@ import bridgemodel.ObjectPropertyEqualsMapping;
 import oida.bridge.service.IOIDABridge;
 import oida.bridge.ui.ObjectPropertyHierarchyView.ObjectPropertyHierarchyViewInjectorProvider;
 import oida.ontology.OntologyObjectProperty;
-import oida.ontology.service.IOIDAOntologyService;
 
 /**
  * 
@@ -48,7 +47,7 @@ public class MetaModelObjectPropertyMappingPart {
 	private Button removeMappingButton;
 
 	@PostConstruct
-	public void postConstruct(Composite parent, MPart part, IOIDABridge oidaBridge, IOIDAOntologyService oidaService) {
+	public void postConstruct(Composite parent, MPart part, IOIDABridge oidaBridge) {
 		parent.setLayout(new GridLayout(2, false));
 		parent.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
@@ -117,8 +116,8 @@ public class MetaModelObjectPropertyMappingPart {
 			}
 		});
 
-		objectPropertyHierarchyViewerFactory.initialize(metaModelObjectPropertiesTreeViewer, oidaBridge.getMetaModelHandler().get().getModelOntologyManager().getOntology().getLocalOntology());
-		objectPropertyHierarchyViewerFactory.initialize(referenceOntologyObjectPropertiesTreeViewer, oidaService.getReferenceOntologyManager().get().getOntology());
+		objectPropertyHierarchyViewerFactory.initialize(metaModelObjectPropertiesTreeViewer, oidaBridge.getModelOntology().get().getLocalOntology());
+		objectPropertyHierarchyViewerFactory.initialize(referenceOntologyObjectPropertiesTreeViewer, oidaBridge.getReferenceOntology());
 
 		setButtonState();
 	}

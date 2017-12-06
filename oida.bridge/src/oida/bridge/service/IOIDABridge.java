@@ -17,9 +17,9 @@ import bridgemodel.ObjectPropertyEqualsMapping;
 import bridgemodel.ObjectPropertyMappingSet;
 import bridgemodel.Recommendation;
 import oida.bridge.model.changehandler.IModelChangeHandler;
+import oida.ontology.Ontology;
 import oida.ontology.OntologyClass;
 import oida.ontology.OntologyObjectProperty;
-import oida.ontology.manager.IOntologyManager;
 
 /**
  * The OIDA bridge is the interface for model handling applications to OIDA.
@@ -71,7 +71,7 @@ public interface IOIDABridge {
 	 *             element is not observed.
 	 */
 	void invokeModelObservation(final Object modelObject, final File modelOntologyDirectory, final String modelObjectId) throws OIDABridgeException;
-
+	
 	/**
 	 * Saves the model ontology in the current state, if the model object is
 	 * observed.
@@ -153,5 +153,7 @@ public interface IOIDABridge {
 	void setSecondaryRecommendationSystemEnabled(boolean enabled);
 	boolean isSecondaryRecommendationSystemEnabled();
 	
-	IOntologyManager getReferenceOntology();
+	Optional<Ontology> getReferenceOntology();
+	Optional<Ontology> getModelOntology();
 }
+

@@ -17,7 +17,6 @@ import com.google.inject.Injector;
 
 import oida.bridge.service.IOIDABridge;
 import oida.bridge.ui.ClassHierarchyView.ClassHierarchyViewInjectorProvider;
-import oida.ontology.service.IOIDAOntologyService;
 
 /**
  * 
@@ -31,7 +30,7 @@ public class ReferenceOntologyClassHierarchyPart {
 	private TreeViewer treeViewer;
 	
 	@PostConstruct
-	public void postConstruct(Composite parent, ESelectionService selectionService, MPart part, IOIDABridge oidaBridge, IOIDAOntologyService oidaService) {
+	public void postConstruct(Composite parent, ESelectionService selectionService, MPart part, IOIDABridge oidaBridge) {
 		Injector injector = ClassHierarchyViewInjectorProvider.getInjector();
 
 		ViewerFactory classHierarchyViewerFactory = injector.getInstance(ViewerFactory.class);
@@ -48,6 +47,6 @@ public class ReferenceOntologyClassHierarchyPart {
 			}
 		});
 
-		classHierarchyViewerFactory.initialize(treeViewer, oidaService.getReferenceOntologyManager().get().getOntology());
+		classHierarchyViewerFactory.initialize(treeViewer, oidaBridge.getReferenceOntology().get());
 	}
 }

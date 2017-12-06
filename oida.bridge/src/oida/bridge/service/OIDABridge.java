@@ -48,6 +48,7 @@ import oida.bridge.recommender.IDatatypePropertyRecommender;
 import oida.bridge.recommender.IObjectPropertyRecommender;
 import oida.bridge.recommender.IPrimaryRecommender;
 import oida.bridge.recommender.IRecommender;
+import oida.ontology.Ontology;
 import oida.ontology.OntologyClass;
 import oida.ontology.OntologyClassEquivalence;
 import oida.ontology.OntologyDatatypeProperty;
@@ -738,7 +739,18 @@ public final class OIDABridge implements IOIDABridge {
 	}
 
 	@Override
-	public IOntologyManager getReferenceOntology() {
-		return oidaOntologyService.getReferenceOntologyManager().get();
+	public Optional<Ontology> getReferenceOntology() {
+		if (oidaOntologyService.getReferenceOntologyManager().isPresent())
+			return Optional.of(oidaOntologyService.getReferenceOntologyManager().get().getOntology());
+		else
+			return Optional.empty();
+	}
+
+	@Override
+	public Optional<Ontology> getModelOntology() {
+		if (metaModelOntologyHandler.getModelOntologyManager() != null)
+			return Optional.of(metaModelOntologyHandler.getModelOntologyManager().getOntology());
+		else
+			return Optional.empty();
 	}
 }
