@@ -1,16 +1,22 @@
-import oida.ontology.OntologyPackage
+/*******************************************************************************
+ * <copyright> Copyright (c) 2009-2017 Bauhaus Luftfahrt e.V.. All rights reserved. This program and the accompanying
+ * materials are made available under the terms of the Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html </copyright>
+ ******************************************************************************/
 import oida.ontology.ui.view.OntologyManagerView
 import oida.ontology.Ontology
+import oida.ontology.OntologyPackage
+import java.util.List
 
 /**
  * 
  * @since 2016-11-08
- * @author Michael.Shamiyeh
+ * @author Michael Shamiyeh
  * 
  */
 module oida.ontology.ui.OntologyManagerView {
 	parts {
-		viewpart oida.ontology.ui.view.OntologyManagerView {
+		viewpart oida.ontology.ui.OntologyManagerView {
 			viewname "Ontology Manager"
 			viewclass OntologyManagerView
 		}
@@ -18,18 +24,34 @@ module oida.ontology.ui.OntologyManagerView {
 	
 	configurator {
 		eClass {
-			OntologyManagerView -> OntologyPackage.Literals.ONTOLOGY
+			OntologyManagerView -> {
+				OntologyPackage.eINSTANCE.ontology
+			}
 		}
 	}
-	
-	featuresProvider {
+
+	tableFeaturesProvider {
 		features {
-			Ontology -> iri, nrOfClasses, nrOfIndividuals
+			Ontology ->  name, iri, nrOfClasses, nrOfIndividuals
+		}
+	}
+		
+	bindings {
+		value List<Integer> TableColumnWeights -> #[50,100,25,25]
+	}
+	
+	tableLabelProvider {
+		text {
+			Ontology:name -> name
+			Ontology:iri -> iri
+			Ontology:nrOfClasses -> nrOfClasses.toString
+			Ontology:nrOfIndividuals -> nrOfIndividuals.toString
 		}
 	}
 
 	featureCaptionProvider {
 		text {
+			Ontology : name -> 'Name'
 			Ontology : iri -> 'IRI'
 			Ontology : nrOfClasses -> 'Classes'
 			Ontology : nrOfIndividuals -> 'Individuals'

@@ -47,7 +47,7 @@ public class OntologyManagerPart {
 
 		ViewerFactory viewerFactory = injector.getInstance(ViewerFactory.class);
 
-		tableViewer = viewerFactory.createTableViewer(parent, SWT.NONE, OntologyPackage.Literals.ONTOLOGY);
+		tableViewer = viewerFactory.createTableViewer(parent, SWT.FULL_SELECTION, OntologyPackage.Literals.ONTOLOGY);
 		tableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
@@ -57,7 +57,7 @@ public class OntologyManagerPart {
 					selectionService.setSelection(selection.getFirstElement());
 			}
 		});
-		
-		viewerFactory.initialize(tableViewer, oidaService.getManagedOntologiesResource().getContents());
+
+		tableViewer.setInput(oidaService.getManagedOntologiesResource());
 	}
 }
