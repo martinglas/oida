@@ -7,26 +7,24 @@
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="owner" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="creationDate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="ontologies" upperBound="-1"
-          eType="#//ontologyMgr/LocalReferenceOntologyFileSet" containment="true"
-          resolveProxies="false"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="referenceOntology" eType="#//ontologyMgr/LocalReferenceOntologyFileSet"/>
+          eType="#//ontologyMgr/OntologyMetaInfo" containment="true" resolveProxies="false"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="referenceOntology" eType="#//ontologyMgr/OntologyMetaInfo"/>
     </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="LocalReferenceOntologyFileSet" eSuperTypes="#//ontologyMgr/OntologyFile">
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="maintenanceFileName"
-          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="GitRepoOntologyEntry" eSuperTypes="#//ontologyMgr/LocalReferenceOntologyFileSet">
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="repoURL" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="gitUsername" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="gitPassword" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    </eClassifiers>
-    <eClassifiers xsi:type="ecore:EClass" name="OntologyFile">
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="path" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="fileName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="managedOntology" eType="#//ontology/Ontology"/>
+    <eClassifiers xsi:type="ecore:EClass" name="OntologyMetaInfo">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="iri" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="ontology" eType="#//ontology/Ontology"
+          eOpposite="#//ontology/Ontology/metaInfo"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="loadAtStartup" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
           defaultValueLiteral="false"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="nrOfClasses" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="nrOfIndividuals" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="nrOfObjectProperties"
+          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
     </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="LocalOntologyMetaInfo" eSuperTypes="#//ontologyMgr/OntologyMetaInfo">
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="localPath" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="SystemOntologyMetaInfo" eSuperTypes="#//ontologyMgr/LocalOntologyMetaInfo"/>
   </eSubpackages>
   <eSubpackages name="ontology" nsURI="http://net/bauhaus-luftfahrt/oida/ontology"
       nsPrefix="net.bauhaus-luftfahrt.oida.ontology">
@@ -38,7 +36,6 @@
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="iri" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="Ontology" eSuperTypes="#//ontology/AOntologyItem">
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="name" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="namespaces" upperBound="-1"
           eType="#//ontology/OntologyNamespace" containment="true" resolveProxies="false"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="imports" upperBound="-1"
@@ -61,12 +58,10 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="objectPropertyEquivalences"
           upperBound="-1" eType="#//ontology/OntologyObjectPropertyEquivalence" containment="true"
           resolveProxies="false"/>
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="nrOfClasses" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="nrOfIndividuals" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
-      <eStructuralFeatures xsi:type="ecore:EAttribute" name="nrOfObjectProperties"
-          eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="localOntology" lowerBound="1"
           eType="#//ontology/Ontology" containment="true"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="metaInfo" eType="#//ontologyMgr/OntologyMetaInfo"
+          eOpposite="#//ontologyMgr/OntologyMetaInfo/ontology"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="OntologyNamespace" eSuperTypes="#//ontology/OntologyEntity"/>
     <eClassifiers xsi:type="ecore:EClass" name="OntologyEntity" eSuperTypes="#//ontology/AOntologyItem">

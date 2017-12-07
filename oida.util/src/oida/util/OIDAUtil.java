@@ -6,10 +6,10 @@ import java.util.Optional;
 
 import org.eclipse.core.resources.ResourcesPlugin;
 
+import oida.ontologyMgr.LocalOntologyMetaInfo;
+import oida.ontologyMgr.OntologyMgrFactory;
 import oida.util.constants.FileConstants;
 import oida.util.constants.StringConstants;
-import oida.ontologyMgr.OntologyFile;
-import oida.ontologyMgr.OntologyMgrFactory;
 
 /**
  * 
@@ -38,40 +38,30 @@ public class OIDAUtil {
 			f.mkdir();
 	}
 	
-	public static OntologyFile getOntologyFile(String path, String fileName) {
+	public static LocalOntologyMetaInfo getOntologyMetaInfo(String path, String fileName) {
 		String fullPath = path;
 		if (!path.endsWith(StringConstants.BACKSLASH))
 			fullPath = path + StringConstants.BACKSLASH;
 		
 		fullPath = fullPath + fileName;
 		
-		return getOntologyFile(new File(fullPath));
+		return getOntologyMetaInfo(new File(fullPath));
 	}
 	
-	public static OntologyFile getOntologyFile(File file) {
-		OntologyFile ontologyFileObject = OntologyMgrFactory.eINSTANCE.createOntologyFile();
-
-		ontologyFileObject.setPath(file.getAbsolutePath().substring(0, file.getAbsolutePath().lastIndexOf(file.getName())));
-		ontologyFileObject.setFileName(file.getName());
+	public static LocalOntologyMetaInfo getOntologyMetaInfo(File file) {
+		LocalOntologyMetaInfo ontologyMetaInfo = OntologyMgrFactory.eINSTANCE.createLocalOntologyMetaInfo();
+		ontologyMetaInfo.setLocalPath(file.getAbsolutePath().substring(0, file.getAbsolutePath().lastIndexOf(file.getName())));
 		
-		return ontologyFileObject;
+		return ontologyMetaInfo;
 	}
 	
-	public static Optional<File> getOntologyFileObject(OntologyFile ontologyFile, boolean createIfNotExisting) {
-		if (ontologyFile.getPath() == null) {
+	public static Optional<File> getOntologyFileObject(LocalOntologyMetaInfo ontologyMetaInfo, boolean createIfNotExisting) {
+		if (ontologyMetaInfo.getLocalPath() == null) {
 			//LOGGER.error("GetOntologyFile for '" + ontologyFile.toString() + "': Ontology file path is not set.");
 			return Optional.empty();
 		}
-
-		if (ontologyFile.getFileName() == null) {
-			//LOGGER.error("GetOntologyFile for '" + ontologyFile.toString() + "': Ontology filename is not set.");
-			return Optional.empty();
-		}
 		
-		if (!ontologyFile.getPath().endsWith(StringConstants.BACKSLASH))
-			ontologyFile.setPath(ontologyFile.getPath().concat(StringConstants.BACKSLASH));
-
-		File file = new File(ontologyFile.getPath() + ontologyFile.getFileName());
+		File file = new File(ontologyMetaInfo.getLocalPath());
 
 		if (!file.exists()) {
 			if (createIfNotExisting) {
@@ -92,9 +82,14 @@ public class OIDAUtil {
 		}
 	}
 	
-	public static String getFileIriString(OntologyFile ontologyFile) {
-		return convertPathToIRI(ontologyFile.getPath() + ontologyFile.getFileName());
+	public static String getFileIriString(LocalOntologyMetaInfo ontologyMetaInfo) {
+		return convertPathToIRI(ontologyMetaInfo.getLocalPath());
 	}
+	
+	public static String extractFileName(String fullPath) {
+		return fullPath.substring(fullPath.lastIndexOf(StringConstants.BACKSLASH) + 1, fullPath.lastIndexOf(StringConstants.DOT));
+	}
+	
 	
 	public static String convertPathToIRI(String path) {
 		if (!path.startsWith(FileConstants.ONTOLOGY_FILE_IRI_PREFIX))

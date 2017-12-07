@@ -9,7 +9,7 @@ import java.util.Map;
 import java.util.Optional;
 
 import oida.ontology.manager.IOntologyManager;
-import oida.ontologyMgr.OntologyFile;
+import oida.ontologyMgr.LocalOntologyMetaInfo;
 
 /**
  * 
@@ -31,5 +31,5 @@ public interface IGlobalOntologyContext {
 	 * 
 	 * @return a map with the global iris as keys, and OntologyFile objects containing the local path as values.
 	 */
-	Map<String, OntologyFile> getGlobalIRIToLocalIRIMappings();
+	Map<String, LocalOntologyMetaInfo> getGlobalIRIToLocalIRIMappings();
 }

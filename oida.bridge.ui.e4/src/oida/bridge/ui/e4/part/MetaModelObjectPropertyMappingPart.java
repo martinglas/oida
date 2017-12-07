@@ -116,7 +116,7 @@ public class MetaModelObjectPropertyMappingPart {
 			}
 		});
 
-		objectPropertyHierarchyViewerFactory.initialize(metaModelObjectPropertiesTreeViewer, oidaBridge.getModelOntology().get().getLocalOntology());
+		objectPropertyHierarchyViewerFactory.initialize(metaModelObjectPropertiesTreeViewer, oidaBridge.getMetaModelOntology().get().getLocalOntology());
 		objectPropertyHierarchyViewerFactory.initialize(referenceOntologyObjectPropertiesTreeViewer, oidaBridge.getReferenceOntology());
 
 		setButtonState();

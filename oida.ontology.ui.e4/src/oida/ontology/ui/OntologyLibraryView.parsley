@@ -3,13 +3,6 @@
  * materials are made available under the terms of the Eclipse Public License v1.0 which accompanies this distribution,
  * and is available at http://www.eclipse.org/legal/epl-v10.html </copyright>
  ******************************************************************************/
-import oida.ontology.ui.view.OntologyLibraryView
-import oida.ontologyMgr.GitRepoOntologyEntry
-import oida.ontologyMgr.Library
-import oida.ontologyMgr.LocalReferenceOntologyFileSet
-import org.eclipse.emf.parsley.edit.IEditingStrategy
-import org.eclipse.emf.parsley.edit.UndoableEditingStrategy
-import org.eclipse.swt.SWT
 
 /**
  * 
@@ -18,95 +11,94 @@ import org.eclipse.swt.SWT
  *
  */
 module oida.ontology.ui.OntologyLibraryView {
-	parts {
-		viewpart oida.ontology.ui.view.OntologyLibraryView {
-			viewname "Ontology Library"
-			viewclass OntologyLibraryView
-		}
-	}
-	
-	bindings {
-		type IEditingStrategy -> UndoableEditingStrategy
-		value int TreeFormSashStyle -> SWT.VERTICAL
-	}
-	
-	featuresProvider {
-		features {
-			Library -> owner, creationDate, referenceOntology
-			LocalReferenceOntologyFileSet -> path, fileName, maintenanceFileName, loadAtStartup
-			GitRepoOntologyEntry -> path, fileName, maintenanceFileName, repoURL, gitUsername, gitPassword, loadAtStartup
-		}
-	}
-
-	labelProvider {
-		text {
-			Library -> "Library"
-			LocalReferenceOntologyFileSet e -> e.fileName
-			GitRepoOntologyEntry e -> e.fileName
-		}
-		image {
-			Library -> "OntologyLibrary_16.png"
-			LocalReferenceOntologyFileSet -> "OntologyLocal_16.png"
-			GitRepoOntologyEntry -> "OntologyRepository_16.png"
-		}
-	}
-
-	featureCaptionProvider {
-		text {
-			Library : owner -> "Owner: "
-			Library : creationDate -> "Created on: "
-
-			LocalReferenceOntologyFileSet : path -> "Path: "
-			LocalReferenceOntologyFileSet : fileName -> "File: "
-			LocalReferenceOntologyFileSet : maintenanceFileName -> "Maintenance Ontology: "
-			LocalReferenceOntologyFileSet : loadAtStartup -> "Load automatically at Start-Up: "
-
-			GitRepoOntologyEntry : path -> "Path: "
-			GitRepoOntologyEntry : fileName -> "File: "
-			GitRepoOntologyEntry : maintenanceFileName -> "Maintenance Ontology: "
-			GitRepoOntologyEntry : repoURL -> "Git Repository URL: "
-			GitRepoOntologyEntry : gitUsername -> "Username: "
-			GitRepoOntologyEntry : gitPassword -> "Password: "
-			GitRepoOntologyEntry : loadAtStartup -> "Load automatically at Start-Up: "
-		}
-	}
-	
-	formControlFactory {
-		control {
-			Library : owner -> {
-				createText(parent, SWT.READ_ONLY)
-			} target {
-				observeText
-			}
-			Library : creationDate -> {
-				createText(parent, SWT.READ_ONLY)
-			} target {
-				observeText
-			}
-
-			/* LocalOntology : path -> {
-				val fpsel = new FilePathSelectorComposite(parent, SWT.NONE, false)
-				return fpsel.getTextControl
-			} target { observeText } */
-
-			GitRepoOntologyEntry : gitPassword -> {
-				createText(parent, SWT.PASSWORD)
-			} target {
-				observeText
-			}
-		}
-	}
-	
-	menuBuilder {
-		emfMenus {
-			LocalReferenceOntologyFileSet lOnt -> #[
-				actionChange("Set as Reference", lOnt.eContainer as Library,
-					[
-						library |
-						library.referenceOntology = lOnt;
-					]
-				)
-			]
-		}
-	}
+//	parts {
+//		viewpart oida.ontology.ui.view.OntologyLibraryView {
+//			viewname "Ontology Library"
+//			viewclass OntologyLibraryView
+//		}
+//	}
+//	
+//	bindings {
+//		type IEditingStrategy -> UndoableEditingStrategy
+//		value int TreeFormSashStyle -> SWT.VERTICAL
+//	}
+//	
+//	featuresProvider {
+//		features {
+//			Library -> owner, creationDate, referenceOntology
+//			OntologyMetaInfo -> localPath, loadAtStartup
+//		}
+//	}
+//
+//	labelProvider {
+//		text {
+//			Library -> "Library"
+//			LocalReferenceOntologyFileSet e -> e.fileName
+//			GitRepoOntologyEntry e -> e.fileName
+//		}
+//		image {
+//			Library -> "OntologyLibrary_16.png"
+//			LocalReferenceOntologyFileSet -> "OntologyLocal_16.png"
+//			GitRepoOntologyEntry -> "OntologyRepository_16.png"
+//		}
+//	}
+//
+//	featureCaptionProvider {
+//		text {
+//			Library : owner -> "Owner: "
+//			Library : creationDate -> "Created on: "
+//
+//			LocalReferenceOntologyFileSet : path -> "Path: "
+//			LocalReferenceOntologyFileSet : fileName -> "File: "
+//			LocalReferenceOntologyFileSet : maintenanceFileName -> "Maintenance Ontology: "
+//			LocalReferenceOntologyFileSet : loadAtStartup -> "Load automatically at Start-Up: "
+//
+//			GitRepoOntologyEntry : path -> "Path: "
+//			GitRepoOntologyEntry : fileName -> "File: "
+//			GitRepoOntologyEntry : maintenanceFileName -> "Maintenance Ontology: "
+//			GitRepoOntologyEntry : repoURL -> "Git Repository URL: "
+//			GitRepoOntologyEntry : gitUsername -> "Username: "
+//			GitRepoOntologyEntry : gitPassword -> "Password: "
+//			GitRepoOntologyEntry : loadAtStartup -> "Load automatically at Start-Up: "
+//		}
+//	}
+//	
+//	formControlFactory {
+//		control {
+//			Library : owner -> {
+//				createText(parent, SWT.READ_ONLY)
+//			} target {
+//				observeText
+//			}
+//			Library : creationDate -> {
+//				createText(parent, SWT.READ_ONLY)
+//			} target {
+//				observeText
+//			}
+//
+//			/* LocalOntology : path -> {
+//				val fpsel = new FilePathSelectorComposite(parent, SWT.NONE, false)
+//				return fpsel.getTextControl
+//			} target { observeText } */
+//
+//			GitRepoOntologyEntry : gitPassword -> {
+//				createText(parent, SWT.PASSWORD)
+//			} target {
+//				observeText
+//			}
+//		}
+//	}
+//	
+//	menuBuilder {
+//		emfMenus {
+//			LocalReferenceOntologyFileSet lOnt -> #[
+//				actionChange("Set as Reference", lOnt.eContainer as Library,
+//					[
+//						library |
+//						library.referenceOntology = lOnt;
+//					]
+//				)
+//			]
+//		}
+//	}
 }

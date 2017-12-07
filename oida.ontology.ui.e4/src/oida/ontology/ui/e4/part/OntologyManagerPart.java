@@ -5,23 +5,29 @@
  ******************************************************************************/
 package oida.ontology.ui.e4.part;
 
+import java.io.IOException;
+import java.util.EventObject;
+
 import javax.annotation.PostConstruct;
 import javax.inject.Inject;
 
+import org.eclipse.e4.ui.di.Persist;
+import org.eclipse.e4.ui.model.application.ui.MDirtyable;
 import org.eclipse.e4.ui.workbench.modeling.ESelectionService;
+import org.eclipse.emf.common.command.CommandStackListener;
+import org.eclipse.emf.parsley.edit.ui.dnd.ViewerDragAndDropHelper;
 import org.eclipse.emf.parsley.viewers.ViewerFactory;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.SelectionChangedEvent;
-import org.eclipse.jface.viewers.TableViewer;
-import org.eclipse.swt.SWT;
+import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.widgets.Composite;
 
 import com.google.inject.Injector;
 
-import oida.ontology.OntologyPackage;
 import oida.ontology.service.IOIDAOntologyService;
 import oida.ontology.ui.OntologyManagerView.OntologyManagerViewInjectorProvider;
+import oida.ontologyMgr.OntologyMgrPackage;
 
 /**
  * 
@@ -32,11 +38,14 @@ import oida.ontology.ui.OntologyManagerView.OntologyManagerViewInjectorProvider;
 public class OntologyManagerPart {
 	public static final String PART_ID = "oida.ontology.ui.e4.part.ontologymanager";
 
-	private TableViewer tableViewer;
+	private TreeViewer treeViewer;
 
 	@Inject
 	IOIDAOntologyService oidaService;
 
+	@Inject
+	MDirtyable dirty;
+	
 	@Inject
 	ESelectionService selectionService;
 
@@ -47,17 +56,41 @@ public class OntologyManagerPart {
 
 		ViewerFactory viewerFactory = injector.getInstance(ViewerFactory.class);
 
-		tableViewer = viewerFactory.createTableViewer(parent, SWT.FULL_SELECTION, OntologyPackage.Literals.ONTOLOGY);
-		tableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+		treeViewer = viewerFactory.createTreeViewerWithColumns(parent, OntologyMgrPackage.Literals.ONTOLOGY_META_INFO, oidaService.getLibraryResource());
+
+		// Guice injected viewer context menu helper
+		//ViewerContextMenuHelper contextMenuHelper = injector.getInstance(ViewerContextMenuHelper.class);
+		
+		// Guice injected viewer drag and drop helper
+		ViewerDragAndDropHelper dragAndDropHelper = injector.getInstance(ViewerDragAndDropHelper.class);
+
+		// set context menu and drag and drop
+		//contextMenuHelper.addViewerContextMenu(treeViewer, oidaService.getEditingDomain());
+		dragAndDropHelper.addDragAndDrop(treeViewer, oidaService.getEditingDomain());
+
+		oidaService.getEditingDomain().getCommandStack().addCommandStackListener(new CommandStackListener() {
+			public void commandStackChanged(EventObject event) {
+				if (dirty != null)
+					dirty.setDirty(true);
+			}
+		});
+
+		treeViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			@Override
 			public void selectionChanged(SelectionChangedEvent event) {
-				IStructuredSelection selection = tableViewer.getStructuredSelection();
+				IStructuredSelection selection = treeViewer.getStructuredSelection();
 
 				if (!selection.isEmpty())
 					selectionService.setSelection(selection.getFirstElement());
 			}
 		});
-
-		tableViewer.setInput(oidaService.getManagedOntologiesResource());
+	}
+	
+	@Persist
+	public void save(MDirtyable dirty) throws IOException {
+		oidaService.getLibraryResource().save(null);
+		if (dirty != null) {
+			dirty.setDirty(false);
+		}
 	}
 }

@@ -19,7 +19,8 @@ import oida.ontology.OntologyObjectProperty;
 import oida.ontology.OntologyObjectPropertyAssertion;
 import oida.ontology.OntologyObjectPropertyEquivalence;
 import oida.ontology.manager.context.IGlobalOntologyContext;
-import oida.ontologyMgr.OntologyFile;
+import oida.ontologyMgr.LocalOntologyMetaInfo;
+import oida.ontologyMgr.OntologyMetaInfo;
 
 /**
  * 
@@ -49,21 +50,19 @@ public interface IOntologyManager {
 	
 	String getDefaultNamespace();
 	
-	Optional<OntologyFile> getOntologyFile();
+	Optional<OntologyMetaInfo> getOntologyMetaInfo();
 	
-	void setOntologyFile(OntologyFile ontologyFile);
+	void setOntologyMetaInfo(OntologyMetaInfo ontologyMetaInfo);
 
-	Ontology createOntology(String ontologyIRI) throws OntologyManagerException;
-
-	Ontology loadOntology(String iri) throws OntologyManagerException;
-
-	Ontology loadOntology(OntologyFile ontologyFile) throws OntologyManagerException;
+	Ontology createOntology(LocalOntologyMetaInfo localOntologyMetaInfo) throws OntologyManagerException;
+	
+	Ontology loadOntology(OntologyMetaInfo ontologyMetaInfo) throws OntologyManagerException;
+	
+	Ontology loadLocalOntology(LocalOntologyMetaInfo localOntologyMetaInfo) throws OntologyManagerException;
 	
 	void refreshOntologyRepresentation(boolean buildLocalRepresentation);
 
 	void saveOntology() throws OntologyManagerException;
-
-	void saveOntology(OntologyFile ontologyFile) throws OntologyManagerException;
 
 	void addImportDeclaration(final String iri) throws OntologyManagerException;
 

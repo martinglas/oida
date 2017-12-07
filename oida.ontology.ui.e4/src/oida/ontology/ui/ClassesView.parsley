@@ -35,7 +35,7 @@ module oida.ontology.ui.ClassesView {
 
 	labelProvider {
 		text {
-			Ontology o -> o.name
+			Ontology o -> o.iri
 			OntologyClass c -> c.name
 		}
 		

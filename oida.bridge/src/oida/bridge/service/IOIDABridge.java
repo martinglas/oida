@@ -154,6 +154,7 @@ public interface IOIDABridge {
 	boolean isSecondaryRecommendationSystemEnabled();
 	
 	Optional<Ontology> getReferenceOntology();
-	Optional<Ontology> getModelOntology();
+	
+	Optional<Ontology> getMetaModelOntology();
 }
 

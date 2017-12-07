@@ -37,7 +37,7 @@ module oida.bridge.ui.ObjectPropertyHierarchyView {
 
 	labelProvider {
 		text {
-			Ontology o -> o.name
+			Ontology o -> o.iri
 			OntologyObjectProperty op -> op.name
 		}
 		

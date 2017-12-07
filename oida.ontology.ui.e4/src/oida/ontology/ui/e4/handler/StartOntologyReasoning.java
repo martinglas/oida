@@ -18,8 +18,6 @@ public class StartOntologyReasoning {
 	@Execute
 	public void execute(ESelectionService selectionService) {
 		Ontology selectedOntology = (Ontology)selectionService.getSelection(OntologyManagerPart.PART_ID);
-		
-		
 	}
 	
 	@CanExecute

@@ -132,6 +132,6 @@ public class MetaModelClassMappingPart {
 			}
 		});
 
-		classHierarchyViewerFactory.initialize(metaModelClassesTreeViewer, oidaBridge.getModelOntology().get().getLocalOntology());
+		classHierarchyViewerFactory.initialize(metaModelClassesTreeViewer, oidaBridge.getMetaModelOntology().get().getLocalOntology());
 	}
 }

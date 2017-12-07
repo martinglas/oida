@@ -35,7 +35,7 @@ module oida.ontology.ui.ObjectPropertyView {
 
 	labelProvider {
 		text {
-			Ontology o -> o.name
+			Ontology o -> o.iri
 			OntologyObjectProperty p -> p.name
 		}
 		

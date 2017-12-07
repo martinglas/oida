@@ -17,7 +17,7 @@ import org.junit.Test;
 import oida.ontology.OntologyClass;
 import oida.ontology.manager.IOntologyManager;
 import oida.ontology.manager.IOntologyManagerFactory;
-import oida.ontologyMgr.OntologyFile;
+import oida.ontologyMgr.OntologyMetaInfo;
 
 /**
  * 
@@ -43,8 +43,8 @@ public class OwlManagerTest {
 	private IOntologyManagerFactory factory;
 	private IOntologyManager manager;
 	
-	private OntologyFile testFileEntry;
-	private OntologyFile loadingTestFileEntry;
+	private OntologyMetaInfo testFileEntry;
+	private OntologyMetaInfo loadingTestFileEntry;
 
 	@Before
 	public void setUp() throws Exception {

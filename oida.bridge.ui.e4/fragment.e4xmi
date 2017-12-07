@@ -53,7 +53,7 @@
       </children>
     </elements>
   </fragments>
-  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_YefDcDVkEee2Yb9g_LH5sA" featurename="children" parentElementId="de.symo.application.trimbar.0">
-    <elements xsi:type="menu:ToolControl" xmi:id="_fktfQDVkEee2Yb9g_LH5sA" elementId="oida.bridge.ui.e4.toolcontrol.0" toBeRendered="false" visible="false" contributionURI="bundleclass://oida.bridge.ui.e4/oida.bridge.ui.e4.toolcontrol.BridgeStateViewControl"/>
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_kqMzMNs4EeemFIiIdtY3qA" featurename="children" parentElementId="de.symo.application.trimbar.status">
+    <elements xsi:type="menu:ToolControl" xmi:id="_sPgXsNs4EeemFIiIdtY3qA" elementId="oida.bridge.ui.e4.toolcontrol.bridgeState" contributionURI="bundleclass://oida.bridge.ui.e4/oida.bridge.ui.e4.toolcontrol.BridgeStateViewControl"/>
   </fragments>
 </fragment:ModelFragments>

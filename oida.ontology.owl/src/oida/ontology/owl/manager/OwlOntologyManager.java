@@ -76,7 +76,8 @@ import oida.ontology.manager.OntologyManagerException;
 import oida.ontology.manager.util.OntologyManagerUtils;
 import oida.ontology.owl.manager.util.OwlOntologyManagerMapHandler;
 import oida.ontology.owl.manager.util.UnicornMapHandler;
-import oida.ontologyMgr.OntologyFile;
+import oida.ontologyMgr.LocalOntologyMetaInfo;
+import oida.ontologyMgr.OntologyMetaInfo;
 import oida.util.OIDAUtil;
 import oida.util.constants.StringConstants;
 
@@ -125,54 +126,68 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 	}
 
 	@Override
-	public Ontology createOntology(String iri) throws OntologyManagerException {
-		if (iri == null || iri.contentEquals(StringConstants.EMPTY))
+	public Ontology createOntology(LocalOntologyMetaInfo metaInfo) throws OntologyManagerException {
+		if (metaInfo.getIri() == null || metaInfo.getIri().contentEquals(StringConstants.EMPTY))
 			return null;
 
 		try {
-			owlOntology = owlOntologyManager.createOntology(IRI.create(iri));
-			owlPrefixManager.setDefaultPrefix(iri);
+			owlOntology = owlOntologyManager.createOntology(IRI.create(metaInfo.getIri()));
+			owlPrefixManager.setDefaultPrefix(metaInfo.getIri());
 			owlOntologyManager.setOntologyFormat(owlOntology, owlPrefixManager);
-			initializeInternalOntology(iri);
+			initializeInternalOntology(metaInfo);
 
-			LOGGER.info("Ontology created: '" + iri + "'");
+			LOGGER.info("Ontology created: '" + metaInfo.getIri() + "'");
 			return getOntology();
 		} catch (OWLOntologyCreationException e) {
-			throw new OntologyManagerException("Error while creating ontology '" + iri + "': " + e.getMessage(), e);
+			throw new OntologyManagerException("Error while creating ontology '" + metaInfo.getIri() + "': " + e.getMessage(), e);
 		}
 	}
 
 	@Override
-	public Ontology loadOntology(String iri) throws OntologyManagerException {
-		if (iri == null || iri.contentEquals(StringConstants.EMPTY))
+	public Ontology loadOntology(OntologyMetaInfo metaInfo) throws OntologyManagerException {
+		if (metaInfo.getIri() == null || metaInfo.getIri().contentEquals(StringConstants.EMPTY))
 			return null;
-
+		
 		try {
 			updateIRIMappings();
+			
+			setOntologyMetaInfo(metaInfo);
 
-			owlOntology = owlOntologyManager.loadOntology(IRI.create(iri));
+			owlOntology = owlOntologyManager.loadOntology(IRI.create(metaInfo.getIri()));
 			owlPrefixManager.setDefaultPrefix(owlOntology.getOntologyID().getOntologyIRI().get().getIRIString());
 			owlOntologyManager.setOntologyFormat(owlOntology, owlPrefixManager);
 
 			refreshOntologyRepresentation(true);
 
-			LOGGER.info("Ontology loaded: '" + iri + "'");
+			LOGGER.info("Ontology loaded: '" + metaInfo.getIri() + "'");
 			return getOntology();
 		} catch (OWLOntologyCreationException e) {
-			throw new OntologyManagerException("Error while loading ontology from file '" + iri + "': " + e.getMessage(), e);
+			throw new OntologyManagerException("Error while loading ontology from file '" + metaInfo.getIri() + "': " + e.getMessage(), e);
 		}
 	}
-
+	
+	@Override
+	public Ontology loadLocalOntology(LocalOntologyMetaInfo metaInfo) throws OntologyManagerException {
+		Optional<File> optFile = OIDAUtil.getOntologyFileObject(metaInfo, false);
+		if (!optFile.isPresent() || !optFile.get().exists()) {
+			throw new OntologyManagerException("Error while loading ontology: File doesn't exist.");
+		}
+		else {
+			metaInfo.setIri(OIDAUtil.convertPathToIRI(metaInfo.getLocalPath()));
+			return loadOntology(metaInfo);
+		}
+	}
+	
 	private void updateIRIMappings() {
 		owlOntologyManager.getIRIMappers().clear();
 
-		for (Entry<String, OntologyFile> entry : getGlobalOntologyContext().getGlobalIRIToLocalIRIMappings().entrySet())
+		for (Entry<String, LocalOntologyMetaInfo> entry : getGlobalOntologyContext().getGlobalIRIToLocalIRIMappings().entrySet())
 			owlOntologyManager.getIRIMappers().add(new SimpleIRIMapper(IRI.create(entry.getKey()), IRI.create(OIDAUtil.getFileIriString(entry.getValue()))));
 	}
 
 	@Override
 	public void refreshOntologyRepresentation(boolean buildLocalRepresentation) {
-		initializeInternalOntology(owlOntology.getOntologyID().getOntologyIRI().get().getIRIString());
+		initializeInternalOntology(getOntologyMetaInfo().get());
 
 		refreshOntologyRepresentationInternal(owlOntology, buildLocalRepresentation);
 	}
@@ -226,8 +241,8 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 		extractAnnotationProperties(getOntology().getLocalOntology(), allAnnotationProperties, mapHandler.getMapHandlerLocal());
 	}
 
-	private void initializeInternalOntology(final String iri) {
-		setOntology(OntologyManagerUtils.generateInternalOntologyObject(iri));
+	private void initializeInternalOntology(OntologyMetaInfo metaInfo) {		
+		setOntology(OntologyManagerUtils.generateInternalOntologyObject(metaInfo.getIri()), metaInfo);
 		mapHandler.getMapHandler().initializeOntology(owlDataFactory, owlOntology, getOntology());
 		mapHandler.getMapHandlerLocal().initializeOntology(owlDataFactory, owlOntology, getOntology().getLocalOntology());
 
@@ -396,9 +411,13 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 
 	@Override
 	public void saveOntology() throws OntologyManagerException {
-		Optional<OntologyFile> optOntologyFile = getOntologyFile();
-		if (optOntologyFile.isPresent()) {
-			Optional<File> optFile = OIDAUtil.getOntologyFileObject(optOntologyFile.get(), true);
+		Optional<OntologyMetaInfo> optOntologyMetaInfo = getOntologyMetaInfo();
+		if (optOntologyMetaInfo.isPresent()) {
+			if (!(optOntologyMetaInfo.get() instanceof LocalOntologyMetaInfo))
+				throw new OntologyManagerException("Error while saving ontology: Ontology is no local ontology.");
+			
+			LocalOntologyMetaInfo metaInfo = (LocalOntologyMetaInfo)optOntologyMetaInfo.get();
+			Optional<File> optFile = OIDAUtil.getOntologyFileObject(metaInfo, true);
 
 			if (optFile.isPresent()) {
 				try {
@@ -406,9 +425,9 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 					owlOntologyManager.saveOntology(owlOntology, owlPrefixManager, outputStream);
 					LOGGER.info("Ontology saved: '" + getOntology().getIri() + "'");
 				} catch (FileNotFoundException e) {
-					throw new OntologyManagerException("Error while saving ontology to file '" + optOntologyFile.get().getFileName() + "': " + e.getMessage(), e);
+					throw new OntologyManagerException("Error while saving ontology to file '" + metaInfo.getLocalPath() + "': " + e.getMessage(), e);
 				} catch (OWLOntologyStorageException e) {
-					throw new OntologyManagerException("Error while saving ontology to file '" + optOntologyFile.get().getFileName() + "': " + e.getMessage(), e);
+					throw new OntologyManagerException("Error while saving ontology to file '" + metaInfo.getLocalPath() + "': " + e.getMessage(), e);
 				}
 			}
 		} else {

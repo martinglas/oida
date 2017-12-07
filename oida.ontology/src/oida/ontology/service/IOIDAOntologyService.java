@@ -12,7 +12,8 @@ import org.eclipse.emf.edit.domain.EditingDomain;
 
 import oida.ontology.manager.IOntologyManager;
 import oida.ontologyMgr.Library;
-import oida.ontologyMgr.OntologyFile;
+import oida.ontologyMgr.LocalOntologyMetaInfo;
+import oida.ontologyMgr.OntologyMetaInfo;
 
 /**
  * 
@@ -27,20 +28,17 @@ public interface IOIDAOntologyService {
 
 	Resource getManagedOntologiesResource();
 	
-	public Optional<IOntologyManager> getReferenceOntologyManager();
-	public Optional<IOntologyManager> loadReferenceOntology();
-	
 	public void autoLoadOntologies();
 
 	public EditingDomain getEditingDomain();
 	
-	public boolean checkOntologyExistance(OntologyFile ontologyFile);
+	public boolean checkLocalOntologyExistance(LocalOntologyMetaInfo ontologyMetaInfo);
 	public boolean checkOntologyExistance(String iri);
 	
-	//public Optional<IOntologyManager> getOntologyManager(String ontologyIri);
-	//public Optional<IOntologyManager> getOntologyManager(OntologyFile ontologyFile);
-	public Optional<IOntologyManager> getOntologyManager(OntologyFile ontologyFile);
-	public Optional<IOntologyManager> getOntologyManager(OntologyFile ontologyFile, boolean localOntologyActive);
-	public Optional<IOntologyManager> getOntologyManager(OntologyFile ontologyFile, String ontologyIri, boolean createIfNotExisting);
-	public Optional<IOntologyManager> getOntologyManager(OntologyFile ontologyFile, String ontologyIri, boolean createIfNotExisting, boolean localOntologyActive);
+	public Optional<IOntologyManager> getReferenceOntologyManager();
+	public Optional<IOntologyManager> loadReferenceOntology();
+	
+	public Optional<IOntologyManager> getOntologyManager(OntologyMetaInfo ontologyMetaInfo);
+	public Optional<IOntologyManager> getLocalOntologyManager(LocalOntologyMetaInfo ontologyMetaInfo);
+	public Optional<IOntologyManager> createNewOntology(LocalOntologyMetaInfo ontologyMetaInfo, String IRI);
 }
