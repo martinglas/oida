@@ -27,22 +27,26 @@
           </children>
         </children>
         <children xsi:type="basic:PartSashContainer" xmi:id="_THJPgNZ_Eee9wLEB_pWVkw" elementId="oida.ontology.ui.e4.partsashcontainer.0" containerData="80" horizontal="true">
-          <children xsi:type="basic:PartStack" xmi:id="_K7oIAJq8EeaelOAnCMy4mw" elementId="de.symo.application.partstack.2" containerData="80">
-            <children xsi:type="basic:Part" xmi:id="_ZRnGUDyzEeef1_9Ke6NtTg" elementId="oida.ontology.ui.e4.part.classdetails" contributionURI="bundleclass://oida.ontology.ui.e4/oida.ontology.ui.e4.part.ClassDetailViewPart" label="Class Details" iconURI="platform:/plugin/oida.ontology.ui.e4/icons/Class_16.png"/>
-            <children xsi:type="basic:Part" xmi:id="_3bCfoNNvEee3z7o4J7fEng" elementId="oida.ontology.ui.e4.part.context" contributionURI="bundleclass://oida.ontology.ui.e4/oida.ontology.ui.e4.part.classcontext.ClassContextViewPart" label="Context"/>
-          </children>
           <children xsi:type="basic:PartSashContainer" xmi:id="_SgSKsKaNEea4d_GmOhDBEg" elementId="de.symo.application.partsashcontainer.4" containerData="20">
-            <children xsi:type="basic:PartStack" xmi:id="_hBUJwPLBEealUutgcq5XYw" elementId="oida.ontology.ui.e4.partstack.1" toBeRendered="false" visible="false">
+            <children xsi:type="basic:PartStack" xmi:id="_T3-WYKaNEea4d_GmOhDBEg" elementId="de.symo.application.partstack.0">
+              <children xsi:type="basic:Part" xmi:id="_8KWA4MXwEeacHtEzKgG6Vg" elementId="oida.ontology.ui.e4.part.classesView" contributionURI="bundleclass://oida.ontology.ui.e4/oida.ontology.ui.e4.part.ClassesViewPart" label="Class Hierarchy" iconURI="platform:/plugin/oida.ontology.ui.e4/icons/Class_16.png"/>
               <children xsi:type="basic:Part" xmi:id="_iUZiQPLBEealUutgcq5XYw" elementId="oida.ontology.ui.e4.part.namespaces" contributionURI="bundleclass://oida.ontology.ui.e4/oida.ontology.ui.e4.part.NamespacesViewPart" label="Namespaces"/>
             </children>
-            <children xsi:type="basic:PartStack" xmi:id="_T3-WYKaNEea4d_GmOhDBEg" elementId="de.symo.application.partstack.0">
-              <children xsi:type="basic:Part" xmi:id="_8KWA4MXwEeacHtEzKgG6Vg" elementId="oida.ontology.ui.e4.part.classesView" contributionURI="bundleclass://oida.ontology.ui.e4/oida.ontology.ui.e4.part.ClassesViewPart" label="Classes"/>
-            </children>
-            <children xsi:type="basic:PartStack" xmi:id="_I973wMdoEea9gboS3tekbQ" elementId="oida.ontology.ui.e4.partstack.0">
-              <children xsi:type="basic:Part" xmi:id="_JnEUUMdoEea9gboS3tekbQ" elementId="oida.ontology.ui.e4.part.individualsView" contributionURI="bundleclass://oida.ontology.ui.e4/oida.ontology.ui.e4.part.IndividualsViewPart" label="Individuals"/>
-            </children>
             <children xsi:type="basic:PartStack" xmi:id="_FUjbUA-rEeecQ7A5BGUxIQ" elementId="oida.ontology.ui.e4.partstack.2">
-              <children xsi:type="basic:Part" xmi:id="_GBR-cA-rEeecQ7A5BGUxIQ" elementId="oida.ontology.ui.e4.part.objectPropertyView" contributionURI="bundleclass://oida.ontology.ui.e4/oida.ontology.ui.e4.part.ObjectPropertyViewPart" label="Object Properties"/>
+              <children xsi:type="basic:Part" xmi:id="_GBR-cA-rEeecQ7A5BGUxIQ" elementId="oida.ontology.ui.e4.part.objectPropertyView" contributionURI="bundleclass://oida.ontology.ui.e4/oida.ontology.ui.e4.part.ObjectPropertyViewPart" label="Object Property Hierarchy" iconURI="platform:/plugin/oida.ontology.ui.e4/icons/ObjectProperty_16.png"/>
+            </children>
+          </children>
+          <children xsi:type="basic:PartSashContainer" xmi:id="_yvHMoNwuEeeJddfM4GdOWQ" elementId="oida.ontology.ui.e4.partsashcontainer.1" containerData="80" horizontal="true">
+            <children xsi:type="basic:PartSashContainer" xmi:id="_5tod8NwuEeeJddfM4GdOWQ" elementId="oida.ontology.ui.e4.partsashcontainer.2" containerData="20">
+              <children xsi:type="basic:PartStack" xmi:id="_K7oIAJq8EeaelOAnCMy4mw" elementId="de.symo.application.partstack.2" containerData="50">
+                <children xsi:type="basic:Part" xmi:id="_ZRnGUDyzEeef1_9Ke6NtTg" elementId="oida.ontology.ui.e4.part.classdetails" contributionURI="bundleclass://oida.ontology.ui.e4/oida.ontology.ui.e4.part.ClassDetailViewPart" label="Class Details" iconURI="platform:/plugin/oida.ontology.ui.e4/icons/Class_16.png"/>
+              </children>
+              <children xsi:type="basic:PartStack" xmi:id="_7bSSkNwuEeeJddfM4GdOWQ" elementId="oida.ontology.ui.e4.partstack.3" containerData="50">
+                <children xsi:type="basic:Part" xmi:id="_JnEUUMdoEea9gboS3tekbQ" elementId="oida.ontology.ui.e4.part.individualsView" contributionURI="bundleclass://oida.ontology.ui.e4/oida.ontology.ui.e4.part.IndividualsViewPart" label="Individuals of Class" iconURI="platform:/plugin/oida.ontology.ui.e4/icons/Individual_16.png"/>
+              </children>
+            </children>
+            <children xsi:type="basic:PartStack" xmi:id="_3ZtTgNwuEeeJddfM4GdOWQ" elementId="oida.ontology.ui.e4.partstack.1" containerData="80">
+              <children xsi:type="basic:Part" xmi:id="_3bCfoNNvEee3z7o4J7fEng" elementId="oida.ontology.ui.e4.part.context" contributionURI="bundleclass://oida.ontology.ui.e4/oida.ontology.ui.e4.part.classcontext.ClassContextViewPart" label="Class Context"/>
             </children>
           </children>
         </children>
