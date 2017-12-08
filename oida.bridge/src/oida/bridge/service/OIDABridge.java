@@ -281,7 +281,7 @@ public final class OIDABridge implements IOIDABridge {
 
 		Optional<IOntologyManager> optMetaModelOntologyManager;
 		if (oidaOntologyService.checkLocalOntologyExistance(metaModelOntologyMetaInfo))
-			optMetaModelOntologyManager = oidaOntologyService.getOntologyManager(metaModelOntologyMetaInfo);
+			optMetaModelOntologyManager = oidaOntologyService.getLocalOntologyManager(metaModelOntologyMetaInfo);
 		else
 			optMetaModelOntologyManager = oidaOntologyService.createNewOntology(metaModelOntologyMetaInfo, OntologyConstants.OIDA_METAMODEL_ONTOLOGY_BASE_IRI + renamerStrategy.getMetaModelName());
 
