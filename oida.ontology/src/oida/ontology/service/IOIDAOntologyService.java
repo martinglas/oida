@@ -41,4 +41,6 @@ public interface IOIDAOntologyService {
 	public Optional<IOntologyManager> getOntologyManager(OntologyMetaInfo ontologyMetaInfo);
 	public Optional<IOntologyManager> getLocalOntologyManager(LocalOntologyMetaInfo ontologyMetaInfo);
 	public Optional<IOntologyManager> createNewOntology(LocalOntologyMetaInfo ontologyMetaInfo, String IRI);
+	
+	public void AddOntologyToLibrary(OntologyMetaInfo metaInfo);
 }

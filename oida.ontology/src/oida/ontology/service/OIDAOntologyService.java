@@ -14,11 +14,13 @@ import javax.inject.Singleton;
 
 import org.eclipse.core.runtime.CoreException;
 import org.eclipse.e4.core.di.annotations.Creatable;
+import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.common.util.URI;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EContentAdapter;
+import org.eclipse.emf.edit.command.AddCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.provider.INotifyChangedListener;
@@ -256,73 +258,6 @@ public final class OIDAOntologyService extends EContentAdapter implements INotif
 		return Optional.empty();
 	}
 
-	// @Override
-	// public Optional<IOntologyManager> getOntologyManager(OntologyFile
-	// ontologyFile, String ontologyIri, boolean createIfNotExisting, boolean
-	// localOntologyActive) {
-	// // return existing ontology manager if possible:
-	// if (ontologyFile != null && managedOntologies.containsKey(ontologyFile))
-	// return Optional.of(managedOntologies.get(ontologyFile));
-	//
-	// IOntologyManager mgr = managerFactory.getNewManager();
-	// mgr.setGlobalOntologyContext(this);
-	//
-	// // create ontology with passed iri, if no file is available:
-	// if (ontologyFile == null) {
-	// if (ontologyIri != null) {
-	// try {
-	// Ontology ontology = mgr.createOntology(ontologyIri);
-	// managedOntologyResource.getContents().add(mgr.getOntology());
-	// managedOntologies.put(ontology, mgr);
-	// return Optional.of(mgr);
-	// } catch (OntologyManagerException e) {
-	// LOGGER.error("Ontology with IRI '" + ontologyIri + "' could not be
-	// created.", e);
-	// return Optional.empty();
-	// }
-	// } else {
-	// LOGGER.error("No file and no IRI set. Ontology Manager can not be
-	// created.");
-	// return Optional.empty();
-	// }
-	// } else {
-	// try {
-	// Ontology ontology = mgr.loadOntology(ontologyFile);
-	// managedOntologyResource.getContents().add(mgr.getOntology());
-	// managedOntologies.put(ontology, mgr);
-	// iriMappings.put(ontology.getIri(), ontologyFile);
-	//
-	// LOGGER.info("Added new ontology manager for: " +
-	// ontologyFile.getFileName() + ".");
-	// return Optional.of(mgr);
-	// } catch (OntologyManagerException e) {
-	// if (createIfNotExisting) {
-	// try {
-	// Ontology ontology;
-	// if (ontologyIri != null)
-	// ontology = mgr.createOntology(ontologyIri);
-	// else
-	// ontology = mgr.createOntology(OIDAUtil.getFileIriString(ontologyFile));
-	//
-	// mgr.setOntologyFile(ontologyFile);
-	// managedOntologyResource.getContents().add(mgr.getOntology());
-	// managedOntologies.put(ontology, mgr);
-	// iriMappings.put(ontology.getIri(), ontologyFile);
-	//
-	// LOGGER.info("Added new ontology manager for: " +
-	// ontologyFile.getFileName() + ".");
-	// return Optional.of(mgr);
-	// } catch (OntologyManagerException e1) {
-	// LOGGER.error("Ontology with IRI '" + ontologyIri + "' could not be
-	// created.", e);
-	// return Optional.empty();
-	// }
-	// } else
-	// return Optional.empty();
-	// }
-	// }
-	// }
-
 	@Override
 	public Optional<IOntologyManager> getOntologyManager(OntologyMetaInfo ontologyMetaInfo) {
 		// return existing ontology manager if possible:
@@ -382,7 +317,9 @@ public final class OIDAOntologyService extends EContentAdapter implements INotif
 				ontologyMetaInfo.setIri(OIDAUtil.getFileIriString(ontologyMetaInfo));
 
 			ontology = mgr.createLocalOntology(ontologyMetaInfo);
-
+			
+			AddOntologyToLibrary(ontologyMetaInfo);
+			
 			managedOntologyResource.getContents().add(mgr.getOntology());
 			managedOntologies.put(ontology, mgr);
 			iriMappings.put(ontology.getIri(), ontologyMetaInfo);
@@ -393,5 +330,11 @@ public final class OIDAOntologyService extends EContentAdapter implements INotif
 			LOGGER.error("Ontology with IRI '" + IRI + "' could not be created.", e);
 			return Optional.empty();
 		}
+	}
+	
+	@Override
+	public void AddOntologyToLibrary(OntologyMetaInfo metaInfo) {
+		Command command = AddCommand.create(getEditingDomain(), getLibrary(), OntologyMgrPackage.eINSTANCE.getLibrary_Ontologies(), metaInfo);
+		getEditingDomain().getCommandStack().execute(command);
 	}
 }

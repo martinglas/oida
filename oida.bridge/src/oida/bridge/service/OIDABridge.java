@@ -60,6 +60,7 @@ import oida.ontology.manager.IOntologyManager;
 import oida.ontology.manager.OntologyManagerException;
 import oida.ontology.service.IOIDAOntologyService;
 import oida.ontologyMgr.LocalOntologyMetaInfo;
+import oida.ontologyMgr.SystemOntologyMetaInfo;
 import oida.util.ExtensionPointUtil;
 import oida.util.OIDAUtil;
 import oida.util.constants.FileConstants;
@@ -246,14 +247,14 @@ public final class OIDABridge implements IOIDABridge {
 	private boolean tryInitModelBaseOntology() {
 		LOGGER.info("Step 6/7: Loading OIDA model base ontology.");
 		try {
-			LocalOntologyMetaInfo oidaModelOntologyMetaInfo = OIDAUtil.getOntologyMetaInfo(OIDAUtil.getOIDAWorkPath(), FileConstants.OIDAMODELONTOLOGY_FILENAME);
+			SystemOntologyMetaInfo systemOntologyMetaInfo = OIDAUtil.getSystemOntologyMetaInfo(OIDAUtil.getOIDAWorkPath(), FileConstants.OIDAMODELONTOLOGY_FILENAME);
 
 			Optional<IOntologyManager> optOntologyManager;
 
-			if (oidaOntologyService.checkLocalOntologyExistance(oidaModelOntologyMetaInfo))
-				optOntologyManager = oidaOntologyService.getLocalOntologyManager(oidaModelOntologyMetaInfo);
+			if (oidaOntologyService.checkLocalOntologyExistance(systemOntologyMetaInfo))
+				optOntologyManager = oidaOntologyService.getLocalOntologyManager(systemOntologyMetaInfo);
 			else
-				optOntologyManager = oidaOntologyService.createNewOntology(oidaModelOntologyMetaInfo, OIDAModelBaseOntology.OIDA_MODELONTOLOGY_IRI);
+				optOntologyManager = oidaOntologyService.createNewOntology(systemOntologyMetaInfo, OIDAModelBaseOntology.OIDA_MODELONTOLOGY_IRI);
 
 			if (optOntologyManager.isPresent()) {
 				OIDAModelBaseOntology.getInstance().loadOrInitializeOntology(optOntologyManager.get());
@@ -277,7 +278,7 @@ public final class OIDABridge implements IOIDABridge {
 			return false;
 		}
 
-		LocalOntologyMetaInfo metaModelOntologyMetaInfo = OIDAUtil.getOntologyMetaInfo(new File(OIDAUtil.getOIDAMetaModelOntologyPath(), renamerStrategy.getMetaModelName() + FileConstants.OWL_FILE_POSTFIX));
+		LocalOntologyMetaInfo metaModelOntologyMetaInfo = OIDAUtil.getLocalOntologyMetaInfo(new File(OIDAUtil.getOIDAMetaModelOntologyPath(), renamerStrategy.getMetaModelName() + FileConstants.OWL_FILE_POSTFIX));
 
 		Optional<IOntologyManager> optMetaModelOntologyManager;
 		if (oidaOntologyService.checkLocalOntologyExistance(metaModelOntologyMetaInfo))
@@ -338,7 +339,7 @@ public final class OIDABridge implements IOIDABridge {
 			throw new OIDABridgeException("The directory for the model ontology doesn't exist/could not be created ['" + modelOntologyDirectory.toString() + "']. Model won't be observed.");
 
 		File modelOntologyFile = new File(modelOntologyDirectory, generateModelOntologyFileName(modelObjectId));
-		LocalOntologyMetaInfo ontologyMetaInfo = OIDAUtil.getOntologyMetaInfo(modelOntologyFile);
+		LocalOntologyMetaInfo ontologyMetaInfo = OIDAUtil.getLocalOntologyMetaInfo(modelOntologyFile);
 
 		Optional<IOntologyManager> optModelOntologyMgr;
 		if (oidaOntologyService.checkLocalOntologyExistance(ontologyMetaInfo))

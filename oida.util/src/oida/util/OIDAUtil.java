@@ -8,6 +8,7 @@ import org.eclipse.core.resources.ResourcesPlugin;
 
 import oida.ontologyMgr.LocalOntologyMetaInfo;
 import oida.ontologyMgr.OntologyMgrFactory;
+import oida.ontologyMgr.SystemOntologyMetaInfo;
 import oida.util.constants.FileConstants;
 import oida.util.constants.StringConstants;
 
@@ -45,10 +46,27 @@ public class OIDAUtil {
 		
 		fullPath = fullPath + fileName;
 		
-		return getOntologyMetaInfo(new File(fullPath));
+		return getLocalOntologyMetaInfo(new File(fullPath));
 	}
 	
-	public static LocalOntologyMetaInfo getOntologyMetaInfo(File file) {
+	public static SystemOntologyMetaInfo getSystemOntologyMetaInfo(String path, String fileName) {
+		String fullPath = path;
+		if (!path.endsWith(StringConstants.BACKSLASH))
+			fullPath = path + StringConstants.BACKSLASH;
+		
+		fullPath = fullPath + fileName;
+		
+		return getSystemOntologyMetaInfo(new File(fullPath));
+	}
+	
+	public static SystemOntologyMetaInfo getSystemOntologyMetaInfo(File file) {
+		SystemOntologyMetaInfo ontologyMetaInfo = OntologyMgrFactory.eINSTANCE.createSystemOntologyMetaInfo();
+		ontologyMetaInfo.setLocalPath(file.getAbsolutePath());
+		
+		return ontologyMetaInfo;
+	}
+	
+	public static LocalOntologyMetaInfo getLocalOntologyMetaInfo(File file) {
 		LocalOntologyMetaInfo ontologyMetaInfo = OntologyMgrFactory.eINSTANCE.createLocalOntologyMetaInfo();
 		ontologyMetaInfo.setLocalPath(file.getAbsolutePath());
 		
