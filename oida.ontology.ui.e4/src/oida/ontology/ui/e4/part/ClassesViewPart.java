@@ -20,6 +20,7 @@ import org.eclipse.swt.widgets.Composite;
 import com.google.inject.Injector;
 
 import oida.ontology.ui.ClassesView.ClassesViewInjectorProvider;
+import oida.ontologyMgr.OntologyMetaInfo;
 
 
 /**
@@ -36,7 +37,7 @@ public class ClassesViewPart implements ISelectionListener {
 	
 	@PostConstruct
 	public void postConstruct(Composite parent, ESelectionService selectionService) {
-		selectionService.addSelectionListener(OntologyManagerPart.PART_ID, this);
+		selectionService.addSelectionListener(OntologyLibraryPart.PART_ID, this);
 
 		Injector injector = ClassesViewInjectorProvider.getInjector();
 
@@ -56,6 +57,7 @@ public class ClassesViewPart implements ISelectionListener {
 
 	@Override
 	public void selectionChanged(MPart part, Object selection) {
-		viewerFactory.initialize(treeViewer, selection);
+		if (selection instanceof OntologyMetaInfo)
+			viewerFactory.initialize(treeViewer, ((OntologyMetaInfo)selection).getOntology());
 	}
 }

@@ -8,14 +8,14 @@ import org.eclipse.emf.common.command.Command;
 import org.eclipse.emf.edit.command.SetCommand;
 
 import oida.ontology.service.IOIDAOntologyService;
-import oida.ontology.ui.e4.part.OntologyManagerPart;
+import oida.ontology.ui.e4.part.OntologyLibraryPart;
 import oida.ontologyMgr.OntologyMetaInfo;
 import oida.ontologyMgr.OntologyMgrPackage;
 
 public class SetReferenceOntology {
 	@Execute
 	public void execute(IOIDAOntologyService ontologyService, ESelectionService selectionService) {
-		Command command = SetCommand.create(ontologyService.getEditingDomain(), ontologyService.getLibrary(), OntologyMgrPackage.eINSTANCE.getLibrary_ReferenceOntology(), selectionService.getSelection(OntologyManagerPart.PART_ID));
+		Command command = SetCommand.create(ontologyService.getEditingDomain(), ontologyService.getLibrary(), OntologyMgrPackage.eINSTANCE.getLibrary_ReferenceOntology(), selectionService.getSelection(OntologyLibraryPart.PART_ID));
 		ontologyService.getEditingDomain().getCommandStack().execute(command);
 		
 		ontologyService.loadReferenceOntology();
@@ -23,10 +23,10 @@ public class SetReferenceOntology {
 	
 	@CanExecute
 	public boolean canExecute(ESelectionService selectionService) {
-		if (selectionService.getSelection(OntologyManagerPart.PART_ID) == null)
+		if (selectionService.getSelection(OntologyLibraryPart.PART_ID) == null)
 			return false;
 
-		if (selectionService.getSelection(OntologyManagerPart.PART_ID) instanceof OntologyMetaInfo)
+		if (selectionService.getSelection(OntologyLibraryPart.PART_ID) instanceof OntologyMetaInfo)
 			return true;
 		else
 			return false;

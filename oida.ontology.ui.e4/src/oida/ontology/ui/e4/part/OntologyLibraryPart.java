@@ -13,18 +13,21 @@ import javax.inject.Inject;
 
 import org.eclipse.e4.ui.di.Persist;
 import org.eclipse.e4.ui.model.application.ui.MDirtyable;
+import org.eclipse.e4.ui.workbench.modeling.ESelectionService;
 import org.eclipse.emf.common.command.CommandStackListener;
-import org.eclipse.emf.parsley.composite.TreeFormComposite;
-import org.eclipse.emf.parsley.composite.TreeFormFactory;
 import org.eclipse.emf.parsley.edit.ui.dnd.ViewerDragAndDropHelper;
-import org.eclipse.emf.parsley.menus.ViewerContextMenuHelper;
-import org.eclipse.swt.SWT;
+import org.eclipse.emf.parsley.viewers.ViewerFactory;
+import org.eclipse.jface.viewers.ISelectionChangedListener;
+import org.eclipse.jface.viewers.IStructuredSelection;
+import org.eclipse.jface.viewers.SelectionChangedEvent;
+import org.eclipse.jface.viewers.TreeViewer;
 import org.eclipse.swt.widgets.Composite;
 
 import com.google.inject.Injector;
 
 import oida.ontology.service.IOIDAOntologyService;
 import oida.ontology.ui.OntologyLibraryView.OntologyLibraryViewInjectorProvider;
+import oida.ontologyMgr.OntologyMgrPackage;
 
 /**
  * 
@@ -33,45 +36,56 @@ import oida.ontology.ui.OntologyLibraryView.OntologyLibraryViewInjectorProvider;
  *
  */
 public class OntologyLibraryPart {
-	// the EMF Parley composite for showing a tree and a detail form
-	private TreeFormComposite treeFormComposite;
+	public static final String PART_ID = "oida.ontology.ui.e4.part.ontologylibrary";
+
+	private TreeViewer treeViewer;
 
 	@Inject
 	IOIDAOntologyService oidaService;
 
 	@Inject
 	MDirtyable dirty;
+	
+	@Inject
+	ESelectionService selectionService;
 
 	@PostConstruct
 	public void postConstruct(Composite parent) {
 		// Guice injector
 		Injector injector = OntologyLibraryViewInjectorProvider.getInjector();
 
-		TreeFormFactory treeFormFactory = injector.getInstance(TreeFormFactory.class);
-		// create the tree-form composite
-		
-		treeFormComposite = treeFormFactory.createTreeFormComposite(parent, SWT.NONE);
-		
+		ViewerFactory viewerFactory = injector.getInstance(ViewerFactory.class);
+
+		treeViewer = viewerFactory.createTreeViewerWithColumns(parent, OntologyMgrPackage.Literals.ONTOLOGY_META_INFO, oidaService.getLibraryResource());
+
 		// Guice injected viewer context menu helper
-		ViewerContextMenuHelper contextMenuHelper = injector.getInstance(ViewerContextMenuHelper.class);
+		//ViewerContextMenuHelper contextMenuHelper = injector.getInstance(ViewerContextMenuHelper.class);
+		
 		// Guice injected viewer drag and drop helper
 		ViewerDragAndDropHelper dragAndDropHelper = injector.getInstance(ViewerDragAndDropHelper.class);
 
 		// set context menu and drag and drop
-		contextMenuHelper.addViewerContextMenu(treeFormComposite.getViewer(), oidaService.getEditingDomain());
-		dragAndDropHelper.addDragAndDrop(treeFormComposite.getViewer(), oidaService.getEditingDomain());
+		//contextMenuHelper.addViewerContextMenu(treeViewer, oidaService.getEditingDomain());
+		dragAndDropHelper.addDragAndDrop(treeViewer, oidaService.getEditingDomain());
 
-		// update the composite
-		treeFormComposite.update(oidaService.getLibraryResource());
-		
 		oidaService.getEditingDomain().getCommandStack().addCommandStackListener(new CommandStackListener() {
 			public void commandStackChanged(EventObject event) {
 				if (dirty != null)
 					dirty.setDirty(true);
 			}
 		});
-	}
 
+		treeViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+			@Override
+			public void selectionChanged(SelectionChangedEvent event) {
+				IStructuredSelection selection = treeViewer.getStructuredSelection();
+
+				if (!selection.isEmpty())
+					selectionService.setSelection(selection.getFirstElement());
+			}
+		});
+	}
+	
 	@Persist
 	public void save(MDirtyable dirty) throws IOException {
 		oidaService.getLibraryResource().save(null);

@@ -61,9 +61,16 @@
       </view>
       <view
             category="org.eclipse.emf.parsley"
-            class="oida.ontology.ui.OntologyManagerView.OntologyManagerViewExecutableExtensionFactory:oida.ontology.ui.view.OntologyManagerView"
+            class="oida.ontology.ui.OntologyLibraryView.OntologyLibraryViewExecutableExtensionFactory:oida.ontology.ui.view.OntologyManagerView"
             id="oida.ontology.ui.OntologyManagerView"
             name="Ontology Manager"
+            restorable="true">
+      </view>
+      <view
+            category="org.eclipse.emf.parsley"
+            class="oida.ontology.ui.OntologyLibraryView.OntologyLibraryViewExecutableExtensionFactory:oida.ontology.ui.view.OntologyLibraryView"
+            id="oida.ontology.ui.OntologyLibraryView"
+            name="Ontology Library"
             restorable="true">
       </view>
    </extension>

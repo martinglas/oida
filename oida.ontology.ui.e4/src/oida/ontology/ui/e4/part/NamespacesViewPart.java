@@ -22,6 +22,7 @@ import com.google.inject.Injector;
 
 import oida.ontology.service.IOIDAOntologyService;
 import oida.ontology.ui.NamespacesView.NamespacesViewInjectorProvider;
+import oida.ontologyMgr.OntologyMetaInfo;
 
 
 /**
@@ -41,7 +42,7 @@ public class NamespacesViewPart implements ISelectionListener {
 
 	@PostConstruct
 	public void postConstruct(Composite parent, ESelectionService selectionService) {
-		selectionService.addSelectionListener(OntologyManagerPart.PART_ID, this);
+		selectionService.addSelectionListener(OntologyLibraryPart.PART_ID, this);
 
 		Injector injector = NamespacesViewInjectorProvider.getInjector();
 
@@ -61,6 +62,7 @@ public class NamespacesViewPart implements ISelectionListener {
 
 	@Override
 	public void selectionChanged(MPart part, Object selection) {
-		viewerFactory.initialize(treeViewer, selection);
+		if (selection instanceof OntologyMetaInfo)
+			viewerFactory.initialize(treeViewer, ((OntologyMetaInfo)selection).getOntology());
 	}
 }

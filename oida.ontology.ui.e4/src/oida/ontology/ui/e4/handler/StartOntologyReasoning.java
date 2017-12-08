@@ -9,7 +9,7 @@ import org.eclipse.e4.ui.workbench.modeling.ESelectionService;
 
 import oida.ontology.Ontology;
 import oida.ontology.service.IOIDAOntologyService;
-import oida.ontology.ui.e4.part.OntologyManagerPart;
+import oida.ontology.ui.e4.part.OntologyLibraryPart;
 
 public class StartOntologyReasoning {
 	@Inject
@@ -17,11 +17,11 @@ public class StartOntologyReasoning {
 	
 	@Execute
 	public void execute(ESelectionService selectionService) {
-		Ontology selectedOntology = (Ontology)selectionService.getSelection(OntologyManagerPart.PART_ID);
+		Ontology selectedOntology = (Ontology)selectionService.getSelection(OntologyLibraryPart.PART_ID);
 	}
 	
 	@CanExecute
 	public boolean canExecute(ESelectionService selectionService) {
-		return selectionService.getSelection(OntologyManagerPart.PART_ID) != null;
+		return selectionService.getSelection(OntologyLibraryPart.PART_ID) != null;
 	}
 }

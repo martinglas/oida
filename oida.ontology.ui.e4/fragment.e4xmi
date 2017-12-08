@@ -17,16 +17,13 @@
     <elements xsi:type="advanced:Perspective" xmi:id="_7j3fcLJXEeaw4puSHi5CMg" elementId="oida.ontology.ui.e4.perspective" label="Knowledge" iconURI="platform:/plugin/oida.ontology.ui.e4/icons/OntologyLibrary_16.png">
       <children xsi:type="basic:PartSashContainer" xmi:id="_I-8_8Jq8EeaelOAnCMy4mw" elementId="de.symo.application.partsashcontainer.2">
         <children xsi:type="basic:PartStack" xmi:id="_KSRB8Jq8EeaelOAnCMy4mw" elementId="de.symo.application.partstack.knowledge.lefttop" containerData="20">
-          <children xsi:type="basic:Part" xmi:id="_TqfhMLJYEeaw4puSHi5CMg" elementId="oida.ontology.ui.e4.part.ontologymanager" containerData="20" contributionURI="bundleclass://oida.ontology.ui.e4/oida.ontology.ui.e4.part.OntologyManagerPart" label="Ontology Manager" iconURI="platform:/plugin/oida.ontology.ui.e4/icons/OntologyLibrary_16.png">
+          <children xsi:type="basic:Part" xmi:id="_TqfhMLJYEeaw4puSHi5CMg" elementId="oida.ontology.ui.e4.part.ontologylibrary" containerData="20" contributionURI="bundleclass://oida.ontology.ui.e4/oida.ontology.ui.e4.part.OntologyLibraryPart" label="Library" iconURI="platform:/plugin/oida.ontology.ui.e4/icons/OntologyLibrary_16.png">
             <toolbar xmi:id="_Ff6C4PkGEeatKqZLJkxOvw" elementId="oida.ontology.ui.e4.toolbar.1">
               <children xsi:type="menu:HandledToolItem" xmi:id="_HlGi8NtREeex06UaG6VlAA" elementId="oida.ontology.ui.e4.handledtoolitem.load" label="Set as Reference" command="_J-e1INtREeex06UaG6VlAA"/>
               <children xsi:type="menu:HandledToolItem" xmi:id="_WoS4sB99EeeMaLf0aWrdgA" elementId="oida.ontology.ui.e4.handledtoolitem.add" label="Add" command="_ci-HYB99EeeMaLf0aWrdgA"/>
               <children xsi:type="menu:HandledToolItem" xmi:id="__eJTYKXEEeac7pLqBaVU8A" elementId="oida.ontology.ui.e4.handledtoolitem.save" label="Save" iconURI="platform:/plugin/oida.ontology.ui.e4/icons/Save_16.png" command="_FOPpwKXFEeac7pLqBaVU8A"/>
               <children xsi:type="menu:HandledToolItem" xmi:id="_GMxI4PkGEeatKqZLJkxOvw" elementId="oida.ontology.ui.e4.handledtoolitem.startreasoning" label="Start Reasoning" iconURI="platform:/plugin/oida.ontology.ui.e4/icons/Reasoning_16.png" command="_MvqOIPkGEeatKqZLJkxOvw"/>
             </toolbar>
-          </children>
-          <children xsi:type="basic:Part" xmi:id="_1hSosKXEEeac7pLqBaVU8A" elementId="oida.ontology.ui.e4.ontologylibrary" toBeRendered="false" contributionURI="bundleclass://oida.ontology.ui.e4/oida.ontology.ui.e4.part.OntologyLibraryPart" label="Ontology Library" iconURI="platform:/plugin/oida.ontology.ui.e4/icons/OntologyLibrary_16.png">
-            <toolbar xmi:id="_-vAVcKXEEeac7pLqBaVU8A" elementId="oida.ontology.ui.e4.toolbar.0"/>
           </children>
         </children>
         <children xsi:type="basic:PartSashContainer" xmi:id="_THJPgNZ_Eee9wLEB_pWVkw" elementId="oida.ontology.ui.e4.partsashcontainer.0" containerData="80" horizontal="true">
