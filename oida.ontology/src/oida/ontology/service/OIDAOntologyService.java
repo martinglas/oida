@@ -128,10 +128,16 @@ public final class OIDAOntologyService extends EContentAdapter implements INotif
 
 	@Override
 	public Optional<IOntologyManager> loadReferenceOntology() {
-		if (getLibrary().getReferenceOntology() != null) {
+		OntologyMetaInfo metaInfo = getLibrary().getReferenceOntology();
+		
+		if (metaInfo != null) {
 			LOGGER.info("Loading reference ontology...");
-
-			Optional<IOntologyManager> optRefOntManager = getOntologyManager(getLibrary().getReferenceOntology());
+			
+			Optional<IOntologyManager> optRefOntManager;
+			if (metaInfo instanceof LocalOntologyMetaInfo)
+				optRefOntManager = getLocalOntologyManager((LocalOntologyMetaInfo)metaInfo);
+			else
+				optRefOntManager = getOntologyManager(metaInfo);
 
 			if (optRefOntManager.isPresent())
 				LOGGER.info("Reference ontology loaded: '" + optRefOntManager.get().getOntology().getIri() + "'.");

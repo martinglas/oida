@@ -10,6 +10,7 @@ import java.util.stream.Stream;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.util.EContentAdapter;
+import org.eclipse.emf.ecore.util.EcoreUtil;
 
 import oida.ontology.Ontology;
 import oida.ontology.OntologyAnnotationProperty;
@@ -57,10 +58,9 @@ public abstract class AbstractOntologyManager extends EContentAdapter implements
 	}
 
 	protected void setOntology(Ontology ontology, OntologyMetaInfo metaInfo) {
-		ontology.setMetaInfo(metaInfo);
-		ontology.getLocalOntology().setMetaInfo(metaInfo);
-		
 		this.ontology = ontology;
+		this.ontology.setMetaInfo(metaInfo);
+		this.ontology.getLocalOntology().setMetaInfo(EcoreUtil.copy(metaInfo));
 		this.ontology.eAdapters().add(this);
 	}
 
