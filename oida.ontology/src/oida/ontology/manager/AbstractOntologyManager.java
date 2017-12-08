@@ -10,8 +10,6 @@ import java.util.stream.Stream;
 
 import org.eclipse.emf.common.notify.Notification;
 import org.eclipse.emf.ecore.util.EContentAdapter;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 
 import oida.ontology.Ontology;
 import oida.ontology.OntologyAnnotationProperty;
@@ -23,7 +21,6 @@ import oida.ontology.OntologyObjectPropertyEquivalence;
 import oida.ontology.OntologyPackage;
 import oida.ontology.manager.context.IGlobalOntologyContext;
 import oida.ontology.manager.util.OntologyManagerUtils;
-import oida.ontologyMgr.LocalOntologyMetaInfo;
 import oida.ontologyMgr.OntologyMetaInfo;
 import oida.util.constants.StringConstants;
 
@@ -34,11 +31,7 @@ import oida.util.constants.StringConstants;
  *
  */
 public abstract class AbstractOntologyManager extends EContentAdapter implements IOntologyManager {
-	private static Logger LOGGER = LoggerFactory.getLogger(AbstractOntologyManager.class);
-
 	private IGlobalOntologyContext globalContext;
-
-	private OntologyMetaInfo ontologyMetaInfo;
 
 	protected boolean localOntologyActive = true;
 
@@ -65,6 +58,7 @@ public abstract class AbstractOntologyManager extends EContentAdapter implements
 
 	protected void setOntology(Ontology ontology, OntologyMetaInfo metaInfo) {
 		ontology.setMetaInfo(metaInfo);
+		ontology.getLocalOntology().setMetaInfo(metaInfo);
 		
 		this.ontology = ontology;
 		this.ontology.eAdapters().add(this);
@@ -94,14 +88,9 @@ public abstract class AbstractOntologyManager extends EContentAdapter implements
 	}
 
 	@Override
-	public void setOntologyMetaInfo(OntologyMetaInfo metaInfo) {
-		ontologyMetaInfo = metaInfo;
-	}
-
-	@Override
 	public Optional<OntologyMetaInfo> getOntologyMetaInfo() {
-		if (ontologyMetaInfo != null)
-			return Optional.of(ontologyMetaInfo);
+		if (ontology != null && ontology.getMetaInfo() != null)
+			return Optional.of(ontology.getMetaInfo());
 		else
 			return Optional.empty();
 	}

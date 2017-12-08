@@ -131,7 +131,7 @@ public abstract class AbstractModelChangeHandler implements IModelChangeHandler 
 			initializeModelOntology(modelOntologyManager);
 
 			try {
-				getModelOntologyManager().saveOntology();
+				getModelOntologyManager().saveLocalOntology();
 			} catch (OntologyManagerException e) {
 				LOGGER.error("Error while saving model ontology for model '" + getModelObject().toString() + "'", e);
 			}

@@ -6,7 +6,6 @@
 package oida.ontology.predefined;
 
 import java.util.Optional;
-import java.util.stream.Stream;
 
 import oida.ontology.Ontology;
 import oida.ontology.OntologyObjectProperty;
@@ -97,6 +96,6 @@ public class Mereology extends AbstractPredefinedOntology {
 		ontologyManager.assignSubObjectPropertyToSuperObjectProperty(partOfDirectlyObjectProperty, partOfObjectProperty);
 		ontologyManager.assignInverseObjectProperty(partOfDirectlyObjectProperty, hasPartDirectlyObjectProperty);
 
-		ontologyManager.saveOntology();
+		ontologyManager.saveLocalOntology();
 	}
 }

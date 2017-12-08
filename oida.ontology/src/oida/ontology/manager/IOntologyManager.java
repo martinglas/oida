@@ -52,17 +52,17 @@ public interface IOntologyManager {
 	
 	Optional<OntologyMetaInfo> getOntologyMetaInfo();
 	
-	void setOntologyMetaInfo(OntologyMetaInfo ontologyMetaInfo);
+	//void setasdfOntologyMetaInfo(OntologyMetaInfo ontologyMetaInfo);
 
-	Ontology createOntology(LocalOntologyMetaInfo localOntologyMetaInfo) throws OntologyManagerException;
-	
 	Ontology loadOntology(OntologyMetaInfo ontologyMetaInfo) throws OntologyManagerException;
+	
+	Ontology createLocalOntology(LocalOntologyMetaInfo localOntologyMetaInfo) throws OntologyManagerException;
 	
 	Ontology loadLocalOntology(LocalOntologyMetaInfo localOntologyMetaInfo) throws OntologyManagerException;
 	
 	void refreshOntologyRepresentation(boolean buildLocalRepresentation);
 
-	void saveOntology() throws OntologyManagerException;
+	void saveLocalOntology() throws OntologyManagerException;
 
 	void addImportDeclaration(final String iri) throws OntologyManagerException;
 
@@ -183,7 +183,6 @@ public interface IOntologyManager {
 
 	Optional<OntologyAnnotation> annotateIndividual(OntologyIndividual individual, OntologyAnnotationProperty property, String annotationValue);
 
-	
 	void renameEntity(OntologyEntity entity, String newName);
 	
 	Optional<OntologyClassEquivalence> assignClassEquivalence(OntologyClass clazz, OntologyClass equivalentClazz);

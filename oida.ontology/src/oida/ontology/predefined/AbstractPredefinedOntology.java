@@ -31,7 +31,7 @@ public abstract class AbstractPredefinedOntology implements IPredefinedOntology 
 		setOntologyManager(ontologyManager);
 		if (!checkPreDefinedOntology(ontologyManager.getOntology())) {
 			initializeOntology(ontologyManager);
-			ontologyManager.saveOntology();
+			ontologyManager.saveLocalOntology();
 		}
 	}
 

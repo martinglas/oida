@@ -28,12 +28,12 @@ module oida.ontology.ui.OntologyManagerView {
 
 	featuresProvider {
 		features {
-			LocalOntologyMetaInfo -> localPath, ontology, nrOfClasses, nrOfIndividuals, nrOfObjectProperties
+			OntologyMetaInfo -> iri, nrOfClasses, nrOfIndividuals, nrOfObjectProperties
 		}
 	}
 
 	bindings {
-		value List<Integer> TableColumnWeights -> #[50, 200, 200, 25, 25, 25]
+		value List<Integer> TableColumnWeights -> #[50, 200, 25, 25, 25]
 	}
 	
 	viewerContentProvider {
@@ -48,6 +48,7 @@ module oida.ontology.ui.OntologyManagerView {
 	labelProvider {
 		text {
 			Library -> 'Library'
+			OntologyMetaInfo -> iri
 			LocalOntologyMetaInfo -> OIDAUtil.extractFileName(localPath)
 		}
 		
@@ -60,12 +61,7 @@ module oida.ontology.ui.OntologyManagerView {
 
 	tableLabelProvider {
 		text {
-			LocalOntologyMetaInfo:localPath -> localPath
-			OntologyMetaInfo:ontology -> 
-				if (ontology !== null) 
-					ontology.iri
-				else
-					''
+			OntologyMetaInfo:iri -> iri
 			OntologyMetaInfo:nrOfClasses -> nrOfClasses.toString
 			OntologyMetaInfo:nrOfIndividuals -> nrOfIndividuals.toString
 			OntologyMetaInfo:nrOfObjectProperties -> nrOfObjectProperties.toString
@@ -74,8 +70,7 @@ module oida.ontology.ui.OntologyManagerView {
 
 	featureCaptionProvider {
 		text {
-			LocalOntologyMetaInfo : localPath -> 'Local Path'
-			OntologyMetaInfo : ontology -> 'IRI'
+			OntologyMetaInfo : iri -> 'IRI'
 			OntologyMetaInfo : nrOfClasses -> 'Classes'
 			OntologyMetaInfo : nrOfIndividuals -> 'Individuals'
 			OntologyMetaInfo : nrOfObjectProperties -> 'Object Properties'

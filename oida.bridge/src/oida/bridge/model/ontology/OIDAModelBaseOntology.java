@@ -54,6 +54,6 @@ public class OIDAModelBaseOntology extends AbstractPredefinedOntology {
 	protected void initializeOntology(IOntologyManager ontologyManager) throws OntologyManagerException {
 		nameAnnotationProperty = ontologyManager.createAnnotationProperty(OIDA_MODELONTOLOGY_NAME_ANNOTATION, OIDA_MODELONTOLOGY_PREFIX);
 		
-		ontologyManager.saveOntology();
+		ontologyManager.saveLocalOntology();
 	}
 }

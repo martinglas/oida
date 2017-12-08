@@ -50,7 +50,7 @@ public class OIDAUtil {
 	
 	public static LocalOntologyMetaInfo getOntologyMetaInfo(File file) {
 		LocalOntologyMetaInfo ontologyMetaInfo = OntologyMgrFactory.eINSTANCE.createLocalOntologyMetaInfo();
-		ontologyMetaInfo.setLocalPath(file.getAbsolutePath().substring(0, file.getAbsolutePath().lastIndexOf(file.getName())));
+		ontologyMetaInfo.setLocalPath(file.getAbsolutePath());
 		
 		return ontologyMetaInfo;
 	}

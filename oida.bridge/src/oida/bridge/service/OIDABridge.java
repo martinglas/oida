@@ -60,7 +60,6 @@ import oida.ontology.manager.IOntologyManager;
 import oida.ontology.manager.OntologyManagerException;
 import oida.ontology.service.IOIDAOntologyService;
 import oida.ontologyMgr.LocalOntologyMetaInfo;
-import oida.ontologyMgr.OntologyMetaInfo;
 import oida.util.ExtensionPointUtil;
 import oida.util.OIDAUtil;
 import oida.util.constants.FileConstants;
@@ -252,7 +251,7 @@ public final class OIDABridge implements IOIDABridge {
 			Optional<IOntologyManager> optOntologyManager;
 
 			if (oidaOntologyService.checkLocalOntologyExistance(oidaModelOntologyMetaInfo))
-				optOntologyManager = oidaOntologyService.getOntologyManager(oidaModelOntologyMetaInfo);
+				optOntologyManager = oidaOntologyService.getLocalOntologyManager(oidaModelOntologyMetaInfo);
 			else
 				optOntologyManager = oidaOntologyService.createNewOntology(oidaModelOntologyMetaInfo, OIDAModelBaseOntology.OIDA_MODELONTOLOGY_IRI);
 
@@ -298,7 +297,7 @@ public final class OIDABridge implements IOIDABridge {
 
 				metaModelOntologyHandler.getModelOntologyManager().refreshOntologyRepresentation(true);
 				extractMappings(metaModelOntologyHandler.getModelOntologyManager());
-				metaModelOntologyHandler.getModelOntologyManager().saveOntology();
+				metaModelOntologyHandler.getModelOntologyManager().saveLocalOntology();
 
 				for (IClassRecommender rec : recommenderSecondaryClass)
 					rec.initializeRecommenderForMetaModel(metaModelOntologyHandler.getModelOntologyManager().getOntology(), oidaOntologyService.getReferenceOntologyManager().get().getOntology());
@@ -363,7 +362,7 @@ public final class OIDABridge implements IOIDABridge {
 	public void saveModelOntology(final Object modelObject) {
 		try {
 			if (modelHandlerMap.containsKey(modelObject))
-				modelHandlerMap.get(modelObject).getModelOntologyManager().saveOntology();
+				modelHandlerMap.get(modelObject).getModelOntologyManager().saveLocalOntology();
 		} catch (OntologyManagerException e) {
 			e.printStackTrace();
 		}
@@ -557,7 +556,7 @@ public final class OIDABridge implements IOIDABridge {
 				LOGGER.info("Secondary class-mapping established: '" + metaModelClass.getIri() + "' equals '" + referenceClass.getIri() + "'.");
 
 				try {
-					getMetaModelHandler().get().getModelOntologyManager().saveOntology();
+					getMetaModelHandler().get().getModelOntologyManager().saveLocalOntology();
 				} catch (OntologyManagerException e) {
 					LOGGER.error("Error while saving meta model ontology.", e);
 				}
@@ -593,7 +592,7 @@ public final class OIDABridge implements IOIDABridge {
 				LOGGER.info("Secondary object property-mapping established: '" + selectedMetaModelObjectProperty.getIri() + "' equals '" + selectedReferenceOntologyObjectProperty.getIri() + "'.");
 
 				try {
-					getMetaModelHandler().get().getModelOntologyManager().saveOntology();
+					getMetaModelHandler().get().getModelOntologyManager().saveLocalOntology();
 				} catch (OntologyManagerException e) {
 					LOGGER.error("Error while saving meta model ontology.", e);
 				}

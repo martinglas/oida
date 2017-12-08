@@ -327,9 +327,7 @@ public final class OIDAOntologyService extends EContentAdapter implements INotif
 			IOntologyManager mgr = managerFactory.getNewManager();
 			mgr.setGlobalOntologyContext(this);
 			Ontology ontology = mgr.loadOntology(ontologyMetaInfo);
-
-			mgr.setOntologyMetaInfo(ontologyMetaInfo);
-			managedOntologyResource.getContents().add(mgr.getOntology());
+			managedOntologyResource.getContents().add(ontology);
 			managedOntologies.put(ontology, mgr);
 			
 			LOGGER.info("Added new ontology manager for: " + ontology.getIri() + ".");
@@ -352,7 +350,6 @@ public final class OIDAOntologyService extends EContentAdapter implements INotif
 			mgr.setGlobalOntologyContext(this);
 			Ontology ontology = mgr.loadLocalOntology(ontologyMetaInfo);
 
-			mgr.setOntologyMetaInfo(ontologyMetaInfo);
 			managedOntologyResource.getContents().add(mgr.getOntology());
 			managedOntologies.put(ontology, mgr);
 			iriMappings.put(ontology.getIri(), ontologyMetaInfo);
@@ -378,9 +375,8 @@ public final class OIDAOntologyService extends EContentAdapter implements INotif
 			else
 				ontologyMetaInfo.setIri(OIDAUtil.getFileIriString(ontologyMetaInfo));
 
-			ontology = mgr.createOntology(ontologyMetaInfo);
-			
-			mgr.setOntologyMetaInfo(ontologyMetaInfo);
+			ontology = mgr.createLocalOntology(ontologyMetaInfo);
+
 			managedOntologyResource.getContents().add(mgr.getOntology());
 			managedOntologies.put(ontology, mgr);
 			iriMappings.put(ontology.getIri(), ontologyMetaInfo);

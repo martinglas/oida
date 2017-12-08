@@ -126,7 +126,7 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 	}
 
 	@Override
-	public Ontology createOntology(LocalOntologyMetaInfo metaInfo) throws OntologyManagerException {
+	public Ontology createLocalOntology(LocalOntologyMetaInfo metaInfo) throws OntologyManagerException {
 		if (metaInfo.getIri() == null || metaInfo.getIri().contentEquals(StringConstants.EMPTY))
 			return null;
 
@@ -151,12 +151,11 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 		try {
 			updateIRIMappings();
 			
-			setOntologyMetaInfo(metaInfo);
-
 			owlOntology = owlOntologyManager.loadOntology(IRI.create(metaInfo.getIri()));
 			owlPrefixManager.setDefaultPrefix(owlOntology.getOntologyID().getOntologyIRI().get().getIRIString());
 			owlOntologyManager.setOntologyFormat(owlOntology, owlPrefixManager);
-
+			initializeInternalOntology(metaInfo);
+			
 			refreshOntologyRepresentation(true);
 
 			LOGGER.info("Ontology loaded: '" + metaInfo.getIri() + "'");
@@ -187,8 +186,6 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 
 	@Override
 	public void refreshOntologyRepresentation(boolean buildLocalRepresentation) {
-		initializeInternalOntology(getOntologyMetaInfo().get());
-
 		refreshOntologyRepresentationInternal(owlOntology, buildLocalRepresentation);
 	}
 
@@ -241,7 +238,7 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 		extractAnnotationProperties(getOntology().getLocalOntology(), allAnnotationProperties, mapHandler.getMapHandlerLocal());
 	}
 
-	private void initializeInternalOntology(OntologyMetaInfo metaInfo) {		
+	private void initializeInternalOntology(OntologyMetaInfo metaInfo) {
 		setOntology(OntologyManagerUtils.generateInternalOntologyObject(metaInfo.getIri()), metaInfo);
 		mapHandler.getMapHandler().initializeOntology(owlDataFactory, owlOntology, getOntology());
 		mapHandler.getMapHandlerLocal().initializeOntology(owlDataFactory, owlOntology, getOntology().getLocalOntology());
@@ -410,7 +407,7 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 	}
 
 	@Override
-	public void saveOntology() throws OntologyManagerException {
+	public void saveLocalOntology() throws OntologyManagerException {
 		Optional<OntologyMetaInfo> optOntologyMetaInfo = getOntologyMetaInfo();
 		if (optOntologyMetaInfo.isPresent()) {
 			if (!(optOntologyMetaInfo.get() instanceof LocalOntologyMetaInfo))
