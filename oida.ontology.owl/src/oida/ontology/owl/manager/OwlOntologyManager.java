@@ -147,15 +147,15 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 	public Ontology loadOntology(OntologyMetaInfo metaInfo) throws OntologyManagerException {
 		if (metaInfo.getIri() == null || metaInfo.getIri().contentEquals(StringConstants.EMPTY))
 			return null;
-		
+
 		try {
 			updateIRIMappings();
-			
+
 			owlOntology = owlOntologyManager.loadOntology(IRI.create(metaInfo.getIri()));
 			owlPrefixManager.setDefaultPrefix(owlOntology.getOntologyID().getOntologyIRI().get().getIRIString());
 			owlOntologyManager.setOntologyFormat(owlOntology, owlPrefixManager);
 			initializeInternalOntology(metaInfo);
-			
+
 			refreshOntologyRepresentation(true);
 
 			LOGGER.info("Ontology loaded: '" + metaInfo.getIri() + "'");
@@ -164,19 +164,18 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 			throw new OntologyManagerException("Error while loading ontology from file '" + metaInfo.getIri() + "': " + e.getMessage(), e);
 		}
 	}
-	
+
 	@Override
 	public Ontology loadLocalOntology(LocalOntologyMetaInfo metaInfo) throws OntologyManagerException {
 		Optional<File> optFile = OIDAUtil.getOntologyFileObject(metaInfo, false);
 		if (!optFile.isPresent() || !optFile.get().exists()) {
 			throw new OntologyManagerException("Error while loading ontology: File doesn't exist.");
-		}
-		else {
+		} else {
 			metaInfo.setIri(OIDAUtil.convertPathToIRI(metaInfo.getLocalPath()));
 			return loadOntology(metaInfo);
 		}
 	}
-	
+
 	private void updateIRIMappings() {
 		owlOntologyManager.getIRIMappers().clear();
 
@@ -231,7 +230,7 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 			List<OWLClassAssertionAxiom> allLocalClassAssertionAxioms = owlOntology.axioms(AxiomType.CLASS_ASSERTION, Imports.EXCLUDED).collect(Collectors.toList());
 			extractIndividuals(getOntology().getLocalOntology(), allLocalIndividuals, allLocalClassAssertionAxioms, mapHandler.getMapHandlerLocal());
 		}
-		
+
 		// Annotation Properties:
 		List<OWLAnnotationProperty> allAnnotationProperties = owlOntology.annotationPropertiesInSignature(Imports.INCLUDED).collect(Collectors.toList());
 		extractAnnotationProperties(getOntology(), allAnnotationProperties, mapHandler.getMapHandler());
@@ -290,7 +289,8 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 					}
 				}
 
-				// if no super class is defined, the Thing class is set as super class:
+				// if no super class is defined, the Thing class is set as super
+				// class:
 				if (!addedAsSubClass) {
 					mapHandler.getThingClass().getSubClasses().add(internalClass);
 					internalClass.getSuperClasses().add(mapHandler.getThingClass());
@@ -408,27 +408,23 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 
 	@Override
 	public void saveLocalOntology() throws OntologyManagerException {
-		Optional<OntologyMetaInfo> optOntologyMetaInfo = getOntologyMetaInfo();
-		if (optOntologyMetaInfo.isPresent()) {
-			if (!(optOntologyMetaInfo.get() instanceof LocalOntologyMetaInfo))
-				throw new OntologyManagerException("Error while saving ontology: Ontology is no local ontology.");
-			
-			LocalOntologyMetaInfo metaInfo = (LocalOntologyMetaInfo)optOntologyMetaInfo.get();
-			Optional<File> optFile = OIDAUtil.getOntologyFileObject(metaInfo, true);
+		OntologyMetaInfo optOntologyMetaInfo = getOntology().getMetaInfo();
+		if (!(optOntologyMetaInfo instanceof LocalOntologyMetaInfo))
+			throw new OntologyManagerException("Error while saving ontology: Ontology is no local ontology.");
 
-			if (optFile.isPresent()) {
-				try {
-					FileOutputStream outputStream = new FileOutputStream(optFile.get());
-					owlOntologyManager.saveOntology(owlOntology, owlPrefixManager, outputStream);
-					LOGGER.info("Ontology saved: '" + getOntology().getIri() + "'");
-				} catch (FileNotFoundException e) {
-					throw new OntologyManagerException("Error while saving ontology to file '" + metaInfo.getLocalPath() + "': " + e.getMessage(), e);
-				} catch (OWLOntologyStorageException e) {
-					throw new OntologyManagerException("Error while saving ontology to file '" + metaInfo.getLocalPath() + "': " + e.getMessage(), e);
-				}
+		LocalOntologyMetaInfo metaInfo = (LocalOntologyMetaInfo)optOntologyMetaInfo;
+		Optional<File> optFile = OIDAUtil.getOntologyFileObject(metaInfo, true);
+
+		if (optFile.isPresent()) {
+			try {
+				FileOutputStream outputStream = new FileOutputStream(optFile.get());
+				owlOntologyManager.saveOntology(owlOntology, owlPrefixManager, outputStream);
+				LOGGER.info("Ontology saved: '" + getOntology().getIri() + "'");
+			} catch (FileNotFoundException e) {
+				throw new OntologyManagerException("Error while saving ontology to file '" + metaInfo.getLocalPath() + "': " + e.getMessage(), e);
+			} catch (OWLOntologyStorageException e) {
+				throw new OntologyManagerException("Error while saving ontology to file '" + metaInfo.getLocalPath() + "': " + e.getMessage(), e);
 			}
-		} else {
-			throw new OntologyManagerException("Error while saving ontology: Manager has no file information.");
 		}
 	}
 
@@ -940,5 +936,46 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 			equivalence.getObjectProperty1().getEquivalentProperties().remove(equivalence.getObjectProperty2());
 			equivalence.getObjectProperty2().getEquivalentProperties().remove(equivalence.getObjectProperty1());
 		}
+	}
+
+	@Override
+	public Stream<OntologyObjectProperty> getAllObjectProperties() {
+		// TODO Auto-generated method stub
+		return null;
+	}
+
+	@Override
+	public void deleteLocalOntology() throws OntologyManagerException {
+		LOGGER.error("Not implemented yet.");
+	}
+
+	@Override
+	public void removeClass(String iri) {
+		LOGGER.error("Not implemented yet.");
+	}
+
+	@Override
+	public void removeClass(String iri, String namespace) {
+		LOGGER.error("Not implemented yet.");
+	}
+
+	@Override
+	public void removeIndividual(String iri) {
+		LOGGER.error("Not implemented yet.");
+	}
+
+	@Override
+	public void removeIndividual(String iri, String namespace) {
+		LOGGER.error("Not implemented yet.");
+	}
+
+	@Override
+	public void removeObjectProperty(String iri) {
+		LOGGER.error("Not implemented yet.");
+	}
+
+	@Override
+	public void removeObjectProperty(String iri, String namespace) {
+		LOGGER.error("Not implemented yet.");
 	}
 }
