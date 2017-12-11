@@ -41,6 +41,16 @@ public interface IOntologyManager {
 	 */
 	void setGlobalOntologyContext(IGlobalOntologyContext context);
 
+	Ontology createLocalOntology(LocalOntologyMetaInfo localOntologyMetaInfo) throws OntologyManagerException;
+	
+	Ontology loadLocalOntology(LocalOntologyMetaInfo localOntologyMetaInfo) throws OntologyManagerException;
+	Ontology loadOntology(OntologyMetaInfo ontologyMetaInfo) throws OntologyManagerException;
+	
+	void deleteLocalOntology() throws OntologyManagerException;
+	void saveLocalOntology() throws OntologyManagerException;
+	
+	void refreshOntologyRepresentation(boolean buildLocalRepresentation);
+	
 	/**
 	 * Returns the managed ontology resource.
 	 * 
@@ -49,34 +59,20 @@ public interface IOntologyManager {
 	Ontology getOntology();
 	
 	String getDefaultNamespace();
-	
-	Optional<OntologyMetaInfo> getOntologyMetaInfo();
-	
-	//void setasdfOntologyMetaInfo(OntologyMetaInfo ontologyMetaInfo);
-
-	Ontology loadOntology(OntologyMetaInfo ontologyMetaInfo) throws OntologyManagerException;
-	
-	Ontology createLocalOntology(LocalOntologyMetaInfo localOntologyMetaInfo) throws OntologyManagerException;
-	
-	Ontology loadLocalOntology(LocalOntologyMetaInfo localOntologyMetaInfo) throws OntologyManagerException;
-	
-	void refreshOntologyRepresentation(boolean buildLocalRepresentation);
-
-	void saveLocalOntology() throws OntologyManagerException;
 
 	void addImportDeclaration(final String iri) throws OntologyManagerException;
-
 	void addImportDeclaration(Ontology importOntology) throws OntologyManagerException;
 
-	// Class Operations
+	void renameEntity(OntologyEntity entity, final String newName);
 	
+	// Class Operations
 	/**
 	 * Creates a class within the default namespace of the ontology.
 	 * 
 	 * @param name The short class name (without any namespace).
 	 * @return An representation object of the created class.
 	 */
-	OntologyClass createClass(String name);
+	OntologyClass createClass(final String name);
 
 	/**
 	 * Creates a class within a specified namespace.
@@ -93,107 +89,87 @@ public interface IOntologyManager {
 	 * @param superClass the super class object.
 	 */
 	void assignSubClassToSuperClass(OntologyClass subClass, OntologyClass superClass);
-
+	
 	OntologyClass createSubClass(final String name, OntologyClass superClass);
-
 	OntologyClass createSubClass(final String name, final String namespace, OntologyClass superClass);
 
-	Stream<OntologyClass> getAllClasses();
-
+	Optional<OntologyClassEquivalence> assignClassEquivalence(OntologyClass clazz, OntologyClass equivalentClazz);
+	void removeClassEquivalence(OntologyClassEquivalence equivalence);
+	Stream<OntologyClassEquivalence> getAllClassEquivalences();
+	
 	boolean isClassExisting(final String name);
-
 	boolean isClassExisting(final String name, final String namespace);
 	
 	Optional<OntologyClass> getClass(final String iri);
-
 	Optional<OntologyClass> getClass(final String name, final String namespace);
 	
-	// Individual Operations
+	Stream<OntologyClass> getAllClasses();
 	
+	void removeClass(final String iri);
+	void removeClass(final String iri, final String namespace);
+	
+	// Individual Operations
 	OntologyIndividual createIndividual(final String name);
-
 	OntologyIndividual createIndividual(final String name, final String namespace);
 
 	void assignIndividualToClass(OntologyIndividual individual, OntologyClass clazz);
-	
-	OntologyIndividual createIndividualOfClass(String individualName, String className);
 
-	OntologyIndividual createIndividualOfClass(String individualName, OntologyClass clazz);
+	OntologyIndividual createIndividualOfClass(final String individualName, OntologyClass clazz);
+	OntologyIndividual createIndividualOfClass(final String individualName, final String individualNamespace, OntologyClass clazz);
 
-	OntologyIndividual createIndividualOfClass(String individualName, String individualNamespace, OntologyClass clazz);
+	Optional<OntologyIndividual> getIndividual(final String iri);
+	Optional<OntologyIndividual> getIndividual(final String name, final String namespace);
 	
 	Stream<OntologyIndividual> getAllIndividuals();
 	
-	Optional<OntologyIndividual> getIndividual(final String iri);
-
-	Optional<OntologyIndividual> getIndividual(final String name, final String namespace);
-
+	void removeIndividual(final String iri);
+	void removeIndividual(final String iri, final String namespace);
+	
 	// Object Property Operations
+	OntologyObjectProperty createObjectProperty(final String propertyName);
+	OntologyObjectProperty createObjectProperty(final String propertyName, final String namespace);
+	OntologyObjectProperty createObjectProperty(final String propertyName, final String namespace, OntologyClass domain);
+	OntologyObjectProperty createObjectProperty(final String propertyName, final String namespace, OntologyClass domain, OntologyClass range);
 	
-	OntologyObjectProperty createObjectProperty(String propertyName);
+	OntologyObjectProperty createObjectProperty(final String propertyName, OntologyClass domain);
+	OntologyObjectProperty createObjectProperty(final String propertyName, OntologyClass domain, OntologyClass range);
 
-	OntologyObjectProperty createObjectProperty(String propertyName, OntologyClass domain);
-
-	OntologyObjectProperty createObjectProperty(String propertyName, OntologyClass domain, OntologyClass range);
-
-	OntologyObjectProperty createObjectProperty(String propertyName, String namespace);
-
-	OntologyObjectProperty createObjectProperty(String propertyName, String namespace, OntologyClass domain);
-
-	OntologyObjectProperty createObjectProperty(String propertyName, String namespace, OntologyClass domain, OntologyClass range);
-	
 	void assignSubObjectPropertyToSuperObjectProperty(OntologyObjectProperty subProperty, OntologyObjectProperty superProperty);
+	
+	Optional<OntologyObjectPropertyEquivalence> assignObjectPropertyEquivalence(OntologyObjectProperty objectProperty, OntologyObjectProperty equivalentObjectProperty);
+	void removeObjectPropertyEquivalence(OntologyObjectPropertyEquivalence equivalence);
+	Stream<OntologyObjectPropertyEquivalence> getAllObjectPropertyEquivalences();
 	
 	void assignInverseObjectProperty(OntologyObjectProperty property, OntologyObjectProperty inverseProperty);
 	
 	void makeObjectPropertyFunctional(OntologyObjectProperty property);
-
 	void makeObjectPropertyInverseFunctional(OntologyObjectProperty property);
-
 	void makeObjectPropertyTransitive(OntologyObjectProperty property);
-
 	void makeObjectPropertySymmetric(OntologyObjectProperty property);
-
 	void makeObjectPropertyAsymmetric(OntologyObjectProperty property);
-
 	void makeObjectPropertyReflexive(OntologyObjectProperty property);
-
 	void makeObjectPropertyIrreflexive(OntologyObjectProperty property);
-
+	
 	void setObjectPropertyCharacteristics(OntologyObjectProperty property, boolean functional, boolean inverseFunctional, boolean transitive, boolean symmetric, boolean asymmetric, boolean reflexive,
 			boolean irreflexive);
 
 	void assignObjectPropertyRange(OntologyObjectProperty property, OntologyClass range);
-
 	void assignObjectPropertyDomain(OntologyObjectProperty property, OntologyClass domain);
-
-	Optional<OntologyObjectProperty> getObjectProperty(final String iri);
-
-	Optional<OntologyObjectProperty> getObjectProperty(final String name, final String namespace);
 
 	OntologyObjectPropertyAssertion createObjectPropertyAssertion(OntologyObjectProperty property, OntologyIndividual individual1, OntologyIndividual individual2);
 	
+	Optional<OntologyObjectProperty> getObjectProperty(final String iri);
+	Optional<OntologyObjectProperty> getObjectProperty(final String name, final String namespace);
+	
+	Stream<OntologyObjectProperty> getAllObjectProperties();
+	
+	void removeObjectProperty(final String iri);
+	void removeObjectProperty(final String iri, final String namespace);
+	
 	// Annotation Operations
-	
-	OntologyAnnotationProperty createAnnotationProperty(String propertyName);
+	OntologyAnnotationProperty createAnnotationProperty(final String propertyName);
+	OntologyAnnotationProperty createAnnotationProperty(final String propertyName, final String namespace);
 
-	OntologyAnnotationProperty createAnnotationProperty(String propertyName, String namespace);
-
-	Optional<OntologyAnnotation> annotateClass(OntologyAnnotationProperty property, String annotationValue, OntologyClass clazz);
-
-	Optional<OntologyAnnotation> annotateIndividual(OntologyIndividual individual, OntologyAnnotationProperty property, String annotationValue);
-
-	void renameEntity(OntologyEntity entity, String newName);
-	
-	Optional<OntologyClassEquivalence> assignClassEquivalence(OntologyClass clazz, OntologyClass equivalentClazz);
-	
-	void removeClassEquivalence(OntologyClassEquivalence equivalence);
-
-	Optional<OntologyObjectPropertyEquivalence> assignObjectPropertyEquivalence(OntologyObjectProperty objectProperty, OntologyObjectProperty equivalentObjectProperty);
-	
-	void removeObjectPropertyEquivalence(OntologyObjectPropertyEquivalence equivalence);
-
-	Stream<OntologyClassEquivalence> getAllClassEquivalences();
-
-	Stream<OntologyObjectPropertyEquivalence> getAllObjectPropertyEquivalences();
+	Optional<OntologyAnnotation> annotateClass(OntologyAnnotationProperty property, final String annotationValue, OntologyClass clazz);
+	Optional<OntologyAnnotation> annotateIndividual(OntologyIndividual individual, OntologyAnnotationProperty property, final String annotationValue);
 }

@@ -88,14 +88,6 @@ public abstract class AbstractOntologyManager extends EContentAdapter implements
 	}
 
 	@Override
-	public Optional<OntologyMetaInfo> getOntologyMetaInfo() {
-		if (ontology != null && ontology.getMetaInfo() != null)
-			return Optional.of(ontology.getMetaInfo());
-		else
-			return Optional.empty();
-	}
-
-	@Override
 	public OntologyClass createClass(String name) {
 		return createClass(name, StringConstants.EMPTY);
 	}
@@ -115,11 +107,6 @@ public abstract class AbstractOntologyManager extends EContentAdapter implements
 	@Override
 	public OntologyIndividual createIndividual(final String name) {
 		return createIndividual(name, StringConstants.EMPTY);
-	}
-
-	@Override
-	public OntologyIndividual createIndividualOfClass(final String individualName, final String className) {
-		return createIndividualOfClass(individualName, createClass(className));
 	}
 
 	@Override
