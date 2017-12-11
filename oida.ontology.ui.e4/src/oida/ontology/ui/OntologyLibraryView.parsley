@@ -62,7 +62,11 @@ module oida.ontology.ui.OntologyLibraryView {
 
 	tableLabelProvider {
 		text {
-			OntologyMetaInfo:iri -> iri.replaceAll("%20", StringConstants.SPACE)
+			OntologyMetaInfo:iri ->
+				if (iri !== null)
+					iri.replaceAll("%20", StringConstants.SPACE)
+				else
+					StringConstants.EMPTY
 			OntologyMetaInfo:nrOfClasses -> nrOfClasses.toString
 			OntologyMetaInfo:nrOfIndividuals -> nrOfIndividuals.toString
 			OntologyMetaInfo:nrOfObjectProperties -> nrOfObjectProperties.toString
