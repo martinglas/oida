@@ -6,9 +6,13 @@
     <eClassifiers xsi:type="ecore:EClass" name="Library">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="owner" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="creationDate" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="ontologies" upperBound="-1"
-          eType="#//ontologyMgr/OntologyMetaInfo" containment="true" resolveProxies="false"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="referenceOntology" eType="#//ontologyMgr/OntologyMetaInfo"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="localOntologies" lowerBound="1"
+          eType="#//ontologyMgr/LibrarySection"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="remoteOntologies" lowerBound="1"
+          eType="#//ontologyMgr/LibrarySection"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="systemOntologies" lowerBound="1"
+          eType="#//ontologyMgr/LibrarySection"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="OntologyMetaInfo">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="iri" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
@@ -25,6 +29,10 @@
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="localPath" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="SystemOntologyMetaInfo" eSuperTypes="#//ontologyMgr/LocalOntologyMetaInfo"/>
+    <eClassifiers xsi:type="ecore:EClass" name="LibrarySection">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="ontologies" upperBound="-1"
+          eType="#//ontologyMgr/OntologyMetaInfo" containment="true" resolveProxies="false"/>
+    </eClassifiers>
   </eSubpackages>
   <eSubpackages name="ontology" nsURI="http://net/bauhaus-luftfahrt/oida/ontology"
       nsPrefix="net.bauhaus-luftfahrt.oida.ontology">
