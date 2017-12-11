@@ -19,13 +19,6 @@
       </view>
       <view
             category="org.eclipse.emf.parsley"
-            class="oida.ontology.ui.OntologyManagerView.OntologyManagerViewExecutableExtensionFactory:oida.ontology.ui.view.OntologyManagerView"
-            id="oida.ontology.ui.view.OntologyManagerView"
-            name="Ontology Manager"
-            restorable="true">
-      </view>
-      <view
-            category="org.eclipse.emf.parsley"
             class="oida.ontology.ui.ClassesView.ClassesViewExecutableExtensionFactory:oida.ontology.ui.view.ClassesView"
             id="oida.ontology.ui.view.OntologyView"
             name="Classes"
