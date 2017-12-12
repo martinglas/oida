@@ -1,11 +1,10 @@
 import bridgemodel.BridgemodelPackage
-import oida.bridge.ui.view.RecommendationsView
 import bridgemodel.Recommendation
 import java.util.List
+import oida.bridge.ui.view.RecommendationsView
 
 /* oida.bridge.ui.e4 Emf Parsley Dsl Module file */
 module oida.bridge.ui.RecommendationsView {
-	
 	parts {
 		viewpart oida.bridge.ui.RecommendationsView {
 			viewname "OIDA Recommendations"
@@ -18,18 +17,24 @@ module oida.bridge.ui.RecommendationsView {
 			Recommendation -> recommendedEntity, reliability, recommenderName, recommenderMessage
 		}
 	}
-	
+
 	featureCaptionProvider {
 		text {
-			Recommendation:recommenderName -> "Source"
-			Recommendation:recommendedEntity -> "Recommended Concept"
-			Recommendation:reliability -> "Reliability"
-			Recommendation:recommenderMessage -> "Comment"
+			Recommendation : recommenderName -> "Source"
+			Recommendation : recommendedEntity -> "Recommended Concept"
+			Recommendation : reliability -> "Reliability"
+			Recommendation : recommenderMessage -> "Comment"
 		}
 	}
-	
+
+	tableLabelProvider {
+		text {
+			Recommendation : reliability -> String.format("%1$,.2f", reliability) + '%'
+		}
+	}
+
 	bindings {
-		value List<Integer> TableColumnWeights -> #[50,25,25]
+		value List<Integer> TableColumnWeights -> #[50, 25, 25]
 	}
 	
 	configurator {
