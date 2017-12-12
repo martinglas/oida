@@ -23,8 +23,12 @@ import oida.ontologyMgr.OntologyMetaInfo;
  */
 public interface IOIDAOntologyService {
 	Library getLibrary();
-
 	Resource getLibraryResource();
+	
+	public void AddOntologyToLibrary(OntologyMetaInfo metaInfo);
+	public void SetReferenceOntology(OntologyMetaInfo metaInfo);
+	
+	public void saveLibraryResource();
 	
 	public void autoLoadOntologies();
 
@@ -39,6 +43,4 @@ public interface IOIDAOntologyService {
 	public Optional<IOntologyManager> getRemoteOntologyManager(OntologyMetaInfo ontologyMetaInfo);
 	public Optional<IOntologyManager> getLocalOntologyManager(LocalOntologyMetaInfo ontologyMetaInfo);
 	public Optional<IOntologyManager> createLocalOntology(LocalOntologyMetaInfo ontologyMetaInfo, String IRI);
-	
-	public void AddOntologyToLibrary(OntologyMetaInfo metaInfo);
 }
