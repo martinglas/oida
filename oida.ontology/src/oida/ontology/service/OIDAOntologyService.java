@@ -6,6 +6,7 @@
 package oida.ontology.service;
 
 import java.io.File;
+import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
@@ -21,6 +22,7 @@ import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.ecore.util.EContentAdapter;
 import org.eclipse.emf.edit.command.AddCommand;
+import org.eclipse.emf.edit.command.SetCommand;
 import org.eclipse.emf.edit.domain.EditingDomain;
 import org.eclipse.emf.edit.provider.ComposedAdapterFactory;
 import org.eclipse.emf.edit.provider.INotifyChangedListener;
@@ -88,6 +90,8 @@ public final class OIDAOntologyService extends EContentAdapter implements INotif
 	private void tryInitialization() {
 		LOGGER.info("Initializing OIDA Ontology Service...");
 
+		OIDAUtil.createOIDAWorkDirectories();
+		
 		libraryResource = loadExistingOIDAServiceData(uriLibrary);
 
 		if (libraryResource == null || libraryResource.getContents().isEmpty())
@@ -95,8 +99,11 @@ public final class OIDAOntologyService extends EContentAdapter implements INotif
 
 		libraryResource.getResourceSet().eAdapters().add(this);
 
-		OIDAUtil.createOIDAWorkDirectories();
-
+		for (OntologyMetaInfo metaInfo : getLibrary().getOntologies()) {
+			if (metaInfo instanceof LocalOntologyMetaInfo)
+				iriMappings.put(metaInfo.getIri(), (LocalOntologyMetaInfo)metaInfo);
+		}
+		
 		try {
 			LOGGER.info("Evaluating ontology manager extensions.");
 			this.managerFactory = ExtensionPointUtil.loadSingleExtension(Activator.getExtensionRegistry(), IOntologyManagerFactory.class, Activator.ONTOLOGYMANAGERFACTORY_EXTENSIONPOINT_ID);
@@ -195,12 +202,47 @@ public final class OIDAOntologyService extends EContentAdapter implements INotif
 	public Resource getLibraryResource() {
 		return libraryResource;
 	}
+	
+	@Override
+	public void AddOntologyToLibrary(OntologyMetaInfo metaInfo) {
+		Command command = AddCommand.create(getEditingDomain(), getLibrary(), OntologyMgrPackage.eINSTANCE.getLibrary_Ontologies(), metaInfo);
+		getEditingDomain().getCommandStack().execute(command);
+
+		if (metaInfo instanceof LocalOntologyMetaInfo) {
+			getLocalOntologyManager((LocalOntologyMetaInfo)metaInfo);
+			iriMappings.put(metaInfo.getIri(), (LocalOntologyMetaInfo)metaInfo);
+		} else
+			getRemoteOntologyManager(metaInfo);
+	}
+
+	@Override
+	public void SetReferenceOntology(OntologyMetaInfo metaInfo) {
+		Command command = SetCommand.create(getEditingDomain(), getLibrary(), OntologyMgrPackage.eINSTANCE.getLibrary_ReferenceOntology(), metaInfo);
+		getEditingDomain().getCommandStack().execute(command);
+	}
+
+	@Override
+	public void saveLibraryResource() {
+		try {
+			getLibraryResource().save(null);
+			LOGGER.info("Library saved.");
+		} catch (IOException e) {
+			LOGGER.error("Library could not be saved.", e);
+		}
+	}
 
 	@Override
 	public void notifyChanged(Notification notification) {
 		if (notification.getFeature() != null) {
 			if (notification.getFeature() == OntologyMgrPackage.eINSTANCE.getLibrary_ReferenceOntology()) {
-				Optional<IOntologyManager> optReferenceOntologyMgr = getRemoteOntologyManager((OntologyMetaInfo)notification.getNewValue());
+				OntologyMetaInfo metaInfo = (OntologyMetaInfo)notification.getNewValue();
+				
+				Optional<IOntologyManager> optReferenceOntologyMgr;
+				if (metaInfo instanceof LocalOntologyMetaInfo)
+					optReferenceOntologyMgr = getLocalOntologyManager((LocalOntologyMetaInfo)metaInfo);
+				else
+					optReferenceOntologyMgr = getRemoteOntologyManager((OntologyMetaInfo)metaInfo);
+				
 				if (optReferenceOntologyMgr.isPresent())
 					referenceOntologyManager = optReferenceOntologyMgr.get();
 			}
@@ -284,8 +326,8 @@ public final class OIDAOntologyService extends EContentAdapter implements INotif
 			IOntologyManager mgr = managerFactory.getNewManager();
 			mgr.setGlobalOntologyContext(this);
 			Ontology ontology = mgr.loadLocalOntology(ontologyMetaInfo);
+			ontologyMetaInfo.setIri(ontology.getIri());
 			managedOntologies.put(ontology, mgr);
-			iriMappings.put(ontology.getIri(), ontologyMetaInfo);
 
 			LOGGER.info("Added new ontology manager for: " + ontology.getIri() + ".");
 			return Optional.of(mgr);
@@ -309,10 +351,9 @@ public final class OIDAOntologyService extends EContentAdapter implements INotif
 				ontologyMetaInfo.setIri(OIDAUtil.getFileIriString(ontologyMetaInfo));
 
 			ontology = mgr.createLocalOntology(ontologyMetaInfo);
+			managedOntologies.put(ontology, mgr);
 			
 			AddOntologyToLibrary(ontologyMetaInfo);
-			managedOntologies.put(ontology, mgr);
-			iriMappings.put(ontology.getIri(), ontologyMetaInfo);
 
 			LOGGER.info("New ontology with IRI '" + IRI + "' created: '" + ontologyMetaInfo.getLocalPath() + "'.");
 			return Optional.of(mgr);
@@ -320,11 +361,5 @@ public final class OIDAOntologyService extends EContentAdapter implements INotif
 			LOGGER.error("Ontology with IRI '" + IRI + "' could not be created.", e);
 			return Optional.empty();
 		}
-	}
-	
-	@Override
-	public void AddOntologyToLibrary(OntologyMetaInfo metaInfo) {
-		Command command = AddCommand.create(getEditingDomain(), getLibrary(), OntologyMgrPackage.eINSTANCE.getLibrary_Ontologies(), metaInfo);
-		getEditingDomain().getCommandStack().execute(command);
 	}
 }
