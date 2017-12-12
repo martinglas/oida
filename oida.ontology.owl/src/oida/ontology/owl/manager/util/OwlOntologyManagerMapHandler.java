@@ -76,6 +76,11 @@ public final class OwlOntologyManagerMapHandler {
 		owlAPIMap.clear();
 		internalAPIMap.clear();
 
+		if (owlOntology.getOntologyID().getOntologyIRI().isPresent()) {
+			ontology.setIri(owlOntology.getOntologyID().getOntologyIRI().get().getIRIString());
+			ontology.getMetaInfo().setIri(ontology.getIri());
+		}
+		
 		owlThingClass = owlDataFactory.getOWLThing();
 		thingClass = OntologyManagerUtils.generateInternalClassObject(ontology, null, owlThingClass.getIRI().getIRIString());
 		toMap(owlThingClass, thingClass);
