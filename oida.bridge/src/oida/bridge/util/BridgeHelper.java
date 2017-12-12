@@ -5,15 +5,22 @@
  ******************************************************************************/
 package oida.bridge.util;
 
+import oida.util.constants.FileConstants;
 import oida.util.constants.StringConstants;
 
+/**
+ * 
+ * @author Michael Shamiyeh
+ * @since 2017-12-12
+ *
+ */
 public class BridgeHelper {
 
 	public static String getNSfromRootElementName(String rootContainerName) {
-		return "http://" + rootContainerName + StringConstants.HASHTAG;
+		return FileConstants.ONTOLOGY_HTTP_IRI_PREFIX + rootContainerName + StringConstants.HASHTAG;
 	}
 
 	public static String getModelOntologyName(String rootContainerName) {
-		return rootContainerName + ".owl";
+		return rootContainerName + FileConstants.OWL_FILE_POSTFIX;
 	}
 }
