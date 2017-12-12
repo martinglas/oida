@@ -13,7 +13,7 @@
     <eClassifiers xsi:type="ecore:EClass" name="OntologyMetaInfo">
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="iri" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="ontology" eType="#//ontology/Ontology"
-          eOpposite="#//ontology/Ontology/metaInfo"/>
+          transient="true" eOpposite="#//ontology/Ontology/metaInfo"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="loadAtStartup" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EBoolean"
           defaultValueLiteral="false"/>
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="nrOfClasses" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//ELong"/>
@@ -36,6 +36,8 @@
       <eStructuralFeatures xsi:type="ecore:EAttribute" name="iri" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="Ontology" eSuperTypes="#//ontology/AOntologyItem">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="metaInfo" eType="#//ontologyMgr/OntologyMetaInfo"
+          transient="true" eOpposite="#//ontologyMgr/OntologyMetaInfo/ontology"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="namespaces" upperBound="-1"
           eType="#//ontology/OntologyNamespace" containment="true" resolveProxies="false"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="imports" upperBound="-1"
@@ -60,8 +62,6 @@
           resolveProxies="false"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="localOntology" lowerBound="1"
           eType="#//ontology/Ontology" containment="true"/>
-      <eStructuralFeatures xsi:type="ecore:EReference" name="metaInfo" eType="#//ontologyMgr/OntologyMetaInfo"
-          eOpposite="#//ontologyMgr/OntologyMetaInfo/ontology"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="OntologyNamespace" eSuperTypes="#//ontology/OntologyEntity"/>
     <eClassifiers xsi:type="ecore:EClass" name="OntologyEntity" eSuperTypes="#//ontology/AOntologyItem">
