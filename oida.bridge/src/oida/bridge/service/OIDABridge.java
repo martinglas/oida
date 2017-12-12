@@ -254,7 +254,7 @@ public final class OIDABridge implements IOIDABridge {
 			if (oidaOntologyService.checkLocalOntologyExistance(systemOntologyMetaInfo))
 				optOntologyManager = oidaOntologyService.getLocalOntologyManager(systemOntologyMetaInfo);
 			else
-				optOntologyManager = oidaOntologyService.createNewOntology(systemOntologyMetaInfo, OIDAModelBaseOntology.OIDA_MODELONTOLOGY_IRI);
+				optOntologyManager = oidaOntologyService.createLocalOntology(systemOntologyMetaInfo, OIDAModelBaseOntology.OIDA_MODELONTOLOGY_IRI);
 
 			if (optOntologyManager.isPresent()) {
 				OIDAModelBaseOntology.getInstance().loadOrInitializeOntology(optOntologyManager.get());
@@ -284,7 +284,7 @@ public final class OIDABridge implements IOIDABridge {
 		if (oidaOntologyService.checkLocalOntologyExistance(metaModelOntologyMetaInfo))
 			optMetaModelOntologyManager = oidaOntologyService.getLocalOntologyManager(metaModelOntologyMetaInfo);
 		else
-			optMetaModelOntologyManager = oidaOntologyService.createNewOntology(metaModelOntologyMetaInfo, OntologyConstants.OIDA_METAMODEL_ONTOLOGY_BASE_IRI + renamerStrategy.getMetaModelName());
+			optMetaModelOntologyManager = oidaOntologyService.createLocalOntology(metaModelOntologyMetaInfo, OntologyConstants.OIDA_METAMODEL_ONTOLOGY_BASE_IRI + renamerStrategy.getMetaModelName());
 
 		if (optMetaModelOntologyManager.isPresent()) {
 			IMetaModelOntologyProvider provider;
@@ -343,9 +343,9 @@ public final class OIDABridge implements IOIDABridge {
 
 		Optional<IOntologyManager> optModelOntologyMgr;
 		if (oidaOntologyService.checkLocalOntologyExistance(ontologyMetaInfo))
-			optModelOntologyMgr = oidaOntologyService.getOntologyManager(ontologyMetaInfo);
+			optModelOntologyMgr = oidaOntologyService.getRemoteOntologyManager(ontologyMetaInfo);
 		else
-			optModelOntologyMgr = oidaOntologyService.createNewOntology(ontologyMetaInfo, OntologyConstants.OIDA_MODEL_ONTOLOGY_BASE_IRI + modelObjectId);
+			optModelOntologyMgr = oidaOntologyService.createLocalOntology(ontologyMetaInfo, OntologyConstants.OIDA_MODEL_ONTOLOGY_BASE_IRI + modelObjectId);
 
 		if (optModelOntologyMgr.isPresent()) {
 			IModelChangeHandler changeHandler = changeHandlerFactory.getChangeHandler();
