@@ -88,7 +88,7 @@ public class OntologyLibraryPart {
 	
 	@Persist
 	public void save(MDirtyable dirty) throws IOException {
-		oidaService.getLibraryResource().save(null);
+		oidaService.saveLibraryResource();
 		if (dirty != null) {
 			dirty.setDirty(false);
 		}
