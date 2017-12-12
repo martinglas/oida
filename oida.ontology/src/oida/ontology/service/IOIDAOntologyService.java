@@ -25,8 +25,6 @@ public interface IOIDAOntologyService {
 	Library getLibrary();
 
 	Resource getLibraryResource();
-
-	Resource getManagedOntologiesResource();
 	
 	public void autoLoadOntologies();
 
@@ -38,9 +36,9 @@ public interface IOIDAOntologyService {
 	public Optional<IOntologyManager> getReferenceOntologyManager();
 	public Optional<IOntologyManager> loadReferenceOntology();
 	
-	public Optional<IOntologyManager> getOntologyManager(OntologyMetaInfo ontologyMetaInfo);
+	public Optional<IOntologyManager> getRemoteOntologyManager(OntologyMetaInfo ontologyMetaInfo);
 	public Optional<IOntologyManager> getLocalOntologyManager(LocalOntologyMetaInfo ontologyMetaInfo);
-	public Optional<IOntologyManager> createNewOntology(LocalOntologyMetaInfo ontologyMetaInfo, String IRI);
+	public Optional<IOntologyManager> createLocalOntology(LocalOntologyMetaInfo ontologyMetaInfo, String IRI);
 	
 	public void AddOntologyToLibrary(OntologyMetaInfo metaInfo);
 }

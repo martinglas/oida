@@ -58,7 +58,6 @@ public final class OIDAOntologyService extends EContentAdapter implements INotif
 	protected static Logger LOGGER = LoggerFactory.getLogger(OIDAOntologyService.class);
 
 	private URI uriLibrary = URI.createFileURI(OIDAUtil.getOIDAWorkPath() + FileConstants.ONTOLOGY_LIBRARY_FILE);
-	private URI uriManager = URI.createFileURI(OIDAUtil.getOIDAWorkPath() + FileConstants.ONTOLOGY_MANAGER_FILE);
 
 	private EditingDomain editingDomain;
 	private Resource libraryResource;
@@ -70,8 +69,6 @@ public final class OIDAOntologyService extends EContentAdapter implements INotif
 	private IOntologyManager referenceOntologyManager;
 
 	private Map<Ontology, IOntologyManager> managedOntologies = new HashMap<Ontology, IOntologyManager>();
-
-	private Resource managedOntologyResource;
 
 	public OIDAOntologyService() {
 		super();
@@ -92,7 +89,6 @@ public final class OIDAOntologyService extends EContentAdapter implements INotif
 		LOGGER.info("Initializing OIDA Ontology Service...");
 
 		libraryResource = loadExistingOIDAServiceData(uriLibrary);
-		managedOntologyResource = editingDomain.createResource(uriManager.toString());
 
 		if (libraryResource == null || libraryResource.getContents().isEmpty())
 			initializeNewOIDAServiceData(uriLibrary);
@@ -139,7 +135,7 @@ public final class OIDAOntologyService extends EContentAdapter implements INotif
 			if (metaInfo instanceof LocalOntologyMetaInfo)
 				optRefOntManager = getLocalOntologyManager((LocalOntologyMetaInfo)metaInfo);
 			else
-				optRefOntManager = getOntologyManager(metaInfo);
+				optRefOntManager = getRemoteOntologyManager(metaInfo);
 
 			if (optRefOntManager.isPresent())
 				LOGGER.info("Reference ontology loaded: '" + optRefOntManager.get().getOntology().getIri() + "'.");
@@ -157,8 +153,12 @@ public final class OIDAOntologyService extends EContentAdapter implements INotif
 	public void autoLoadOntologies() {
 		LOGGER.info("Auto-Load ontologies are loaded...");
 		for (OntologyMetaInfo ontologyMetaInfo : getLibrary().getOntologies()) {
-			if (ontologyMetaInfo.isLoadAtStartup())
-				getOntologyManager(ontologyMetaInfo);
+			if (ontologyMetaInfo.isLoadAtStartup()) {
+				if (ontologyMetaInfo instanceof LocalOntologyMetaInfo)
+					getLocalOntologyManager((LocalOntologyMetaInfo)ontologyMetaInfo);
+				else
+					getRemoteOntologyManager(ontologyMetaInfo);
+			}
 		}
 	}
 
@@ -197,15 +197,10 @@ public final class OIDAOntologyService extends EContentAdapter implements INotif
 	}
 
 	@Override
-	public Resource getManagedOntologiesResource() {
-		return managedOntologyResource;
-	}
-
-	@Override
 	public void notifyChanged(Notification notification) {
 		if (notification.getFeature() != null) {
 			if (notification.getFeature() == OntologyMgrPackage.eINSTANCE.getLibrary_ReferenceOntology()) {
-				Optional<IOntologyManager> optReferenceOntologyMgr = getOntologyManager((OntologyMetaInfo)notification.getNewValue());
+				Optional<IOntologyManager> optReferenceOntologyMgr = getRemoteOntologyManager((OntologyMetaInfo)notification.getNewValue());
 				if (optReferenceOntologyMgr.isPresent())
 					referenceOntologyManager = optReferenceOntologyMgr.get();
 			}
@@ -259,7 +254,7 @@ public final class OIDAOntologyService extends EContentAdapter implements INotif
 	}
 
 	@Override
-	public Optional<IOntologyManager> getOntologyManager(OntologyMetaInfo ontologyMetaInfo) {
+	public Optional<IOntologyManager> getRemoteOntologyManager(OntologyMetaInfo ontologyMetaInfo) {
 		// return existing ontology manager if possible:
 		if (ontologyMetaInfo != null && managedOntologies.containsKey(ontologyMetaInfo))
 			return Optional.of(managedOntologies.get(ontologyMetaInfo));
@@ -268,7 +263,6 @@ public final class OIDAOntologyService extends EContentAdapter implements INotif
 			IOntologyManager mgr = managerFactory.getNewManager();
 			mgr.setGlobalOntologyContext(this);
 			Ontology ontology = mgr.loadOntology(ontologyMetaInfo);
-			managedOntologyResource.getContents().add(ontology);
 			managedOntologies.put(ontology, mgr);
 			
 			LOGGER.info("Added new ontology manager for: " + ontology.getIri() + ".");
@@ -290,8 +284,6 @@ public final class OIDAOntologyService extends EContentAdapter implements INotif
 			IOntologyManager mgr = managerFactory.getNewManager();
 			mgr.setGlobalOntologyContext(this);
 			Ontology ontology = mgr.loadLocalOntology(ontologyMetaInfo);
-
-			managedOntologyResource.getContents().add(mgr.getOntology());
 			managedOntologies.put(ontology, mgr);
 			iriMappings.put(ontology.getIri(), ontologyMetaInfo);
 
@@ -305,7 +297,7 @@ public final class OIDAOntologyService extends EContentAdapter implements INotif
 	}
 
 	@Override
-	public Optional<IOntologyManager> createNewOntology(LocalOntologyMetaInfo ontologyMetaInfo, String IRI) {
+	public Optional<IOntologyManager> createLocalOntology(LocalOntologyMetaInfo ontologyMetaInfo, String IRI) {
 		IOntologyManager mgr = managerFactory.getNewManager();
 		mgr.setGlobalOntologyContext(this);
 
@@ -319,8 +311,6 @@ public final class OIDAOntologyService extends EContentAdapter implements INotif
 			ontology = mgr.createLocalOntology(ontologyMetaInfo);
 			
 			AddOntologyToLibrary(ontologyMetaInfo);
-			
-			managedOntologyResource.getContents().add(mgr.getOntology());
 			managedOntologies.put(ontology, mgr);
 			iriMappings.put(ontology.getIri(), ontologyMetaInfo);
 
