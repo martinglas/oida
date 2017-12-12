@@ -5,8 +5,7 @@ Bundle-SymbolicName: oida.bridge.recommender.name;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: Bauhaus Luftfahrt e.V.
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Import-Package: oida.ontology,
- oida.util.constants,
+Import-Package: oida.util.constants,
  org.eclipse.emf.common.notify,
  org.eclipse.emf.ecore.util
 Require-Bundle: oida.bridge;bundle-version="1.0.0",

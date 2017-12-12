@@ -11,7 +11,6 @@ import bridgemodel.RecommendationType;
 import oida.bridge.recommender.AbstractRecommender;
 import oida.bridge.recommender.IClassRecommender;
 import oida.bridge.service.IOIDABridge;
-import oida.ontology.IMappable;
 import oida.ontology.Ontology;
 import oida.ontology.OntologyClass;
 

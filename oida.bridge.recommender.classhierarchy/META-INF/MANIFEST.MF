@@ -8,5 +8,4 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: oida.util.constants,
  org.eclipse.emf.ecore.util
 Require-Bundle: oida.bridge;bundle-version="1.0.0",
- oida.bridge.model;bundle-version="0.1.0",
- oida.ontology
+ oida.bridge.model;bundle-version="0.1.0"
