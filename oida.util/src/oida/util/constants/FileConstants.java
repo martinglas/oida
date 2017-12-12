@@ -19,4 +19,5 @@ public class FileConstants {
 	public static final String OIDAMODELONTOLOGY_FILENAME = "oidamodelontology" + FileConstants.OWL_FILE_POSTFIX;
 	
 	public static final String ONTOLOGY_FILE_IRI_PREFIX = "file:/";
+	public static final String ONTOLOGY_HTTP_IRI_PREFIX = "http://";
 }
