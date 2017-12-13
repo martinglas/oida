@@ -145,34 +145,37 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 
 	@Override
 	public Ontology loadOntology(OntologyMetaInfo metaInfo) throws OntologyManagerException {
-		if (metaInfo.getIri() == null || metaInfo.getIri().contentEquals(StringConstants.EMPTY))
+		return loadOntologyInternal(metaInfo, metaInfo.getIri());
+	}
+
+	@Override
+	public Ontology loadLocalOntology(LocalOntologyMetaInfo metaInfo) throws OntologyManagerException {
+		Optional<File> optFile = OIDAUtil.getOntologyFileObject(metaInfo, false);
+		if (!optFile.isPresent() || !optFile.get().exists())
+			throw new OntologyManagerException("Error while loading ontology: File doesn't exist.");
+		else
+			return loadOntologyInternal(metaInfo, OIDAUtil.convertPathToIRI(metaInfo.getLocalPath()));
+	}
+	
+	private Ontology loadOntologyInternal(OntologyMetaInfo metaInfo, String iri) throws OntologyManagerException {
+		if (iri == null || iri.contentEquals(StringConstants.EMPTY))
 			return null;
 
 		try {
+			LOGGER.info("Loading Ontology: '" + iri + "'...");
 			updateIRIMappings();
 
-			owlOntology = owlOntologyManager.loadOntology(IRI.create(metaInfo.getIri()));
+			owlOntology = owlOntologyManager.loadOntology(IRI.create(iri));
 			owlPrefixManager.setDefaultPrefix(owlOntology.getOntologyID().getOntologyIRI().get().getIRIString());
 			owlOntologyManager.setOntologyFormat(owlOntology, owlPrefixManager);
 			initializeInternalOntology(metaInfo);
 
 			refreshOntologyRepresentation(true);
 
-			LOGGER.info("Ontology loaded: '" + metaInfo.getIri() + "'");
+			LOGGER.info("Ontology loaded: '" + iri + "'.");
 			return getOntology();
 		} catch (OWLOntologyCreationException e) {
-			throw new OntologyManagerException("Error while loading ontology from file '" + metaInfo.getIri() + "': " + e.getMessage(), e);
-		}
-	}
-
-	@Override
-	public Ontology loadLocalOntology(LocalOntologyMetaInfo metaInfo) throws OntologyManagerException {
-		Optional<File> optFile = OIDAUtil.getOntologyFileObject(metaInfo, false);
-		if (!optFile.isPresent() || !optFile.get().exists()) {
-			throw new OntologyManagerException("Error while loading ontology: File doesn't exist.");
-		} else {
-			metaInfo.setIri(OIDAUtil.convertPathToIRI(metaInfo.getLocalPath()));
-			return loadOntology(metaInfo);
+			throw new OntologyManagerException("Error while loading ontology from file '" + iri + "': " + e.getMessage(), e);
 		}
 	}
 
