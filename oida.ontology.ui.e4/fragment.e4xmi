@@ -7,6 +7,7 @@
     <elements xsi:type="commands:Command" xmi:id="_J-e1INtREeex06UaG6VlAA" elementId="oida.ontology.ui.e4.command.setasreference" commandName="Set as Reference Ontology"/>
     <elements xsi:type="commands:Command" xmi:id="_MajO8NtREeex06UaG6VlAA" elementId="oida.ontology.ui.e4.command.loadontology" commandName="Load Ontology"/>
     <elements xsi:type="commands:Command" xmi:id="_Hh1t0N_WEeevUaF78goVPA" elementId="oida.ontology.ui.e4.command.includeontologyimports" commandName="Include Ontology Imports"/>
+    <elements xsi:type="commands:Command" xmi:id="_TODOwOABEeevUaF78goVPA" elementId="oida.ontology.ui.e4.command.loadontology" commandName="Load Ontology"/>
   </fragments>
   <fragments xsi:type="fragment:StringModelFragment" xmi:id="_HMEoYKXFEeac7pLqBaVU8A" featurename="handlers" parentElementId="de.symo.application.e4.application">
     <elements xsi:type="commands:Handler" xmi:id="_Ik6qoKXFEeac7pLqBaVU8A" elementId="oida.ontology.ui.e4.handler.0" contributionURI="bundleclass://oida.ontology.ui.e4/oida.ontology.ui.e4.handler.SaveOntologyLibrary" command="_FOPpwKXFEeac7pLqBaVU8A"/>
@@ -14,6 +15,7 @@
     <elements xsi:type="commands:Handler" xmi:id="_bZTJkB99EeeMaLf0aWrdgA" elementId="oida.ontology.ui.e4.handler.2" contributionURI="bundleclass://oida.ontology.ui.e4/oida.ontology.ui.e4.handler.AddOntologyFileHandler" command="_ci-HYB99EeeMaLf0aWrdgA"/>
     <elements xsi:type="commands:Handler" xmi:id="_SrMtoNtREeex06UaG6VlAA" elementId="oida.ontology.ui.e4.handler.3" contributionURI="bundleclass://oida.ontology.ui.e4/oida.ontology.ui.e4.handler.SetReferenceOntology" command="_J-e1INtREeex06UaG6VlAA"/>
     <elements xsi:type="commands:Handler" xmi:id="_RY7HsN_WEeevUaF78goVPA" elementId="oida.ontology.ui.e4.handler.4" contributionURI="bundleclass://oida.ontology.ui.e4/oida.ontology.ui.e4.handler.IncludeOntologyImportsHandler" command="_Hh1t0N_WEeevUaF78goVPA"/>
+    <elements xsi:type="commands:Handler" xmi:id="_XT4bsOABEeevUaF78goVPA" elementId="oida.ontology.ui.e4.handler.5" contributionURI="bundleclass://oida.ontology.ui.e4/oida.ontology.ui.e4.handler.LoadOntologyHandler" command="_TODOwOABEeevUaF78goVPA"/>
   </fragments>
   <fragments xsi:type="fragment:StringModelFragment" xmi:id="_vY7MkLJXEeaw4puSHi5CMg" featurename="children" parentElementId="de.symo.application.mainwindow.perspectivestack" positionInList="">
     <elements xsi:type="advanced:Perspective" xmi:id="_7j3fcLJXEeaw4puSHi5CMg" elementId="oida.ontology.ui.e4.perspective" label="Knowledge" iconURI="platform:/plugin/oida.ontology.ui.e4/icons/OntologyLibrary_16.png">
@@ -23,13 +25,14 @@
             <toolbar xmi:id="_Ff6C4PkGEeatKqZLJkxOvw" elementId="oida.ontology.ui.e4.toolbar.1">
               <children xsi:type="menu:HandledToolItem" xmi:id="_HlGi8NtREeex06UaG6VlAA" elementId="oida.ontology.ui.e4.handledtoolitem.load" label="Set as Reference" command="_J-e1INtREeex06UaG6VlAA"/>
               <children xsi:type="menu:HandledToolItem" xmi:id="_WoS4sB99EeeMaLf0aWrdgA" elementId="oida.ontology.ui.e4.handledtoolitem.add" label="Add" command="_ci-HYB99EeeMaLf0aWrdgA"/>
+              <children xsi:type="menu:HandledToolItem" xmi:id="_0pbugOADEeevUaF78goVPA" elementId="oida.ontology.ui.e4.handledtoolitem.loadOntology" label="Load" command="_TODOwOABEeevUaF78goVPA"/>
               <children xsi:type="menu:HandledToolItem" xmi:id="__eJTYKXEEeac7pLqBaVU8A" elementId="oida.ontology.ui.e4.handledtoolitem.save" label="Save" iconURI="platform:/plugin/oida.ontology.ui.e4/icons/Save_16.png" command="_FOPpwKXFEeac7pLqBaVU8A"/>
               <children xsi:type="menu:HandledToolItem" xmi:id="_GMxI4PkGEeatKqZLJkxOvw" elementId="oida.ontology.ui.e4.handledtoolitem.startreasoning" label="Start Reasoning" iconURI="platform:/plugin/oida.ontology.ui.e4/icons/Reasoning_16.png" command="_MvqOIPkGEeatKqZLJkxOvw"/>
             </toolbar>
           </children>
         </children>
         <children xsi:type="basic:PartSashContainer" xmi:id="_THJPgNZ_Eee9wLEB_pWVkw" elementId="oida.ontology.ui.e4.partsashcontainer.0" containerData="80" horizontal="true">
-          <children xsi:type="basic:PartSashContainer" xmi:id="_SgSKsKaNEea4d_GmOhDBEg" elementId="de.symo.application.partsashcontainer.4" containerData="20">
+          <children xsi:type="basic:PartSashContainer" xmi:id="_SgSKsKaNEea4d_GmOhDBEg" elementId="de.symo.application.partsashcontainer.4" containerData="25">
             <children xsi:type="basic:PartStack" xmi:id="_T3-WYKaNEea4d_GmOhDBEg" elementId="de.symo.application.partstack.0">
               <children xsi:type="basic:Part" xmi:id="_8KWA4MXwEeacHtEzKgG6Vg" elementId="oida.ontology.ui.e4.part.classHierarchy" contributionURI="bundleclass://oida.ontology.ui.e4/oida.ontology.ui.e4.part.ClassHierarchyViewPart" label="Class Hierarchy" iconURI="platform:/plugin/oida.ontology.ui.e4/icons/Class_16.png">
                 <toolbar xmi:id="_E4lzoN_WEeevUaF78goVPA" elementId="oida.ontology.ui.e4.toolbar.0">
@@ -42,8 +45,8 @@
               <children xsi:type="basic:Part" xmi:id="_GBR-cA-rEeecQ7A5BGUxIQ" elementId="oida.ontology.ui.e4.part.objectPropertyView" contributionURI="bundleclass://oida.ontology.ui.e4/oida.ontology.ui.e4.part.ObjectPropertyViewPart" label="Object Property Hierarchy" iconURI="platform:/plugin/oida.ontology.ui.e4/icons/ObjectProperty_16.png"/>
             </children>
           </children>
-          <children xsi:type="basic:PartSashContainer" xmi:id="_yvHMoNwuEeeJddfM4GdOWQ" elementId="oida.ontology.ui.e4.partsashcontainer.1" containerData="80" horizontal="true">
-            <children xsi:type="basic:PartSashContainer" xmi:id="_5tod8NwuEeeJddfM4GdOWQ" elementId="oida.ontology.ui.e4.partsashcontainer.2" containerData="20">
+          <children xsi:type="basic:PartSashContainer" xmi:id="_yvHMoNwuEeeJddfM4GdOWQ" elementId="oida.ontology.ui.e4.partsashcontainer.1" containerData="75" horizontal="true">
+            <children xsi:type="basic:PartSashContainer" xmi:id="_5tod8NwuEeeJddfM4GdOWQ" elementId="oida.ontology.ui.e4.partsashcontainer.2" containerData="50">
               <children xsi:type="basic:PartStack" xmi:id="_K7oIAJq8EeaelOAnCMy4mw" elementId="de.symo.application.partstack.2" containerData="50">
                 <children xsi:type="basic:Part" xmi:id="_ZRnGUDyzEeef1_9Ke6NtTg" elementId="oida.ontology.ui.e4.part.classdetails" contributionURI="bundleclass://oida.ontology.ui.e4/oida.ontology.ui.e4.part.ClassDetailViewPart" label="Class Details" iconURI="platform:/plugin/oida.ontology.ui.e4/icons/Class_16.png"/>
               </children>
@@ -51,7 +54,7 @@
                 <children xsi:type="basic:Part" xmi:id="_JnEUUMdoEea9gboS3tekbQ" elementId="oida.ontology.ui.e4.part.individualsView" contributionURI="bundleclass://oida.ontology.ui.e4/oida.ontology.ui.e4.part.IndividualsViewPart" label="Individuals of Class" iconURI="platform:/plugin/oida.ontology.ui.e4/icons/Individual_16.png"/>
               </children>
             </children>
-            <children xsi:type="basic:PartStack" xmi:id="_3ZtTgNwuEeeJddfM4GdOWQ" elementId="oida.ontology.ui.e4.partstack.1" containerData="80">
+            <children xsi:type="basic:PartStack" xmi:id="_3ZtTgNwuEeeJddfM4GdOWQ" elementId="oida.ontology.ui.e4.partstack.1" containerData="50">
               <children xsi:type="basic:Part" xmi:id="_3bCfoNNvEee3z7o4J7fEng" elementId="oida.ontology.ui.e4.part.context" contributionURI="bundleclass://oida.ontology.ui.e4/oida.ontology.ui.e4.part.classcontext.ClassContextViewPart" label="Class Context"/>
             </children>
           </children>

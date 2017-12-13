@@ -7,8 +7,8 @@ import org.eclipse.e4.ui.workbench.modeling.ESelectionService;
 
 import oida.ontology.service.IOIDAOntologyService;
 import oida.ontology.ui.e4.part.OntologyLibraryPart;
+import oida.ontologyMgr.LocalOntologyMetaInfo;
 import oida.ontologyMgr.OntologyMetaInfo;
-import oida.ontologyMgr.SystemOntologyMetaInfo;
 
 /**
  * 
@@ -16,11 +16,15 @@ import oida.ontologyMgr.SystemOntologyMetaInfo;
  * @since 2017-12-13
  *
  */
-public class SetReferenceOntology {
+public class LoadOntologyHandler {
 	@Execute
 	public void execute(IOIDAOntologyService ontologyService, ESelectionService selectionService) {
-		ontologyService.SetReferenceOntology((OntologyMetaInfo)selectionService.getSelection(OntologyLibraryPart.PART_ID));
-		ontologyService.loadReferenceOntology();
+		OntologyMetaInfo metaInfo = (OntologyMetaInfo)selectionService.getSelection(OntologyLibraryPart.PART_ID);
+		
+		if (metaInfo instanceof LocalOntologyMetaInfo)
+			ontologyService.getLocalOntologyManager((LocalOntologyMetaInfo)metaInfo);
+		else
+			ontologyService.getRemoteOntologyManager(metaInfo);
 	}
 	
 	@CanExecute
@@ -28,9 +32,6 @@ public class SetReferenceOntology {
 		if (selectionService.getSelection(OntologyLibraryPart.PART_ID) == null)
 			return false;
 
-		if (selectionService.getSelection(OntologyLibraryPart.PART_ID) instanceof SystemOntologyMetaInfo)
-			return false;
-		
 		if (selectionService.getSelection(OntologyLibraryPart.PART_ID) instanceof OntologyMetaInfo)
 			return true;
 		

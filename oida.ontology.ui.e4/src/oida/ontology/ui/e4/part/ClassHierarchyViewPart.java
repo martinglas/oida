@@ -71,13 +71,9 @@ public class ClassHierarchyViewPart implements ISelectionListener {
 		if (currentOntology == null)
 			return;
 		
-		Object[] expandedElements = treeViewer.getExpandedElements();
-		
 		if (!includeImports && currentOntology.getLocalOntology() != null)
 			viewerFactory.initialize(treeViewer, currentOntology.getLocalOntology());
 		else
 			viewerFactory.initialize(treeViewer, currentOntology);
-
-		treeViewer.setExpandedElements(expandedElements);
 	}
 }

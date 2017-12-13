@@ -3,9 +3,10 @@
  * materials are made available under the terms of the Eclipse Public License v1.0 which accompanies this distribution,
  * and is available at http://www.eclipse.org/legal/epl-v10.html </copyright>
  ******************************************************************************/
+
 import bridgemodel.ClassEqualsMapping
+import bridgemodel.MappingSet
 import oida.bridge.ui.view.ClassEquivalenceMappingsView
-import bridgemodel.ClassMappingSet
 
 /**
  * 
@@ -29,10 +30,10 @@ module oida.ontology.ui.view.ClassEquivalenceMappingsView {
 
 	viewerContentProvider {
 		elements {
-			ClassMappingSet -> classMappings
+			MappingSet -> mappings
 		}
 		children {
-			ClassMappingSet -> classMappings
+			MappingSet -> mappings
 		}
 	}
 	
@@ -44,7 +45,7 @@ module oida.ontology.ui.view.ClassEquivalenceMappingsView {
 		}
 		
 		image {
-			ClassMappingSet -> "Mapping_16.png"
+			MappingSet -> "Mapping_16.png"
 			ClassEqualsMapping -> "Mapping_16.png"
 		}
 	}

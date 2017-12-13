@@ -2,64 +2,64 @@
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="bridgemodel" nsURI="http://net/bauhaus-luftfahrt/oida/bridgemodel"
     nsPrefix="net.bauhaus-luftfahrt.oida.bridgemodel">
-  <eClassifiers xsi:type="ecore:EClass" name="RecommendationSet">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="ontologyEntity" lowerBound="1"
-        eType="ecore:EClass ../../oida.ontology.model/model/oida.ecore#//ontology/OntologyEntity"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="modelObject" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="recommendations" upperBound="-1"
-        eType="#//Recommendation" containment="true"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Recommendation">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="recommendedEntity" lowerBound="1"
-        eType="ecore:EClass ../../oida.ontology.model/model/oida.ecore#//ontology/OntologyEntity"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="recommenderName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="recommenderMessage" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="recommendationType" eType="#//RecommendationType"/>
-    <eStructuralFeatures xsi:type="ecore:EAttribute" name="reliability" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="AggregatedRecommendation" eSuperTypes="#//Recommendation">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="recommendations" upperBound="-1"
-        eType="#//Recommendation"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EEnum" name="RecommendationType">
-    <eLiterals name="instanceOf"/>
-    <eLiterals name="equivalentTo" value="1"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ClassMappingSet">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="classMappings" upperBound="-1"
-        eType="#//ClassEqualsMapping"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="InstanceMappingSet">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="instanceMappings" upperBound="-1"
-        eType="#//InstanceOfMapping"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ObjectPropertyMappingSet">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="objectPropertyMappings"
-        upperBound="-1" eType="#//ObjectPropertyEqualsMapping"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="Mapping">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="mappingSet" eType="#//ClassMappingSet"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="InstanceOfMapping" eSuperTypes="#//Mapping">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="individual" lowerBound="1"
-        eType="ecore:EClass ../../oida.ontology.model/model/oida.ecore#//ontology/OntologyIndividual"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="clazz" lowerBound="1" eType="ecore:EClass ../../oida.ontology.model/model/oida.ecore#//ontology/OntologyClass"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="EqualsMapping" eSuperTypes="#//Mapping"/>
-  <eClassifiers xsi:type="ecore:EClass" name="ClassEqualsMapping" eSuperTypes="#//EqualsMapping">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="clazz1" lowerBound="1"
-        eType="ecore:EClass ../../oida.ontology.model/model/oida.ecore#//ontology/OntologyClass"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="clazz2" lowerBound="1"
-        eType="ecore:EClass ../../oida.ontology.model/model/oida.ecore#//ontology/OntologyClass"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="equivalence" lowerBound="1"
-        eType="ecore:EClass ../../oida.ontology.model/model/oida.ecore#//ontology/OntologyClassEquivalence"/>
-  </eClassifiers>
-  <eClassifiers xsi:type="ecore:EClass" name="ObjectPropertyEqualsMapping" eSuperTypes="#//EqualsMapping">
-    <eStructuralFeatures xsi:type="ecore:EReference" name="objectProperty1" lowerBound="1"
-        eType="ecore:EClass ../../oida.ontology.model/model/oida.ecore#//ontology/OntologyObjectProperty"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="objectProperty2" lowerBound="1"
-        eType="ecore:EClass ../../oida.ontology.model/model/oida.ecore#//ontology/OntologyObjectProperty"/>
-    <eStructuralFeatures xsi:type="ecore:EReference" name="equivalence" lowerBound="1"
-        eType="ecore:EClass ../../oida.ontology.model/model/oida.ecore#//ontology/OntologyObjectPropertyEquivalence"/>
-  </eClassifiers>
+  <eSubpackages name="mapping" nsURI="http://net/bauhaus-luftfahrt/oida/bridgemodel/mapping"
+      nsPrefix="net.bauhaus-luftfahrt.oida.bridgemodel.mapping">
+    <eClassifiers xsi:type="ecore:EClass" name="MappingSet">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="mappings" upperBound="-1"
+          eType="#//mapping/Mapping"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Mapping">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="mappingSet" lowerBound="1"
+          eType="#//mapping/MappingSet"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="InstanceOfMapping" eSuperTypes="#//mapping/Mapping">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="individual" lowerBound="1"
+          eType="ecore:EClass ../../oida.ontology.model/model/oida.ecore#//ontology/OntologyIndividual"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="clazz" lowerBound="1"
+          eType="ecore:EClass ../../oida.ontology.model/model/oida.ecore#//ontology/OntologyClass"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="EqualsMapping" eSuperTypes="#//mapping/Mapping"/>
+    <eClassifiers xsi:type="ecore:EClass" name="ClassEqualsMapping" eSuperTypes="#//mapping/EqualsMapping">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="clazz1" lowerBound="1"
+          eType="ecore:EClass ../../oida.ontology.model/model/oida.ecore#//ontology/OntologyClass"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="clazz2" lowerBound="1"
+          eType="ecore:EClass ../../oida.ontology.model/model/oida.ecore#//ontology/OntologyClass"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="equivalence" lowerBound="1"
+          eType="ecore:EClass ../../oida.ontology.model/model/oida.ecore#//ontology/OntologyClassEquivalence"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="ObjectPropertyEqualsMapping" eSuperTypes="#//mapping/EqualsMapping">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="objectProperty1" lowerBound="1"
+          eType="ecore:EClass ../../oida.ontology.model/model/oida.ecore#//ontology/OntologyObjectProperty"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="objectProperty2" lowerBound="1"
+          eType="ecore:EClass ../../oida.ontology.model/model/oida.ecore#//ontology/OntologyObjectProperty"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="equivalence" lowerBound="1"
+          eType="ecore:EClass ../../oida.ontology.model/model/oida.ecore#//ontology/OntologyObjectPropertyEquivalence"/>
+    </eClassifiers>
+  </eSubpackages>
+  <eSubpackages name="recommendation" nsURI="http://net/bauhaus-luftfahrt/oida/bridgemodel/recommendation"
+      nsPrefix="net.bauhaus-luftfahrt.oida.bridgemodel.recommendation">
+    <eClassifiers xsi:type="ecore:EClass" name="RecommendationSet">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="ontologyEntity" lowerBound="1"
+          eType="ecore:EClass ../../oida.ontology.model/model/oida.ecore#//ontology/OntologyEntity"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="modelObject" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="recommendations" upperBound="-1"
+          eType="#//recommendation/Recommendation" containment="true"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="Recommendation">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="recommendedEntity" lowerBound="1"
+          eType="ecore:EClass ../../oida.ontology.model/model/oida.ecore#//ontology/OntologyEntity"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="recommenderName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="recommenderMessage" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="recommendationType" eType="#//recommendation/RecommendationType"/>
+      <eStructuralFeatures xsi:type="ecore:EAttribute" name="reliability" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="AggregatedRecommendation" eSuperTypes="#//recommendation/Recommendation">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="recommendations" upperBound="-1"
+          eType="#//recommendation/Recommendation"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EEnum" name="RecommendationType">
+      <eLiterals name="instanceOf"/>
+      <eLiterals name="equivalentTo" value="1"/>
+    </eClassifiers>
+  </eSubpackages>
 </ecore:EPackage>

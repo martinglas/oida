@@ -4,11 +4,13 @@ Bundle-Name: %pluginName
 Bundle-SymbolicName: oida.bridge.model.edit;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-ClassPath: .
-Bundle-Activator: bridgemodel.provider.BridgeModelEditPlugin$Implementation
+Bundle-Activator: bridgemodel.mapping.provider.BridgeModelEditPlugin$Implementation
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Export-Package: bridgemodel.provider
+Export-Package: bridgemodel.provider,
+ bridgemodel.mapping.provider,
+ bridgemodel.recommendation.provider
 Require-Bundle: org.eclipse.core.runtime,
  oida.bridge.model;visibility:=reexport,
  org.eclipse.emf.edit;visibility:=reexport,

@@ -6,6 +6,12 @@ import org.eclipse.e4.ui.model.application.ui.menu.MHandledItem;
 
 import oida.ontology.ui.e4.part.ClassHierarchyViewPart;
 
+/**
+ * 
+ * @author Michael.Shamiyeh
+ * @since 2017-12-13
+ *
+ */
 public class IncludeOntologyImportsHandler {
 	@Execute
 	void execute(MPart part, MHandledItem handledItem) {

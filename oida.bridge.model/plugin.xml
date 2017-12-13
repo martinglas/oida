@@ -9,9 +9,16 @@
    <extension point="org.eclipse.emf.ecore.generated_package">
       <!-- @generated bridgemodel -->
       <package
-            uri="http://net/bauhaus-luftfahrt/oida/bridgemodel"
-            class="bridgemodel.BridgemodelPackage"
+            uri="http://net/bauhaus-luftfahrt/oida/bridgemodel/mapping"
+            class="bridgemodel.mapping.MappingPackage"
             genModel="model/bridgemodel.genmodel"/>
    </extension>
 
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated bridgemodel -->
+      <package
+            uri="http://net/bauhaus-luftfahrt/oida/bridgemodel/recommendation"
+            class="bridgemodel.recommendation.RecommendationPackage"
+            genModel="model/bridgemodel.genmodel"/>
+   </extension>
 </plugin>

@@ -72,7 +72,7 @@ public class MetaModelObjectPropertyMappingPart {
 					setButtonState();
 					
 					if (selectedMetaModelObjectProperty.isMappingExists())  {
-						Optional<ObjectPropertyEqualsMapping> optMapping = oidaBridge.getObjectPropertyMapping(selectedMetaModelObjectProperty);
+						Optional<ObjectPropertyEqualsMapping> optMapping = oidaBridge.getMapping(selectedMetaModelObjectProperty);
 						
 						if (optMapping.isPresent()) {
 							referenceOntologyObjectPropertiesTreeViewer.getTree().setFocus();

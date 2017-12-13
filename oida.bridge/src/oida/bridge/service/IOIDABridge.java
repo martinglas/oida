@@ -11,10 +11,8 @@ import java.util.Optional;
 import org.eclipse.emf.ecore.resource.Resource;
 
 import bridgemodel.ClassEqualsMapping;
-import bridgemodel.ClassMappingSet;
-import bridgemodel.InstanceMappingSet;
+import bridgemodel.MappingSet;
 import bridgemodel.ObjectPropertyEqualsMapping;
-import bridgemodel.ObjectPropertyMappingSet;
 import bridgemodel.Recommendation;
 import oida.bridge.model.changehandler.IModelChangeHandler;
 import oida.ontology.Ontology;
@@ -130,23 +128,19 @@ public interface IOIDABridge {
 	void establishSecondaryClassMapping(OntologyClass metaModelClass, OntologyClass referenceClass);
 	
 	void removeSecondaryClassMapping(OntologyClass selectedMetaModelClass);
-	
-	Optional<ClassEqualsMapping> getClassMapping(OntologyClass selectedMetaModelClass);
-	
+		
 	void establishSecondaryObjectPropertyMapping(OntologyObjectProperty selectedMetaModelObjectProperty, OntologyObjectProperty selectedReferenceOntologyObjectProperty);
 
 	void removeSecondaryObjectPropertyMapping(OntologyObjectProperty selectedMetaModelObjectProperty);
 	
-	Optional<ObjectPropertyEqualsMapping> getObjectPropertyMapping(OntologyObjectProperty selectedMetaModelObjectProperty);
-	
 	Resource getMetaModelClassMappingsResource();
-	ClassMappingSet getMetaModelClassMappings();
+	MappingSet getMetaModelClassMappings();
 	
 	Resource getMetaModelObjectPropertyMappingsResource();
-	ObjectPropertyMappingSet getMetaModelObjectPropertyMappings();
+	MappingSet getMetaModelObjectPropertyMappings();
 	
 	Resource getModelMappingsResource();
-	InstanceMappingSet getModelMappings();
+	MappingSet getModelMappings();
 	
 	Optional<IModelChangeHandler> getModelChangeHandler(Object model);
 
@@ -154,7 +148,9 @@ public interface IOIDABridge {
 	boolean isSecondaryRecommendationSystemEnabled();
 	
 	Optional<Ontology> getReferenceOntology();
-	
 	Optional<Ontology> getMetaModelOntology();
+	
+	Optional<ClassEqualsMapping> getMapping(final OntologyClass clazz);
+	Optional<ObjectPropertyEqualsMapping> getMapping(final OntologyObjectProperty objectProperty) ;
 }
 

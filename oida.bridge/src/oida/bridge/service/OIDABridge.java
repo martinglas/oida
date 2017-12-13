@@ -28,11 +28,10 @@ import org.slf4j.LoggerFactory;
 import bridgemodel.AggregatedRecommendation;
 import bridgemodel.BridgemodelFactory;
 import bridgemodel.ClassEqualsMapping;
-import bridgemodel.ClassMappingSet;
-import bridgemodel.InstanceMappingSet;
 import bridgemodel.InstanceOfMapping;
+import bridgemodel.Mapping;
+import bridgemodel.MappingSet;
 import bridgemodel.ObjectPropertyEqualsMapping;
-import bridgemodel.ObjectPropertyMappingSet;
 import bridgemodel.Recommendation;
 import bridgemodel.RecommendationSet;
 import bridgemodel.provider.BridgemodelItemProviderAdapterFactory;
@@ -125,13 +124,13 @@ public final class OIDABridge implements IOIDABridge {
 		AdapterFactoryEditingDomain editingDomain = new AdapterFactoryEditingDomain(composedAdapterFactory, new BasicCommandStack());
 
 		metaModelClassMappingsResource = editingDomain.createResource("http://de.oida/bridge/classmappings");
-		metaModelClassMappingsResource.getContents().add(BridgemodelFactory.eINSTANCE.createClassMappingSet());
+		metaModelClassMappingsResource.getContents().add(BridgemodelFactory.eINSTANCE.createMappingSet());
 		
 		metaModelObjectPropertyMappingsResource = editingDomain.createResource("http://de.oida/bridge/objectpropertymappings");
-		metaModelObjectPropertyMappingsResource.getContents().add(BridgemodelFactory.eINSTANCE.createObjectPropertyMappingSet());
+		metaModelObjectPropertyMappingsResource.getContents().add(BridgemodelFactory.eINSTANCE.createMappingSet());
 		
 		modelMappingsResource = editingDomain.createResource("http://de.oida/bridge/individualmappings");
-		modelMappingsResource.getContents().add(BridgemodelFactory.eINSTANCE.createInstanceMappingSet());
+		modelMappingsResource.getContents().add(BridgemodelFactory.eINSTANCE.createMappingSet());
 		
 		currentPrimaryRecommendationsResource = editingDomain.createResource("http://de.oida/bridge/currentprimaryrecommendations");
 		currentPrimaryRecommendationsResource.getContents().add(BridgemodelFactory.eINSTANCE.createRecommendationSet());
@@ -532,7 +531,7 @@ public final class OIDABridge implements IOIDABridge {
 			
 			mappedIndividual.setMappingExists(true);
 		
-			getModelMappings().getInstanceMappings().add(mapping);
+			getModelMappings().getMappings().add(mapping);
 			
 			LOGGER.info("Primary Mapping establisehd. Individual '" + recSet.getOntologyEntity().getIri() + "' is of type '" + selectedRecommendation.getRecommendedEntity().getIri() + "'");
 		}
@@ -552,7 +551,7 @@ public final class OIDABridge implements IOIDABridge {
 				metaModelClass.setMappingExists(true);
 				referenceClass.setMappingExists(true);
 				
-				getMetaModelClassMappings().getClassMappings().add(mapping);
+				getMetaModelClassMappings().getMappings().add(mapping);
 
 				LOGGER.info("Secondary class-mapping established: '" + metaModelClass.getIri() + "' equals '" + referenceClass.getIri() + "'.");
 
@@ -565,10 +564,13 @@ public final class OIDABridge implements IOIDABridge {
 		}
 	}
 
-	public Optional<ClassEqualsMapping> getClassMapping(OntologyClass selectedClass) {
-		for (ClassEqualsMapping mapping : getMetaModelClassMappings().getClassMappings())
-			if (mapping.getClazz1().getIri().equals(selectedClass.getIri()) || mapping.getClazz2().getIri().equals(selectedClass.getIri()))
-				return Optional.of(mapping);
+	@Override
+	public Optional<ClassEqualsMapping> getMapping(final OntologyClass selectedClass) {
+		for (Mapping mapping : getMetaModelClassMappings().getMappings()) {
+			ClassEqualsMapping m = (ClassEqualsMapping)mapping;
+			if (m.getClazz1().getIri().equals(selectedClass.getIri()) || m.getClazz2().getIri().equals(selectedClass.getIri()))
+				return Optional.of(m);
+		}
 
 		return Optional.empty();
 	}
@@ -588,7 +590,7 @@ public final class OIDABridge implements IOIDABridge {
 				selectedMetaModelObjectProperty.setMappingExists(true);
 				selectedReferenceOntologyObjectProperty.setMappingExists(true);
 
-				getMetaModelObjectPropertyMappings().getObjectPropertyMappings().add(mapping);
+				getMetaModelObjectPropertyMappings().getMappings().add(mapping);
 
 				LOGGER.info("Secondary object property-mapping established: '" + selectedMetaModelObjectProperty.getIri() + "' equals '" + selectedReferenceOntologyObjectProperty.getIri() + "'.");
 
@@ -602,24 +604,27 @@ public final class OIDABridge implements IOIDABridge {
 	}
 
 	@Override
-	public Optional<ObjectPropertyEqualsMapping> getObjectPropertyMapping(OntologyObjectProperty selectedMetaModelObjectProperty) {
-		for (ObjectPropertyEqualsMapping mapping : getMetaModelObjectPropertyMappings().getObjectPropertyMappings())
-			if (mapping.getObjectProperty1().equals(selectedMetaModelObjectProperty))
-				return Optional.of(mapping);
+	public Optional<ObjectPropertyEqualsMapping> getMapping(final OntologyObjectProperty objectProperty) {
+		for (Mapping mapping : getMetaModelObjectPropertyMappings().getMappings()) {
+			ObjectPropertyEqualsMapping m = (ObjectPropertyEqualsMapping)mapping;
+			if (m.getObjectProperty1().equals(objectProperty))
+				return Optional.of(m);
+		}
 
 		return Optional.empty();
 	}
 
 	@Override
 	public void removeSecondaryObjectPropertyMapping(OntologyObjectProperty selectedMetaModelObjectProperty) {
-		for (ObjectPropertyEqualsMapping mapping : getMetaModelObjectPropertyMappings().getObjectPropertyMappings()) {
-			if (mapping.getObjectProperty1().equals(selectedMetaModelObjectProperty)) {
-				mapping.getObjectProperty1().setMappingExists(false);
-				mapping.getObjectProperty2().setMappingExists(false);
+		for (Mapping mapping : getMetaModelObjectPropertyMappings().getMappings()) {
+			ObjectPropertyEqualsMapping m = (ObjectPropertyEqualsMapping)mapping;
+			if (m.getObjectProperty1().equals(selectedMetaModelObjectProperty)) {
+				m.getObjectProperty1().setMappingExists(false);
+				m.getObjectProperty2().setMappingExists(false);
 
-				getMetaModelHandler().get().getModelOntologyManager().removeObjectPropertyEquivalence(mapping.getEquivalence());
+				getMetaModelHandler().get().getModelOntologyManager().removeObjectPropertyEquivalence(m.getEquivalence());
 
-				getMetaModelObjectPropertyMappings().getObjectPropertyMappings().remove(mapping);
+				getMetaModelObjectPropertyMappings().getMappings().remove(mapping);
 				return;
 			}
 		}
@@ -627,14 +632,15 @@ public final class OIDABridge implements IOIDABridge {
 
 	@Override
 	public void removeSecondaryClassMapping(OntologyClass selectedMetaModelClass) {
-		for (ClassEqualsMapping mapping : getMetaModelClassMappings().getClassMappings()) {
-			if (mapping.getClazz1().equals(selectedMetaModelClass)) {
-				mapping.getClazz1().setMappingExists(false);
-				mapping.getClazz2().setMappingExists(false);
+		for (Mapping mapping : getMetaModelClassMappings().getMappings()) {
+			ClassEqualsMapping m = (ClassEqualsMapping)mapping;
+			if (m.getClazz1().equals(selectedMetaModelClass)) {
+				m.getClazz1().setMappingExists(false);
+				m.getClazz2().setMappingExists(false);
 
-				getMetaModelHandler().get().getModelOntologyManager().removeClassEquivalence(((ClassEqualsMapping)mapping).getEquivalence());
+				getMetaModelHandler().get().getModelOntologyManager().removeClassEquivalence(m.getEquivalence());
 
-				getMetaModelClassMappings().getClassMappings().remove(mapping);
+				getMetaModelClassMappings().getMappings().remove(mapping);
 				return;
 			}
 		}
@@ -646,7 +652,7 @@ public final class OIDABridge implements IOIDABridge {
 		mapping.setClazz2(referenceClass);
 		mapping.setEquivalence(equivalence);
 
-		getMetaModelClassMappings().getClassMappings().add(mapping);
+		getMetaModelClassMappings().getMappings().add(mapping);
 
 		metaModelClass.setMappingExists(true);
 		referenceClass.setMappingExists(true);
@@ -661,7 +667,7 @@ public final class OIDABridge implements IOIDABridge {
 		mapping.setObjectProperty2(equivalence.getObjectProperty2());
 		mapping.setEquivalence(equivalence);
 
-		getMetaModelObjectPropertyMappings().getObjectPropertyMappings().add(mapping);
+		getMetaModelObjectPropertyMappings().getMappings().add(mapping);
 
 		metaModelObjProperty.setMappingExists(true);
 		referenceObjProperty.setMappingExists(true);
@@ -714,8 +720,8 @@ public final class OIDABridge implements IOIDABridge {
 	}
 	
 	@Override
-	public ClassMappingSet getMetaModelClassMappings() {
-		return (ClassMappingSet)metaModelClassMappingsResource.getContents().get(0);
+	public MappingSet getMetaModelClassMappings() {
+		return (MappingSet)metaModelClassMappingsResource.getContents().get(0);
 	}
 	
 	@Override
@@ -724,8 +730,8 @@ public final class OIDABridge implements IOIDABridge {
 	}
 	
 	@Override
-	public ObjectPropertyMappingSet getMetaModelObjectPropertyMappings() {
-		return (ObjectPropertyMappingSet)metaModelObjectPropertyMappingsResource.getContents().get(0);
+	public MappingSet getMetaModelObjectPropertyMappings() {
+		return (MappingSet)metaModelObjectPropertyMappingsResource.getContents().get(0);
 	}
 	
 	@Override
@@ -734,8 +740,8 @@ public final class OIDABridge implements IOIDABridge {
 	}
 	
 	@Override
-	public InstanceMappingSet getModelMappings() {
-		return (InstanceMappingSet)modelMappingsResource.getContents().get(0);
+	public MappingSet getModelMappings() {
+		return (MappingSet)modelMappingsResource.getContents().get(0);
 	}
 
 	@Override

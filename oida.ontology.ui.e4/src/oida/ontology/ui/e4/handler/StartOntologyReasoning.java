@@ -11,6 +11,12 @@ import oida.ontology.Ontology;
 import oida.ontology.service.IOIDAOntologyService;
 import oida.ontology.ui.e4.part.OntologyLibraryPart;
 
+/**
+ * 
+ * @author Michael.Shamiyeh
+ * @since 2017-12-13
+ *
+ */
 public class StartOntologyReasoning {
 	@Inject
 	IOIDAOntologyService oidaService;

@@ -11,6 +11,12 @@ import oida.ontologyMgr.LocalOntologyMetaInfo;
 import oida.ontologyMgr.OntologyMgrFactory;
 import oida.util.constants.StringConstants;
 
+/**
+ * 
+ * @author Michael.Shamiyeh
+ * @since 2017-12-13
+ *
+ */
 public class AddOntologyFileHandler {
 	@Execute
 	public void execute(Shell shell, IOIDAOntologyService ontologyService) {

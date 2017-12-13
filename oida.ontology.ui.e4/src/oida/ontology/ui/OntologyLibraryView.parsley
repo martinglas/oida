@@ -29,12 +29,12 @@ module oida.ontology.ui.OntologyLibraryView {
 
 	featuresProvider {
 		features {
-			OntologyMetaInfo -> iri, nrOfClasses, nrOfIndividuals, nrOfObjectProperties
+			OntologyMetaInfo -> iri, ontology, nrOfClasses, nrOfIndividuals, nrOfObjectProperties
 		}
 	}
 
 	bindings {
-		value List<Integer> TableColumnWeights -> #[50, 200, 25, 25, 25]
+		value List<Integer> TableColumnWeights -> #[50, 200, 20, 25, 25, 25]
 	}
 	
 	viewerContentProvider {
@@ -67,6 +67,11 @@ module oida.ontology.ui.OntologyLibraryView {
 					iri.replaceAll("%20", StringConstants.SPACE)
 				else
 					StringConstants.EMPTY
+			OntologyMetaInfo:ontology ->
+				if (ontology === null)
+					StringConstants.EMPTY
+				else
+					"Loaded"
 			OntologyMetaInfo:nrOfClasses -> nrOfClasses.toString
 			OntologyMetaInfo:nrOfIndividuals -> nrOfIndividuals.toString
 			OntologyMetaInfo:nrOfObjectProperties -> nrOfObjectProperties.toString
@@ -76,6 +81,7 @@ module oida.ontology.ui.OntologyLibraryView {
 	featureCaptionProvider {
 		text {
 			OntologyMetaInfo : iri -> 'IRI'
+			OntologyMetaInfo : ontology -> 'Loaded'
 			OntologyMetaInfo : nrOfClasses -> 'Classes'
 			OntologyMetaInfo : nrOfIndividuals -> 'Individuals'
 			OntologyMetaInfo : nrOfObjectProperties -> 'Object Properties'

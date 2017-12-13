@@ -61,7 +61,7 @@ public class ClassEquivalenceMappingsViewPart {
 			@Override
 			public void selectionChanged(MPart part, Object selection) {
 				if (selection != null && selection instanceof OntologyClass && ((OntologyClass)selection).isMappingExists()) {
-					Optional<ClassEqualsMapping> optMapping = oidaBridge.getClassMapping((OntologyClass)selection);
+					Optional<ClassEqualsMapping> optMapping = oidaBridge.getMapping((OntologyClass)selection);
 
 					if (optMapping.isPresent()) {
 						StructuredSelection internalSelection = new StructuredSelection(optMapping.get());
