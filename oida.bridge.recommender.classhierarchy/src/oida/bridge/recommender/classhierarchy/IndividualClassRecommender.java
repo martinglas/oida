@@ -33,7 +33,7 @@ public class IndividualClassRecommender extends AbstractRecommender implements I
 		List<Recommendation> recommendations = new ArrayList<Recommendation>();
 
 		for (OntologyClass modelSuperClass : ((OntologyIndividual)selectedModelElement).getTypes()) {
-			Optional<ClassEqualsMapping> optMapping = oidaBridge.getClassMapping(modelSuperClass);
+			Optional<ClassEqualsMapping> optMapping = oidaBridge.getMapping(modelSuperClass);
 
 			if (optMapping.isPresent()) {
 				for (OntologyClass referenceSubClass : optMapping.get().getClazz2().getSubClasses()) {

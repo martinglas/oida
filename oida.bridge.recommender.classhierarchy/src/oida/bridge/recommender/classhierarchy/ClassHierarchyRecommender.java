@@ -39,7 +39,7 @@ public class ClassHierarchyRecommender extends AbstractRecommender implements IC
 		List<Recommendation> recommendations = new ArrayList<Recommendation>();
 
 		for (OntologyClass modelSuperClass : ((OntologyClass)selectedModelElement).getSuperClasses()) {
-			Optional<ClassEqualsMapping> optMapping = oidaBridge.getClassMapping(modelSuperClass);
+			Optional<ClassEqualsMapping> optMapping = oidaBridge.getMapping(modelSuperClass);
 
 			if (optMapping.isPresent()) {
 				for (OntologyClass referenceSubClass : optMapping.get().getClazz2().getSubClasses()) {
