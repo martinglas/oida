@@ -8,6 +8,7 @@ package oida.ontology.ui.e4.part;
 import javax.annotation.PostConstruct;
 
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
+import org.eclipse.e4.ui.model.application.ui.menu.MHandledItem;
 import org.eclipse.e4.ui.workbench.modeling.ESelectionService;
 import org.eclipse.e4.ui.workbench.modeling.ISelectionListener;
 import org.eclipse.emf.parsley.viewers.ViewerFactory;
@@ -19,6 +20,7 @@ import org.eclipse.swt.widgets.Composite;
 
 import com.google.inject.Injector;
 
+import oida.ontology.Ontology;
 import oida.ontology.ui.ClassesView.ClassesViewInjectorProvider;
 import oida.ontologyMgr.OntologyMetaInfo;
 
@@ -29,11 +31,13 @@ import oida.ontologyMgr.OntologyMetaInfo;
  * @author Michael.Shamiyeh
  *
  */
-public class ClassesViewPart implements ISelectionListener {
-	public static final String PART_ID = "oida.ontology.ui.e4.part.classesView";
+public class ClassHierarchyViewPart implements ISelectionListener {
+	public static final String PART_ID = "oida.ontology.ui.e4.part.classHierarchy";
 	
 	private TreeViewer treeViewer;
 	private ViewerFactory viewerFactory;
+	
+	private Ontology currentOntology;
 	
 	@PostConstruct
 	public void postConstruct(Composite parent, ESelectionService selectionService) {
@@ -57,7 +61,23 @@ public class ClassesViewPart implements ISelectionListener {
 
 	@Override
 	public void selectionChanged(MPart part, Object selection) {
-		if (selection instanceof OntologyMetaInfo)
-			viewerFactory.initialize(treeViewer, ((OntologyMetaInfo)selection).getOntology());
+		if (selection instanceof OntologyMetaInfo) {
+			currentOntology = ((OntologyMetaInfo)selection).getOntology();
+			updateView(((MHandledItem)part.getToolbar().getChildren().get(0)).isSelected());
+		}
+	}
+	
+	public void updateView(boolean includeImports) {
+		if (currentOntology == null)
+			return;
+		
+		Object[] expandedElements = treeViewer.getExpandedElements();
+		
+		if (!includeImports && currentOntology.getLocalOntology() != null)
+			viewerFactory.initialize(treeViewer, currentOntology.getLocalOntology());
+		else
+			viewerFactory.initialize(treeViewer, currentOntology);
+
+		treeViewer.setExpandedElements(expandedElements);
 	}
 }

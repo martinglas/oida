@@ -31,7 +31,7 @@ public class IndividualsViewPart implements ISelectionListener {
 	
 	@PostConstruct
 	public void postConstruct(Composite parent, ESelectionService selectionService) {
-		selectionService.addSelectionListener(ClassesViewPart.PART_ID, this);
+		selectionService.addSelectionListener(ClassHierarchyViewPart.PART_ID, this);
 
 		Injector injector = IndividualsViewInjectorProvider.getInjector();
 

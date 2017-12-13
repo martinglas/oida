@@ -29,7 +29,7 @@ public class ClassDetailViewPart implements ISelectionListener {
 	@PostConstruct
 	public void postConstruct(Composite parent, ESelectionService selectionService) {
 		this.parent = parent;
-		selectionService.addSelectionListener(ClassesViewPart.PART_ID, this);
+		selectionService.addSelectionListener(ClassHierarchyViewPart.PART_ID, this);
 		Injector injector = ClassDetailViewInjectorProvider.getInjector();
 		viewerFactory = injector.getInstance(FormFactory.class);
 	}
