@@ -37,7 +37,7 @@ module oida.ontology.ui.IndividualsView {
 			OntologyIndividual i -> i.name
 		}
 		image {
-			OntologyIndividual -> "Individual_16.png"
+			OntologyIndividual -> "Individual.png"
 		}
 	}
 }

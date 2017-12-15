@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
-import bridgemodel.BridgemodelFactory;
-import bridgemodel.Recommendation;
-import bridgemodel.RecommendationType;
+import bridgemodel.recommendation.Recommendation;
+import bridgemodel.recommendation.RecommendationFactory;
+import bridgemodel.recommendation.RecommendationType;
 import oida.bridge.recommender.AbstractRecommender;
 import oida.bridge.recommender.name.helper.LevenshteinStringSimilarity;
 import oida.bridge.service.IOIDABridge;
@@ -37,7 +37,7 @@ public abstract class AbstractNameRecommender<T extends OntologyEntity> extends 
 		
 		for (T entity : recommendedEntities) {
 			if(entity instanceof IMappable && !((IMappable)entity).isMappingExists()) {
-				Recommendation r = BridgemodelFactory.eINSTANCE.createRecommendation();
+				Recommendation r = RecommendationFactory.eINSTANCE.createRecommendation();
 				r.setRecommendedEntity(entity);
 				r.setRecommenderName(getName());
 				r.setRecommendationType(getRecommendationType());

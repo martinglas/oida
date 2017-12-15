@@ -10,10 +10,10 @@ import java.util.Optional;
 
 import org.eclipse.emf.ecore.resource.Resource;
 
-import bridgemodel.ClassEqualsMapping;
-import bridgemodel.MappingSet;
-import bridgemodel.ObjectPropertyEqualsMapping;
-import bridgemodel.Recommendation;
+import bridgemodel.mapping.ClassEqualsMapping;
+import bridgemodel.mapping.MappingSet;
+import bridgemodel.mapping.ObjectPropertyEqualsMapping;
+import bridgemodel.recommendation.Recommendation;
 import oida.bridge.model.changehandler.IModelChangeHandler;
 import oida.ontology.Ontology;
 import oida.ontology.OntologyClass;

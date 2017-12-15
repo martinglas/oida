@@ -8,8 +8,7 @@ Bundle-Activator: bridgemodel.mapping.provider.BridgeModelEditPlugin$Implementat
 Bundle-Vendor: %providerName
 Bundle-Localization: plugin
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Export-Package: bridgemodel.provider,
- bridgemodel.mapping.provider,
+Export-Package: bridgemodel.mapping.provider,
  bridgemodel.recommendation.provider
 Require-Bundle: org.eclipse.core.runtime,
  oida.bridge.model;visibility:=reexport,

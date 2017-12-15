@@ -20,7 +20,7 @@ import org.eclipse.swt.widgets.Composite;
 
 import com.google.inject.Injector;
 
-import bridgemodel.Recommendation;
+import bridgemodel.recommendation.Recommendation;
 import oida.bridge.service.IOIDABridge;
 import oida.bridge.ui.ClassHierarchyView.ClassHierarchyViewInjectorProvider;
 import oida.ontology.OntologyClass;

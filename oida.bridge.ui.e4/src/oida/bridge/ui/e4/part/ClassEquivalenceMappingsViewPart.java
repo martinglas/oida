@@ -23,7 +23,7 @@ import org.eclipse.swt.widgets.Composite;
 
 import com.google.inject.Injector;
 
-import bridgemodel.ClassEqualsMapping;
+import bridgemodel.mapping.ClassEqualsMapping;
 import oida.bridge.service.IOIDABridge;
 import oida.ontology.OntologyClass;
 import oida.ontology.ui.view.ClassEquivalenceMappingsView.ClassEquivalenceMappingsViewInjectorProvider;

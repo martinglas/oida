@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import bridgemodel.Recommendation;
+import bridgemodel.recommendation.Recommendation;
 import oida.bridge.model.ontology.OIDAModelBaseOntology;
 import oida.bridge.recommender.AbstractRecommender;
 import oida.bridge.recommender.IPrimaryRecommender;

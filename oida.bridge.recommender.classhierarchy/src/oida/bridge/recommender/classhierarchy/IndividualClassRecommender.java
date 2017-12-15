@@ -4,10 +4,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
-import bridgemodel.BridgemodelFactory;
-import bridgemodel.ClassEqualsMapping;
-import bridgemodel.Recommendation;
-import bridgemodel.RecommendationType;
+import bridgemodel.mapping.ClassEqualsMapping;
+import bridgemodel.recommendation.Recommendation;
+import bridgemodel.recommendation.RecommendationFactory;
+import bridgemodel.recommendation.RecommendationType;
 import oida.bridge.recommender.AbstractRecommender;
 import oida.bridge.recommender.IPrimaryRecommender;
 import oida.bridge.service.IOIDABridge;
@@ -37,7 +37,7 @@ public class IndividualClassRecommender extends AbstractRecommender implements I
 
 			if (optMapping.isPresent()) {
 				for (OntologyClass referenceSubClass : optMapping.get().getClazz2().getSubClasses()) {
-					Recommendation r = BridgemodelFactory.eINSTANCE.createRecommendation();
+					Recommendation r = RecommendationFactory.eINSTANCE.createRecommendation();
 
 					r.setRecommendationType(RecommendationType.EQUIVALENT_TO);
 					r.setRecommendedEntity(referenceSubClass);

@@ -4,8 +4,8 @@
  * and is available at http://www.eclipse.org/legal/epl-v10.html </copyright>
  ******************************************************************************/
 
-import bridgemodel.ClassEqualsMapping
-import bridgemodel.MappingSet
+import bridgemodel.mapping.ClassEqualsMapping
+import bridgemodel.mapping.MappingSet
 import oida.bridge.ui.view.ClassEquivalenceMappingsView
 
 /**
@@ -45,8 +45,8 @@ module oida.ontology.ui.view.ClassEquivalenceMappingsView {
 		}
 		
 		image {
-			MappingSet -> "Mapping_16.png"
-			ClassEqualsMapping -> "Mapping_16.png"
+			MappingSet -> "Mapping.png"
+			ClassEqualsMapping -> "Mapping.png"
 		}
 	}
 

@@ -12,7 +12,7 @@ import org.eclipse.swt.widgets.Composite;
 
 import com.google.inject.Injector;
 
-import bridgemodel.ClassEqualsMapping;
+import bridgemodel.mapping.ClassEqualsMapping;
 import oida.ontology.ui.ClassDetailView.ClassDetailViewInjectorProvider;
 
 public class MetaModelClassDetailsViewPart {

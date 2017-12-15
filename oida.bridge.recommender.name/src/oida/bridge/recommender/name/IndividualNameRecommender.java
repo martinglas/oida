@@ -3,8 +3,8 @@ package oida.bridge.recommender.name;
 import java.util.List;
 import java.util.Optional;
 
-import bridgemodel.Recommendation;
-import bridgemodel.RecommendationType;
+import bridgemodel.recommendation.Recommendation;
+import bridgemodel.recommendation.RecommendationType;
 import oida.bridge.model.ontology.OIDAModelBaseOntology;
 import oida.bridge.recommender.IPrimaryRecommender;
 import oida.bridge.service.IOIDABridge;

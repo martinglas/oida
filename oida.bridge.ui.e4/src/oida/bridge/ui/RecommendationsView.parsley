@@ -1,5 +1,5 @@
-import bridgemodel.BridgemodelPackage
-import bridgemodel.Recommendation
+import bridgemodel.recommendation.Recommendation
+import bridgemodel.recommendation.RecommendationPackage
 import java.util.List
 import oida.bridge.ui.view.RecommendationsView
 
@@ -40,7 +40,7 @@ module oida.bridge.ui.RecommendationsView {
 	configurator {
 		eClass {
 			RecommendationsView -> {
-				BridgemodelPackage.eINSTANCE.recommendation
+				RecommendationPackage.eINSTANCE.recommendation
 			}
 		}
 	}

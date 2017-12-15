@@ -1,8 +1,6 @@
 import oida.bridge.ui.view.ObjectPropertyHierarchyView
 import oida.ontology.Ontology
 import oida.ontology.OntologyObjectProperty
-import org.eclipse.swt.SWT
-import org.eclipse.swt.widgets.Display
 
 /**
  * 
@@ -42,15 +40,11 @@ module oida.bridge.ui.ObjectPropertyHierarchyView {
 		}
 		
 		image {
-			OntologyObjectProperty -> "ObjectProperty_16.png"
-		}
-		
-		background {
 			OntologyObjectProperty op ->
-			if (op.mappingExists)
-				Display.getCurrent().getSystemColor(SWT.COLOR_GREEN)
-			else
-				Display.getCurrent().getSystemColor(SWT.COLOR_WHITE)
+				if (op.mappingExists)
+					"ObjectPropertyMapped.png"
+				else
+					"ObjectProperty.png"
 		}
 	}
 }

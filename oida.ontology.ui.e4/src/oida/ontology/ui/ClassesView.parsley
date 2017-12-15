@@ -40,7 +40,7 @@ module oida.ontology.ui.ClassesView {
 		}
 		
 		image {
-			OntologyClass -> "Class_16.png"
+			OntologyClass -> "Class.png"
 		}
 	}
 }

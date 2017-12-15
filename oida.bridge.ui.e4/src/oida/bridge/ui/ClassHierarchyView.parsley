@@ -1,7 +1,6 @@
+import oida.bridge.ui.view.ClassHierarchyView
 import oida.ontology.Ontology
 import oida.ontology.OntologyClass
-import oida.bridge.ui.view.ClassHierarchyView
-import org.eclipse.swt.widgets.Display
 
 /**
  * 
@@ -41,15 +40,11 @@ module oida.bridge.ui.ClassHierarchyView {
 		}
 		
 		image {
-			OntologyClass -> "Class_16.png"
-		}
-		
-		background {
 			OntologyClass c ->
-			if (c.mappingExists)
-				Display.getCurrent().getSystemColor(SWT.COLOR_GREEN)
-			else
-				Display.getCurrent().getSystemColor(SWT.COLOR_WHITE)
+				if (c.mappingExists)
+					"ClassMapped.png"
+				else
+					"Class.png"
 		}
 	}
 }

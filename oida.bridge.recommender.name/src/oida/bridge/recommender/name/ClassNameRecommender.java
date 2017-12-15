@@ -2,8 +2,8 @@ package oida.bridge.recommender.name;
 
 import java.util.List;
 
-import bridgemodel.Recommendation;
-import bridgemodel.RecommendationType;
+import bridgemodel.recommendation.Recommendation;
+import bridgemodel.recommendation.RecommendationType;
 import oida.bridge.recommender.IClassRecommender;
 import oida.bridge.service.IOIDABridge;
 import oida.ontology.Ontology;

@@ -25,16 +25,18 @@ import org.eclipse.emf.edit.provider.resource.ResourceItemProviderAdapterFactory
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
-import bridgemodel.AggregatedRecommendation;
-import bridgemodel.BridgemodelFactory;
-import bridgemodel.ClassEqualsMapping;
-import bridgemodel.InstanceOfMapping;
-import bridgemodel.Mapping;
-import bridgemodel.MappingSet;
-import bridgemodel.ObjectPropertyEqualsMapping;
-import bridgemodel.Recommendation;
-import bridgemodel.RecommendationSet;
-import bridgemodel.provider.BridgemodelItemProviderAdapterFactory;
+import bridgemodel.mapping.ClassEqualsMapping;
+import bridgemodel.mapping.InstanceOfMapping;
+import bridgemodel.mapping.Mapping;
+import bridgemodel.mapping.MappingFactory;
+import bridgemodel.mapping.MappingSet;
+import bridgemodel.mapping.ObjectPropertyEqualsMapping;
+import bridgemodel.mapping.provider.MappingItemProviderAdapterFactory;
+import bridgemodel.recommendation.AggregatedRecommendation;
+import bridgemodel.recommendation.Recommendation;
+import bridgemodel.recommendation.RecommendationFactory;
+import bridgemodel.recommendation.RecommendationSet;
+import bridgemodel.recommendation.provider.RecommendationItemProviderAdapterFactory;
 import oida.bridge.Activator;
 import oida.bridge.model.changehandler.IModelChangeHandler;
 import oida.bridge.model.changehandler.IModelChangeHandlerFactory;
@@ -116,27 +118,27 @@ public final class OIDABridge implements IOIDABridge {
 	private void tryInitialization() {
 		LOGGER.info("Initializing OIDA Bridge Service...");
 		modelHandlerMap.clear();
-
-		BridgemodelItemProviderAdapterFactory adapterFactory = new BridgemodelItemProviderAdapterFactory();
-		ComposedAdapterFactory composedAdapterFactory = new ComposedAdapterFactory(adapterFactory);
+		
+		ComposedAdapterFactory composedAdapterFactory = new ComposedAdapterFactory(new MappingItemProviderAdapterFactory());
+		composedAdapterFactory.addAdapterFactory(new RecommendationItemProviderAdapterFactory());
 		composedAdapterFactory.addAdapterFactory(new ResourceItemProviderAdapterFactory());
 
 		AdapterFactoryEditingDomain editingDomain = new AdapterFactoryEditingDomain(composedAdapterFactory, new BasicCommandStack());
 
 		metaModelClassMappingsResource = editingDomain.createResource("http://de.oida/bridge/classmappings");
-		metaModelClassMappingsResource.getContents().add(BridgemodelFactory.eINSTANCE.createMappingSet());
+		metaModelClassMappingsResource.getContents().add(MappingFactory.eINSTANCE.createMappingSet());
 		
 		metaModelObjectPropertyMappingsResource = editingDomain.createResource("http://de.oida/bridge/objectpropertymappings");
-		metaModelObjectPropertyMappingsResource.getContents().add(BridgemodelFactory.eINSTANCE.createMappingSet());
+		metaModelObjectPropertyMappingsResource.getContents().add(MappingFactory.eINSTANCE.createMappingSet());
 		
 		modelMappingsResource = editingDomain.createResource("http://de.oida/bridge/individualmappings");
-		modelMappingsResource.getContents().add(BridgemodelFactory.eINSTANCE.createMappingSet());
+		modelMappingsResource.getContents().add(MappingFactory.eINSTANCE.createMappingSet());
 		
 		currentPrimaryRecommendationsResource = editingDomain.createResource("http://de.oida/bridge/currentprimaryrecommendations");
-		currentPrimaryRecommendationsResource.getContents().add(BridgemodelFactory.eINSTANCE.createRecommendationSet());
+		currentPrimaryRecommendationsResource.getContents().add(RecommendationFactory.eINSTANCE.createRecommendationSet());
 
 		currentSecondaryRecommendationsResource = editingDomain.createResource("http://de.oida/bridge/currentsecondaryrecommendations");
-		currentSecondaryRecommendationsResource.getContents().add(BridgemodelFactory.eINSTANCE.createRecommendationSet());
+		currentSecondaryRecommendationsResource.getContents().add(RecommendationFactory.eINSTANCE.createRecommendationSet());
 
 		if (!extensionPointsReady)
 			extensionPointsReady = tryInitExtensions();
@@ -403,7 +405,7 @@ public final class OIDABridge implements IOIDABridge {
 				}
 				
 				if (r2 != null) {
-					AggregatedRecommendation ar = BridgemodelFactory.eINSTANCE.createAggregatedRecommendation();
+					AggregatedRecommendation ar = RecommendationFactory.eINSTANCE.createAggregatedRecommendation();
 					ar.getRecommendations().add(r);
 					ar.getRecommendations().add(r2);
 					ar.setRecommenderName(r.getRecommenderName() + ", " + r2.getRecommenderName());
@@ -456,7 +458,7 @@ public final class OIDABridge implements IOIDABridge {
 			boolean added = false;
 			for (Recommendation r2 : recommendations) {
 				if (r != r2 && r.getRecommendedEntity().equals(r2.getRecommendedEntity())) {
-					AggregatedRecommendation ar = BridgemodelFactory.eINSTANCE.createAggregatedRecommendation();
+					AggregatedRecommendation ar = RecommendationFactory.eINSTANCE.createAggregatedRecommendation();
 					ar.getRecommendations().add(r);
 					ar.getRecommendations().add(r2);
 					
@@ -525,7 +527,7 @@ public final class OIDABridge implements IOIDABridge {
 			OntologyIndividual mappedIndividual = (OntologyIndividual)recSet.getOntologyEntity();
 			modelOntologyManager.assignIndividualToClass((OntologyIndividual)recSet.getOntologyEntity(), (OntologyClass)selectedRecommendation.getRecommendedEntity());
 			
-			InstanceOfMapping mapping = BridgemodelFactory.eINSTANCE.createInstanceOfMapping();
+			InstanceOfMapping mapping = MappingFactory.eINSTANCE.createInstanceOfMapping();
 			mapping.setClazz((OntologyClass)selectedRecommendation.getRecommendedEntity());
 			mapping.setIndividual(mappedIndividual);
 			
@@ -543,7 +545,7 @@ public final class OIDABridge implements IOIDABridge {
 			Optional<OntologyClassEquivalence> optEquivalence = getMetaModelHandler().get().getModelOntologyManager().assignClassEquivalence(metaModelClass, referenceClass);
 
 			if (optEquivalence.isPresent()) {
-				ClassEqualsMapping mapping = BridgemodelFactory.eINSTANCE.createClassEqualsMapping();
+				ClassEqualsMapping mapping = MappingFactory.eINSTANCE.createClassEqualsMapping();
 				mapping.setClazz1(metaModelClass);
 				mapping.setClazz2(referenceClass);
 				mapping.setEquivalence(optEquivalence.get());
@@ -582,7 +584,7 @@ public final class OIDABridge implements IOIDABridge {
 					selectedReferenceOntologyObjectProperty);
 
 			if (optEquivalence.isPresent()) {
-				ObjectPropertyEqualsMapping mapping = BridgemodelFactory.eINSTANCE.createObjectPropertyEqualsMapping();
+				ObjectPropertyEqualsMapping mapping = MappingFactory.eINSTANCE.createObjectPropertyEqualsMapping();
 				mapping.setObjectProperty1(selectedMetaModelObjectProperty);
 				mapping.setObjectProperty2(selectedReferenceOntologyObjectProperty);
 				mapping.setEquivalence(optEquivalence.get());
@@ -647,7 +649,7 @@ public final class OIDABridge implements IOIDABridge {
 	}
 
 	private ClassEqualsMapping createClassMapping(OntologyClassEquivalence equivalence, OntologyClass metaModelClass, OntologyClass referenceClass) {
-		ClassEqualsMapping mapping = BridgemodelFactory.eINSTANCE.createClassEqualsMapping();
+		ClassEqualsMapping mapping = MappingFactory.eINSTANCE.createClassEqualsMapping();
 		mapping.setClazz1(metaModelClass);
 		mapping.setClazz2(referenceClass);
 		mapping.setEquivalence(equivalence);
@@ -662,7 +664,7 @@ public final class OIDABridge implements IOIDABridge {
 
 	private ObjectPropertyEqualsMapping createObjectPropertyMapping(OntologyObjectPropertyEquivalence equivalence, OntologyObjectProperty metaModelObjProperty,
 			OntologyObjectProperty referenceObjProperty) {
-		ObjectPropertyEqualsMapping mapping = BridgemodelFactory.eINSTANCE.createObjectPropertyEqualsMapping();
+		ObjectPropertyEqualsMapping mapping = MappingFactory.eINSTANCE.createObjectPropertyEqualsMapping();
 		mapping.setObjectProperty1(equivalence.getObjectProperty1());
 		mapping.setObjectProperty2(equivalence.getObjectProperty2());
 		mapping.setEquivalence(equivalence);

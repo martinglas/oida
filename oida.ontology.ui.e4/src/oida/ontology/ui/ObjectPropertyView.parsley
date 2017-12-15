@@ -40,7 +40,7 @@ module oida.ontology.ui.ObjectPropertyView {
 		}
 		
 		image {
-			OntologyObjectProperty -> "ObjectProperty_16.png"
+			OntologyObjectProperty -> "ObjectProperty.png"
 		}
 	}
 }
