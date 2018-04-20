@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel"
+    modelDirectory="/oida.ontology.owl.model/src-gen" creationIcons="false"
+    editDirectory="/oida.ontology.owl.model.edit/src-gen" editorDirectory="/oida.ontology.owl.model.editor/src-gen"
+    modelPluginID="oida.ontology.owl.model" modelName="Owl" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    codeFormatting="true" importerID="org.eclipse.emf.importer.ecore" complianceLevel="8.0"
+    copyrightFields="false" usedGenPackages="#//w3c/rdfs" operationReflection="true"
+    importOrganizing="true">
+  <foreignModel>owl.ecore</foreignModel>
+  <testsDirectory xsi:nil="true"/>
+  <genPackages prefix="Owl" basePackage="oida.ontology.owl.model" disposableProviderFactory="true"
+      ecorePackage="owl.ecore#/">
+    <genClasses image="false" ecoreClass="owl.ecore#//IIdentifyableObject">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owl.ecore#//IIdentifyableObject/iri"/>
+    </genClasses>
+    <nestedGenPackages prefix="Rdfs" disposableProviderFactory="true" ecorePackage="owl.ecore#//rdfs">
+      <genClasses ecoreClass="owl.ecore#//rdfs/Resource"/>
+      <genClasses ecoreClass="owl.ecore#//rdfs/Class"/>
+      <genClasses ecoreClass="owl.ecore#//rdfs/Literal"/>
+      <genClasses ecoreClass="owl.ecore#//rdfs/DataType"/>
+      <genClasses ecoreClass="owl.ecore#//rdfs/ConstraintProperty"/>
+    </nestedGenPackages>
+    <nestedGenPackages prefix="Owl" disposableProviderFactory="true" ecorePackage="owl.ecore#//owl">
+      <genClasses ecoreClass="owl.ecore#//owl/OWLOntology">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference owl.ecore#//owl/OWLOntology/ontologyAnnotations"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference owl.ecore#//owl/OWLOntology/imports"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference owl.ecore#//owl/OWLOntology/directlyImports"/>
+        <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owl.ecore#//owl/OWLOntology/versionIRI"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference owl.ecore#//owl/OWLOntology/directlyImportsDocuments"/>
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference owl.ecore#//owl/OWLOntology/axioms"/>
+      </genClasses>
+      <genClasses ecoreClass="owl.ecore#//owl/OWLAnnotation">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference owl.ecore#//owl/OWLAnnotation/annotationAnnotations"/>
+      </genClasses>
+      <genClasses ecoreClass="owl.ecore#//owl/OWLAxiom">
+        <genFeatures notify="false" createChild="false" propertySortChoices="true"
+            ecoreFeature="ecore:EReference owl.ecore#//owl/OWLAxiom/axiomAnnotations"/>
+      </genClasses>
+    </nestedGenPackages>
+  </genPackages>
+</genmodel:GenModel>

@@ -1,0 +1,65 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <!-- @generated owl -->
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="oida.ontology.owl.model.w3c.rdfs.presentation.RdfsModelWizardID"
+            name="%_UI_RdfsModelWizard_label"
+            class="oida.ontology.owl.model.w3c.rdfs.presentation.RdfsModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/RdfsModelFile.gif">
+         <description>%_UI_RdfsModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <!-- @generated owl -->
+      <editor
+            id="oida.ontology.owl.model.w3c.rdfs.presentation.RdfsEditorID"
+            name="%_UI_RdfsEditor_label"
+            icon="icons/full/obj16/RdfsModelFile.gif"
+            extensions="rdfs"
+            class="oida.ontology.owl.model.w3c.rdfs.presentation.RdfsEditor"
+            contributorClass="oida.ontology.owl.model.w3c.rdfs.presentation.RdfsActionBarContributor">
+      </editor>
+   </extension>
+
+   <extension point="org.eclipse.ui.newWizards">
+      <!-- @generated owl -->
+      <category
+            id="org.eclipse.emf.ecore.Wizard.category.ID"
+            name="%_UI_Wizard_category"/>
+      <wizard
+            id="oida.ontology.owl.model.w3c.owl.presentation.OwlModelWizardID"
+            name="%_UI_OwlModelWizard_label"
+            class="oida.ontology.owl.model.w3c.owl.presentation.OwlModelWizard"
+            category="org.eclipse.emf.ecore.Wizard.category.ID"
+            icon="icons/full/obj16/OwlModelFile.gif">
+         <description>%_UI_OwlModelWizard_description</description>
+         <selection class="org.eclipse.core.resources.IResource"/>
+      </wizard>
+   </extension>
+
+   <extension point="org.eclipse.ui.editors">
+      <!-- @generated owl -->
+      <editor
+            id="oida.ontology.owl.model.w3c.owl.presentation.OwlEditorID"
+            name="%_UI_OwlEditor_label"
+            icon="icons/full/obj16/OwlModelFile.gif"
+            extensions="owl"
+            class="oida.ontology.owl.model.w3c.owl.presentation.OwlEditor"
+            contributorClass="oida.ontology.owl.model.w3c.owl.presentation.OwlActionBarContributor">
+      </editor>
+   </extension>
+
+</plugin>

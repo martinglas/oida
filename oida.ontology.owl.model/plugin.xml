@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated owl -->
+      <package
+            uri="http://www.bauhaus-luftfahrt.net/w3c"
+            class="oida.ontology.owl.model.w3c.OwlPackage"
+            genModel="model/owl.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated owl -->
+      <package
+            uri="http://www.bauhaus-luftfahrt.net/w3c/rdfs"
+            class="oida.ontology.owl.model.w3c.rdfs.RdfsPackage"
+            genModel="model/owl.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated owl -->
+      <package
+            uri="http://www.bauhaus-luftfahrt.net/w3c/owl"
+            class="oida.ontology.owl.model.w3c.owl.OwlPackage"
+            genModel="model/owl.genmodel"/>
+   </extension>
+
+</plugin>
