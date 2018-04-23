@@ -1,26 +1,17 @@
-//package oida.ontology.ui.e4.part.classcontext;
-//
-//import javax.annotation.PostConstruct;
-//
-//import org.eclipse.e4.ui.model.application.ui.basic.MPart;
-//import org.eclipse.e4.ui.workbench.modeling.ESelectionService;
-//import org.eclipse.e4.ui.workbench.modeling.ISelectionListener;
-//import org.eclipse.gef.layout.algorithms.SpaceTreeLayoutAlgorithm;
-//import org.eclipse.jface.viewers.ISelectionChangedListener;
-//import org.eclipse.jface.viewers.SelectionChangedEvent;
-//import org.eclipse.swt.SWT;
-//import org.eclipse.swt.widgets.Composite;
-//
-//import com.google.inject.Module;
-//
-//import oida.ontology.OntologyClass;
-//import oida.ontology.ui.e4.part.ClassHierarchyViewPart;
-//
-//public class ClassContextViewPart implements ISelectionListener {
+package oida.ontology.ui.e4.part.classcontext;
+
+import javax.annotation.PostConstruct;
+
+import org.eclipse.e4.ui.model.application.ui.basic.MPart;
+import org.eclipse.e4.ui.workbench.modeling.ESelectionService;
+import org.eclipse.e4.ui.workbench.modeling.ISelectionListener;
+import org.eclipse.swt.widgets.Composite;
+
+public class ClassContextViewPart implements ISelectionListener {
 //	private ContentViewer viewer;
-//	
-//	@PostConstruct
-//	public void postConstruct(Composite parent, ESelectionService selectionService) {
+	
+	@PostConstruct
+	public void postConstruct(Composite parent, ESelectionService selectionService) {
 //		selectionService.addSelectionListener(ClassHierarchyViewPart.PART_ID, this);
 //		
 //		ZestFxJFaceModule module = new ZestFxJFaceModule();
@@ -36,13 +27,13 @@
 //				System.out.println("Selection changed: " + (event.getSelection()));
 //			}
 //		});
-//	}
-//
-//	@Override
-//	public void selectionChanged(MPart part, Object selection) {
+	}
+
+	@Override
+	public void selectionChanged(MPart part, Object selection) {
 //		if (selection instanceof OntologyClass) {
 //			viewer.setContentProvider(new GraphContentProvider((OntologyClass)selection));
 //			viewer.setInput(selection);
 //		}
-//	}
-//}
+	}
+}

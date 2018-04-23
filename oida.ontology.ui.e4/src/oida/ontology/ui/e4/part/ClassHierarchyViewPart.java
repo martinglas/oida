@@ -8,7 +8,7 @@ package oida.ontology.ui.e4.part;
 import javax.annotation.PostConstruct;
 
 import org.eclipse.e4.ui.model.application.ui.basic.MPart;
-import org.eclipse.e4.ui.model.application.ui.menu.MHandledItem;
+import org.eclipse.e4.ui.model.application.ui.menu.MToolItem;
 import org.eclipse.e4.ui.workbench.modeling.ESelectionService;
 import org.eclipse.e4.ui.workbench.modeling.ISelectionListener;
 import org.eclipse.emf.parsley.viewers.ViewerFactory;
@@ -39,8 +39,10 @@ public class ClassHierarchyViewPart implements ISelectionListener {
 	
 	private Ontology currentOntology;
 	
+	private MPart chlassHierarchyPart;
+	
 	@PostConstruct
-	public void postConstruct(Composite parent, ESelectionService selectionService) {
+	public void postConstruct(Composite parent, MPart part, ESelectionService selectionService) {
 		selectionService.addSelectionListener(OntologyLibraryPart.PART_ID, this);
 
 		Injector injector = ClassesViewInjectorProvider.getInjector();
@@ -57,13 +59,15 @@ public class ClassHierarchyViewPart implements ISelectionListener {
 					selectionService.setSelection(selection.getFirstElement());
 			}
 		});
+		
+		chlassHierarchyPart = part;
 	}
 
 	@Override
 	public void selectionChanged(MPart part, Object selection) {
 		if (selection instanceof OntologyMetaInfo) {
 			currentOntology = ((OntologyMetaInfo)selection).getOntology();
-			updateView(((MHandledItem)part.getToolbar().getChildren().get(0)).isSelected());
+			updateView(((MToolItem)chlassHierarchyPart.getToolbar().getChildren().get(0)).isSelected());
 		}
 	}
 	
