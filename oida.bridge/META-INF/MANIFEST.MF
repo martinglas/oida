@@ -31,3 +31,4 @@ Import-Package: oida.util,
  oida.util.constants,
  org.eclipse.emf.edit.provider
 Bundle-Vendor: Bauhaus Luftfahrt e.V.
+Automatic-Module-Name: oida.bridge

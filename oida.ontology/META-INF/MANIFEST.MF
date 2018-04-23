@@ -39,3 +39,4 @@ Export-Package: oida.ontology.manager,
  oida.ontology.manager.util,
  oida.ontology.predefined,
  oida.ontology.service
+Automatic-Module-Name: oida.ontology

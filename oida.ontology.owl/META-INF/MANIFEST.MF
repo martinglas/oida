@@ -80,3 +80,4 @@ Bundle-ClassPath: lib/antlr-2.7.7.jar,
  lib/xml-apis-1.4.01.jar,
  lib/xz-1.5.jar,
  .
+Automatic-Module-Name: oida.ontology.owl

@@ -16,3 +16,4 @@ Export-Package: oida.ontology,
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.emf.ecore;visibility:=reexport
 Bundle-ActivationPolicy: lazy
+Automatic-Module-Name: oida.ontology.model

@@ -26,3 +26,4 @@ Import-Package: org.eclipse.e4.ui.workbench.modeling,
  org.eclipse.emf.parsley.viewers,
  org.eclipse.jface.viewers,
  org.eclipse.swt.widgets
+Automatic-Module-Name: oida.util

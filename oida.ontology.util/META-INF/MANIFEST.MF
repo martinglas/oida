@@ -7,3 +7,4 @@ Bundle-Vendor: Bauhaus Luftfahrt e.V.
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: oida.ontology.model
 Export-Package: oida.ontology.util
+Automatic-Module-Name: oida.ontology.util
