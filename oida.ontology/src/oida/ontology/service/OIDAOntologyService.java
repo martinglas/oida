@@ -112,6 +112,7 @@ public final class OIDAOntologyService extends EContentAdapter implements INotif
 			LOGGER.error("Initialized without an Ontology Manager Factory.", e);
 		}
 
+		loadReferenceOntology();
 		autoLoadOntologies();
 
 		LOGGER.info("OIDA Ontology Service initialized.");
