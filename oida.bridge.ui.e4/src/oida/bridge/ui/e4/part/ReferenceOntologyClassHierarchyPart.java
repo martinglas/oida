@@ -16,7 +16,9 @@ import org.eclipse.swt.widgets.Composite;
 import com.google.inject.Injector;
 
 import oida.bridge.service.IOIDABridge;
+import oida.bridge.service.OIDABridgeException;
 import oida.bridge.ui.ClassHierarchyView.ClassHierarchyViewInjectorProvider;
+import oida.ontology.Ontology;
 
 /**
  * 
@@ -25,28 +27,36 @@ import oida.bridge.ui.ClassHierarchyView.ClassHierarchyViewInjectorProvider;
  *
  */
 public class ReferenceOntologyClassHierarchyPart {
-	public static final String PART_ID = "oida.bridge.ui.e4.part.referenceontologyclasshierarchy";
+    public static final String PART_ID = "oida.bridge.ui.e4.part.referenceontologyclasshierarchy";
+
+    private TreeViewer treeViewer;
+
+    @PostConstruct
+    public void postConstruct(Composite parent, ESelectionService selectionService, MPart part, IOIDABridge oidaBridge) {
+	Injector injector = ClassHierarchyViewInjectorProvider.getInjector();
+
+	ViewerFactory classHierarchyViewerFactory = injector.getInstance(ViewerFactory.class);
+
+	treeViewer = new TreeViewer(parent, SWT.SINGLE | SWT.FILL);
+	treeViewer.getControl().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
+	treeViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+	    @Override
+	    public void selectionChanged(SelectionChangedEvent event) {
+		IStructuredSelection selection = treeViewer.getStructuredSelection();
+
+		if (!selection.isEmpty())
+		    selectionService.setSelection(selection.getFirstElement());
+	    }
+	});
 	
-	private TreeViewer treeViewer;
+	Ontology referenceOntology = null;
+	try {
+	    referenceOntology = oidaBridge.getReferenceOntology();
+	} catch (OIDABridgeException e) {
+	    e.printStackTrace();
+	};
 	
-	@PostConstruct
-	public void postConstruct(Composite parent, ESelectionService selectionService, MPart part, IOIDABridge oidaBridge) {
-		Injector injector = ClassHierarchyViewInjectorProvider.getInjector();
-
-		ViewerFactory classHierarchyViewerFactory = injector.getInstance(ViewerFactory.class);
-
-		treeViewer = new TreeViewer(parent, SWT.SINGLE | SWT.FILL);
-		treeViewer.getControl().setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
-		treeViewer.addSelectionChangedListener(new ISelectionChangedListener() {
-			@Override
-			public void selectionChanged(SelectionChangedEvent event) {
-				IStructuredSelection selection = treeViewer.getStructuredSelection();
-
-				if (!selection.isEmpty())
-					selectionService.setSelection(selection.getFirstElement());
-			}
-		});
-
-		classHierarchyViewerFactory.initialize(treeViewer, oidaBridge.getReferenceOntology().get());
-	}
+	if (referenceOntology != null)
+	    classHierarchyViewerFactory.initialize(treeViewer, referenceOntology);
+    }
 }

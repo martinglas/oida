@@ -30,161 +30,162 @@ import oida.ontology.manager.OntologyManagerException;
  *
  */
 public abstract class AbstractModelChangeHandler implements IModelChangeHandler {
-	protected static Logger LOGGER = LoggerFactory.getLogger(AbstractModelChangeHandler.class);
+    protected static Logger LOGGER = LoggerFactory.getLogger(AbstractModelChangeHandler.class);
 
-	private IOntologyManager metaModelOntologyManager;
-	private IOntologyManager modelOntologyManager;
+    private IOntologyManager metaModelOntologyManager;
+    private IOntologyManager modelOntologyManager;
 
-	private Object modelObject;
+    private Object modelObject;
 
-	private IRenamerStrategy renamerStrategy;
-	private IStructuringStrategy structuringStrategy;
+    private IRenamerStrategy renamerStrategy;
+    private IStructuringStrategy structuringStrategy;
 
-	private HashMap<Object, OntologyEntity> modelToOntologyMap = new HashMap<Object, OntologyEntity>();
+    private HashMap<Object, OntologyEntity> modelToOntologyMap = new HashMap<Object, OntologyEntity>();
 
-	protected void initializeCollections() {
-		modelToOntologyMap.clear();
+    protected void initializeCollections() {
+	modelToOntologyMap.clear();
+    }
+
+    @Override
+    public Optional<OntologyEntity> getOntologyEntityForModelElement(Object modelElement) {
+	if (modelToOntologyMap.containsKey(modelElement))
+	    return Optional.of(modelToOntologyMap.get(modelElement));
+	else
+	    return Optional.empty();
+    }
+
+    protected Optional<OntologyClass> getOntologyClassForModelElement(Object modelElement) {
+	if (modelToOntologyMap.containsKey(modelElement) && modelToOntologyMap.get(modelElement) instanceof OntologyClass)
+	    return Optional.of((OntologyClass)modelToOntologyMap.get(modelElement));
+	else
+	    return Optional.empty();
+    }
+
+    protected Optional<OntologyIndividual> getOntologyIndividualForModelElement(Object modelElement) {
+	if (modelToOntologyMap.containsKey(modelElement) && modelToOntologyMap.get(modelElement) instanceof OntologyIndividual)
+	    return Optional.of((OntologyIndividual)modelToOntologyMap.get(modelElement));
+	else
+	    return Optional.empty();
+    }
+
+    protected Optional<OntologyObjectProperty> getOntologyObjectPropertyForModelElement(Object modelElement) {
+	if (modelToOntologyMap.containsKey(modelElement) && modelToOntologyMap.get(modelElement) instanceof OntologyObjectProperty)
+	    return Optional.of((OntologyObjectProperty)modelToOntologyMap.get(modelElement));
+	else
+	    return Optional.empty();
+    }
+
+    public IOntologyManager getMetaModelOntologyManager() {
+	return metaModelOntologyManager;
+    }
+
+    protected void setMetaModelOntologyManager(IOntologyManager ontologyManager) {
+	this.metaModelOntologyManager = ontologyManager;
+    }
+
+    public IOntologyManager getModelOntologyManager() {
+	return modelOntologyManager;
+    }
+
+    protected void setModelOntologyManager(IOntologyManager ontologyManager) {
+	this.modelOntologyManager = ontologyManager;
+    }
+
+    public Object getModelObject() {
+	return modelObject;
+    }
+
+    protected void setModelObject(Object modelObject) {
+	this.modelObject = modelObject;
+    }
+
+    public IRenamerStrategy getRenamerStrategy() {
+	return renamerStrategy;
+    }
+
+    public void setRenamerStrategy(IRenamerStrategy renamerStrategy) {
+	this.renamerStrategy = renamerStrategy;
+    }
+
+    public IStructuringStrategy getStructuringStrategy() {
+	return structuringStrategy;
+    }
+
+    public void setStructuringStrategy(IStructuringStrategy structuringStrategy) {
+	this.structuringStrategy = structuringStrategy;
+    }
+
+    @Override
+    public void startChangeTracking(IRenamerStrategy renamerStrategy, IStructuringStrategy structuringStrategy, IOntologyManager metaModelOntology, IOntologyManager modelOntologyManager,
+	    Object modelObject) {
+	setRenamerStrategy(renamerStrategy);
+	setStructuringStrategy(structuringStrategy);
+	setMetaModelOntologyManager(metaModelOntology);
+	setModelOntologyManager(modelOntologyManager);
+	setModelObject(modelObject);
+
+	initializeCollections();
+
+	try {
+	    modelOntologyManager.addImportDeclaration(getMetaModelOntologyManager().getOntology());
+
+	    initializeModelOntology(modelOntologyManager);
+
+	    try {
+		getModelOntologyManager().saveLocalOntology();
+	    } catch (OntologyManagerException e) {
+		LOGGER.error("Error while saving model ontology for model '" + getModelObject().toString() + "'", e);
+	    }
+	} catch (OntologyManagerException e) {
+	    LOGGER.error("Error while initializing model ontology for model '" + getModelObject().toString() + "'", e);
 	}
+    }
 
-	@Override
-	public Optional<OntologyEntity> getOntologyEntityForModelElement(Object modelElement) {
-		if (modelToOntologyMap.containsKey(modelElement))
-			return Optional.of(modelToOntologyMap.get(modelElement));
-		else
-			return Optional.empty();
+    protected abstract IOntologyManager initializeModelOntology(IOntologyManager modelOntologyManager);
+
+    protected OntologyIndividual createIndividualForModelObject(Object modelObject, OntologyClass ontologyClass) {
+	if (!modelToOntologyMap.containsKey(modelObject)) {
+	    String individualId = getRenamerStrategy().getObjectID(modelObject);
+	    String individualName = getRenamerStrategy().getObjectName(modelObject);
+
+	    OntologyIndividual oIn = modelOntologyManager.createIndividualOfClass(individualId, modelOntologyManager.getDefaultNamespace(), ontologyClass);
+	    Optional<OntologyAnnotation> ontAnnotation = modelOntologyManager.annotateIndividual(oIn, OIDAModelBaseOntology.getInstance().getNameAnnotationProperty(), individualName);
+	    modelToOntologyMap.put(modelObject, oIn);
+	    System.out.println("OIDA Model Change Handler: Individual created: '" + oIn.getName() + "' (Annotated with: '" + ontAnnotation.get().getValue() + "').");
+	    return oIn;
+	} else
+	    return (OntologyIndividual)modelToOntologyMap.get(modelObject);
+    }
+
+    protected void changeIndividualName(Object modelObject) {
+	if (modelToOntologyMap.containsKey(modelObject)) {
+	    String newIndividualID = getRenamerStrategy().getObjectID(modelObject);
+	    modelOntologyManager.renameEntity(modelToOntologyMap.get(modelObject), newIndividualID);
+	    System.out.println("OIDA Model Change Handler: Renamed individual: " + newIndividualID);
 	}
+    }
 
-	protected Optional<OntologyClass> getOntologyClassForModelElement(Object modelElement) {
-		if (modelToOntologyMap.containsKey(modelElement) && modelToOntologyMap.get(modelElement) instanceof OntologyClass)
-			return Optional.of((OntologyClass)modelToOntologyMap.get(modelElement));
-		else
-			return Optional.empty();
-	}
+    protected OntologyClass createOntologyClassForMetaModelClass(Object clazzObject) {
+	if (!modelToOntologyMap.containsKey(clazzObject)) {
+	    String className = getRenamerStrategy().getClassName((EClass)clazzObject);
 
-	protected Optional<OntologyIndividual> getOntologyIndividualForModelElement(Object modelElement) {
-		if (modelToOntologyMap.containsKey(modelElement) && modelToOntologyMap.get(modelElement) instanceof OntologyIndividual)
-			return Optional.of((OntologyIndividual)modelToOntologyMap.get(modelElement));
-		else
-			return Optional.empty();
-	}
+	    OntologyClass oCl = modelOntologyManager.createClass(className, modelOntologyManager.getDefaultNamespace());
+	    modelToOntologyMap.put(clazzObject, oCl);
+	    System.out.println("OIDA Model Change Handler: " + "Class created: '" + oCl.getName() + "'.");
 
-	protected Optional<OntologyObjectProperty> getOntologyObjectPropertyForModelElement(Object modelElement) {
-		if (modelToOntologyMap.containsKey(modelElement) && modelToOntologyMap.get(modelElement) instanceof OntologyObjectProperty)
-			return Optional.of((OntologyObjectProperty)modelToOntologyMap.get(modelElement));
-		else
-			return Optional.empty();
-	}
+	    return oCl;
+	} else
+	    return (OntologyClass)modelToOntologyMap.get(clazzObject);
+    }
 
-	public IOntologyManager getMetaModelOntologyManager() {
-		return metaModelOntologyManager;
-	}
+    protected OntologyObjectProperty createOntologyObjectPropertyForMetaModelRelation(String relationID, OntologyClass domain) {
+	if (!modelToOntologyMap.containsKey(relationID)) {
+	    OntologyObjectProperty oOP = modelOntologyManager.createObjectProperty(relationID, modelOntologyManager.getDefaultNamespace(), domain);
+	    modelToOntologyMap.put(relationID, oOP);
+	    System.out.println("OIDA Model Change Handler: " + "Object Property created: '" + oOP.getName() + "'.");
 
-	protected void setMetaModelOntologyManager(IOntologyManager ontologyManager) {
-		this.metaModelOntologyManager = ontologyManager;
-	}
-
-	public IOntologyManager getModelOntologyManager() {
-		return modelOntologyManager;
-	}
-
-	protected void setModelOntologyManager(IOntologyManager ontologyManager) {
-		this.modelOntologyManager = ontologyManager;
-	}
-
-	public Object getModelObject() {
-		return modelObject;
-	}
-
-	protected void setModelObject(Object modelObject) {
-		this.modelObject = modelObject;
-	}
-
-	public IRenamerStrategy getRenamerStrategy() {
-		return renamerStrategy;
-	}
-
-	public void setRenamerStrategy(IRenamerStrategy renamerStrategy) {
-		this.renamerStrategy = renamerStrategy;
-	}
-
-	public IStructuringStrategy getStructuringStrategy() {
-		return structuringStrategy;
-	}
-
-	public void setStructuringStrategy(IStructuringStrategy structuringStrategy) {
-		this.structuringStrategy = structuringStrategy;
-	}
-
-	@Override
-	public void startChangeTracking(IRenamerStrategy renamerStrategy, IStructuringStrategy structuringStrategy, IOntologyManager metaModelOntology, IOntologyManager modelOntologyManager, Object modelObject) {
-		setRenamerStrategy(renamerStrategy);
-		setStructuringStrategy(structuringStrategy);
-		setMetaModelOntologyManager(metaModelOntology);
-		setModelOntologyManager(modelOntologyManager);
-		setModelObject(modelObject);
-		
-		initializeCollections();
-
-		try {
-			modelOntologyManager.addImportDeclaration(getMetaModelOntologyManager().getOntology());
-			
-			initializeModelOntology(modelOntologyManager);
-
-			try {
-				getModelOntologyManager().saveLocalOntology();
-			} catch (OntologyManagerException e) {
-				LOGGER.error("Error while saving model ontology for model '" + getModelObject().toString() + "'", e);
-			}
-		} catch (OntologyManagerException e) {
-			LOGGER.error("Error while initializing model ontology for model '" + getModelObject().toString() + "'", e);
-		}
-	}
-
-	protected abstract IOntologyManager initializeModelOntology(IOntologyManager modelOntologyManager);
-
-	protected OntologyIndividual createIndividualForModelObject(Object modelObject, OntologyClass ontologyClass) {
-		if (!modelToOntologyMap.containsKey(modelObject)) {
-			String individualId = getRenamerStrategy().getObjectID(modelObject);
-			String individualName = getRenamerStrategy().getObjectName(modelObject);
-
-			OntologyIndividual oIn = modelOntologyManager.createIndividualOfClass(individualId, modelOntologyManager.getDefaultNamespace(), ontologyClass);
-			Optional<OntologyAnnotation> ontAnnotation = modelOntologyManager.annotateIndividual(oIn, OIDAModelBaseOntology.getInstance().getNameAnnotationProperty(), individualName);
-			modelToOntologyMap.put(modelObject, oIn);
-			System.out.println("OIDA Model Change Handler: Individual created: '" + oIn.getName() + "' (Annotated with: '" + ontAnnotation.get().getValue() + "').");
-			return oIn;
-		} else
-			return (OntologyIndividual)modelToOntologyMap.get(modelObject);
-	}
-
-	protected void changeIndividualName(Object modelObject) {
-		if (modelToOntologyMap.containsKey(modelObject)) {
-			String newIndividualID = getRenamerStrategy().getObjectID(modelObject);
-			modelOntologyManager.renameEntity(modelToOntologyMap.get(modelObject), newIndividualID);
-			System.out.println("OIDA Model Change Handler: Renamed individual: " + newIndividualID);
-		}
-	}
-	
-	protected OntologyClass createOntologyClassForMetaModelClass(Object clazzObject) {
-		if (!modelToOntologyMap.containsKey(clazzObject)) {
-			String className = getRenamerStrategy().getClassName((EClass)clazzObject);
-
-			OntologyClass oCl = modelOntologyManager.createClass(className, modelOntologyManager.getDefaultNamespace());
-			modelToOntologyMap.put(clazzObject, oCl);
-			System.out.println("OIDA Model Change Handler: " + "Class created: '" + oCl.getName() + "'.");
-
-			return oCl;
-		} else
-			return (OntologyClass)modelToOntologyMap.get(clazzObject);
-	}
-
-	protected OntologyObjectProperty createOntologyObjectPropertyForMetaModelRelation(String relationID, OntologyClass domain) {
-		if (!modelToOntologyMap.containsKey(relationID)) {
-			OntologyObjectProperty oOP = modelOntologyManager.createObjectProperty(relationID, modelOntologyManager.getDefaultNamespace(), domain);
-			modelToOntologyMap.put(relationID, oOP);
-			System.out.println("OIDA Model Change Handler: " + "Object Property created: '" + oOP.getName() + "'.");
-
-			return oOP;
-		} else
-			return (OntologyObjectProperty)modelToOntologyMap.get(relationID);
-	}
+	    return oOP;
+	} else
+	    return (OntologyObjectProperty)modelToOntologyMap.get(relationID);
+    }
 }

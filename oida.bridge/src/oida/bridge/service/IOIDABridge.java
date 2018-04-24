@@ -49,7 +49,7 @@ public interface IOIDABridge {
 	 * 
 	 * @return An Optional-Object of the Model Change Handler.
 	 */
-	Optional<IModelChangeHandler> getMetaModelHandler();
+	IModelChangeHandler getMetaModelHandler() throws OIDABridgeException;
 	
 	/**
 	 * Starts the OIDA model ontology management for a passed model object.
@@ -77,7 +77,7 @@ public interface IOIDABridge {
 	 * @param modelObject
 	 *            The model object, which's ontology should be saved.
 	 */
-	void saveModelOntology(final Object modelObject);
+	void saveModelOntology(final Object modelObject) throws OIDABridgeException;
 
 	/**
 	 * Stops the model ontology management for the passed model object.
@@ -142,13 +142,13 @@ public interface IOIDABridge {
 	Resource getModelMappingsResource();
 	MappingSet getModelMappings();
 	
-	Optional<IModelChangeHandler> getModelChangeHandler(Object model);
+	IModelChangeHandler getModelChangeHandler(Object model) throws OIDABridgeException;
 
 	void setSecondaryRecommendationSystemEnabled(boolean enabled);
 	boolean isSecondaryRecommendationSystemEnabled();
 	
-	Optional<Ontology> getReferenceOntology();
-	Optional<Ontology> getMetaModelOntology();
+	Ontology getReferenceOntology() throws OIDABridgeException;;
+	Ontology getMetaModelOntology() throws OIDABridgeException;;
 	
 	Optional<ClassEqualsMapping> getMapping(final OntologyClass clazz);
 	Optional<ObjectPropertyEqualsMapping> getMapping(final OntologyObjectProperty objectProperty) ;

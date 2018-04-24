@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="ASCII"?>
 <fragment:ModelFragments xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:advanced="http://www.eclipse.org/ui/2010/UIModel/application/ui/advanced" xmlns:basic="http://www.eclipse.org/ui/2010/UIModel/application/ui/basic" xmlns:commands="http://www.eclipse.org/ui/2010/UIModel/application/commands" xmlns:fragment="http://www.eclipse.org/ui/2010/UIModel/fragment" xmlns:menu="http://www.eclipse.org/ui/2010/UIModel/application/ui/menu" xmi:id="_E7VxUKXEEeac7pLqBaVU8A">
-  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_C5bHcKXFEeac7pLqBaVU8A" featurename="commands" parentElementId="org.eclipse.e4.legacy.ide.application">
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_C5bHcKXFEeac7pLqBaVU8A" featurename="commands" parentElementId="net.bhl.cdt.application">
     <elements xsi:type="commands:Command" xmi:id="_FOPpwKXFEeac7pLqBaVU8A" elementId="oida.ontology.ui.e4.command.savelibrary" commandName="Save Library"/>
     <elements xsi:type="commands:Command" xmi:id="_MvqOIPkGEeatKqZLJkxOvw" elementId="oida.ontology.ui.e4.command.startreasoning" commandName="Start Reasoning"/>
     <elements xsi:type="commands:Command" xmi:id="_ci-HYB99EeeMaLf0aWrdgA" elementId="oida.ontology.ui.e4.command.addontologyfile" commandName="Add Ontology File"/>
@@ -9,7 +9,7 @@
     <elements xsi:type="commands:Command" xmi:id="_Hh1t0N_WEeevUaF78goVPA" elementId="oida.ontology.ui.e4.command.includeontologyimports" commandName="Include Ontology Imports"/>
     <elements xsi:type="commands:Command" xmi:id="_TODOwOABEeevUaF78goVPA" elementId="oida.ontology.ui.e4.command.loadontology" commandName="Load Ontology"/>
   </fragments>
-  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_HMEoYKXFEeac7pLqBaVU8A" featurename="handlers" parentElementId="org.eclipse.e4.legacy.ide.application">
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_HMEoYKXFEeac7pLqBaVU8A" featurename="handlers" parentElementId="net.bhl.cdt.application">
     <elements xsi:type="commands:Handler" xmi:id="_Ik6qoKXFEeac7pLqBaVU8A" elementId="oida.ontology.ui.e4.handler.0" contributionURI="bundleclass://oida.ontology.ui.e4/oida.ontology.ui.e4.handler.SaveOntologyLibrary" command="_FOPpwKXFEeac7pLqBaVU8A"/>
     <elements xsi:type="commands:Handler" xmi:id="_QHJHUPkGEeatKqZLJkxOvw" elementId="oida.ontology.ui.e4.handler.1" contributionURI="bundleclass://oida.ontology.ui.e4/oida.ontology.ui.e4.handler.StartOntologyReasoning" command="_MvqOIPkGEeatKqZLJkxOvw"/>
     <elements xsi:type="commands:Handler" xmi:id="_bZTJkB99EeeMaLf0aWrdgA" elementId="oida.ontology.ui.e4.handler.2" contributionURI="bundleclass://oida.ontology.ui.e4/oida.ontology.ui.e4.handler.AddOntologyFileHandler" command="_ci-HYB99EeeMaLf0aWrdgA"/>
@@ -17,7 +17,7 @@
     <elements xsi:type="commands:Handler" xmi:id="_RY7HsN_WEeevUaF78goVPA" elementId="oida.ontology.ui.e4.handler.4" contributionURI="bundleclass://oida.ontology.ui.e4/oida.ontology.ui.e4.handler.IncludeOntologyImportsHandler" command="_Hh1t0N_WEeevUaF78goVPA"/>
     <elements xsi:type="commands:Handler" xmi:id="_XT4bsOABEeevUaF78goVPA" elementId="oida.ontology.ui.e4.handler.5" contributionURI="bundleclass://oida.ontology.ui.e4/oida.ontology.ui.e4.handler.LoadOntologyHandler" command="_TODOwOABEeevUaF78goVPA"/>
   </fragments>
-  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_vY7MkLJXEeaw4puSHi5CMg" featurename="snippets" parentElementId="xpath:/" positionInList="">
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_vY7MkLJXEeaw4puSHi5CMg" featurename="children" parentElementId="net.bhl.cdt.client.e4.mainwindow.perspectivestack" positionInList="">
     <elements xsi:type="advanced:Perspective" xmi:id="_7j3fcLJXEeaw4puSHi5CMg" elementId="oida.ontology.ui.e4.perspective" label="Knowledge" iconURI="platform:/plugin/oida.ontology.ui.e4/icons/Library.png">
       <children xsi:type="basic:PartSashContainer" xmi:id="_I-8_8Jq8EeaelOAnCMy4mw" elementId="de.symo.application.partsashcontainer.2">
         <children xsi:type="basic:PartStack" xmi:id="_KSRB8Jq8EeaelOAnCMy4mw" elementId="de.symo.application.partstack.knowledge.lefttop" containerData="20">

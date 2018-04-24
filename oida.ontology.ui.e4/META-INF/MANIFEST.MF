@@ -24,9 +24,7 @@ Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.jface,
  oida.ontology.util;bundle-version="1.0.0",
  oida.util;bundle-version="1.0.0",
- org.eclipse.core.commands,
- org.eclipse.gef.layout;bundle-version="5.0.0",
- org.eclipse.gef.fx.jface;bundle-version="5.0.2"
+ org.eclipse.core.commands
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: javax.inject;version="1.0.0",
   oida.ontology.manager,
