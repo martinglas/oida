@@ -95,12 +95,9 @@ public final class OIDABridge {
 
     @Inject
     public OIDABridge(IOIDAOntologyService oidaOntologyService) {
-	this.oidaOntologyService = oidaOntologyService;
-	tryInitialization();
-    }
-
-    private void tryInitialization() {
 	LOGGER.info("Initializing OIDA Bridge Service...");
+	
+	this.oidaOntologyService = oidaOntologyService;
 	modelHandlerMap.clear();
 
 	ComposedAdapterFactory composedAdapterFactory = new ComposedAdapterFactory(new MappingItemProviderAdapterFactory());
