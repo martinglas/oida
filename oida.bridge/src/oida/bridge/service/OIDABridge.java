@@ -6,9 +6,7 @@
 package oida.bridge.service;
 
 import java.io.File;
-import java.util.ArrayList;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 import java.util.Optional;
 
@@ -32,9 +30,7 @@ import bridgemodel.mapping.MappingFactory;
 import bridgemodel.mapping.MappingSet;
 import bridgemodel.mapping.ObjectPropertyEqualsMapping;
 import bridgemodel.mapping.provider.MappingItemProviderAdapterFactory;
-import bridgemodel.recommendation.AggregatedRecommendation;
 import bridgemodel.recommendation.Recommendation;
-import bridgemodel.recommendation.RecommendationFactory;
 import bridgemodel.recommendation.RecommendationSet;
 import bridgemodel.recommendation.provider.RecommendationItemProviderAdapterFactory;
 import oida.bridge.Activator;
@@ -44,15 +40,10 @@ import oida.bridge.model.ontology.IMetaModelOntologyProvider;
 import oida.bridge.model.ontology.OIDAModelBaseOntology;
 import oida.bridge.model.strategy.IRenamerStrategy;
 import oida.bridge.model.strategy.IStructuringStrategy;
-import oida.bridge.recommender.IClassRecommender;
-import oida.bridge.recommender.IDatatypePropertyRecommender;
-import oida.bridge.recommender.IObjectPropertyRecommender;
-import oida.bridge.recommender.IPrimaryRecommender;
-import oida.bridge.recommender.IRecommender;
+import oida.bridge.recommender.RecommenderSystem;
 import oida.ontology.Ontology;
 import oida.ontology.OntologyClass;
 import oida.ontology.OntologyClassEquivalence;
-import oida.ontology.OntologyDatatypeProperty;
 import oida.ontology.OntologyEntity;
 import oida.ontology.OntologyIndividual;
 import oida.ontology.OntologyObjectProperty;
@@ -83,21 +74,12 @@ public final class OIDABridge implements IOIDABridge {
     private boolean modelBaseOntologyReady = false;
     private boolean metaModelOntologyReady = false;
 
-    private List<IPrimaryRecommender> recommenderPrimary;
-
-    private List<IClassRecommender> recommenderSecondaryClass;
-    private List<IObjectPropertyRecommender> recommenderSecondaryObjectProperty;
-    private List<IDatatypePropertyRecommender> recommenderSecondaryDatatypeProperty;
-
     private IRenamerStrategy renamerStrategy;
     private IStructuringStrategy structuringStrategy;
 
     private IModelChangeHandler metaModelOntologyHandler;
 
     private Map<Object, IModelChangeHandler> modelHandlerMap = new HashMap<Object, IModelChangeHandler>();
-
-    private Resource currentPrimaryRecommendationsResource;
-    private Resource currentSecondaryRecommendationsResource;
 
     private Resource metaModelClassMappingsResource;
     private Resource metaModelObjectPropertyMappingsResource;
@@ -134,11 +116,7 @@ public final class OIDABridge implements IOIDABridge {
 	modelMappingsResource = editingDomain.createResource("http://de.oida/bridge/individualmappings");
 	modelMappingsResource.getContents().add(MappingFactory.eINSTANCE.createMappingSet());
 
-	currentPrimaryRecommendationsResource = editingDomain.createResource("http://de.oida/bridge/currentprimaryrecommendations");
-	currentPrimaryRecommendationsResource.getContents().add(RecommendationFactory.eINSTANCE.createRecommendationSet());
-
-	currentSecondaryRecommendationsResource = editingDomain.createResource("http://de.oida/bridge/currentsecondaryrecommendations");
-	currentSecondaryRecommendationsResource.getContents().add(RecommendationFactory.eINSTANCE.createRecommendationSet());
+	RecommenderSystem.getInstance().initializeRecommenderSystem(this);
 
 	if (!extensionPointsReady)
 	    extensionPointsReady = tryInitExtensions();
@@ -200,50 +178,6 @@ public final class OIDABridge implements IOIDABridge {
 	    extensionPointsReady = false;
 	}
 
-	LOGGER.info("Step 4/7: Evaluating primary recommender extensions.");
-	try {
-	    recommenderPrimary = ExtensionPointUtil.loadExtensions(Activator.getExtensionRegistry(), IPrimaryRecommender.class, Activator.OIDA_RECOMMENDER_PRIMARY_EXTENSIONPOINT_ID);
-
-	    for (IPrimaryRecommender r : recommenderPrimary)
-		LOGGER.info("Primary Recommender registered: " + r.toString() + ".");
-	} catch (CoreException e) {
-	    LOGGER.error("Error while evaluating primary recommender extension point.", e);
-	    extensionPointsReady = false;
-	}
-
-	LOGGER.info("Step 5/7: Evaluating secondary recommender extensions.");
-	try {
-	    recommenderSecondaryClass = ExtensionPointUtil.loadExtensions(Activator.getExtensionRegistry(), IClassRecommender.class, Activator.OIDA_RECOMMENDER_SECONDARY_CLASS_EXTENSIONPOINT_ID);
-
-	    for (IRecommender r : recommenderSecondaryClass)
-		LOGGER.info("Secondary Class-Recommender registered: " + r.toString() + ".");
-	} catch (CoreException e) {
-	    LOGGER.error("Error while evaluating secondary recommender extension point.", e);
-	    extensionPointsReady = false;
-	}
-
-	try {
-	    recommenderSecondaryObjectProperty = ExtensionPointUtil.loadExtensions(Activator.getExtensionRegistry(), IObjectPropertyRecommender.class,
-		    Activator.OIDA_RECOMMENDER_SECONDARY_OBJECTPROPERTY_EXTENSIONPOINT_ID);
-
-	    for (IObjectPropertyRecommender r : recommenderSecondaryObjectProperty)
-		LOGGER.info("Secondary ObjectProperty-Recommender registered: " + r.toString() + ".");
-	} catch (CoreException e) {
-	    LOGGER.error("Error while evaluating secondary recommender extension point.", e);
-	    extensionPointsReady = false;
-	}
-
-	try {
-	    recommenderSecondaryDatatypeProperty = ExtensionPointUtil.loadExtensions(Activator.getExtensionRegistry(), IDatatypePropertyRecommender.class,
-		    Activator.OIDA_RECOMMENDER_SECONDARY_DATATYPEPROPERTY_EXTENSIONPOINT_ID);
-
-	    for (IDatatypePropertyRecommender r : recommenderSecondaryDatatypeProperty)
-		LOGGER.info("Secondary Datatype-Property-Recommender registered: " + r.toString() + ".");
-	} catch (CoreException e) {
-	    LOGGER.error("Error while evaluating secondary recommender extension point.", e);
-	    extensionPointsReady = false;
-	}
-
 	return extensionPointsReady;
     }
 
@@ -261,8 +195,9 @@ public final class OIDABridge implements IOIDABridge {
 	    if (optOntologyManager.isPresent()) {
 		OIDAModelBaseOntology.getInstance().loadOrInitializeOntology(optOntologyManager.get());
 		oidaOntologyService.saveLibraryResource();
-		oidaOntologyService.getGlobalIRIToLocalIRIMappings().put(OIDAModelBaseOntology.OIDA_MODELONTOLOGY_IRI, (LocalOntologyMetaInfo)OIDAModelBaseOntology.getInstance().getOntologyManager().getOntology().getMetaInfo());
-		
+		oidaOntologyService.getGlobalIRIToLocalIRIMappings().put(OIDAModelBaseOntology.OIDA_MODELONTOLOGY_IRI,
+			(LocalOntologyMetaInfo)OIDAModelBaseOntology.getInstance().getOntologyManager().getOntology().getMetaInfo());
+
 		LOGGER.info("Model Base Ontology loaded.");
 		return true;
 	    } else {
@@ -305,13 +240,8 @@ public final class OIDABridge implements IOIDABridge {
 		metaModelOntologyHandler.getModelOntologyManager().refreshOntologyRepresentation(true);
 		extractMappings(metaModelOntologyHandler.getModelOntologyManager());
 		metaModelOntologyHandler.getModelOntologyManager().saveLocalOntology();
-
-		for (IClassRecommender rec : recommenderSecondaryClass)
-		    rec.initializeRecommenderForMetaModel(metaModelOntologyHandler.getModelOntologyManager().getOntology(), oidaOntologyService.getReferenceOntologyManager().get().getOntology());
-		for (IObjectPropertyRecommender rec : recommenderSecondaryObjectProperty)
-		    rec.initializeRecommenderForMetaModel(metaModelOntologyHandler.getModelOntologyManager().getOntology(), oidaOntologyService.getReferenceOntologyManager().get().getOntology());
-		for (IDatatypePropertyRecommender rec : recommenderSecondaryDatatypeProperty)
-		    rec.initializeRecommenderForMetaModel(metaModelOntologyHandler.getModelOntologyManager().getOntology(), oidaOntologyService.getReferenceOntologyManager().get().getOntology());
+		
+		RecommenderSystem.getInstance().initializeSecondaryRecommenders(metaModelOntologyHandler.getModelOntologyManager().getOntology(), oidaOntologyService.getReferenceOntologyManager().get().getOntology());
 
 		LOGGER.info("Meta model ontology created: '" + metaModelOntologyHandler.getModelOntologyManager().getOntology().getIri() + "'.");
 		return true;
@@ -359,8 +289,7 @@ public final class OIDABridge implements IOIDABridge {
 	    changeHandler.startChangeTracking(renamerStrategy, structuringStrategy, getMetaModelHandler().getModelOntologyManager(), optModelOntologyMgr.get(), modelObject);
 	    modelHandlerMap.put(modelObject, changeHandler);
 
-	    for (IPrimaryRecommender rec : recommenderPrimary)
-		rec.initializeRecommenderForModel(changeHandler.getModelOntologyManager().getOntology(), oidaOntologyService.getReferenceOntologyManager().get().getOntology());
+	    RecommenderSystem.getInstance().initializePrimaryRecommenders(changeHandler.getModelOntologyManager().getOntology(), oidaOntologyService.getReferenceOntologyManager().get().getOntology());
 	} else
 	    LOGGER.error("Model observation could not be startet: Model ontology not found.");
     }
@@ -387,48 +316,9 @@ public final class OIDABridge implements IOIDABridge {
 	    return;
 
 	Optional<OntologyEntity> optOntEntity = modelHandlerMap.get(modelObject).getOntologyEntityForModelElement(firstSelectedElement);
-	if (optOntEntity.isPresent()) {
-	    RecommendationSet recPrimarySet = (RecommendationSet)currentPrimaryRecommendationsResource.getContents().get(0);
-	    recPrimarySet.getRecommendations().clear();
-	    recPrimarySet.setModelObject(modelObject);
-	    recPrimarySet.setOntologyEntity(optOntEntity.get());
-
-	    List<Recommendation> recommendations = new ArrayList<Recommendation>();
-	    for (IPrimaryRecommender rec : recommenderPrimary)
-		recommendations.addAll(rec.findRecommendationsForSelectedIndividual((OntologyIndividual)recPrimarySet.getOntologyEntity(), this));
-
-	    List<Recommendation> aggregated = new ArrayList<Recommendation>();
-	    while (!recommendations.isEmpty()) {
-		Recommendation r = recommendations.get(0);
-
-		Recommendation r2 = null;
-		for (int i = 1; i < recommendations.size(); i++) {
-		    if (r.getRecommendedEntity().equals(recommendations.get(i).getRecommendedEntity())) {
-			r2 = recommendations.get(i);
-			break;
-		    }
-		}
-
-		if (r2 != null) {
-		    AggregatedRecommendation ar = RecommendationFactory.eINSTANCE.createAggregatedRecommendation();
-		    ar.getRecommendations().add(r);
-		    ar.getRecommendations().add(r2);
-		    ar.setRecommenderName(r.getRecommenderName() + ", " + r2.getRecommenderName());
-		    ar.setRecommenderMessage(r.getRecommenderMessage() + " AND " + r2.getRecommenderMessage());
-		    ar.setRecommendedEntity(r.getRecommendedEntity());
-		    ar.setReliability(r.getReliability() + r2.getReliability());
-
-		    recommendations.remove(r);
-		    recommendations.remove(r2);
-		    aggregated.add(ar);
-		} else {
-		    recommendations.remove(r);
-		    aggregated.add(r);
-		}
-	    }
-
-	    recPrimarySet.getRecommendations().addAll(aggregated);
-	} else
+	if (optOntEntity.isPresent())
+	    RecommenderSystem.getInstance().findPrimaryRecommendations(modelObject, (OntologyIndividual)optOntEntity.get());
+	else
 	    LOGGER.warn("No Ontology Entity found for '" + firstSelectedElement.toString() + "'.");
     }
 
@@ -437,50 +327,7 @@ public final class OIDABridge implements IOIDABridge {
 	if (selectedObject == null)
 	    return;
 
-	RecommendationSet recSecondarySet = (RecommendationSet)currentSecondaryRecommendationsResource.getContents().get(0);
-	recSecondarySet.getRecommendations().clear();
-	recSecondarySet.setOntologyEntity((OntologyEntity)selectedObject);
-
-	List<Recommendation> recommendations = new ArrayList<Recommendation>();
-
-	if (selectedObject instanceof OntologyClass) {
-	    for (IClassRecommender rec : recommenderSecondaryClass)
-		recommendations.addAll(rec.findRecommendationsForSelectedClass((OntologyClass)recSecondarySet.getOntologyEntity(), this));
-	}
-
-	if (selectedObject instanceof OntologyObjectProperty) {
-	    for (IObjectPropertyRecommender rec : recommenderSecondaryObjectProperty)
-		recommendations.addAll(rec.findRecommendationsForSelectedObjectProperty((OntologyObjectProperty)recSecondarySet.getOntologyEntity(), this));
-	}
-
-	if (selectedObject instanceof OntologyDatatypeProperty) {
-	    for (IDatatypePropertyRecommender rec : recommenderSecondaryDatatypeProperty)
-		recommendations.addAll(rec.findRecommendationsForSelectedDatatypeProperty((OntologyDatatypeProperty)recSecondarySet.getOntologyEntity(), this));
-	}
-
-	List<Recommendation> aggregated = new ArrayList<Recommendation>();
-	for (Recommendation r : recommendations) {
-	    boolean added = false;
-	    for (Recommendation r2 : recommendations) {
-		if (r != r2 && r.getRecommendedEntity().equals(r2.getRecommendedEntity())) {
-		    AggregatedRecommendation ar = RecommendationFactory.eINSTANCE.createAggregatedRecommendation();
-		    ar.getRecommendations().add(r);
-		    ar.getRecommendations().add(r2);
-
-		    ar.setRecommendedEntity(r.getRecommendedEntity());
-		    ar.setReliability(r.getReliability() + r2.getReliability());
-
-		    aggregated.add(ar);
-		    added = true;
-		    break;
-		}
-	    }
-
-	    if (!added)
-		aggregated.add(r);
-	}
-
-	recSecondarySet.getRecommendations().addAll(aggregated);
+	RecommenderSystem.getInstance().findSecondaryRecommendations(selectedObject);
     }
 
     private String generateModelOntologyFileName(String modelObjectId) throws OIDABridgeException {
@@ -515,18 +362,8 @@ public final class OIDABridge implements IOIDABridge {
     }
 
     @Override
-    public Resource getCurrentPrimaryRecommendationsResource() {
-	return currentPrimaryRecommendationsResource;
-    }
-
-    @Override
-    public Resource getCurrentSecondaryRecommendationsResource() {
-	return currentSecondaryRecommendationsResource;
-    }
-
-    @Override
     public void establishPrimaryMapping(Recommendation selectedRecommendation) {
-	RecommendationSet recSet = (RecommendationSet)currentPrimaryRecommendationsResource.getContents().get(0);
+	RecommendationSet recSet = (RecommendationSet)RecommenderSystem.getInstance().getCurrentPrimaryRecommendationsResource().getContents().get(0);
 	IOntologyManager modelOntologyManager = modelHandlerMap.get(recSet.getModelObject()).getModelOntologyManager();
 
 	if (recSet.getOntologyEntity() instanceof OntologyIndividual && selectedRecommendation.getRecommendedEntity() instanceof OntologyClass) {

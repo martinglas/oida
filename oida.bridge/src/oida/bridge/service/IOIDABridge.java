@@ -100,20 +100,6 @@ public interface IOIDABridge {
 	void reportMetaModelSelectionChanged(Object selectedObject);
 	
 	/**
-	 * Provides ontology class recommendations for the currently selected model element.
-	 * 
-	 * @return Resource object containing recommendations.
-	 */
-	Resource getCurrentPrimaryRecommendationsResource();
-	
-	/**
-	 * Provides ontology class or object property recommendations for the currently selected model element.
-	 * 
-	 * @return Resource object containing recommendations.
-	 */
-	Resource getCurrentSecondaryRecommendationsResource();
-	
-	/**
 	 * Creates a primary mapping relation between the currently selected model element and a recommended reference ontology entity.
 	 * 
 	 * @param selectedRecommendation A Recommendation object, containing the selected reference ontology entity.

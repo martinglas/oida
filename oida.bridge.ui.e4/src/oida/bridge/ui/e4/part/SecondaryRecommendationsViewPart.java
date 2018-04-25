@@ -19,6 +19,7 @@ import org.eclipse.swt.widgets.Composite;
 import com.google.inject.Injector;
 
 import bridgemodel.recommendation.RecommendationPackage;
+import oida.bridge.recommender.RecommenderSystem;
 import oida.bridge.service.IOIDABridge;
 import oida.bridge.ui.RecommendationsView.RecommendationsViewInjectorProvider;
 
@@ -40,7 +41,7 @@ public class SecondaryRecommendationsViewPart {
 
 		tableViewer = viewerFactory.createTableViewer(parent, SWT.BORDER | SWT.FULL_SELECTION, RecommendationPackage.eINSTANCE.getRecommendation());
 
-		tableViewer.setInput(oidaBridge.getCurrentSecondaryRecommendationsResource());
+		tableViewer.setInput(RecommenderSystem.getInstance().getCurrentSecondaryRecommendationsResource());
 
 		tableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
 			public void selectionChanged(SelectionChangedEvent event) {
