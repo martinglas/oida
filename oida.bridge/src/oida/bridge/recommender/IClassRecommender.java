@@ -3,7 +3,7 @@ package oida.bridge.recommender;
 import java.util.List;
 
 import bridgemodel.recommendation.Recommendation;
-import oida.bridge.service.IOIDABridge;
+import oida.bridge.service.OIDABridge;
 import oida.ontology.OntologyClass;
 
 /**
@@ -13,5 +13,5 @@ import oida.ontology.OntologyClass;
  *
  */
 public interface IClassRecommender extends ISecondaryRecommender {
-	List<Recommendation> findRecommendationsForSelectedClass(final OntologyClass selectedModelElement, IOIDABridge oidaBridge);
+	List<Recommendation> findRecommendationsForSelectedClass(final OntologyClass selectedModelElement, OIDABridge oidaBridge);
 }

@@ -19,7 +19,7 @@ import bridgemodel.recommendation.RecommendationFactory;
 import bridgemodel.recommendation.RecommendationSet;
 import bridgemodel.recommendation.provider.RecommendationItemProviderAdapterFactory;
 import oida.bridge.Activator;
-import oida.bridge.service.IOIDABridge;
+import oida.bridge.service.OIDABridge;
 import oida.ontology.Ontology;
 import oida.ontology.OntologyClass;
 import oida.ontology.OntologyDatatypeProperty;
@@ -60,7 +60,7 @@ public final class RecommenderSystem {
 	currentSecondaryRecommendationsResource.getContents().add(RecommendationFactory.eINSTANCE.createRecommendationSet());
     }
 
-    private IOIDABridge oidaBridge;
+    private OIDABridge oidaBridge;
 
     private List<IPrimaryRecommender> primaryRecommenderList;
 
@@ -80,7 +80,7 @@ public final class RecommenderSystem {
 	return currentSecondaryRecommendationsResource;
     }
 
-    public void initializeRecommenderSystem(IOIDABridge bridge) {
+    public void initializeRecommenderSystem(OIDABridge bridge) {
 	oidaBridge = bridge;
 
 	LOGGER.info("Initializing OIDA Bridge Recommender System...");

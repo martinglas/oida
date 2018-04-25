@@ -23,7 +23,7 @@ import org.eclipse.swt.widgets.Label;
 import com.google.inject.Injector;
 
 import bridgemodel.mapping.ObjectPropertyEqualsMapping;
-import oida.bridge.service.IOIDABridge;
+import oida.bridge.service.OIDABridge;
 import oida.bridge.service.OIDABridgeException;
 import oida.bridge.ui.ObjectPropertyHierarchyView.ObjectPropertyHierarchyViewInjectorProvider;
 import oida.ontology.Ontology;
@@ -49,7 +49,7 @@ public class MetaModelObjectPropertyMappingPart {
     private Button removeMappingButton;
 
     @PostConstruct
-    public void postConstruct(Composite parent, MPart part, IOIDABridge oidaBridge) {
+    public void postConstruct(Composite parent, MPart part, OIDABridge oidaBridge) {
 	parent.setLayout(new GridLayout(2, false));
 	parent.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 

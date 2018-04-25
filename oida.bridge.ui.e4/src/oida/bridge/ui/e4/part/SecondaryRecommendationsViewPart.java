@@ -20,7 +20,7 @@ import com.google.inject.Injector;
 
 import bridgemodel.recommendation.RecommendationPackage;
 import oida.bridge.recommender.RecommenderSystem;
-import oida.bridge.service.IOIDABridge;
+import oida.bridge.service.OIDABridge;
 import oida.bridge.ui.RecommendationsView.RecommendationsViewInjectorProvider;
 
 /**
@@ -30,26 +30,26 @@ import oida.bridge.ui.RecommendationsView.RecommendationsViewInjectorProvider;
  *
  */
 public class SecondaryRecommendationsViewPart {
-	public static final String PART_ID = "oida.bridge.ui.e4.part.secondaryrecommendationspart";
+    public static final String PART_ID = "oida.bridge.ui.e4.part.secondaryrecommendationspart";
 
-	private TableViewer tableViewer;
+    private TableViewer tableViewer;
 
-	@PostConstruct
-	public void postConstruct(Composite parent, ESelectionService selectionService, IOIDABridge oidaBridge) {
-		Injector injector = RecommendationsViewInjectorProvider.getInjector();
-		ViewerFactory viewerFactory = injector.getInstance(ViewerFactory.class);
+    @PostConstruct
+    public void postConstruct(Composite parent, ESelectionService selectionService, OIDABridge oidaBridge) {
+	Injector injector = RecommendationsViewInjectorProvider.getInjector();
+	ViewerFactory viewerFactory = injector.getInstance(ViewerFactory.class);
 
-		tableViewer = viewerFactory.createTableViewer(parent, SWT.BORDER | SWT.FULL_SELECTION, RecommendationPackage.eINSTANCE.getRecommendation());
+	tableViewer = viewerFactory.createTableViewer(parent, SWT.BORDER | SWT.FULL_SELECTION, RecommendationPackage.eINSTANCE.getRecommendation());
 
-		tableViewer.setInput(RecommenderSystem.getInstance().getCurrentSecondaryRecommendationsResource());
+	tableViewer.setInput(RecommenderSystem.getInstance().getCurrentSecondaryRecommendationsResource());
 
-		tableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
-			public void selectionChanged(SelectionChangedEvent event) {
-				IStructuredSelection selection = (IStructuredSelection)event.getSelection();
-				
-				if (!selection.isEmpty())
-					selectionService.setSelection(selection.getFirstElement());
-			}
-		});
-	}
+	tableViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+	    public void selectionChanged(SelectionChangedEvent event) {
+		IStructuredSelection selection = (IStructuredSelection)event.getSelection();
+
+		if (!selection.isEmpty())
+		    selectionService.setSelection(selection.getFirstElement());
+	    }
+	});
+    }
 }

@@ -15,7 +15,7 @@ import org.eclipse.swt.widgets.Composite;
 
 import com.google.inject.Injector;
 
-import oida.bridge.service.IOIDABridge;
+import oida.bridge.service.OIDABridge;
 import oida.bridge.service.OIDABridgeException;
 import oida.bridge.ui.ClassHierarchyView.ClassHierarchyViewInjectorProvider;
 import oida.ontology.Ontology;
@@ -32,7 +32,7 @@ public class ReferenceOntologyClassHierarchyPart {
     private TreeViewer treeViewer;
 
     @PostConstruct
-    public void postConstruct(Composite parent, ESelectionService selectionService, MPart part, IOIDABridge oidaBridge) {
+    public void postConstruct(Composite parent, ESelectionService selectionService, MPart part, OIDABridge oidaBridge) {
 	Injector injector = ClassHierarchyViewInjectorProvider.getInjector();
 
 	ViewerFactory classHierarchyViewerFactory = injector.getInstance(ViewerFactory.class);

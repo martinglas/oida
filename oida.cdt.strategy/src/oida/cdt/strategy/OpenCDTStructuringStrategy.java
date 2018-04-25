@@ -6,7 +6,7 @@ import org.eclipse.emf.ecore.EStructuralFeature;
 import model.base.BasePackage;
 import model.engineering.EngineeringPackage;
 import oida.bridge.model.emf.strategy.EMFStructuringStrategy;
-import oida.bridge.service.IOIDABridge.OntologyObjectProperties;
+import oida.bridge.service.OIDABridge.OntologyObjectProperties;
 
 /**
  * 

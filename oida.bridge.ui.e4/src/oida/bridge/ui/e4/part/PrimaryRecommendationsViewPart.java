@@ -15,7 +15,7 @@ import com.google.inject.Injector;
 
 import bridgemodel.recommendation.RecommendationPackage;
 import oida.bridge.recommender.RecommenderSystem;
-import oida.bridge.service.IOIDABridge;
+import oida.bridge.service.OIDABridge;
 import oida.bridge.ui.RecommendationsView.RecommendationsViewInjectorProvider;
 
 public class PrimaryRecommendationsViewPart {
@@ -24,7 +24,7 @@ public class PrimaryRecommendationsViewPart {
     private TableViewer tableViewer;
 
     @PostConstruct
-    public void postConstruct(Composite parent, ESelectionService selectionService, IOIDABridge oidaBridge) {
+    public void postConstruct(Composite parent, ESelectionService selectionService, OIDABridge oidaBridge) {
 	Injector injector = RecommendationsViewInjectorProvider.getInjector();
 	ViewerFactory viewerFactory = injector.getInstance(ViewerFactory.class);
 

@@ -67,8 +67,12 @@ import oida.util.constants.StringConstants;
  */
 @Creatable
 @Singleton
-public final class OIDABridge implements IOIDABridge {
+public final class OIDABridge {
     protected static Logger LOGGER = LoggerFactory.getLogger(OIDABridge.class);
+
+    public enum OntologyObjectProperties {
+	HAS_PART, HAS_PARAMETER
+    };
 
     private boolean extensionPointsReady = false;
     private boolean modelBaseOntologyReady = false;
@@ -84,8 +88,6 @@ public final class OIDABridge implements IOIDABridge {
     private Resource metaModelClassMappingsResource;
     private Resource metaModelObjectPropertyMappingsResource;
     private Resource modelMappingsResource;
-
-    private boolean secondaryRecommendationSystemEnabled = false;
 
     private IModelChangeHandlerFactory changeHandlerFactory;
 
@@ -240,8 +242,9 @@ public final class OIDABridge implements IOIDABridge {
 		metaModelOntologyHandler.getModelOntologyManager().refreshOntologyRepresentation(true);
 		extractMappings(metaModelOntologyHandler.getModelOntologyManager());
 		metaModelOntologyHandler.getModelOntologyManager().saveLocalOntology();
-		
-		RecommenderSystem.getInstance().initializeSecondaryRecommenders(metaModelOntologyHandler.getModelOntologyManager().getOntology(), oidaOntologyService.getReferenceOntologyManager().get().getOntology());
+
+		RecommenderSystem.getInstance().initializeSecondaryRecommenders(metaModelOntologyHandler.getModelOntologyManager().getOntology(),
+			oidaOntologyService.getReferenceOntologyManager().get().getOntology());
 
 		LOGGER.info("Meta model ontology created: '" + metaModelOntologyHandler.getModelOntologyManager().getOntology().getIri() + "'.");
 		return true;
@@ -257,7 +260,23 @@ public final class OIDABridge implements IOIDABridge {
 	return false;
     }
 
-    @Override
+    /**
+     * Starts the OIDA model ontology management for a passed model object.
+     * 
+     * @param modelObject
+     *            The model object, which should be observed and mapped to the
+     *            current reference ontology.
+     * @param modelOntologyDirectory
+     *            A directory, where OIDA can store the model ontology file.
+     * @param modelObjectId
+     *            An id of the model object, which is used for the file name
+     *            generation of the model ontology file.
+     * @throws OIDABridgeException
+     *             If 1) the model ontology directory is invalid, 2) no renamer
+     *             strategy has been registered, or 3) no reference ontology is
+     *             set at the moment. If the exception is thrown, the model
+     *             element is not observed.
+     */
     public void invokeModelObservation(final Object modelObject, final File modelOntologyDirectory, final String modelObjectId) throws OIDABridgeException {
 	if (renamerStrategy == null)
 	    throw new OIDABridgeException("No renamer strategy found. Model won't be observed.");
@@ -294,7 +313,13 @@ public final class OIDABridge implements IOIDABridge {
 	    LOGGER.error("Model observation could not be startet: Model ontology not found.");
     }
 
-    @Override
+    /**
+     * Saves the model ontology in the current state, if the model object is
+     * observed.
+     * 
+     * @param modelObject
+     *            The model object, which's ontology should be saved.
+     */
     public void saveModelOntology(final Object modelObject) {
 	try {
 	    if (modelHandlerMap.containsKey(modelObject))
@@ -304,13 +329,27 @@ public final class OIDABridge implements IOIDABridge {
 	}
     }
 
-    @Override
+    /**
+     * Stops the model ontology management for the passed model object.
+     * 
+     * @param modelObject
+     *            The model object, which should not be observed any more.
+     */
     public void stopModelObservation(final Object modelObject) {
 	modelHandlerMap.get(modelObject).closeModelOntology();
 	modelHandlerMap.remove(modelObject);
     }
 
-    @Override
+    /**
+     * Can be called by external editors or other parts, if the selected model
+     * element changes. This triggers the bridge to find new mapping
+     * recommendations.
+     * 
+     * @param modelObject
+     *            The observed model.
+     * @param firstSelectedElement
+     *            The first selected model element.
+     */
     public void reportModelSelectionChanged(Object modelObject, Object firstSelectedElement) {
 	if (modelObject == null || firstSelectedElement == null)
 	    return;
@@ -322,7 +361,6 @@ public final class OIDABridge implements IOIDABridge {
 	    LOGGER.warn("No Ontology Entity found for '" + firstSelectedElement.toString() + "'.");
     }
 
-    @Override
     public void reportMetaModelSelectionChanged(Object selectedObject) {
 	if (selectedObject == null)
 	    return;
@@ -361,7 +399,14 @@ public final class OIDABridge implements IOIDABridge {
 	}
     }
 
-    @Override
+    /**
+     * Creates a primary mapping relation between the currently selected model
+     * element and a recommended reference ontology entity.
+     * 
+     * @param selectedRecommendation
+     *            A Recommendation object, containing the selected reference
+     *            ontology entity.
+     */
     public void establishPrimaryMapping(Recommendation selectedRecommendation) {
 	RecommendationSet recSet = (RecommendationSet)RecommenderSystem.getInstance().getCurrentPrimaryRecommendationsResource().getContents().get(0);
 	IOntologyManager modelOntologyManager = modelHandlerMap.get(recSet.getModelObject()).getModelOntologyManager();
@@ -382,7 +427,14 @@ public final class OIDABridge implements IOIDABridge {
 	}
     }
 
-    @Override
+    /**
+     * Creates a secondary mapping relation between the currently selected model
+     * element and a recommended reference ontology entity.
+     * 
+     * @param selectedRecommendation
+     *            A Recommendation object, containing the selected reference
+     *            ontology entity.
+     */
     public void establishSecondaryClassMapping(OntologyClass metaModelClass, OntologyClass referenceClass) {
 	try {
 	    IOntologyManager modelOntMgr = getMetaModelHandler().getModelOntologyManager();
@@ -411,7 +463,6 @@ public final class OIDABridge implements IOIDABridge {
 	}
     }
 
-    @Override
     public Optional<ClassEqualsMapping> getMapping(final OntologyClass selectedClass) {
 	for (Mapping mapping : getMetaModelClassMappings().getMappings()) {
 	    ClassEqualsMapping m = (ClassEqualsMapping)mapping;
@@ -422,7 +473,6 @@ public final class OIDABridge implements IOIDABridge {
 	return Optional.empty();
     }
 
-    @Override
     public void establishSecondaryObjectPropertyMapping(OntologyObjectProperty selectedMetaModelObjectProperty, OntologyObjectProperty selectedReferenceOntologyObjectProperty) {
 	try {
 	    IOntologyManager modelOntMgr = getMetaModelHandler().getModelOntologyManager();
@@ -450,7 +500,6 @@ public final class OIDABridge implements IOIDABridge {
 	}
     }
 
-    @Override
     public Optional<ObjectPropertyEqualsMapping> getMapping(final OntologyObjectProperty objectProperty) {
 	for (Mapping mapping : getMetaModelObjectPropertyMappings().getMappings()) {
 	    ObjectPropertyEqualsMapping m = (ObjectPropertyEqualsMapping)mapping;
@@ -461,7 +510,6 @@ public final class OIDABridge implements IOIDABridge {
 	return Optional.empty();
     }
 
-    @Override
     public void removeSecondaryObjectPropertyMapping(OntologyObjectProperty selectedMetaModelObjectProperty) {
 	try {
 	    IOntologyManager modelOntMgr = getMetaModelHandler().getModelOntologyManager();
@@ -482,7 +530,6 @@ public final class OIDABridge implements IOIDABridge {
 	}
     }
 
-    @Override
     public void removeSecondaryClassMapping(OntologyClass selectedMetaModelClass) {
 	try {
 	    IOntologyManager modelOntMgr = getMetaModelHandler().getModelOntologyManager();
@@ -532,7 +579,6 @@ public final class OIDABridge implements IOIDABridge {
 	return mapping;
     }
 
-    @Override
     public IModelChangeHandler getModelChangeHandler(Object model) throws OIDABridgeException {
 	if (modelHandlerMap.containsKey(model))
 	    return modelHandlerMap.get(model);
@@ -540,7 +586,11 @@ public final class OIDABridge implements IOIDABridge {
 	throw new OIDABridgeException("No Model Change Handler available for object '" + model.toString() + "'");
     }
 
-    @Override
+    /**
+     * Returns the Model Change Handler for the Meta-Model.
+     * 
+     * @return An Optional-Object of the Model Change Handler.
+     */
     public IModelChangeHandler getMetaModelHandler() throws OIDABridgeException {
 	if (metaModelOntologyHandler != null)
 	    return metaModelOntologyHandler;
@@ -548,12 +598,20 @@ public final class OIDABridge implements IOIDABridge {
 	throw new OIDABridgeException("No Meta Model Handler available.");
     }
 
-    @Override
+    /**
+     * Returns the state of the OIDA Bridge.
+     * 
+     * @return true if the OIDA Bridge is ready.
+     */
     public boolean isReady() {
 	return extensionPointsReady && metaModelOntologyReady && modelBaseOntologyReady;
     }
 
-    @Override
+    /**
+     * Returns a message describing the OIDA Bridge state.
+     * 
+     * @return a message string, or ready.
+     */
     public String getStateString() {
 	if (isReady())
 	    return "Ready";
@@ -561,47 +619,30 @@ public final class OIDABridge implements IOIDABridge {
 	return "Not Ready";
     }
 
-    @Override
-    public void setSecondaryRecommendationSystemEnabled(boolean enabled) {
-	secondaryRecommendationSystemEnabled = enabled;
-    }
-
-    @Override
-    public boolean isSecondaryRecommendationSystemEnabled() {
-	return secondaryRecommendationSystemEnabled;
-    }
-
-    @Override
     public Resource getMetaModelClassMappingsResource() {
 	return metaModelClassMappingsResource;
     }
 
-    @Override
     public MappingSet getMetaModelClassMappings() {
 	return (MappingSet)metaModelClassMappingsResource.getContents().get(0);
     }
 
-    @Override
     public Resource getMetaModelObjectPropertyMappingsResource() {
 	return metaModelObjectPropertyMappingsResource;
     }
 
-    @Override
     public MappingSet getMetaModelObjectPropertyMappings() {
 	return (MappingSet)metaModelObjectPropertyMappingsResource.getContents().get(0);
     }
 
-    @Override
     public Resource getModelMappingsResource() {
 	return modelMappingsResource;
     }
 
-    @Override
     public MappingSet getModelMappings() {
 	return (MappingSet)modelMappingsResource.getContents().get(0);
     }
 
-    @Override
     public Ontology getReferenceOntology() throws OIDABridgeException {
 	if (oidaOntologyService.getReferenceOntologyManager().isPresent())
 	    return oidaOntologyService.getReferenceOntologyManager().get().getOntology();
@@ -609,7 +650,6 @@ public final class OIDABridge implements IOIDABridge {
 	throw new OIDABridgeException("No Reference Ontology loaded.");
     }
 
-    @Override
     public Ontology getMetaModelOntology() throws OIDABridgeException {
 	try {
 	    return getMetaModelHandler().getModelOntologyManager().getOntology();

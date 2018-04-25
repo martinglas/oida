@@ -3,7 +3,7 @@ package oida.bridge.model.strategy;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
-import oida.bridge.service.IOIDABridge.OntologyObjectProperties;
+import oida.bridge.service.OIDABridge.OntologyObjectProperties;
 
 /**
  * 

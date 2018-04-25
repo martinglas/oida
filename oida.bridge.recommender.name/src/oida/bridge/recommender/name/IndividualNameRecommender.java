@@ -7,7 +7,7 @@ import bridgemodel.recommendation.Recommendation;
 import bridgemodel.recommendation.RecommendationType;
 import oida.bridge.model.ontology.OIDAModelBaseOntology;
 import oida.bridge.recommender.IPrimaryRecommender;
-import oida.bridge.service.IOIDABridge;
+import oida.bridge.service.OIDABridge;
 import oida.ontology.Ontology;
 import oida.ontology.OntologyAnnotation;
 import oida.ontology.OntologyClass;
@@ -22,44 +22,45 @@ import oida.util.constants.StringConstants;
  *
  */
 public class IndividualNameRecommender extends AbstractNameRecommender<OntologyClass> implements IPrimaryRecommender {
-	private final String NAME = "Individual Name Recommender";
-	
-	@Override
-	public String getName() {
-		return NAME;
-	}
-	
-	@Override
-	public void initializeRecommenderForModel(Ontology observedModelOntology, Ontology referenceOntology) {
-		initializeRecommender(observedModelOntology, referenceOntology);
-	}
-	
-	@Override
-	public List<Recommendation> findRecommendationsForSelectedIndividual(OntologyIndividual selectedModelElement, IOIDABridge oidaBridge) {
-		return findRecommendationsForSelectedModelElement(selectedModelElement, oidaBridge);
+    private final String NAME = "Individual Name Recommender";
+
+    @Override
+    public String getName() {
+	return NAME;
+    }
+
+    @Override
+    public void initializeRecommenderForModel(Ontology observedModelOntology, Ontology referenceOntology) {
+	initializeRecommender(observedModelOntology, referenceOntology);
+    }
+
+    @Override
+    public List<Recommendation> findRecommendationsForSelectedIndividual(OntologyIndividual selectedModelElement, OIDABridge oidaBridge) {
+	return findRecommendationsForSelectedModelElement(selectedModelElement, oidaBridge);
+    }
+
+    @Override
+    protected List<OntologyClass> getSearchEntityList() {
+	return getReferenceOntology().getClasses();
+    }
+
+    @Override
+    protected String getSearchName(OntologyEntity entity) {
+	if (entity instanceof OntologyIndividual) {
+	    Optional<OntologyAnnotation> optAnnotation = entity.getAnnotations().stream().filter(a -> a.getAnnotationproperty().equals(OIDAModelBaseOntology.getInstance().getNameAnnotationProperty()))
+		    .findFirst();
+
+	    if (optAnnotation.isPresent())
+		return optAnnotation.get().getValue();
+	    else
+		return entity.getName();
 	}
 
-	@Override
-	protected List<OntologyClass> getSearchEntityList() {
-		return getReferenceOntology().getClasses();
-	}
+	return StringConstants.EMPTY;
+    }
 
-	@Override
-	protected String getSearchName(OntologyEntity entity) {
-		if (entity instanceof OntologyIndividual) {
-			Optional<OntologyAnnotation> optAnnotation = entity.getAnnotations().stream().filter(a -> a.getAnnotationproperty().equals(OIDAModelBaseOntology.getInstance().getNameAnnotationProperty())).findFirst();
-			
-			if (optAnnotation.isPresent())
-				return optAnnotation.get().getValue();
-			else
-				return entity.getName();
-		}
-
-		return StringConstants.EMPTY;
-	}
-	
-	@Override
-	protected RecommendationType getRecommendationType() {
-		return RecommendationType.INSTANCE_OF;
-	}	
+    @Override
+    protected RecommendationType getRecommendationType() {
+	return RecommendationType.INSTANCE_OF;
+    }
 }

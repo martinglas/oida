@@ -24,7 +24,7 @@ import org.eclipse.swt.widgets.Composite;
 import com.google.inject.Injector;
 
 import bridgemodel.mapping.ClassEqualsMapping;
-import oida.bridge.service.IOIDABridge;
+import oida.bridge.service.OIDABridge;
 import oida.ontology.OntologyClass;
 import oida.ontology.ui.view.ClassEquivalenceMappingsView.ClassEquivalenceMappingsViewInjectorProvider;
 
@@ -35,42 +35,42 @@ import oida.ontology.ui.view.ClassEquivalenceMappingsView.ClassEquivalenceMappin
  *
  */
 public class ClassEquivalenceMappingsViewPart {
-	public static final String PART_ID = "oida.bridge.ui.e4.part.classequivalencemappingsviewpart";
+    public static final String PART_ID = "oida.bridge.ui.e4.part.classequivalencemappingsviewpart";
 
-	private TreeViewer treeViewer;
+    private TreeViewer treeViewer;
 
-	@PostConstruct
-	public void postConstruct(Composite parent, MPart part, ESelectionService selectionService, IOIDABridge oidaBridge) {
-		// Guice injector
-		Injector injector = ClassEquivalenceMappingsViewInjectorProvider.getInjector();
+    @PostConstruct
+    public void postConstruct(Composite parent, MPart part, ESelectionService selectionService, OIDABridge oidaBridge) {
+	// Guice injector
+	Injector injector = ClassEquivalenceMappingsViewInjectorProvider.getInjector();
 
-		ViewerFactory treeFactory = injector.getInstance(ViewerFactory.class);
-		// create the tree-form composite
+	ViewerFactory treeFactory = injector.getInstance(ViewerFactory.class);
+	// create the tree-form composite
 
-		treeViewer = new TreeViewer(parent, SWT.SINGLE);
+	treeViewer = new TreeViewer(parent, SWT.SINGLE);
 
-		// update the composite
-		treeViewer.addSelectionChangedListener(new ISelectionChangedListener() {
-			@Override
-			public void selectionChanged(SelectionChangedEvent event) {
-				selectionService.setSelection(((TreeSelection)event.getSelection()).getFirstElement());
-			}
-		});
-		
-		selectionService.addSelectionListener(MetaModelClassMappingPart.PART_ID, new ISelectionListener() {
-			@Override
-			public void selectionChanged(MPart part, Object selection) {
-				if (selection != null && selection instanceof OntologyClass && ((OntologyClass)selection).isMappingExists()) {
-					Optional<ClassEqualsMapping> optMapping = oidaBridge.getMapping((OntologyClass)selection);
+	// update the composite
+	treeViewer.addSelectionChangedListener(new ISelectionChangedListener() {
+	    @Override
+	    public void selectionChanged(SelectionChangedEvent event) {
+		selectionService.setSelection(((TreeSelection)event.getSelection()).getFirstElement());
+	    }
+	});
 
-					if (optMapping.isPresent()) {
-						StructuredSelection internalSelection = new StructuredSelection(optMapping.get());
-						treeViewer.setSelection(internalSelection);
-					}
-				}
-			}
-		});
-		
-		treeFactory.initialize(treeViewer, oidaBridge.getMetaModelClassMappingsResource());
-	}
+	selectionService.addSelectionListener(MetaModelClassMappingPart.PART_ID, new ISelectionListener() {
+	    @Override
+	    public void selectionChanged(MPart part, Object selection) {
+		if (selection != null && selection instanceof OntologyClass && ((OntologyClass)selection).isMappingExists()) {
+		    Optional<ClassEqualsMapping> optMapping = oidaBridge.getMapping((OntologyClass)selection);
+
+		    if (optMapping.isPresent()) {
+			StructuredSelection internalSelection = new StructuredSelection(optMapping.get());
+			treeViewer.setSelection(internalSelection);
+		    }
+		}
+	    }
+	});
+
+	treeFactory.initialize(treeViewer, oidaBridge.getMetaModelClassMappingsResource());
+    }
 }

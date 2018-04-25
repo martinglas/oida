@@ -10,7 +10,7 @@ import bridgemodel.recommendation.RecommendationFactory;
 import bridgemodel.recommendation.RecommendationType;
 import oida.bridge.recommender.AbstractRecommender;
 import oida.bridge.recommender.IClassRecommender;
-import oida.bridge.service.IOIDABridge;
+import oida.bridge.service.OIDABridge;
 import oida.ontology.Ontology;
 import oida.ontology.OntologyClass;
 
@@ -21,44 +21,44 @@ import oida.ontology.OntologyClass;
  *
  */
 public class ClassHierarchyRecommender extends AbstractRecommender implements IClassRecommender {
-	private final static String RECOMMENDERNAME = "Class Hierarchy Recommender";
+    private final static String RECOMMENDERNAME = "Class Hierarchy Recommender";
 
-	@Override
-	public String getName() {
-		return RECOMMENDERNAME;
-	}
+    @Override
+    public String getName() {
+	return RECOMMENDERNAME;
+    }
 
-	@Override
-	public void initializeRecommenderForMetaModel(Ontology observedMetaModelOntology, Ontology referenceOntology) {
-		setModelOntology(observedMetaModelOntology);
-		setReferenceOntology(referenceOntology);
-	}
+    @Override
+    public void initializeRecommenderForMetaModel(Ontology observedMetaModelOntology, Ontology referenceOntology) {
+	setModelOntology(observedMetaModelOntology);
+	setReferenceOntology(referenceOntology);
+    }
 
-	@Override
-	public List<Recommendation> findRecommendationsForSelectedClass(OntologyClass selectedModelElement, IOIDABridge oidaBridge) {
-		List<Recommendation> recommendations = new ArrayList<Recommendation>();
+    @Override
+    public List<Recommendation> findRecommendationsForSelectedClass(OntologyClass selectedModelElement, OIDABridge oidaBridge) {
+	List<Recommendation> recommendations = new ArrayList<Recommendation>();
 
-		for (OntologyClass modelSuperClass : ((OntologyClass)selectedModelElement).getSuperClasses()) {
-			Optional<ClassEqualsMapping> optMapping = oidaBridge.getMapping(modelSuperClass);
+	for (OntologyClass modelSuperClass : ((OntologyClass)selectedModelElement).getSuperClasses()) {
+	    Optional<ClassEqualsMapping> optMapping = oidaBridge.getMapping(modelSuperClass);
 
-			if (optMapping.isPresent()) {
-				for (OntologyClass referenceSubClass : optMapping.get().getClazz2().getSubClasses()) {
-					if (!referenceSubClass.isMappingExists()) {
-						Recommendation r = RecommendationFactory.eINSTANCE.createRecommendation();
+	    if (optMapping.isPresent()) {
+		for (OntologyClass referenceSubClass : optMapping.get().getClazz2().getSubClasses()) {
+		    if (!referenceSubClass.isMappingExists()) {
+			Recommendation r = RecommendationFactory.eINSTANCE.createRecommendation();
 
-						r.setRecommendationType(RecommendationType.EQUIVALENT_TO);
-						r.setRecommendedEntity(referenceSubClass);
-						r.setRecommenderMessage(selectedModelElement.getName() + " is a sub class of " + modelSuperClass.getName() + ". " + modelSuperClass.getName() + " is equal to "
-								+ optMapping.get().getClazz2().getName() + ". " + referenceSubClass.getName() + " is a sub class of " + optMapping.get().getClazz2().getName() + ".");
-						r.setReliability(100);
-						r.setRecommenderName(getName());
+			r.setRecommendationType(RecommendationType.EQUIVALENT_TO);
+			r.setRecommendedEntity(referenceSubClass);
+			r.setRecommenderMessage(selectedModelElement.getName() + " is a sub class of " + modelSuperClass.getName() + ". " + modelSuperClass.getName() + " is equal to "
+				+ optMapping.get().getClazz2().getName() + ". " + referenceSubClass.getName() + " is a sub class of " + optMapping.get().getClazz2().getName() + ".");
+			r.setReliability(100);
+			r.setRecommenderName(getName());
 
-						recommendations.add(r);
-					}
-				}
-			}
+			recommendations.add(r);
+		    }
 		}
-
-		return recommendations;
+	    }
 	}
+
+	return recommendations;
+    }
 }

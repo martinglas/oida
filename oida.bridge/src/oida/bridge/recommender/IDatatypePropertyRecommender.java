@@ -3,7 +3,7 @@ package oida.bridge.recommender;
 import java.util.List;
 
 import bridgemodel.recommendation.Recommendation;
-import oida.bridge.service.IOIDABridge;
+import oida.bridge.service.OIDABridge;
 import oida.ontology.OntologyDatatypeProperty;
 
 /**
@@ -13,5 +13,5 @@ import oida.ontology.OntologyDatatypeProperty;
  *
  */
 public interface IDatatypePropertyRecommender extends ISecondaryRecommender {
-	List<Recommendation> findRecommendationsForSelectedDatatypeProperty(final OntologyDatatypeProperty selectedModelElement, IOIDABridge oidaBridge);
+	List<Recommendation> findRecommendationsForSelectedDatatypeProperty(final OntologyDatatypeProperty selectedModelElement, OIDABridge oidaBridge);
 }

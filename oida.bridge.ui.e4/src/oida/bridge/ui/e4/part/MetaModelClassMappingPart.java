@@ -21,7 +21,7 @@ import org.eclipse.swt.widgets.Composite;
 import com.google.inject.Injector;
 
 import bridgemodel.recommendation.Recommendation;
-import oida.bridge.service.IOIDABridge;
+import oida.bridge.service.OIDABridge;
 import oida.bridge.service.OIDABridgeException;
 import oida.bridge.ui.ClassHierarchyView.ClassHierarchyViewInjectorProvider;
 import oida.ontology.Ontology;
@@ -47,7 +47,7 @@ public class MetaModelClassMappingPart {
     private Button removeMappingButton;
 
     @PostConstruct
-    public void postConstruct(Composite parent, ESelectionService selectionService, MPart part, IOIDABridge oidaBridge) {
+    public void postConstruct(Composite parent, ESelectionService selectionService, MPart part, OIDABridge oidaBridge) {
 	parent.setLayout(new GridLayout(1, false));
 	parent.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true));
 
