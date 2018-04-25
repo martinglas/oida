@@ -18,7 +18,10 @@ public class OpenCDTRenamerStrategy extends EMFRenamerStrategy {
     public String getObjectID(Object object) {
 	if (object instanceof AIdentifiableItem)
 	    return ((AIdentifiableItem)object).getId();
-
+	
+	if(object instanceof ANamedItem)
+	    return ((ANamedItem)object).getName();
+	
 	return "NoIDFound";
     }
 

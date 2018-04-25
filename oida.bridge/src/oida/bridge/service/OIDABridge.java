@@ -261,6 +261,8 @@ public final class OIDABridge implements IOIDABridge {
 	    if (optOntologyManager.isPresent()) {
 		OIDAModelBaseOntology.getInstance().loadOrInitializeOntology(optOntologyManager.get());
 		oidaOntologyService.saveLibraryResource();
+		oidaOntologyService.getGlobalIRIToLocalIRIMappings().put(OIDAModelBaseOntology.OIDA_MODELONTOLOGY_IRI, (LocalOntologyMetaInfo)OIDAModelBaseOntology.getInstance().getOntologyManager().getOntology().getMetaInfo());
+		
 		LOGGER.info("Model Base Ontology loaded.");
 		return true;
 	    } else {

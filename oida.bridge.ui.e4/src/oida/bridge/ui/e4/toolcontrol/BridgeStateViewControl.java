@@ -9,11 +9,11 @@ import org.eclipse.swt.widgets.Label;
 import oida.bridge.service.IOIDABridge;
 
 public class BridgeStateViewControl {
-	private Label statusLabel;
+    private Label statusLabel;
 
-	@PostConstruct
-	public void createGui(Composite parent, IOIDABridge oidaBridge) {
-		statusLabel = new Label(parent, SWT.NONE);
-		statusLabel.setText("OIDA Bridge: " + oidaBridge.getStateString());
-	}
+    @PostConstruct
+    public void createGui(Composite parent, IOIDABridge oidaBridge) {
+	statusLabel = new Label(parent, SWT.NONE);
+	statusLabel.setText("OIDA Bridge: " + oidaBridge.getStateString());
+    }
 }

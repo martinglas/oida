@@ -11,6 +11,7 @@ import org.eclipse.emf.ecore.resource.Resource;
 import org.eclipse.emf.edit.domain.EditingDomain;
 
 import oida.ontology.manager.IOntologyManager;
+import oida.ontology.manager.context.IGlobalOntologyContext;
 import oida.ontologyMgr.Library;
 import oida.ontologyMgr.LocalOntologyMetaInfo;
 import oida.ontologyMgr.OntologyMetaInfo;
@@ -21,7 +22,7 @@ import oida.ontologyMgr.OntologyMetaInfo;
  * @since 13.12.2016
  *
  */
-public interface IOIDAOntologyService {
+public interface IOIDAOntologyService extends IGlobalOntologyContext {
 	Library getLibrary();
 	Resource getLibraryResource();
 	

@@ -32,217 +32,217 @@ import oida.util.constants.StringConstants;
  *
  */
 public abstract class AbstractOntologyManager extends EContentAdapter implements IOntologyManager {
-	private IGlobalOntologyContext globalContext;
+    private IGlobalOntologyContext globalContext;
 
-	protected boolean localOntologyActive = true;
+    protected boolean localOntologyActive = true;
 
-	@Override
-	public void setGlobalOntologyContext(IGlobalOntologyContext context) {
-		this.globalContext = context;
+    @Override
+    public void setGlobalOntologyContext(IGlobalOntologyContext context) {
+	this.globalContext = context;
+    }
+
+    /**
+     * Returns the global ontology context.
+     * 
+     * @return A global ontology context object, or null, if it is not set.
+     */
+    protected IGlobalOntologyContext getGlobalOntologyContext() {
+	return this.globalContext;
+    }
+
+    private Ontology ontology;
+
+    @Override
+    public Ontology getOntology() {
+	return ontology;
+    }
+
+    protected void setOntology(Ontology ontology, OntologyMetaInfo metaInfo) {
+	this.ontology = ontology;
+	this.ontology.setMetaInfo(metaInfo);
+	this.ontology.getLocalOntology().setMetaInfo(EcoreUtil.copy(metaInfo));
+	this.ontology.eAdapters().add(this);
+    }
+
+    @Override
+    public void notifyChanged(Notification notification) {
+	if (getOntology() != null && getOntology().getMetaInfo() != null) {
+	    if (notification.getFeature().equals(OntologyPackage.eINSTANCE.getOntology_Individuals())) {
+		getOntology().getMetaInfo().setNrOfIndividuals(getOntology().getIndividuals().size());
+		getOntology().getLocalOntology().getMetaInfo().setNrOfIndividuals(getOntology().getLocalOntology().getIndividuals().size());
+	    }
+	    if (notification.getFeature().equals(OntologyPackage.eINSTANCE.getOntology_Classes())) {
+		getOntology().getMetaInfo().setNrOfClasses(getOntology().getClasses().size());
+		getOntology().getLocalOntology().getMetaInfo().setNrOfClasses(getOntology().getLocalOntology().getClasses().size());
+	    }
+	    if (notification.getFeature().equals(OntologyPackage.eINSTANCE.getOntology_ObjectProperties())) {
+		getOntology().getMetaInfo().setNrOfObjectProperties(getOntology().getObjectProperties().size());
+		getOntology().getLocalOntology().getMetaInfo().setNrOfObjectProperties(getOntology().getLocalOntology().getObjectProperties().size());
+	    }
 	}
+    }
 
-	/**
-	 * Returns the global ontology context.
-	 * 
-	 * @return A global ontology context object, or null, if it is not set.
-	 */
-	protected IGlobalOntologyContext getGlobalOntologyContext() {
-		return this.globalContext;
-	}
+    @Override
+    public void addImportDeclaration(Ontology importOntology) throws OntologyManagerException {
+	addImportDeclaration(importOntology.getIri());
+    }
 
-	private Ontology ontology;
+    @Override
+    public OntologyClass createClass(String name) {
+	return createClass(name, StringConstants.EMPTY);
+    }
 
-	@Override
-	public Ontology getOntology() {
-		return ontology;
-	}
+    @Override
+    public OntologyClass createSubClass(String name, OntologyClass superClass) {
+	return createSubClass(name, StringConstants.EMPTY, superClass);
+    }
 
-	protected void setOntology(Ontology ontology, OntologyMetaInfo metaInfo) {
-		this.ontology = ontology;
-		this.ontology.setMetaInfo(metaInfo);
-		this.ontology.getLocalOntology().setMetaInfo(EcoreUtil.copy(metaInfo));
-		this.ontology.eAdapters().add(this);
-	}
+    @Override
+    public OntologyClass createSubClass(String name, String prefix, OntologyClass superClass) {
+	OntologyClass subClass = createClass(name, prefix);
+	assignSubClassToSuperClass(subClass, superClass);
+	return subClass;
+    }
 
-	@Override
-	public void notifyChanged(Notification notification) {
-		if (getOntology() != null && getOntology().getMetaInfo() != null) {
-			if (notification.getFeature().equals(OntologyPackage.eINSTANCE.getOntology_Individuals())) {
-				getOntology().getMetaInfo().setNrOfIndividuals(getOntology().getIndividuals().size());
-				getOntology().getLocalOntology().getMetaInfo().setNrOfIndividuals(getOntology().getLocalOntology().getIndividuals().size());
-			}
-			if (notification.getFeature().equals(OntologyPackage.eINSTANCE.getOntology_Classes())) {
-				getOntology().getMetaInfo().setNrOfClasses(getOntology().getClasses().size());
-				getOntology().getLocalOntology().getMetaInfo().setNrOfClasses(getOntology().getLocalOntology().getClasses().size());
-			}
-			if (notification.getFeature().equals(OntologyPackage.eINSTANCE.getOntology_ObjectProperties())) {
-				getOntology().getMetaInfo().setNrOfObjectProperties(getOntology().getObjectProperties().size());
-				getOntology().getLocalOntology().getMetaInfo().setNrOfObjectProperties(getOntology().getLocalOntology().getObjectProperties().size());
-			}
-		}
-	}
+    @Override
+    public OntologyIndividual createIndividual(final String name) {
+	return createIndividual(name, StringConstants.EMPTY);
+    }
 
-	@Override
-	public void addImportDeclaration(Ontology importOntology) throws OntologyManagerException {
-		addImportDeclaration(importOntology.getIri());
-	}
+    @Override
+    public OntologyIndividual createIndividualOfClass(String individualName, OntologyClass clazz) {
+	OntologyIndividual individual = createIndividual(individualName);
+	assignIndividualToClass(individual, clazz);
+	return individual;
+    }
 
-	@Override
-	public OntologyClass createClass(String name) {
-		return createClass(name, StringConstants.EMPTY);
-	}
+    @Override
+    public OntologyIndividual createIndividualOfClass(String individualName, String individualPrefix, OntologyClass clazz) {
+	OntologyIndividual individual = createIndividual(individualName, individualPrefix);
+	assignIndividualToClass(individual, clazz);
+	return individual;
+    }
 
-	@Override
-	public OntologyClass createSubClass(String name, OntologyClass superClass) {
-		return createSubClass(name, StringConstants.EMPTY, superClass);
-	}
+    @Override
+    public Optional<OntologyClass> getClass(final String iri) {
+	return getOntology().getClasses().stream().filter(cl -> cl.getIri().equals(iri)).findFirst();
+    }
 
-	@Override
-	public OntologyClass createSubClass(String name, String prefix, OntologyClass superClass) {
-		OntologyClass subClass = createClass(name, prefix);
-		assignSubClassToSuperClass(subClass, superClass);
-		return subClass;
-	}
+    @Override
+    public Optional<OntologyClass> getClass(final String name, final String namespace) {
+	return getClass(OntologyManagerUtils.buildFullIRIString(name, namespace));
+    }
 
-	@Override
-	public OntologyIndividual createIndividual(final String name) {
-		return createIndividual(name, StringConstants.EMPTY);
-	}
+    @Override
+    public Stream<OntologyClass> getAllClasses() {
+	return getOntology().getClasses().stream();
+    }
 
-	@Override
-	public OntologyIndividual createIndividualOfClass(String individualName, OntologyClass clazz) {
-		OntologyIndividual individual = createIndividual(individualName);
-		assignIndividualToClass(individual, clazz);
-		return individual;
-	}
+    @Override
+    public Optional<OntologyIndividual> getIndividual(final String iri) {
+	return getOntology().getIndividuals().stream().filter(cl -> cl.getIri().equals(iri)).findFirst();
+    }
 
-	@Override
-	public OntologyIndividual createIndividualOfClass(String individualName, String individualPrefix, OntologyClass clazz) {
-		OntologyIndividual individual = createIndividual(individualName, individualPrefix);
-		assignIndividualToClass(individual, clazz);
-		return individual;
-	}
+    @Override
+    public Optional<OntologyIndividual> getIndividual(final String name, final String namespace) {
+	return getIndividual(OntologyManagerUtils.buildFullIRIString(name, namespace));
+    }
 
-	@Override
-	public Optional<OntologyClass> getClass(final String iri) {
-		return getOntology().getClasses().stream().filter(cl -> cl.getIri().equals(iri)).findFirst();
-	}
+    @Override
+    public Optional<OntologyObjectProperty> getObjectProperty(final String name, final String namespace) {
+	return getObjectProperty(OntologyManagerUtils.buildFullIRIString(name, namespace));
+    }
 
-	@Override
-	public Optional<OntologyClass> getClass(final String name, final String namespace) {
-		return getClass(OntologyManagerUtils.buildFullIRIString(name, namespace));
-	}
+    @Override
+    public Optional<OntologyObjectProperty> getObjectProperty(final String iri) {
+	return getOntology().getObjectProperties().stream().filter(op -> op.getIri().equals(iri)).findFirst();
+    }
 
-	@Override
-	public Stream<OntologyClass> getAllClasses() {
-		return getOntology().getClasses().stream();
-	}
+    @Override
+    public Stream<OntologyIndividual> getAllIndividuals() {
+	return getOntology().getIndividuals().stream();
+    }
 
-	@Override
-	public Optional<OntologyIndividual> getIndividual(final String iri) {
-		return getOntology().getIndividuals().stream().filter(cl -> cl.getIri().equals(iri)).findFirst();
-	}
+    @Override
+    public boolean isClassExisting(final String name) {
+	return isClassExisting(name, StringConstants.EMPTY);
+    }
 
-	@Override
-	public Optional<OntologyIndividual> getIndividual(final String name, final String namespace) {
-		return getIndividual(OntologyManagerUtils.buildFullIRIString(name, namespace));
-	}
+    @Override
+    public boolean isClassExisting(final String name, final String prefix) {
+	return getClass(name, prefix) != null;
+    }
 
-	@Override
-	public Optional<OntologyObjectProperty> getObjectProperty(final String name, final String namespace) {
-		return getObjectProperty(OntologyManagerUtils.buildFullIRIString(name, namespace));
-	}
+    @Override
+    public OntologyObjectProperty createObjectProperty(final String propertyName) {
+	return createObjectProperty(propertyName, StringConstants.EMPTY);
+    }
 
-	@Override
-	public Optional<OntologyObjectProperty> getObjectProperty(final String iri) {
-		return getOntology().getObjectProperties().stream().filter(op -> op.getIri().equals(iri)).findFirst();
-	}
+    @Override
+    public OntologyObjectProperty createObjectProperty(String propertyName, OntologyClass domain) {
+	return createObjectProperty(propertyName, StringConstants.EMPTY, domain);
+    }
 
-	@Override
-	public Stream<OntologyIndividual> getAllIndividuals() {
-		return getOntology().getIndividuals().stream();
-	}
+    @Override
+    public OntologyObjectProperty createObjectProperty(String propertyName, OntologyClass domain, OntologyClass range) {
+	return createObjectProperty(propertyName, StringConstants.EMPTY, domain, range);
+    }
 
-	@Override
-	public boolean isClassExisting(final String name) {
-		return isClassExisting(name, StringConstants.EMPTY);
-	}
+    @Override
+    public OntologyObjectProperty createObjectProperty(String propertyName, String prefix, OntologyClass domain) {
+	return createObjectProperty(propertyName, prefix, domain, null);
+    }
 
-	@Override
-	public boolean isClassExisting(final String name, final String prefix) {
-		return getClass(name, prefix) != null;
-	}
+    @Override
+    public OntologyObjectProperty createObjectProperty(String propertyName, String prefix, OntologyClass domain, OntologyClass range) {
+	OntologyObjectProperty property = createObjectProperty(propertyName, prefix);
 
-	@Override
-	public OntologyObjectProperty createObjectProperty(final String propertyName) {
-		return createObjectProperty(propertyName, StringConstants.EMPTY);
-	}
+	if (range != null)
+	    assignObjectPropertyRange(property, range);
 
-	@Override
-	public OntologyObjectProperty createObjectProperty(String propertyName, OntologyClass domain) {
-		return createObjectProperty(propertyName, StringConstants.EMPTY, domain);
-	}
+	if (domain != null)
+	    assignObjectPropertyDomain(property, domain);
 
-	@Override
-	public OntologyObjectProperty createObjectProperty(String propertyName, OntologyClass domain, OntologyClass range) {
-		return createObjectProperty(propertyName, StringConstants.EMPTY, domain, range);
-	}
+	return property;
+    }
 
-	@Override
-	public OntologyObjectProperty createObjectProperty(String propertyName, String prefix, OntologyClass domain) {
-		return createObjectProperty(propertyName, prefix, domain, null);
-	}
+    @Override
+    public void setObjectPropertyCharacteristics(OntologyObjectProperty property, boolean functional, boolean inverseFunctional, boolean transitive, boolean symmetric, boolean asymmetric,
+	    boolean reflexive, boolean irreflexive) {
+	if (functional)
+	    makeObjectPropertyFunctional(property);
 
-	@Override
-	public OntologyObjectProperty createObjectProperty(String propertyName, String prefix, OntologyClass domain, OntologyClass range) {
-		OntologyObjectProperty property = createObjectProperty(propertyName, prefix);
+	if (inverseFunctional)
+	    makeObjectPropertyInverseFunctional(property);
 
-		if (range != null)
-			assignObjectPropertyRange(property, range);
+	if (transitive)
+	    makeObjectPropertyTransitive(property);
 
-		if (domain != null)
-			assignObjectPropertyDomain(property, domain);
+	if (symmetric)
+	    makeObjectPropertySymmetric(property);
 
-		return property;
-	}
+	if (asymmetric)
+	    makeObjectPropertyAsymmetric(property);
 
-	@Override
-	public void setObjectPropertyCharacteristics(OntologyObjectProperty property, boolean functional, boolean inverseFunctional, boolean transitive, boolean symmetric, boolean asymmetric,
-			boolean reflexive, boolean irreflexive) {
-		if (functional)
-			makeObjectPropertyFunctional(property);
+	if (reflexive)
+	    makeObjectPropertyReflexive(property);
 
-		if (inverseFunctional)
-			makeObjectPropertyInverseFunctional(property);
+	if (irreflexive)
+	    makeObjectPropertyIrreflexive(property);
+    }
 
-		if (transitive)
-			makeObjectPropertyTransitive(property);
+    @Override
+    public OntologyAnnotationProperty createAnnotationProperty(String propertyName) {
+	return createAnnotationProperty(propertyName, StringConstants.EMPTY);
+    }
 
-		if (symmetric)
-			makeObjectPropertySymmetric(property);
+    @Override
+    public Stream<OntologyClassEquivalence> getAllClassEquivalences() {
+	return getOntology().getClassEquivalences().stream();
+    }
 
-		if (asymmetric)
-			makeObjectPropertyAsymmetric(property);
-
-		if (reflexive)
-			makeObjectPropertyReflexive(property);
-
-		if (irreflexive)
-			makeObjectPropertyIrreflexive(property);
-	}
-
-	@Override
-	public OntologyAnnotationProperty createAnnotationProperty(String propertyName) {
-		return createAnnotationProperty(propertyName, StringConstants.EMPTY);
-	}
-
-	@Override
-	public Stream<OntologyClassEquivalence> getAllClassEquivalences() {
-		return getOntology().getClassEquivalences().stream();
-	}
-
-	@Override
-	public Stream<OntologyObjectPropertyEquivalence> getAllObjectPropertyEquivalences() {
-		return getOntology().getObjectPropertyEquivalences().stream();
-	}
+    @Override
+    public Stream<OntologyObjectPropertyEquivalence> getAllObjectPropertyEquivalences() {
+	return getOntology().getObjectPropertyEquivalences().stream();
+    }
 }

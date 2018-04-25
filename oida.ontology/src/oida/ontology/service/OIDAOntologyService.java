@@ -36,7 +36,6 @@ import oida.ontology.Ontology;
 import oida.ontology.manager.IOntologyManager;
 import oida.ontology.manager.IOntologyManagerFactory;
 import oida.ontology.manager.OntologyManagerException;
-import oida.ontology.manager.context.IGlobalOntologyContext;
 import oida.ontologyMgr.Library;
 import oida.ontologyMgr.LocalOntologyMetaInfo;
 import oida.ontologyMgr.OntologyMetaInfo;
@@ -56,311 +55,312 @@ import oida.util.constants.StringConstants;
  */
 @Creatable
 @Singleton
-public final class OIDAOntologyService extends EContentAdapter implements INotifyChangedListener, IGlobalOntologyContext, IOIDAOntologyService {
-	protected static Logger LOGGER = LoggerFactory.getLogger(OIDAOntologyService.class);
+public final class OIDAOntologyService extends EContentAdapter implements INotifyChangedListener, IOIDAOntologyService {
+    protected static Logger LOGGER = LoggerFactory.getLogger(OIDAOntologyService.class);
 
-	private URI uriLibrary = URI.createFileURI(OIDAUtil.getOIDAWorkPath() + FileConstants.ONTOLOGY_LIBRARY_FILE);
+    private URI uriLibrary = URI.createFileURI(OIDAUtil.getOIDAWorkPath() + FileConstants.ONTOLOGY_LIBRARY_FILE);
 
-	private EditingDomain editingDomain;
-	private Resource libraryResource;
+    private EditingDomain editingDomain;
+    private Resource libraryResource;
 
-	private IOntologyManagerFactory managerFactory;
+    private IOntologyManagerFactory managerFactory;
 
-	private Map<String, LocalOntologyMetaInfo> iriMappings = new HashMap<String, LocalOntologyMetaInfo>();
+    private Map<String, LocalOntologyMetaInfo> iriMappings = new HashMap<String, LocalOntologyMetaInfo>();
 
-	private IOntologyManager referenceOntologyManager;
+    private IOntologyManager referenceOntologyManager;
 
-	private Map<Ontology, IOntologyManager> managedOntologies = new HashMap<Ontology, IOntologyManager>();
+    private Map<Ontology, IOntologyManager> managedOntologies = new HashMap<Ontology, IOntologyManager>();
 
-	public OIDAOntologyService() {
-		super();
+    public OIDAOntologyService() {
+	super();
 
-		OntologyMgrItemProviderAdapterFactory adapterFactory = new OntologyMgrItemProviderAdapterFactory();
-		// adapterFactory.addListener(this);
+	OntologyMgrItemProviderAdapterFactory adapterFactory = new OntologyMgrItemProviderAdapterFactory();
+	// adapterFactory.addListener(this);
 
-		ComposedAdapterFactory composedAdapterFactory = new ComposedAdapterFactory(adapterFactory);
-		composedAdapterFactory.addAdapterFactory(new ResourceItemProviderAdapterFactory());
-		composedAdapterFactory.addListener(this);
+	ComposedAdapterFactory composedAdapterFactory = new ComposedAdapterFactory(adapterFactory);
+	composedAdapterFactory.addAdapterFactory(new ResourceItemProviderAdapterFactory());
+	composedAdapterFactory.addListener(this);
 
-		editingDomain = new InjectableAdapterFactoryEditingDomain(composedAdapterFactory);
+	editingDomain = new InjectableAdapterFactoryEditingDomain(composedAdapterFactory);
 
-		tryInitialization();
+	tryInitialization();
+    }
+
+    private void tryInitialization() {
+	LOGGER.info("Initializing OIDA Ontology Service...");
+
+	OIDAUtil.createOIDAWorkDirectories();
+
+	libraryResource = loadExistingOIDAServiceData(uriLibrary);
+
+	if (libraryResource == null || libraryResource.getContents().isEmpty())
+	    initializeNewOIDAServiceData(uriLibrary);
+
+	libraryResource.getResourceSet().eAdapters().add(this);
+
+	for (OntologyMetaInfo metaInfo : getLibrary().getOntologies()) {
+	    if (metaInfo instanceof LocalOntologyMetaInfo)
+		iriMappings.put(metaInfo.getIri(), (LocalOntologyMetaInfo)metaInfo);
 	}
 
-	private void tryInitialization() {
-		LOGGER.info("Initializing OIDA Ontology Service...");
-
-		OIDAUtil.createOIDAWorkDirectories();
-		
-		libraryResource = loadExistingOIDAServiceData(uriLibrary);
-
-		if (libraryResource == null || libraryResource.getContents().isEmpty())
-			initializeNewOIDAServiceData(uriLibrary);
-
-		libraryResource.getResourceSet().eAdapters().add(this);
-
-		for (OntologyMetaInfo metaInfo : getLibrary().getOntologies()) {
-			if (metaInfo instanceof LocalOntologyMetaInfo)
-				iriMappings.put(metaInfo.getIri(), (LocalOntologyMetaInfo)metaInfo);
-		}
-		
-		try {
-			LOGGER.info("Evaluating ontology manager extensions.");
-			this.managerFactory = ExtensionPointUtil.loadSingleExtension(Activator.getExtensionRegistry(), IOntologyManagerFactory.class, Activator.ONTOLOGYMANAGERFACTORY_EXTENSIONPOINT_ID);
-			LOGGER.info("Initialized with manager '" + this.managerFactory.getClass().getName() + "'.");
-		} catch (CoreException e) {
-			LOGGER.error("Initialized without an Ontology Manager Factory.", e);
-		}
-
-		loadReferenceOntology();
-		autoLoadOntologies();
-
-		LOGGER.info("OIDA Ontology Service initialized.");
+	try {
+	    LOGGER.info("Evaluating ontology manager extensions.");
+	    this.managerFactory = ExtensionPointUtil.loadSingleExtension(Activator.getExtensionRegistry(), IOntologyManagerFactory.class, Activator.ONTOLOGYMANAGERFACTORY_EXTENSIONPOINT_ID);
+	    LOGGER.info("Initialized with manager '" + this.managerFactory.getClass().getName() + "'.");
+	} catch (CoreException e) {
+	    LOGGER.error("Initialized without an Ontology Manager Factory.", e);
 	}
 
-	@Override
-	public Optional<IOntologyManager> getReferenceOntologyManager() {
-		if (referenceOntologyManager == null) {
-			Optional<IOntologyManager> optReferencOntManager = loadReferenceOntology();
+	loadReferenceOntology();
+	autoLoadOntologies();
 
-			if (optReferencOntManager.isPresent())
-				referenceOntologyManager = optReferencOntManager.get();
-			else
-				return Optional.empty();
-		}
+	LOGGER.info("OIDA Ontology Service initialized.");
+    }
 
-		return Optional.of(referenceOntologyManager);
-	}
+    @Override
+    public Optional<IOntologyManager> getReferenceOntologyManager() {
+	if (referenceOntologyManager == null) {
+	    Optional<IOntologyManager> optReferencOntManager = loadReferenceOntology();
 
-	@Override
-	public Optional<IOntologyManager> loadReferenceOntology() {
-		OntologyMetaInfo metaInfo = getLibrary().getReferenceOntology();
-		
-		if (metaInfo != null) {
-			LOGGER.info("Loading reference ontology...");
-			
-			Optional<IOntologyManager> optRefOntManager;
-			if (metaInfo instanceof LocalOntologyMetaInfo)
-				optRefOntManager = getLocalOntologyManager((LocalOntologyMetaInfo)metaInfo);
-			else
-				optRefOntManager = getRemoteOntologyManager(metaInfo);
-
-			if (optRefOntManager.isPresent())
-				LOGGER.info("Reference ontology loaded: '" + optRefOntManager.get().getOntology().getIri() + "'.");
-			else
-				LOGGER.error("Reference ontology couldn't be loaded.");
-
-			return optRefOntManager;
-
-		} else {
-			LOGGER.info("No reference ontology set.");
-			return Optional.empty();
-		}
-	}
-
-	public void autoLoadOntologies() {
-		LOGGER.info("Auto-Load ontologies are loaded...");
-		for (OntologyMetaInfo ontologyMetaInfo : getLibrary().getOntologies()) {
-			if (ontologyMetaInfo.isLoadAtStartup()) {
-				if (ontologyMetaInfo instanceof LocalOntologyMetaInfo)
-					getLocalOntologyManager((LocalOntologyMetaInfo)ontologyMetaInfo);
-				else
-					getRemoteOntologyManager(ontologyMetaInfo);
-			}
-		}
-	}
-
-	public Resource loadExistingOIDAServiceData(URI oidaServiceDataFileURI) {
-		if (oidaServiceDataFileURI.isFile() && new File(oidaServiceDataFileURI.toFileString()).exists())
-			return editingDomain.loadResource(oidaServiceDataFileURI.toString());
-
-		return null;
-	}
-
-	public void initializeNewOIDAServiceData(URI oidaDataFileURI) {
-		libraryResource = editingDomain.createResource(oidaDataFileURI.toString());
-		libraryResource.getContents().add(OntologyMgrFactory.eINSTANCE.createLibrary());
-	}
-
-	@Override
-	public Library getLibrary() {
-		if (libraryResource == null || libraryResource.getContents().isEmpty())
-			return null;
-
-		EObject root = libraryResource.getContents().get(0);
-		if (root instanceof Library)
-			return (Library)root;
-
-		return null;
-	}
-
-	@Override
-	public EditingDomain getEditingDomain() {
-		return editingDomain;
-	}
-
-	@Override
-	public Resource getLibraryResource() {
-		return libraryResource;
-	}
-	
-	@Override
-	public void AddOntologyToLibrary(OntologyMetaInfo metaInfo) {
-		Command command = AddCommand.create(getEditingDomain(), getLibrary(), OntologyMgrPackage.eINSTANCE.getLibrary_Ontologies(), metaInfo);
-		getEditingDomain().getCommandStack().execute(command);
-
-		if (metaInfo instanceof LocalOntologyMetaInfo) {
-			getLocalOntologyManager((LocalOntologyMetaInfo)metaInfo);
-			iriMappings.put(metaInfo.getIri(), (LocalOntologyMetaInfo)metaInfo);
-		} else
-			getRemoteOntologyManager(metaInfo);
-	}
-
-	@Override
-	public void SetReferenceOntology(OntologyMetaInfo metaInfo) {
-		Command command = SetCommand.create(getEditingDomain(), getLibrary(), OntologyMgrPackage.eINSTANCE.getLibrary_ReferenceOntology(), metaInfo);
-		getEditingDomain().getCommandStack().execute(command);
-	}
-
-	@Override
-	public void saveLibraryResource() {
-		try {
-			getLibraryResource().save(null);
-			LOGGER.info("Library saved.");
-		} catch (IOException e) {
-			LOGGER.error("Library could not be saved.", e);
-		}
-	}
-
-	@Override
-	public void notifyChanged(Notification notification) {
-		if (notification.getFeature() != null) {
-			if (notification.getFeature() == OntologyMgrPackage.eINSTANCE.getLibrary_ReferenceOntology()) {
-				OntologyMetaInfo metaInfo = (OntologyMetaInfo)notification.getNewValue();
-				
-				Optional<IOntologyManager> optReferenceOntologyMgr;
-				if (metaInfo instanceof LocalOntologyMetaInfo)
-					optReferenceOntologyMgr = getLocalOntologyManager((LocalOntologyMetaInfo)metaInfo);
-				else
-					optReferenceOntologyMgr = getRemoteOntologyManager((OntologyMetaInfo)metaInfo);
-				
-				if (optReferenceOntologyMgr.isPresent())
-					referenceOntologyManager = optReferenceOntologyMgr.get();
-			}
-		}
-	}
-
-	@Override
-	public Map<String, LocalOntologyMetaInfo> getGlobalIRIToLocalIRIMappings() {
-		return iriMappings;
-	}
-
-	@Override
-	public boolean checkOntologyExistance(String iri) {
-		return iriMappings.containsKey(iri);
-	}
-
-	@Override
-	public boolean checkLocalOntologyExistance(LocalOntologyMetaInfo ontologyMetaInfo) {
-		File checkFile = new File(ontologyMetaInfo.getLocalPath());
-
-		if (checkFile.exists() && checkFile.isFile())
-			return true;
-
-		return false;
-	}
-
-	@Override
-	public Optional<IOntologyManager> findOntology(String ontologyIRI) {
-		for (IOntologyManager manager : managedOntologies.values()) {
-			Optional<IOntologyManager> foundOntology = findOntologyWithin(manager.getOntology(), ontologyIRI);
-
-			if (foundOntology.isPresent())
-				return foundOntology;
-		}
-
+	    if (optReferencOntManager.isPresent())
+		referenceOntologyManager = optReferencOntManager.get();
+	    else
 		return Optional.empty();
 	}
 
-	private Optional<IOntologyManager> findOntologyWithin(Ontology ontology, String wantedOntologyIRI) {
-		if (ontology.getIri().contentEquals(wantedOntologyIRI))
-			return Optional.of(managedOntologies.get(ontology));
+	return Optional.of(referenceOntologyManager);
+    }
 
-		for (Ontology importOntology : ontology.getImports()) {
-			Optional<IOntologyManager> foundOntology = findOntologyWithin(importOntology, wantedOntologyIRI);
+    @Override
+    public Optional<IOntologyManager> loadReferenceOntology() {
+	OntologyMetaInfo metaInfo = getLibrary().getReferenceOntology();
 
-			if (foundOntology.isPresent())
-				return foundOntology;
-		}
+	if (metaInfo != null) {
+	    LOGGER.info("Loading reference ontology...");
 
-		return Optional.empty();
+	    Optional<IOntologyManager> optRefOntManager;
+	    if (metaInfo instanceof LocalOntologyMetaInfo)
+		optRefOntManager = getLocalOntologyManager((LocalOntologyMetaInfo)metaInfo);
+	    else
+		optRefOntManager = getRemoteOntologyManager(metaInfo);
+
+	    if (optRefOntManager.isPresent())
+		LOGGER.info("Reference ontology loaded: '" + optRefOntManager.get().getOntology().getIri() + "'.");
+	    else
+		LOGGER.error("Reference ontology couldn't be loaded.");
+
+	    return optRefOntManager;
+
+	} else {
+	    LOGGER.info("No reference ontology set.");
+	    return Optional.empty();
+	}
+    }
+
+    public void autoLoadOntologies() {
+	LOGGER.info("Auto-Load ontologies are loaded...");
+	for (OntologyMetaInfo ontologyMetaInfo : getLibrary().getOntologies()) {
+	    if (ontologyMetaInfo.isLoadAtStartup()) {
+		if (ontologyMetaInfo instanceof LocalOntologyMetaInfo)
+		    getLocalOntologyManager((LocalOntologyMetaInfo)ontologyMetaInfo);
+		else
+		    getRemoteOntologyManager(ontologyMetaInfo);
+	    }
+	}
+    }
+
+    public Resource loadExistingOIDAServiceData(URI oidaServiceDataFileURI) {
+	if (oidaServiceDataFileURI.isFile() && new File(oidaServiceDataFileURI.toFileString()).exists())
+	    return editingDomain.loadResource(oidaServiceDataFileURI.toString());
+
+	return null;
+    }
+
+    public void initializeNewOIDAServiceData(URI oidaDataFileURI) {
+	libraryResource = editingDomain.createResource(oidaDataFileURI.toString());
+	libraryResource.getContents().add(OntologyMgrFactory.eINSTANCE.createLibrary());
+    }
+
+    @Override
+    public Library getLibrary() {
+	if (libraryResource == null || libraryResource.getContents().isEmpty())
+	    return null;
+
+	EObject root = libraryResource.getContents().get(0);
+	if (root instanceof Library)
+	    return (Library)root;
+
+	return null;
+    }
+
+    @Override
+    public EditingDomain getEditingDomain() {
+	return editingDomain;
+    }
+
+    @Override
+    public Resource getLibraryResource() {
+	return libraryResource;
+    }
+
+    @Override
+    public void AddOntologyToLibrary(OntologyMetaInfo metaInfo) {
+	Command command = AddCommand.create(getEditingDomain(), getLibrary(), OntologyMgrPackage.eINSTANCE.getLibrary_Ontologies(), metaInfo);
+	getEditingDomain().getCommandStack().execute(command);
+
+	if (metaInfo instanceof LocalOntologyMetaInfo) {
+	    getLocalOntologyManager((LocalOntologyMetaInfo)metaInfo);
+	    iriMappings.put(metaInfo.getIri(), (LocalOntologyMetaInfo)metaInfo);
+	} else
+	    getRemoteOntologyManager(metaInfo);
+    }
+
+    @Override
+    public void SetReferenceOntology(OntologyMetaInfo metaInfo) {
+	Command command = SetCommand.create(getEditingDomain(), getLibrary(), OntologyMgrPackage.eINSTANCE.getLibrary_ReferenceOntology(), metaInfo);
+	getEditingDomain().getCommandStack().execute(command);
+    }
+
+    @Override
+    public void saveLibraryResource() {
+	try {
+	    getLibraryResource().save(null);
+	    LOGGER.info("Library saved.");
+	} catch (IOException e) {
+	    LOGGER.error("Library could not be saved.", e);
+	}
+    }
+
+    @Override
+    public void notifyChanged(Notification notification) {
+	if (notification.getFeature() != null) {
+	    if (notification.getFeature() == OntologyMgrPackage.eINSTANCE.getLibrary_ReferenceOntology()) {
+		OntologyMetaInfo metaInfo = (OntologyMetaInfo)notification.getNewValue();
+
+		Optional<IOntologyManager> optReferenceOntologyMgr;
+		if (metaInfo instanceof LocalOntologyMetaInfo)
+		    optReferenceOntologyMgr = getLocalOntologyManager((LocalOntologyMetaInfo)metaInfo);
+		else
+		    optReferenceOntologyMgr = getRemoteOntologyManager((OntologyMetaInfo)metaInfo);
+
+		if (optReferenceOntologyMgr.isPresent())
+		    referenceOntologyManager = optReferenceOntologyMgr.get();
+	    }
+	}
+    }
+
+    @Override
+    public Map<String, LocalOntologyMetaInfo> getGlobalIRIToLocalIRIMappings() {
+	return iriMappings;
+    }
+
+    @Override
+    public boolean checkOntologyExistance(String iri) {
+	return iriMappings.containsKey(iri);
+    }
+
+    @Override
+    public boolean checkLocalOntologyExistance(LocalOntologyMetaInfo ontologyMetaInfo) {
+	File checkFile = new File(ontologyMetaInfo.getLocalPath());
+
+	if (checkFile.exists() && checkFile.isFile())
+	    return true;
+
+	return false;
+    }
+
+    @Override
+    public Optional<IOntologyManager> findOntology(String ontologyIRI) {
+	for (IOntologyManager manager : managedOntologies.values()) {
+	    Optional<IOntologyManager> foundOntology = findOntologyWithin(manager.getOntology(), ontologyIRI);
+
+	    if (foundOntology.isPresent())
+		return foundOntology;
 	}
 
-	@Override
-	public Optional<IOntologyManager> getRemoteOntologyManager(OntologyMetaInfo ontologyMetaInfo) {
-		// return existing ontology manager if possible:
-		if (ontologyMetaInfo != null && managedOntologies.containsKey(ontologyMetaInfo))
-			return Optional.of(managedOntologies.get(ontologyMetaInfo));
+	return Optional.empty();
+    }
 
-		try {
-			IOntologyManager mgr = managerFactory.getNewManager();
-			mgr.setGlobalOntologyContext(this);
-			Ontology ontology = mgr.loadOntology(ontologyMetaInfo);
-			managedOntologies.put(ontology, mgr);
-			
-			LOGGER.info("Added new ontology manager for: " + ontology.getIri() + ".");
-			return Optional.of(mgr);
-		} catch (OntologyManagerException e) {
+    private Optional<IOntologyManager> findOntologyWithin(Ontology ontology, String wantedOntologyIRI) {
+	if (ontology.getIri().contentEquals(wantedOntologyIRI))
+	    return Optional.of(managedOntologies.get(ontology));
 
-		}
+	for (Ontology importOntology : ontology.getImports()) {
+	    Optional<IOntologyManager> foundOntology = findOntologyWithin(importOntology, wantedOntologyIRI);
 
-		return Optional.empty();
+	    if (foundOntology.isPresent())
+		return foundOntology;
 	}
 
-	@Override
-	public Optional<IOntologyManager> getLocalOntologyManager(LocalOntologyMetaInfo ontologyMetaInfo) {
-		// return existing ontology manager if possible:
-		if (ontologyMetaInfo != null && managedOntologies.containsKey(ontologyMetaInfo))
-			return Optional.of(managedOntologies.get(ontologyMetaInfo));
+	return Optional.empty();
+    }
 
-		try {
-			IOntologyManager mgr = managerFactory.getNewManager();
-			mgr.setGlobalOntologyContext(this);
-			Ontology ontology = mgr.loadLocalOntology(ontologyMetaInfo);
-			ontologyMetaInfo.setIri(ontology.getIri());
-			managedOntologies.put(ontology, mgr);
+    @Override
+    public Optional<IOntologyManager> getRemoteOntologyManager(OntologyMetaInfo ontologyMetaInfo) {
+	// return existing ontology manager if possible:
+	if (ontologyMetaInfo != null && managedOntologies.containsKey(ontologyMetaInfo))
+	    return Optional.of(managedOntologies.get(ontologyMetaInfo));
 
-			LOGGER.info("Added new ontology manager for: " + ontology.getIri() + ".");
-			return Optional.of(mgr);
-		} catch (OntologyManagerException e) {
+	try {
+	    IOntologyManager mgr = managerFactory.getNewManager();
+	    mgr.setGlobalOntologyContext(this);
+	    Ontology ontology = mgr.loadOntology(ontologyMetaInfo);
+	    managedOntologies.put(ontology, mgr);
 
-		}
+	    LOGGER.info("Added new ontology manager for: " + ontology.getIri() + ".");
+	    return Optional.of(mgr);
+	} catch (OntologyManagerException e) {
 
-		return Optional.empty();
 	}
 
-	@Override
-	public Optional<IOntologyManager> createLocalOntology(LocalOntologyMetaInfo ontologyMetaInfo, String IRI) {
-		IOntologyManager mgr = managerFactory.getNewManager();
-		mgr.setGlobalOntologyContext(this);
+	return Optional.empty();
+    }
 
-		try {
-			Ontology ontology;
-			if (IRI != null && !IRI.equals(StringConstants.EMPTY))
-				ontologyMetaInfo.setIri(IRI);
-			else
-				ontologyMetaInfo.setIri(OIDAUtil.getFileIriString(ontologyMetaInfo));
+    @Override
+    public Optional<IOntologyManager> getLocalOntologyManager(LocalOntologyMetaInfo ontologyMetaInfo) {
+	// return existing ontology manager if possible:
+	if (ontologyMetaInfo != null && managedOntologies.containsKey(ontologyMetaInfo))
+	    return Optional.of(managedOntologies.get(ontologyMetaInfo));
 
-			ontology = mgr.createLocalOntology(ontologyMetaInfo);
-			managedOntologies.put(ontology, mgr);
-			
-			AddOntologyToLibrary(ontologyMetaInfo);
+	try {
+	    IOntologyManager mgr = managerFactory.getNewManager();
+	    mgr.setGlobalOntologyContext(this);
+	    Ontology ontology = mgr.loadLocalOntology(ontologyMetaInfo);
+	    ontologyMetaInfo.setIri(ontology.getIri());
+	    managedOntologies.put(ontology, mgr);
+	    getGlobalIRIToLocalIRIMappings().put(ontology.getIri(), ontologyMetaInfo);
 
-			LOGGER.info("New ontology with IRI '" + IRI + "' created: '" + ontologyMetaInfo.getLocalPath() + "'.");
-			return Optional.of(mgr);
-		} catch (OntologyManagerException e) {
-			LOGGER.error("Ontology with IRI '" + IRI + "' could not be created.", e);
-			return Optional.empty();
-		}
+	    LOGGER.info("Added new ontology manager for: " + ontology.getIri() + ".");
+	    return Optional.of(mgr);
+	} catch (OntologyManagerException e) {
+
 	}
+
+	return Optional.empty();
+    }
+
+    @Override
+    public Optional<IOntologyManager> createLocalOntology(LocalOntologyMetaInfo ontologyMetaInfo, String IRI) {
+	IOntologyManager mgr = managerFactory.getNewManager();
+	mgr.setGlobalOntologyContext(this);
+
+	try {
+	    Ontology ontology;
+	    if (IRI != null && !IRI.equals(StringConstants.EMPTY))
+		ontologyMetaInfo.setIri(IRI);
+	    else
+		ontologyMetaInfo.setIri(OIDAUtil.getFileIriString(ontologyMetaInfo));
+
+	    ontology = mgr.createLocalOntology(ontologyMetaInfo);
+	    managedOntologies.put(ontology, mgr);
+
+	    AddOntologyToLibrary(ontologyMetaInfo);
+
+	    LOGGER.info("New ontology with IRI '" + IRI + "' created: '" + ontologyMetaInfo.getLocalPath() + "'.");
+	    return Optional.of(mgr);
+	} catch (OntologyManagerException e) {
+	    LOGGER.error("Ontology with IRI '" + IRI + "' could not be created.", e);
+	    return Optional.empty();
+	}
+    }
 }

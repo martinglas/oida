@@ -16,26 +16,26 @@ import oida.ontology.manager.OntologyManagerException;
  *
  */
 public abstract class AbstractPredefinedOntology implements IPredefinedOntology {
-	private IOntologyManager ontologyManager;
-	
-	public IOntologyManager getOntologyManager() {
-		return ontologyManager;
-	}
+    private IOntologyManager ontologyManager;
 
-	protected void setOntologyManager(IOntologyManager ontologyManager) {
-		this.ontologyManager = ontologyManager;
-	}
-	
-	@Override
-	public void loadOrInitializeOntology(IOntologyManager ontologyManager) throws OntologyManagerException {
-		setOntologyManager(ontologyManager);
-		if (!checkPreDefinedOntology(ontologyManager.getOntology())) {
-			initializeOntology(ontologyManager);
-			ontologyManager.saveLocalOntology();
-		}
-	}
+    public IOntologyManager getOntologyManager() {
+	return ontologyManager;
+    }
 
-	protected abstract boolean checkPreDefinedOntology(Ontology ontology);
-	
-	protected abstract void initializeOntology(IOntologyManager ontologyManager) throws OntologyManagerException;
+    protected void setOntologyManager(IOntologyManager ontologyManager) {
+	this.ontologyManager = ontologyManager;
+    }
+
+    @Override
+    public void loadOrInitializeOntology(IOntologyManager ontologyManager) throws OntologyManagerException {
+	setOntologyManager(ontologyManager);
+	if (!checkPreDefinedOntology(ontologyManager.getOntology())) {
+	    initializeOntology(ontologyManager);
+	    ontologyManager.saveLocalOntology();
+	}
+    }
+
+    protected abstract boolean checkPreDefinedOntology(Ontology ontology);
+
+    protected abstract void initializeOntology(IOntologyManager ontologyManager) throws OntologyManagerException;
 }
