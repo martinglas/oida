@@ -279,6 +279,7 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 	    if (!owlClass.getIRI().getIRIString().equals(mapHandler.getOwlThingClass().getIRI().getIRIString())) {
 		boolean addedAsSubClass = false;
 		for (OWLSubClassOfAxiom owlAxiom : owlSubClassOfAxioms) {
+
 		    if (owlAxiom.getSubClass().isOWLClass() && owlAxiom.getSubClass().equals(owlClass) && owlAxiom.getSuperClass().isOWLClass()) {
 			OWLClass owlSuperClass = owlAxiom.getSuperClass().asOWLClass();
 
@@ -289,7 +290,9 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 			    internalClass.getSuperClasses().add(internalSuperClass);
 			    addedAsSubClass = true;
 			}
-		    }
+		    } //else if (owlAxiom.axi) {
+		//	OWLObjectOneOf
+		 //   }
 		}
 
 		// if no super class is defined, the Thing class is set as super

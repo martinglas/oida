@@ -79,6 +79,8 @@
           eType="#//ontology/OntologyClass"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="equivalentClasses" upperBound="-1"
           eType="#//ontology/OntologyClass"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="someValuesFrom" upperBound="-1"
+          eType="#//ontology/OntologyObjectSomeValuesFrom" containment="true"/>
     </eClassifiers>
     <eClassifiers xsi:type="ecore:EClass" name="OntologyIndividual" eSuperTypes="#//ontology/OntologyEntity #//ontology/IMappable">
       <eStructuralFeatures xsi:type="ecore:EReference" name="types" upperBound="-1"
@@ -139,6 +141,12 @@
       <eStructuralFeatures xsi:type="ecore:EReference" name="subClass" lowerBound="1"
           eType="#//ontology/OntologyClass"/>
       <eStructuralFeatures xsi:type="ecore:EReference" name="superClass" lowerBound="1"
+          eType="#//ontology/OntologyClass"/>
+    </eClassifiers>
+    <eClassifiers xsi:type="ecore:EClass" name="OntologyObjectSomeValuesFrom">
+      <eStructuralFeatures xsi:type="ecore:EReference" name="objectProperty" lowerBound="1"
+          eType="#//ontology/OntologyObjectProperty"/>
+      <eStructuralFeatures xsi:type="ecore:EReference" name="clazz" lowerBound="1"
           eType="#//ontology/OntologyClass"/>
     </eClassifiers>
   </eSubpackages>
