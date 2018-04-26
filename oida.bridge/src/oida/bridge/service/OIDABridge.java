@@ -50,7 +50,7 @@ import oida.ontology.OntologyObjectProperty;
 import oida.ontology.OntologyObjectPropertyEquivalence;
 import oida.ontology.manager.IOntologyManager;
 import oida.ontology.manager.OntologyManagerException;
-import oida.ontology.service.IOIDAOntologyService;
+import oida.ontology.service.OIDAOntologyService;
 import oida.ontologyMgr.LocalOntologyMetaInfo;
 import oida.ontologyMgr.SystemOntologyMetaInfo;
 import oida.util.ExtensionPointUtil;
@@ -91,10 +91,10 @@ public final class OIDABridge {
 
     private IModelChangeHandlerFactory changeHandlerFactory;
 
-    private IOIDAOntologyService oidaOntologyService;
+    private OIDAOntologyService oidaOntologyService;
 
     @Inject
-    public OIDABridge(IOIDAOntologyService oidaOntologyService) {
+    public OIDABridge(OIDAOntologyService oidaOntologyService) {
 	LOGGER.info("Initializing OIDA Bridge Service...");
 	
 	this.oidaOntologyService = oidaOntologyService;

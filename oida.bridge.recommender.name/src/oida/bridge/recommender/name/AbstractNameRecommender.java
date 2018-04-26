@@ -21,6 +21,8 @@ import oida.util.constants.StringConstants;
  *
  */
 public abstract class AbstractNameRecommender<T extends OntologyEntity> extends AbstractRecommender {
+    private final double LEVENSHTEIN_CUTOFF = 0.3;
+    
     public void initializeRecommender(Ontology observedModelOntology, Ontology referenceOntology) {
 	setModelOntology(observedModelOntology);
 	setReferenceOntology(referenceOntology);
@@ -32,8 +34,8 @@ public abstract class AbstractNameRecommender<T extends OntologyEntity> extends 
 	String selectedElementName = getSearchName(selectedModelElement);
 	if (selectedElementName == null || selectedElementName.equals(StringConstants.EMPTY))
 	    return recommendations;
-
-	List<T> recommendedEntities = getSearchEntityList().stream().filter(e -> e.getName().toLowerCase().contains(selectedElementName.toLowerCase())).collect(Collectors.toList());
+	
+	List<T> recommendedEntities = getSearchEntityList().stream().filter(e -> (LevenshteinStringSimilarity.similarity(e.getName().toLowerCase(), selectedElementName.toLowerCase()) > LEVENSHTEIN_CUTOFF)).collect(Collectors.toList());
 
 	for (T entity : recommendedEntities) {
 	    if (entity instanceof IMappable && !((IMappable)entity).isMappingExists()) {

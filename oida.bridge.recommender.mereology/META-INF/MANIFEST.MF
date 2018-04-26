@@ -1,0 +1,11 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Mereology Recommender
+Bundle-SymbolicName: oida.bridge.recommender.mereology;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: Bauhaus Luftfahrt e.V.
+Automatic-Module-Name: oida.bridge.recommender.mereology
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Require-Bundle: oida.bridge;bundle-version="1.0.0",
+ oida.bridge.model
+Bundle-ActivationPolicy: lazy

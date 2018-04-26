@@ -7,7 +7,7 @@ import org.eclipse.e4.core.di.annotations.CanExecute;
 import org.eclipse.e4.core.di.annotations.Execute;
 import org.eclipse.e4.ui.workbench.modeling.ESelectionService;
 
-import oida.ontology.service.IOIDAOntologyService;
+import oida.ontology.service.OIDAOntologyService;
 import oida.ontology.ui.e4.part.OntologyLibraryPart;
 
 /**
@@ -18,7 +18,7 @@ import oida.ontology.ui.e4.part.OntologyLibraryPart;
  */
 public class StartOntologyReasoning {
 	@Inject
-	IOIDAOntologyService oidaService;
+	OIDAOntologyService oidaService;
 	
 	@Execute
 	public void execute(ESelectionService selectionService) {

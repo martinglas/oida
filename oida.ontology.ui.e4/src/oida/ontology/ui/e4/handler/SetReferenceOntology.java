@@ -5,7 +5,7 @@ import org.eclipse.e4.core.di.annotations.CanExecute;
 import org.eclipse.e4.core.di.annotations.Execute;
 import org.eclipse.e4.ui.workbench.modeling.ESelectionService;
 
-import oida.ontology.service.IOIDAOntologyService;
+import oida.ontology.service.OIDAOntologyService;
 import oida.ontology.ui.e4.part.OntologyLibraryPart;
 import oida.ontologyMgr.OntologyMetaInfo;
 import oida.ontologyMgr.SystemOntologyMetaInfo;
@@ -18,7 +18,7 @@ import oida.ontologyMgr.SystemOntologyMetaInfo;
  */
 public class SetReferenceOntology {
 	@Execute
-	public void execute(IOIDAOntologyService ontologyService, ESelectionService selectionService) {
+	public void execute(OIDAOntologyService ontologyService, ESelectionService selectionService) {
 		ontologyService.SetReferenceOntology((OntologyMetaInfo)selectionService.getSelection(OntologyLibraryPart.PART_ID));
 		ontologyService.loadReferenceOntology();
 	}

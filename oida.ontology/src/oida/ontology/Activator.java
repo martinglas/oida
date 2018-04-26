@@ -8,7 +8,6 @@ package oida.ontology;
 import org.eclipse.e4.core.di.InjectorFactory;
 import org.osgi.framework.BundleContext;
 
-import oida.ontology.service.IOIDAOntologyService;
 import oida.ontology.service.OIDAOntologyService;
 import oida.util.bundle.AbstractOIDAActivator;
 
@@ -32,6 +31,6 @@ public class Activator extends AbstractOIDAActivator {
 	public void start(BundleContext bundleContext) throws Exception {
 		super.start(bundleContext);
 		
-		InjectorFactory.getDefault().addBinding(IOIDAOntologyService.class).implementedBy(OIDAOntologyService.class);
+		InjectorFactory.getDefault().addBinding(OIDAOntologyService.class).implementedBy(OIDAOntologyService.class);
 	}
 }

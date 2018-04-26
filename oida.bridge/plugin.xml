@@ -8,5 +8,5 @@
    <extension-point id="oida.bridge.recommender.primary" name="Primary Recommender Extension Point" schema="schema/oida.bridge.recommender.primary.exsd"/>
    <extension-point id="oida.bridge.recommender.secondary.class" name="Secondary Class-Recommender Extension Point" schema="schema/oida.bridge.recommender.secondary.class.exsd"/>
    <extension-point id="oida.bridge.recommender.secondary.objectproperty" name="Secondary ObjectProperty-Recommender Extension Point" schema="schema/oida.bridge.recommender.secondary.objectproperty.exsd"/>
-   <extension-point id="oida.bridge.recommender.secondary.datatypeproperty" name="Secondary DatatypeProperty-Recommender Extension Point" schema="schema/oida.bridge.recommender.secondary.datatype.exsd"/>
+   <extension-point id="oida.bridge.recommender.secondary.datatypeproperty" name="Secondary DatatypeProperty-Recommender Extension Point" schema="schema/oida.bridge.recommender.secondary.datatypeproperty.exsd"/>
 </plugin>

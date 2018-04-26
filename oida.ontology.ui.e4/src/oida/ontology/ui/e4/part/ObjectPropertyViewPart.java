@@ -20,7 +20,7 @@ import org.eclipse.swt.widgets.Composite;
 
 import com.google.inject.Injector;
 
-import oida.ontology.service.IOIDAOntologyService;
+import oida.ontology.service.OIDAOntologyService;
 import oida.ontology.ui.ObjectPropertyView.ObjectPropertyViewInjectorProvider;
 import oida.ontologyMgr.OntologyMetaInfo;
 
@@ -38,7 +38,7 @@ public class ObjectPropertyViewPart implements ISelectionListener {
 	private ViewerFactory viewerFactory;
 	
 	@Inject
-	IOIDAOntologyService oidaService;
+	OIDAOntologyService oidaService;
 
 	@PostConstruct
 	public void postConstruct(Composite parent, ESelectionService selectionService) {

@@ -25,7 +25,7 @@ import org.eclipse.swt.widgets.Composite;
 
 import com.google.inject.Injector;
 
-import oida.ontology.service.IOIDAOntologyService;
+import oida.ontology.service.OIDAOntologyService;
 import oida.ontology.ui.OntologyLibraryView.OntologyLibraryViewInjectorProvider;
 import oida.ontologyMgr.OntologyMgrPackage;
 
@@ -41,7 +41,7 @@ public class OntologyLibraryPart {
 	private TreeViewer treeViewer;
 
 	@Inject
-	IOIDAOntologyService oidaService;
+	OIDAOntologyService oidaService;
 
 	@Inject
 	MDirtyable dirty;

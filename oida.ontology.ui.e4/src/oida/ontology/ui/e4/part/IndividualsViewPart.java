@@ -17,7 +17,7 @@ import org.eclipse.swt.widgets.Composite;
 
 import com.google.inject.Injector;
 
-import oida.ontology.service.IOIDAOntologyService;
+import oida.ontology.service.OIDAOntologyService;
 import oida.ontology.ui.IndividualsView.IndividualsViewInjectorProvider;
 
 public class IndividualsViewPart implements ISelectionListener {
@@ -27,7 +27,7 @@ public class IndividualsViewPart implements ISelectionListener {
 	private ViewerFactory viewerFactory;
 	
 	@Inject
-	IOIDAOntologyService oidaService;
+	OIDAOntologyService oidaService;
 	
 	@PostConstruct
 	public void postConstruct(Composite parent, ESelectionService selectionService) {
