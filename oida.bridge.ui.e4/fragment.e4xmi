@@ -17,6 +17,7 @@
       </toolbar>
     </elements>
     <elements xsi:type="basic:PartDescriptor" xmi:id="_eBbsQCQZEee87prP5ogXPA" elementId="oida.bridge.ui.e4.partdescriptor.oidamappingview" label="OIDA Mapping View" contributionURI="bundleclass://oida.bridge.ui.e4/oida.bridge.ui.e4.part.MappingViewPart"/>
+    <elements xsi:type="basic:PartDescriptor" xmi:id="_nQ6MYEk5Eei0Zew17cMbnQ" elementId="oida.bridge.ui.e4.partdescriptor.recommendationdetails" label="Recommendation Details" contributionURI="bundleclass://oida.bridge.ui.e4/oida.bridge.ui.e4.part.RecommendationDetailsPart"/>
   </fragments>
   <fragments xsi:type="fragment:StringModelFragment" xmi:id="_l0CG4CQOEee87prP5ogXPA" featurename="children" parentElementId="net.bhl.cdt.client.e4.mainwindow.perspectivestack">
     <elements xsi:type="advanced:Perspective" xmi:id="_plyhQCQOEee87prP5ogXPA" elementId="oida.bridge.ui.e4.perspective.oidamapping" label="OIDA Mapping" iconURI="platform:/plugin/oida.bridge.ui.e4/icons/Mapping.png">

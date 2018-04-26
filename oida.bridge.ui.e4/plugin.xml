@@ -31,6 +31,13 @@
             name="Class-Equivalence Mappings"
             restorable="true">
       </view>
+      <view
+            category="org.eclipse.emf.parsley"
+            class="oida.bridge.ui.RecommendationFormView.RecommendationFormViewExecutableExtensionFactory:oida.bridge.ui.view.RecommendationFormView"
+            id="oida.bridge.ui.RecommendationFormView"
+            name="Recommendation"
+            restorable="true">
+      </view>
    </extension>
    <extension
          id="oida.bridge.ui.e4.fragment"

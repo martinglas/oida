@@ -21,26 +21,26 @@ import oida.ontology.ui.ClassDetailView.ClassDetailViewInjectorProvider;
  *
  */
 public class ClassDetailViewPart implements ISelectionListener {
-	private FormDetailComposite formComposite;
+    private FormDetailComposite formComposite;
 
-	private Composite parent;
-	private FormFactory viewerFactory;
+    private Composite parent;
+    private FormFactory viewerFactory;
 
-	@PostConstruct
-	public void postConstruct(Composite parent, ESelectionService selectionService) {
-		this.parent = parent;
-		selectionService.addSelectionListener(ClassHierarchyViewPart.PART_ID, this);
-		Injector injector = ClassDetailViewInjectorProvider.getInjector();
-		viewerFactory = injector.getInstance(FormFactory.class);
-	}
+    @PostConstruct
+    public void postConstruct(Composite parent, ESelectionService selectionService) {
+	this.parent = parent;
+	selectionService.addSelectionListener(ClassHierarchyViewPart.PART_ID, this);
+	Injector injector = ClassDetailViewInjectorProvider.getInjector();
+	viewerFactory = injector.getInstance(FormFactory.class);
+    }
 
-	@Override
-	public void selectionChanged(MPart part, Object selection) {
-		if (formComposite != null)
-			formComposite.dispose();
+    @Override
+    public void selectionChanged(MPart part, Object selection) {
+	if (formComposite != null)
+	    formComposite.dispose();
 
-		formComposite = viewerFactory.createFormDetailReadOnlyComposite(parent, SWT.NONE);
-		formComposite.init((EObject) selection);
-		parent.layout();
-	}
+	formComposite = viewerFactory.createFormDetailReadOnlyComposite(parent, SWT.NONE);
+	formComposite.init((EObject)selection);
+	parent.layout();
+    }
 }
