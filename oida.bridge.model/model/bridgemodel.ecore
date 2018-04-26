@@ -2,6 +2,10 @@
 <ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
     xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="bridgemodel" nsURI="http://net/bauhaus-luftfahrt/oida/bridgemodel"
     nsPrefix="net.bauhaus-luftfahrt.oida.bridgemodel">
+  <eClassifiers xsi:type="ecore:EClass" name="BridgeSystemState">
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="namingStrategy" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="structuringStrategy" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+  </eClassifiers>
   <eSubpackages name="mapping" nsURI="http://net/bauhaus-luftfahrt/oida/bridgemodel/mapping"
       nsPrefix="net.bauhaus-luftfahrt.oida.bridgemodel.mapping">
     <eClassifiers xsi:type="ecore:EClass" name="MappingSet">

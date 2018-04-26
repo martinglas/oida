@@ -371,7 +371,7 @@ public final class OIDABridge {
 
 	// Dirty: Reference Ontology may be an Online-Ontology! (Cast to local
 	// ontology inadmissible)
-	return modelObjectId + StringConstants.UNDERSCORE + OIDAUtil.extractFileName(((LocalOntologyMetaInfo)oidaOntologyService.getLibrary().getReferenceOntology()).getLocalPath());
+	return modelObjectId + StringConstants.UNDERSCORE + OIDAUtil.extractFileName(((LocalOntologyMetaInfo)oidaOntologyService.getLibrary().getReferenceOntology()).getLocalPath()) + FileConstants.OWL_FILE_POSTFIX;
     }
 
     private void extractMappings(IOntologyManager modelOntologyManager) {
