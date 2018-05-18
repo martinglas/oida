@@ -9,7 +9,10 @@ import java.util.Optional;
 
 import oida.bridge.model.strategy.IRenamerStrategy;
 import oida.bridge.model.strategy.IStructuringStrategy;
-import oida.ontology.OntologyEntity;
+import oida.ontology.AOntologyItem;
+import oida.ontology.OntologyClass;
+import oida.ontology.OntologyIndividual;
+import oida.ontology.OntologyObjectProperty;
 import oida.ontology.manager.IOntologyManager;
 
 /**
@@ -19,25 +22,27 @@ import oida.ontology.manager.IOntologyManager;
  *
  */
 public interface IModelChangeHandler {
-	IRenamerStrategy getRenamerStrategy();
-	void setRenamerStrategy(IRenamerStrategy renamerStrategy);
-	
-	IStructuringStrategy getStructuringStrategy();
-	void setStructuringStrategy(IStructuringStrategy structuringStrategy);
-	
-	IOntologyManager getMetaModelOntologyManager();
-	IOntologyManager getModelOntologyManager();
+    IModelChangeHandler getSuperModelChangeHandler();
+    void setSuperModelChangeHandler(IModelChangeHandler changeHandler);
+    
+    IRenamerStrategy getRenamerStrategy();
+    void setRenamerStrategy(IRenamerStrategy renamerStrategy);
 
-	void startChangeTracking(IRenamerStrategy renamerStrategy, IStructuringStrategy structuringStrategy, IOntologyManager metaModelOntology, IOntologyManager modelOntologyManager, Object modelObject);
+    IStructuringStrategy getStructuringStrategy();
+    void setStructuringStrategy(IStructuringStrategy structuringStrategy);
 
-	Object getModelObject();
-	
-	Optional<OntologyEntity> getOntologyEntityForModelElement(Object modelElement);
-	
-//	MappingSet getMappings();
-//	
-//	Optional<ClassEqualsMapping> establishClassMapping(OntologyClass class1, OntologyClass class2);
-//	Optional<ObjectPropertyEqualsMapping> establishObjectPropertyMapping(OntologyObjectProperty objectProperty1, OntologyObjectProperty objectProperty2);
-	
-	void closeModelOntology();
+    IOntologyManager getMetaModelOntologyManager();
+
+    IOntologyManager getModelOntologyManager();
+
+    void startChangeTracking(IRenamerStrategy renamerStrategy, IStructuringStrategy structuringStrategy, IOntologyManager metaModelOntology, IOntologyManager modelOntologyManager, Object modelObject);
+
+    Object getModelObject();
+
+    Optional<AOntologyItem> getOntologyEntityForModelElement(Object modelElement);
+    Optional<OntologyClass> getOntologyClassForModelElement(Object modelElement);
+    Optional<OntologyIndividual> getOntologyIndividualForModelElement(Object modelElement);
+    Optional<OntologyObjectProperty> getOntologyObjectPropertyForModelElement(Object modelElement);
+
+    void closeModelOntology();
 }

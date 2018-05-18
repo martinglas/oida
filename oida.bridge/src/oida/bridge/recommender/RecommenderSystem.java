@@ -1,6 +1,7 @@
 package oida.bridge.recommender;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 import org.eclipse.core.runtime.CoreException;
@@ -68,6 +69,7 @@ public final class RecommenderSystem {
     private List<IObjectPropertyRecommender> recommenderSecondaryObjectProperty;
     private List<IDatatypePropertyRecommender> recommenderSecondaryDatatypeProperty;
 
+    private HashMap<IPrimaryRecommender, Resource> recommenderResources = new HashMap<IPrimaryRecommender, Resource>();
     private Resource currentPrimaryRecommendationsResource;
 
     public Resource getCurrentPrimaryRecommendationsResource() {

@@ -9,17 +9,20 @@ import java.util.HashMap;
 import java.util.Optional;
 
 import org.eclipse.emf.ecore.EClass;
+import org.eclipse.emf.ecore.EStructuralFeature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 
 import oida.bridge.model.ontology.OIDAModelBaseOntology;
 import oida.bridge.model.strategy.IRenamerStrategy;
 import oida.bridge.model.strategy.IStructuringStrategy;
+import oida.ontology.AOntologyItem;
 import oida.ontology.OntologyAnnotation;
 import oida.ontology.OntologyClass;
 import oida.ontology.OntologyEntity;
 import oida.ontology.OntologyIndividual;
 import oida.ontology.OntologyObjectProperty;
+import oida.ontology.OntologyObjectPropertyAssertion;
 import oida.ontology.manager.IOntologyManager;
 import oida.ontology.manager.OntologyManagerException;
 
@@ -35,44 +38,71 @@ public abstract class AbstractModelChangeHandler implements IModelChangeHandler 
     private IOntologyManager metaModelOntologyManager;
     private IOntologyManager modelOntologyManager;
 
+    private IModelChangeHandler superModelChangeHandler;
+    
     private Object modelObject;
 
     private IRenamerStrategy renamerStrategy;
     private IStructuringStrategy structuringStrategy;
 
-    private HashMap<Object, OntologyEntity> modelToOntologyMap = new HashMap<Object, OntologyEntity>();
+    private HashMap<Object, AOntologyItem> modelToOntologyMap = new HashMap<Object, AOntologyItem>();
 
     protected void initializeCollections() {
 	modelToOntologyMap.clear();
     }
+    
+    @Override
+    public IModelChangeHandler getSuperModelChangeHandler() {
+        return superModelChangeHandler;
+    }
+    
+    @Override
+    public void setSuperModelChangeHandler(IModelChangeHandler changeHandler) {
+	superModelChangeHandler = changeHandler;
+    }
 
     @Override
-    public Optional<OntologyEntity> getOntologyEntityForModelElement(Object modelElement) {
+    public Optional<AOntologyItem> getOntologyEntityForModelElement(Object modelElement) {
 	if (modelToOntologyMap.containsKey(modelElement))
 	    return Optional.of(modelToOntologyMap.get(modelElement));
 	else
-	    return Optional.empty();
+	    if (getSuperModelChangeHandler() != null)
+		return getSuperModelChangeHandler().getOntologyEntityForModelElement(modelElement);
+	    else
+		return Optional.empty();
     }
 
-    protected Optional<OntologyClass> getOntologyClassForModelElement(Object modelElement) {
+    @Override
+    public Optional<OntologyClass> getOntologyClassForModelElement(Object modelElement) {
 	if (modelToOntologyMap.containsKey(modelElement) && modelToOntologyMap.get(modelElement) instanceof OntologyClass)
 	    return Optional.of((OntologyClass)modelToOntologyMap.get(modelElement));
 	else
-	    return Optional.empty();
+	    if (getSuperModelChangeHandler() != null)
+		return getSuperModelChangeHandler().getOntologyClassForModelElement(modelElement);
+	    else
+		return Optional.empty();
     }
 
-    protected Optional<OntologyIndividual> getOntologyIndividualForModelElement(Object modelElement) {
+    @Override
+    public Optional<OntologyIndividual> getOntologyIndividualForModelElement(Object modelElement) {
 	if (modelToOntologyMap.containsKey(modelElement) && modelToOntologyMap.get(modelElement) instanceof OntologyIndividual)
 	    return Optional.of((OntologyIndividual)modelToOntologyMap.get(modelElement));
 	else
-	    return Optional.empty();
+	    if (getSuperModelChangeHandler() != null)
+		return getSuperModelChangeHandler().getOntologyIndividualForModelElement(modelElement);
+	    else
+		return Optional.empty();
     }
 
-    protected Optional<OntologyObjectProperty> getOntologyObjectPropertyForModelElement(Object modelElement) {
+    @Override
+    public Optional<OntologyObjectProperty> getOntologyObjectPropertyForModelElement(Object modelElement) {
 	if (modelToOntologyMap.containsKey(modelElement) && modelToOntologyMap.get(modelElement) instanceof OntologyObjectProperty)
 	    return Optional.of((OntologyObjectProperty)modelToOntologyMap.get(modelElement));
 	else
-	    return Optional.empty();
+	    if (getSuperModelChangeHandler() != null)
+		return getSuperModelChangeHandler().getOntologyObjectPropertyForModelElement(modelElement);
+	    else
+		return Optional.empty();
     }
 
     public IOntologyManager getMetaModelOntologyManager() {
@@ -160,8 +190,20 @@ public abstract class AbstractModelChangeHandler implements IModelChangeHandler 
     protected void changeIndividualName(Object modelObject) {
 	if (modelToOntologyMap.containsKey(modelObject)) {
 	    String newIndividualID = getRenamerStrategy().getObjectID(modelObject);
-	    modelOntologyManager.renameEntity(modelToOntologyMap.get(modelObject), newIndividualID);
+	    modelOntologyManager.renameEntity((OntologyEntity)modelToOntologyMap.get(modelObject), newIndividualID);
 	    System.out.println("OIDA Model Change Handler: Renamed individual: " + newIndividualID);
+	}
+    }
+    
+    protected void createObjectPropertyAssertionForStructuralFeature(String relationID, Object modelObject1, Object modelObject2) {
+	if (modelToOntologyMap.containsKey(relationID)) {
+	    OntologyObjectProperty oOP = (OntologyObjectProperty)modelToOntologyMap.get(relationID);
+
+	    OntologyIndividual individual1 = (OntologyIndividual)modelToOntologyMap.get(modelObject1);
+	    OntologyIndividual individual2 = (OntologyIndividual)modelToOntologyMap.get(modelObject2);
+	    
+	    OntologyObjectPropertyAssertion assertion  = modelOntologyManager.createObjectPropertyAssertion(oOP, individual1, individual2);
+	    modelToOntologyMap.put(individual1.getName() + relationID + individual2.getName(), assertion);
 	}
     }
 
@@ -187,5 +229,9 @@ public abstract class AbstractModelChangeHandler implements IModelChangeHandler 
 	    return oOP;
 	} else
 	    return (OntologyObjectProperty)modelToOntologyMap.get(relationID);
+    }
+    
+    protected void assignSystemOntologyObjectPropertyToFeature(EStructuralFeature feature, OntologyObjectProperty systemOntologyObjectProperty) {
+	modelToOntologyMap.put(feature, systemOntologyObjectProperty);
     }
 }

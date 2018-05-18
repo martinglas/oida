@@ -22,7 +22,7 @@ module oida.ontology.ui.ClassDetailView {
 	
 	featuresProvider {
 		features {
-			OntologyClass -> prefix, superClasses, subClasses, equivalentClasses, annotations
+			OntologyClass -> prefix, superClasses, subClasses, someValuesFrom, equivalentClasses, annotations
 		}
 	}
 	
@@ -41,6 +41,7 @@ module oida.ontology.ui.ClassDetailView {
 			OntologyClass : prefix -> "Prefix:"
 			OntologyClass : superClasses -> "Super Classes:"
 			OntologyClass : subClasses -> "Sub Classes:"
+			OntologyClass : someValuesFrom -> "Restrictions:"
 			OntologyClass : equivalentClasses -> "Equivalent Classes:"
 			OntologyClass : annotations -> "Annotations:"
 		}
@@ -49,6 +50,9 @@ module oida.ontology.ui.ClassDetailView {
 	formControlFactory {
 		control {
 			OntologyClass : prefix -> createLabel(prefix)
+			OntologyClass : someValuesFrom -> {
+				createText(someValuesFrom.map[objectProperty.name + " " + clazz.name].join(System.getProperty("line.separator")), SWT.MULTI, SWT.WRAP)
+			}
 		}
 	}
 }

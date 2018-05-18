@@ -3,8 +3,6 @@ package oida.bridge.model.strategy;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EStructuralFeature;
 
-import oida.bridge.service.OIDABridge.OntologyObjectProperties;
-
 /**
  * 
  * @author Michael.Shamiyeh
@@ -12,13 +10,15 @@ import oida.bridge.service.OIDABridge.OntologyObjectProperties;
  *
  */
 public interface IStructuringStrategy {
-	enum StructuringAdvice { CREATE_INDIVIDUAL, CREATE_OBJECTPROPERTY, RENAME_INDIVIDUAL, RENAME_OBJECTPROPERTY, CHANGE_DATATYPEPROPERTY, CHANGE_NAMEANNOTATION };
-	
-	Object getMetaModelInformationObject();
-	
-	StructuringAdvice determineStructuringAdviceAfterCreate(Object createdModelElement);
-	
-	StructuringAdvice determineStructuringAdviceAfterSet(EAttribute changedAttribute);
+    enum StructuringAdvice {
+	CREATE_INDIVIDUAL, CREATE_OBJECTPROPERTY, RENAME_INDIVIDUAL, RENAME_OBJECTPROPERTY, CHANGE_DATATYPEPROPERTY, CHANGE_NAMEANNOTATION
+    };
 
-	OntologyObjectProperties determineObjectPropertyRelation(EStructuralFeature feature);
+    Object getMetaModelInformationObject();
+
+    StructuringAdvice determineStructuringAdviceAfterCreate(Object createdModelElement);
+
+    StructuringAdvice determineStructuringAdviceAfterSet(EAttribute changedAttribute);
+
+    EStructuralFeature getPartOfStructuralFeature();
 }

@@ -11,6 +11,7 @@ import oida.ontology.Ontology;
 import oida.ontology.OntologyObjectProperty;
 import oida.ontology.manager.IOntologyManager;
 import oida.ontology.manager.OntologyManagerException;
+import oida.util.constants.FileConstants;
 
 /**
  * 
@@ -19,83 +20,97 @@ import oida.ontology.manager.OntologyManagerException;
  *
  */
 public class Mereology extends AbstractPredefinedOntology {
-	public static final String MEREOLOGY_NAMESPACE = "http://www.bauhaus-luftfahrt.net/ontologies/merology.owl";
-	public static final String MEREOLOGY_PREFIX = "mer";
+    public static final String MEREOLOGY_FILENAME = "mereology" + FileConstants.OWL_FILE_POSTFIX;
+    
+    public static final String MEREOLOGY_IRI = "http://www.bauhaus-luftfahrt.net/ontologies/merology.owl";
+    public static final String MEREOLOGY_PREFIX = "mer";
+
+    public static final String MEREOLOGY_HASPART_NAME = "hasPart";
+    public static final String MEREOLOGY_HASPART_DIRECTLY_NAME = "hasPart_directly";
+    public static final String MEREOLOGY_PARTOF_NAME = "partOf";
+    public static final String MEREOLOGY_PARTOF_DIRECTLY_NAME = "partOf_directly";
+
+    private OntologyObjectProperty partOfObjectProperty;
+    private OntologyObjectProperty partOfDirectlyObjectProperty;
+
+    private OntologyObjectProperty hasPartObjectProperty;
+    private OntologyObjectProperty hasPartDirectlyObjectProperty;
+
+    public OntologyObjectProperty getPartOfObjectProperty() {
+	return partOfObjectProperty;
+    }
+
+    public OntologyObjectProperty getPartOfDirectlyObjectProperty() {
+	return partOfDirectlyObjectProperty;
+    }
+
+    public OntologyObjectProperty getHasPartObjectProperty() {
+	return hasPartObjectProperty;
+    }
+
+    public OntologyObjectProperty getHasPartDirectlyObjectProperty() {
+	return hasPartDirectlyObjectProperty;
+    }
+
+    private static Mereology INSTANCE;
+    public static Mereology getInstance() {
+	if (INSTANCE == null)
+	    INSTANCE = new Mereology();
 	
-	public static final String MEREOLOGY_HASPART_NAME = "hasPart";
-	public static final String MEREOLOGY_HASPART_DIRECTLY_NAME = "hasPart_directly";
-	public static final String MEREOLOGY_PARTOF_NAME = "partOf";
-	public static final String MEREOLOGY_PARTOF_DIRECTLY_NAME = "partOf_directly";
+	return INSTANCE;
+    }
+    
+    private Mereology() {
+    }
+    
+    @Override
+    protected boolean checkPreDefinedOntology(Ontology ontology) {
+	Optional<OntologyObjectProperty> hasPartOptional = ontology.getObjectProperties().stream().filter(p -> p.getName().equals(MEREOLOGY_HASPART_NAME)).findFirst();
+	if (hasPartOptional.isPresent())
+	    hasPartObjectProperty = hasPartOptional.get();
+	else
+	    return false;
 
-	private OntologyObjectProperty partOfObjectProperty;
-	private OntologyObjectProperty partOfDirectlyObjectProperty;
+	Optional<OntologyObjectProperty> hasPartDirectlyOptional = ontology.getObjectProperties().stream().filter(p -> p.getName().equals(MEREOLOGY_HASPART_DIRECTLY_NAME)).findFirst();
+	if (hasPartDirectlyOptional.isPresent())
+	    hasPartDirectlyObjectProperty = hasPartDirectlyOptional.get();
+	else
+	    return false;
 
-	private OntologyObjectProperty hasPartObjectProperty;
-	private OntologyObjectProperty hasPartDirectlyObjectProperty;
-	
-	public OntologyObjectProperty getPartOfObjectProperty() {
-		return partOfObjectProperty;
-	}
+	Optional<OntologyObjectProperty> partOfOptional = ontology.getObjectProperties().stream().filter(p -> p.getName().equals(MEREOLOGY_PARTOF_NAME)).findFirst();
+	if (partOfOptional.isPresent())
+	    partOfObjectProperty = partOfOptional.get();
+	else
+	    return false;
 
-	public OntologyObjectProperty getPartOfDirectlyObjectProperty() {
-		return partOfDirectlyObjectProperty;
-	}
+	Optional<OntologyObjectProperty> partOfDirectlyOptional = ontology.getObjectProperties().stream().filter(p -> p.getName().equals(MEREOLOGY_PARTOF_DIRECTLY_NAME)).findFirst();
+	if (partOfDirectlyOptional.isPresent())
+	    partOfDirectlyObjectProperty = partOfDirectlyOptional.get();
+	else
+	    return false;
 
-	public OntologyObjectProperty getHasPartObjectProperty() {
-		return hasPartObjectProperty;
-	}
+	return true;
+    }
 
-	public OntologyObjectProperty getHasPartDirectlyObjectProperty() {
-		return hasPartDirectlyObjectProperty;
-	}
+    @Override
+    protected void initializeOntology(IOntologyManager ontologyManager) throws OntologyManagerException {
+	// ontologyManager.addNamespace(MEREOLOGY_PREFIX, MEREOLOGY_NAMESPACE,
+	// false);
 
-	@Override
-	protected boolean checkPreDefinedOntology(Ontology ontology) {
-		Optional<OntologyObjectProperty> hasPartOptional = ontology.getObjectProperties().stream().filter(p -> p.getName().equals(MEREOLOGY_HASPART_NAME)).findFirst();
-		if (hasPartOptional.isPresent())
-			hasPartObjectProperty = hasPartOptional.get();
-		else
-			return false;
+	hasPartObjectProperty = ontologyManager.createObjectProperty(MEREOLOGY_HASPART_NAME, MEREOLOGY_PREFIX);
+	ontologyManager.setObjectPropertyCharacteristics(hasPartObjectProperty, false, false, true, false, false, false, false);
 
-		Optional<OntologyObjectProperty> hasPartDirectlyOptional = ontology.getObjectProperties().stream().filter(p -> p.getName().equals(MEREOLOGY_HASPART_DIRECTLY_NAME)).findFirst();
-		if (hasPartDirectlyOptional.isPresent())
-			hasPartDirectlyObjectProperty = hasPartDirectlyOptional.get();
-		else
-			return false;
-		
-		Optional<OntologyObjectProperty> partOfOptional = ontology.getObjectProperties().stream().filter(p -> p.getName().equals(MEREOLOGY_PARTOF_NAME)).findFirst();
-		if (partOfOptional.isPresent())
-			partOfObjectProperty = partOfOptional.get();
-		else
-			return false;
-		
-		Optional<OntologyObjectProperty> partOfDirectlyOptional = ontology.getObjectProperties().stream().filter(p -> p.getName().equals(MEREOLOGY_PARTOF_DIRECTLY_NAME)).findFirst();
-		if (partOfDirectlyOptional.isPresent())
-			partOfDirectlyObjectProperty = partOfDirectlyOptional.get();
-		else
-			return false;
-		
-		return true;
-	}
+	hasPartDirectlyObjectProperty = ontologyManager.createObjectProperty(MEREOLOGY_HASPART_DIRECTLY_NAME, MEREOLOGY_PREFIX);
+	ontologyManager.assignSubObjectPropertyToSuperObjectProperty(hasPartDirectlyObjectProperty, hasPartObjectProperty);
 
-	@Override
-	protected void initializeOntology(IOntologyManager ontologyManager) throws OntologyManagerException {
-		//ontologyManager.addNamespace(MEREOLOGY_PREFIX, MEREOLOGY_NAMESPACE, false);
+	partOfObjectProperty = ontologyManager.createObjectProperty(MEREOLOGY_PARTOF_NAME, MEREOLOGY_PREFIX);
+	ontologyManager.setObjectPropertyCharacteristics(partOfObjectProperty, false, false, true, false, false, false, false);
+	ontologyManager.assignInverseObjectProperty(partOfObjectProperty, hasPartObjectProperty);
 
-		hasPartObjectProperty = ontologyManager.createObjectProperty(MEREOLOGY_HASPART_NAME, MEREOLOGY_PREFIX);
-		ontologyManager.setObjectPropertyCharacteristics(hasPartObjectProperty, false, false, true, false, false, false, false);
+	partOfDirectlyObjectProperty = ontologyManager.createObjectProperty(MEREOLOGY_PARTOF_DIRECTLY_NAME, MEREOLOGY_PREFIX);
+	ontologyManager.assignSubObjectPropertyToSuperObjectProperty(partOfDirectlyObjectProperty, partOfObjectProperty);
+	ontologyManager.assignInverseObjectProperty(partOfDirectlyObjectProperty, hasPartDirectlyObjectProperty);
 
-		hasPartDirectlyObjectProperty = ontologyManager.createObjectProperty(MEREOLOGY_HASPART_DIRECTLY_NAME, MEREOLOGY_PREFIX);
-		ontologyManager.assignSubObjectPropertyToSuperObjectProperty(hasPartDirectlyObjectProperty, hasPartObjectProperty);
-
-		partOfObjectProperty = ontologyManager.createObjectProperty(MEREOLOGY_PARTOF_NAME, MEREOLOGY_PREFIX);
-		ontologyManager.setObjectPropertyCharacteristics(partOfObjectProperty, false, false, true, false, false, false, false);
-		ontologyManager.assignInverseObjectProperty(partOfObjectProperty, hasPartObjectProperty);
-
-		partOfDirectlyObjectProperty = ontologyManager.createObjectProperty(MEREOLOGY_PARTOF_DIRECTLY_NAME, MEREOLOGY_PREFIX);
-		ontologyManager.assignSubObjectPropertyToSuperObjectProperty(partOfDirectlyObjectProperty, partOfObjectProperty);
-		ontologyManager.assignInverseObjectProperty(partOfDirectlyObjectProperty, hasPartDirectlyObjectProperty);
-
-		ontologyManager.saveLocalOntology();
-	}
+	ontologyManager.saveLocalOntology();
+    }
 }

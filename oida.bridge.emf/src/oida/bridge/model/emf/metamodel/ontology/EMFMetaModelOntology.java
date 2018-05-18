@@ -6,17 +6,19 @@ import org.eclipse.emf.ecore.EClass;
 import org.eclipse.emf.ecore.EObject;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EReference;
+import org.eclipse.emf.ecore.EStructuralFeature;
 
 import oida.bridge.model.changehandler.AbstractModelChangeHandler;
 import oida.bridge.model.ontology.OIDAModelBaseOntology;
 import oida.bridge.model.strategy.IRenamerStrategy;
 import oida.bridge.model.strategy.IStructuringStrategy;
+import oida.ontology.AOntologyItem;
 import oida.ontology.Ontology;
 import oida.ontology.OntologyClass;
-import oida.ontology.OntologyEntity;
 import oida.ontology.OntologyObjectProperty;
 import oida.ontology.manager.IOntologyManager;
 import oida.ontology.manager.OntologyManagerException;
+import oida.ontology.predefined.Mereology;
 
 /**
  * 
@@ -83,6 +85,10 @@ public class EMFMetaModelOntology extends AbstractModelChangeHandler {
 	    e.printStackTrace();
 	}
 
+	EStructuralFeature partOfFeature = getStructuringStrategy().getPartOfStructuralFeature();
+	if (partOfFeature != null)
+	    assignSystemOntologyObjectPropertyToFeature(partOfFeature, Mereology.getInstance().getHasPartDirectlyObjectProperty());
+
 	extractClassHierarchy((EPackage[])getStructuringStrategy().getMetaModelInformationObject());
 	extractObjectPropertyHierarchy((EPackage[])getStructuringStrategy().getMetaModelInformationObject());
 
@@ -114,7 +120,7 @@ public class EMFMetaModelOntology extends AbstractModelChangeHandler {
     }
 
     private OntologyClass createOntologyClassHierarchyForModelElement(EClass eClass, IOntologyManager ontologyManager) {
-	Optional<OntologyEntity> optOntologyClass = getOntologyEntityForModelElement(eClass);
+	Optional<AOntologyItem> optOntologyClass = getOntologyEntityForModelElement(eClass);
 
 	if (!optOntologyClass.isPresent()) {
 	    OntologyClass oCl = createOntologyClassForMetaModelClass(eClass);
@@ -133,6 +139,7 @@ public class EMFMetaModelOntology extends AbstractModelChangeHandler {
     private void createOntologyObjectPropertiesForModelClassReferences(EClass eClass, IOntologyManager ontologyManager) {
 	for (EReference strFeature : eClass.getEAllReferences()) {
 	    String relationID = getRenamerStrategy().getRelationID(strFeature);
+
 	    OntologyObjectProperty referenceObjectProperty = createOntologyObjectPropertyForMetaModelRelation(relationID, getOntologyClassForModelElement(eClass).get());
 
 	    if (strFeature.getEOpposite() == null)

@@ -3,10 +3,10 @@ package oida.cdt.strategy;
 import org.eclipse.emf.ecore.EAttribute;
 import org.eclipse.emf.ecore.EPackage;
 import org.eclipse.emf.ecore.EStructuralFeature;
+
 import model.base.BasePackage;
 import model.engineering.EngineeringPackage;
 import oida.bridge.model.emf.strategy.EMFStructuringStrategy;
-import oida.bridge.service.OIDABridge.OntologyObjectProperties;
 
 /**
  * 
@@ -32,8 +32,7 @@ public class OpenCDTStructuringStrategy extends EMFStructuringStrategy {
     }
 
     @Override
-    public OntologyObjectProperties determineObjectPropertyRelation(EStructuralFeature feature) {
-	// TODO Auto-generated method stub
-	return null;
+    public EStructuralFeature getPartOfStructuralFeature() {
+	return EngineeringPackage.eINSTANCE.getComponent_SubComponents();
     }
 }

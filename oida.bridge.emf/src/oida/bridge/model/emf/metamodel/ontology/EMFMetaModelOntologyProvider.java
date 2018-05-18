@@ -15,10 +15,10 @@ import oida.ontology.manager.IOntologyManager;
  */
 public class EMFMetaModelOntologyProvider implements IMetaModelOntologyProvider {
 
-	@Override
-	public IModelChangeHandler createMetaModelOntology(IRenamerStrategy renamerStrategy, IStructuringStrategy structuringStrategy, IOntologyManager manager, Ontology referenceOntology) {
-		EMFMetaModelOntology.getInstance().createMetaModelOntology(renamerStrategy, structuringStrategy, manager, referenceOntology);
-		
-		return EMFMetaModelOntology.getInstance();
-	}
+    @Override
+    public IModelChangeHandler createMetaModelOntology(IRenamerStrategy renamerStrategy, IStructuringStrategy structuringStrategy, IOntologyManager manager, Ontology referenceOntology) {
+	EMFMetaModelOntology.getInstance().createMetaModelOntology(renamerStrategy, structuringStrategy, manager, referenceOntology);
+
+	return EMFMetaModelOntology.getInstance();
+    }
 }

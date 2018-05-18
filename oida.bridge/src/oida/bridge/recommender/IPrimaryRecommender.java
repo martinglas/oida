@@ -14,12 +14,15 @@ import oida.ontology.OntologyIndividual;
  *
  */
 public interface IPrimaryRecommender {
-	/**
-	 * Method for initialization tasks, when a model is opened and observed by the OIDA bridge.
-	 * @param model The observed model.
-	 * @param 
-	 */
-	void initializeRecommenderForModel(final Ontology observedModelOntology, final Ontology referenceOntology);
-	
-	List<Recommendation> findRecommendationsForSelectedIndividual(final OntologyIndividual selectedModelElement, OIDABridge oidaBridge);
+    /**
+     * Method for initialization tasks, when a model is opened and observed by
+     * the OIDA bridge.
+     * 
+     * @param model
+     *            The observed model.
+     * @param
+     */
+    void initializeRecommenderForModel(final Ontology observedModelOntology, final Ontology referenceOntology);
+
+    List<Recommendation> findRecommendationsForSelectedIndividual(final OntologyIndividual selectedModelElement, OIDABridge oidaBridge);
 }

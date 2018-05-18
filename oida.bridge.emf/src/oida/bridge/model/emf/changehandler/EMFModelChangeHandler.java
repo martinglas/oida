@@ -19,8 +19,8 @@ import org.slf4j.LoggerFactory;
 
 import oida.bridge.model.changehandler.AbstractModelChangeHandler;
 import oida.bridge.model.emf.changehandler.util.Extractor;
+import oida.ontology.AOntologyItem;
 import oida.ontology.OntologyClass;
-import oida.ontology.OntologyEntity;
 import oida.ontology.OntologyIndividual;
 import oida.ontology.OntologyObjectProperty;
 import oida.ontology.manager.IOntologyManager;
@@ -120,7 +120,7 @@ public final class EMFModelChangeHandler extends AbstractModelChangeHandler {
     }
 
     private OntologyClass createOntologyClassHierarchyForModelElement(EClass eClass, IOntologyManager ontologyManager) {
-	Optional<OntologyEntity> optOntologyClass = getOntologyEntityForModelElement(eClass);
+	Optional<AOntologyItem> optOntologyClass = getOntologyEntityForModelElement(eClass);
 
 	if (!optOntologyClass.isPresent()) {
 	    OntologyClass oCl = createOntologyClassForMetaModelClass(eClass);
@@ -154,7 +154,6 @@ public final class EMFModelChangeHandler extends AbstractModelChangeHandler {
 	Optional<OntologyIndividual> individual = getOntologyIndividualForModelElement(eObject);
 
 	if (referenceObjectProperty.isPresent() && containerIndividual.isPresent() && individual.isPresent())
-
 	    modelOntologyManager.createObjectPropertyAssertion(referenceObjectProperty.get(), containerIndividual.get(), individual.get());
     }
 }

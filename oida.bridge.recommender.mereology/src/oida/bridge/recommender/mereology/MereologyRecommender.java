@@ -1,5 +1,6 @@
 package oida.bridge.recommender.mereology;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import bridgemodel.recommendation.Recommendation;
@@ -16,19 +17,22 @@ import oida.ontology.OntologyIndividual;
  */
 public class MereologyRecommender implements IPrimaryRecommender {
 
-    public MereologyRecommender() {
-	// TODO Auto-generated constructor stub
-    }
+    public MereologyRecommender() { }
 
     @Override
     public void initializeRecommenderForModel(Ontology observedModelOntology, Ontology referenceOntology) {
 	// TODO Auto-generated method stub
-	
     }
 
     @Override
     public List<Recommendation> findRecommendationsForSelectedIndividual(OntologyIndividual selectedModelElement, OIDABridge oidaBridge) {
-	// TODO Auto-generated method stub
-	return null;
+	List<Recommendation> list = new ArrayList<Recommendation>();
+	
+	selectedModelElement.getObjectPropertyAssertions();
+	
+	
+	
+	
+	return list;
     }
 }

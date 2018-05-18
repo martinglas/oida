@@ -12,10 +12,10 @@ import oida.bridge.model.strategy.IStructuringStrategy;
  */
 public abstract class EMFStructuringStrategy implements IStructuringStrategy {
 
-	@Override
-	public Object getMetaModelInformationObject() {
-		return getEMFPackageInformation();
-	}
-	
-	protected abstract EPackage[] getEMFPackageInformation();
+    @Override
+    public Object getMetaModelInformationObject() {
+	return getEMFPackageInformation();
+    }
+
+    protected abstract EPackage[] getEMFPackageInformation();
 }

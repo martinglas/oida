@@ -13,5 +13,5 @@ import oida.ontology.manager.IOntologyManager;
  *
  */
 public interface IMetaModelOntologyProvider {
-	IModelChangeHandler createMetaModelOntology(IRenamerStrategy renamerStrategy, IStructuringStrategy structuringStrategy, IOntologyManager manager, Ontology referenceOntology);
+    IModelChangeHandler createMetaModelOntology(IRenamerStrategy renamerStrategy, IStructuringStrategy structuringStrategy, IOntologyManager manager, Ontology referenceOntology);
 }

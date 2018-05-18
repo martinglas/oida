@@ -41,15 +41,16 @@ import oida.bridge.model.ontology.OIDAModelBaseOntology;
 import oida.bridge.model.strategy.IRenamerStrategy;
 import oida.bridge.model.strategy.IStructuringStrategy;
 import oida.bridge.recommender.RecommenderSystem;
+import oida.ontology.AOntologyItem;
 import oida.ontology.Ontology;
 import oida.ontology.OntologyClass;
 import oida.ontology.OntologyClassEquivalence;
-import oida.ontology.OntologyEntity;
 import oida.ontology.OntologyIndividual;
 import oida.ontology.OntologyObjectProperty;
 import oida.ontology.OntologyObjectPropertyEquivalence;
 import oida.ontology.manager.IOntologyManager;
 import oida.ontology.manager.OntologyManagerException;
+import oida.ontology.predefined.Mereology;
 import oida.ontology.service.OIDAOntologyService;
 import oida.ontologyMgr.LocalOntologyMetaInfo;
 import oida.ontologyMgr.SystemOntologyMetaInfo;
@@ -71,7 +72,7 @@ public final class OIDABridge {
     protected static Logger LOGGER = LoggerFactory.getLogger(OIDABridge.class);
 
     public enum OntologyObjectProperties {
-	HAS_PART, HAS_PARAMETER
+	HAS_PART, HAS_PARAMETER, NONE
     };
 
     private boolean extensionPointsReady = false;
@@ -84,7 +85,7 @@ public final class OIDABridge {
     private IModelChangeHandler metaModelOntologyHandler;
 
     private Map<Object, IModelChangeHandler> modelHandlerMap = new HashMap<Object, IModelChangeHandler>();
-
+    
     private Resource metaModelClassMappingsResource;
     private Resource metaModelObjectPropertyMappingsResource;
     private Resource modelMappingsResource;
@@ -96,7 +97,7 @@ public final class OIDABridge {
     @Inject
     public OIDABridge(OIDAOntologyService oidaOntologyService) {
 	LOGGER.info("Initializing OIDA Bridge Service...");
-	
+
 	this.oidaOntologyService = oidaOntologyService;
 	modelHandlerMap.clear();
 
@@ -119,6 +120,8 @@ public final class OIDABridge {
 
 	if (!extensionPointsReady)
 	    extensionPointsReady = tryInitExtensions();
+
+	tryInitMereology();
 
 	if (!modelBaseOntologyReady)
 	    modelBaseOntologyReady = tryInitModelBaseOntology();
@@ -180,6 +183,32 @@ public final class OIDABridge {
 	return extensionPointsReady;
     }
 
+    private boolean tryInitMereology() {
+	LOGGER.info("Step 6/7: Loading Mereology.");
+	SystemOntologyMetaInfo mereologyOntologyMetaInfo = OIDAUtil.getSystemOntologyMetaInfo(OIDAUtil.getOIDAWorkPath(), Mereology.MEREOLOGY_FILENAME);
+
+	Optional<IOntologyManager> optOntologyManager;
+	if (oidaOntologyService.checkLocalOntologyExistance(mereologyOntologyMetaInfo))
+	    optOntologyManager = oidaOntologyService.getLocalOntologyManager(mereologyOntologyMetaInfo);
+	else
+	    optOntologyManager = oidaOntologyService.createLocalOntology(mereologyOntologyMetaInfo, Mereology.MEREOLOGY_IRI);
+
+	if (optOntologyManager.isPresent()) {
+	    try {
+		Mereology.getInstance().loadOrInitializeOntology(optOntologyManager.get());
+		oidaOntologyService.saveLibraryResource();
+		oidaOntologyService.getGlobalIRIToLocalIRIMappings().put(Mereology.MEREOLOGY_IRI, (LocalOntologyMetaInfo)Mereology.getInstance().getOntologyManager().getOntology().getMetaInfo());
+		
+		LOGGER.info("Mereology loaded.");
+		return true;
+	    } catch (OntologyManagerException e) {
+		LOGGER.error("Error while loading Mereology.", e);
+		return false;
+	    }
+	} else
+	    return false;
+    }
+
     private boolean tryInitModelBaseOntology() {
 	LOGGER.info("Step 6/7: Loading OIDA model base ontology.");
 	try {
@@ -193,6 +222,8 @@ public final class OIDABridge {
 
 	    if (optOntologyManager.isPresent()) {
 		OIDAModelBaseOntology.getInstance().loadOrInitializeOntology(optOntologyManager.get());
+		OIDAModelBaseOntology.getInstance().getOntologyManager().addImportDeclaration(Mereology.getInstance().getOntologyManager().getOntology());
+		OIDAModelBaseOntology.getInstance().getOntologyManager().saveLocalOntology();
 		oidaOntologyService.saveLibraryResource();
 		oidaOntologyService.getGlobalIRIToLocalIRIMappings().put(OIDAModelBaseOntology.OIDA_MODELONTOLOGY_IRI,
 			(LocalOntologyMetaInfo)OIDAModelBaseOntology.getInstance().getOntologyManager().getOntology().getMetaInfo());
@@ -239,6 +270,9 @@ public final class OIDABridge {
 		metaModelOntologyHandler.getModelOntologyManager().refreshOntologyRepresentation(true);
 		extractMappings(metaModelOntologyHandler.getModelOntologyManager());
 		metaModelOntologyHandler.getModelOntologyManager().saveLocalOntology();
+		
+		oidaOntologyService.saveLibraryResource();
+		oidaOntologyService.getGlobalIRIToLocalIRIMappings().put(metaModelOntologyMetaInfo.getIri(), metaModelOntologyMetaInfo);
 
 		RecommenderSystem.getInstance().initializeSecondaryRecommenders(metaModelOntologyHandler.getModelOntologyManager().getOntology(),
 			oidaOntologyService.getReferenceOntologyManager().get().getOntology());
@@ -302,6 +336,7 @@ public final class OIDABridge {
 	if (optModelOntologyMgr.isPresent()) {
 	    IModelChangeHandler changeHandler = changeHandlerFactory.getChangeHandler();
 
+	    changeHandler.setSuperModelChangeHandler(getMetaModelHandler());
 	    changeHandler.startChangeTracking(renamerStrategy, structuringStrategy, getMetaModelHandler().getModelOntologyManager(), optModelOntologyMgr.get(), modelObject);
 	    modelHandlerMap.put(modelObject, changeHandler);
 
@@ -351,7 +386,7 @@ public final class OIDABridge {
 	if (modelObject == null || firstSelectedElement == null)
 	    return;
 
-	Optional<OntologyEntity> optOntEntity = modelHandlerMap.get(modelObject).getOntologyEntityForModelElement(firstSelectedElement);
+	Optional<AOntologyItem> optOntEntity = modelHandlerMap.get(modelObject).getOntologyEntityForModelElement(firstSelectedElement);
 	if (optOntEntity.isPresent())
 	    RecommenderSystem.getInstance().findPrimaryRecommendations(modelObject, (OntologyIndividual)optOntEntity.get());
 	else
@@ -371,7 +406,8 @@ public final class OIDABridge {
 
 	// Dirty: Reference Ontology may be an Online-Ontology! (Cast to local
 	// ontology inadmissible)
-	return modelObjectId + StringConstants.UNDERSCORE + OIDAUtil.extractFileName(((LocalOntologyMetaInfo)oidaOntologyService.getLibrary().getReferenceOntology()).getLocalPath()) + FileConstants.OWL_FILE_POSTFIX;
+	return modelObjectId + StringConstants.UNDERSCORE + OIDAUtil.extractFileName(((LocalOntologyMetaInfo)oidaOntologyService.getLibrary().getReferenceOntology()).getLocalPath())
+		+ FileConstants.OWL_FILE_POSTFIX;
     }
 
     private void extractMappings(IOntologyManager modelOntologyManager) {

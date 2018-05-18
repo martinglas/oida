@@ -10,6 +10,7 @@ import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.Map.Entry;
 import java.util.Optional;
@@ -28,6 +29,7 @@ import org.semanticweb.owlapi.model.OWLAsymmetricObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.OWLAxiom;
 import org.semanticweb.owlapi.model.OWLClass;
 import org.semanticweb.owlapi.model.OWLClassAssertionAxiom;
+import org.semanticweb.owlapi.model.OWLClassExpression;
 import org.semanticweb.owlapi.model.OWLDataFactory;
 import org.semanticweb.owlapi.model.OWLDeclarationAxiom;
 import org.semanticweb.owlapi.model.OWLEntity;
@@ -42,7 +44,9 @@ import org.semanticweb.owlapi.model.OWLNamedIndividual;
 import org.semanticweb.owlapi.model.OWLObjectProperty;
 import org.semanticweb.owlapi.model.OWLObjectPropertyAssertionAxiom;
 import org.semanticweb.owlapi.model.OWLObjectPropertyDomainAxiom;
+import org.semanticweb.owlapi.model.OWLObjectPropertyExpression;
 import org.semanticweb.owlapi.model.OWLObjectPropertyRangeAxiom;
+import org.semanticweb.owlapi.model.OWLObjectSomeValuesFrom;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyChange;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
@@ -55,6 +59,8 @@ import org.semanticweb.owlapi.model.OWLSymmetricObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.OWLTransitiveObjectPropertyAxiom;
 import org.semanticweb.owlapi.model.parameters.Imports;
 import org.semanticweb.owlapi.util.OWLEntityRenamer;
+import org.semanticweb.owlapi.util.OWLOntologyWalker;
+import org.semanticweb.owlapi.util.OWLOntologyWalkerVisitor;
 import org.semanticweb.owlapi.util.SimpleIRIMapper;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -222,6 +228,8 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 		    mapHandler.getMapHandlerLocal());
 	}
 
+	extractClassRestrictions(owlOntology, mapHandler.getMapHandler());
+	
 	// Individuals:
 	List<OWLNamedIndividual> allIndividuals = owlOntology.individualsInSignature(Imports.INCLUDED).collect(Collectors.toList());
 	List<OWLClassAssertionAxiom> allClassAssertionAxioms = owlOntology.axioms(AxiomType.CLASS_ASSERTION, Imports.INCLUDED).collect(Collectors.toList());
@@ -279,7 +287,6 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 	    if (!owlClass.getIRI().getIRIString().equals(mapHandler.getOwlThingClass().getIRI().getIRIString())) {
 		boolean addedAsSubClass = false;
 		for (OWLSubClassOfAxiom owlAxiom : owlSubClassOfAxioms) {
-
 		    if (owlAxiom.getSubClass().isOWLClass() && owlAxiom.getSubClass().equals(owlClass) && owlAxiom.getSuperClass().isOWLClass()) {
 			OWLClass owlSuperClass = owlAxiom.getSuperClass().asOWLClass();
 
@@ -290,9 +297,7 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 			    internalClass.getSuperClasses().add(internalSuperClass);
 			    addedAsSubClass = true;
 			}
-		    } //else if (owlAxiom.axi) {
-		//	OWLObjectOneOf
-		 //   }
+		    }
 		}
 
 		// if no super class is defined, the Thing class is set as super
@@ -320,6 +325,29 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 		}
 	    }
 	}
+    }
+    
+    private void extractClassRestrictions(OWLOntology ontology, OwlOntologyManagerMapHandler mapHandler) {
+	OWLOntologyWalker walker = new OWLOntologyWalker(Collections.singleton(ontology));
+	OWLOntologyWalkerVisitor visitor = new OWLOntologyWalkerVisitor(walker) {
+	    @Override
+	    public void visit(OWLObjectSomeValuesFrom someValuesFrom) {
+		OWLClassExpression restrictedClassExpression = ((OWLSubClassOfAxiom)getCurrentAxiom()).getSubClass();
+		OWLClassExpression restrictionClassExpression = someValuesFrom.getFiller();
+		OWLObjectPropertyExpression objectPropertyExpression = someValuesFrom.getProperty();
+		
+		if (restrictedClassExpression.isOWLClass() && restrictionClassExpression.isOWLClass() && objectPropertyExpression.isOWLObjectProperty()) {
+		    Optional<OntologyClass> restrictedClass = mapHandler.getInternalClass(restrictedClassExpression.asOWLClass());
+		    Optional<OntologyClass> restrictionClass = mapHandler.getInternalClass(restrictionClassExpression.asOWLClass());
+		    Optional<OntologyObjectProperty> objectProperty = mapHandler.getInternalObjectProperty(objectPropertyExpression.asOWLObjectProperty());
+		    
+		    if (restrictedClass.isPresent() && restrictionClass.isPresent() && objectProperty.isPresent())
+			OntologyManagerUtils.createSomeValuesFromRestriction(restrictedClass.get(), objectProperty.get(), restrictionClass.get());
+		}
+	    }
+	};
+
+	walker.walkStructure(visitor);
     }
 
     private void extractObjectPropertyHierarchy(Ontology ontology, Stream<OWLObjectProperty> objectProperties, List<OWLSubObjectPropertyOfAxiom> owlSubObjectPropertyOfAxioms,
