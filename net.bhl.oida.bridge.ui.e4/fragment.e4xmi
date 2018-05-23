@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="ASCII"?>
+<fragment:ModelFragments xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:advanced="http://www.eclipse.org/ui/2010/UIModel/application/ui/advanced" xmlns:basic="http://www.eclipse.org/ui/2010/UIModel/application/descriptor/basic" xmlns:basic_1="http://www.eclipse.org/ui/2010/UIModel/application/ui/basic" xmlns:commands="http://www.eclipse.org/ui/2010/UIModel/application/commands" xmlns:fragment="http://www.eclipse.org/ui/2010/UIModel/fragment" xmlns:menu="http://www.eclipse.org/ui/2010/UIModel/application/ui/menu" xmi:id="_rKa4EAWWEeeRVMQ9MYdBLQ">
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_jBcT4AWYEeeRVMQ9MYdBLQ" featurename="commands" parentElementId="net.bhl.cdt.application">
+    <elements xsi:type="commands:Command" xmi:id="_lRPzUAWYEeeRVMQ9MYdBLQ" elementId="oida.bridge.ui.e4.command.mapelement" commandName="Map Primary"/>
+    <elements xsi:type="commands:Command" xmi:id="_U0uzECIfEeepS7FG1PlakA" elementId="oida.bridge.ui.e4.command.mapsecondary" commandName="Map Secondary"/>
+    <elements xsi:type="commands:Command" xmi:id="_RC9zIDuxEeeh2-7Emt4u-Q" elementId="oida.bridge.ui.e4.command.findmappedclasses" commandName="Find Mapped Classes"/>
+  </fragments>
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_oPVXEApkEeepYbfRV01uyg" featurename="handlers" parentElementId="net.bhl.cdt.application">
+    <elements xsi:type="commands:Handler" xmi:id="_tn_d0ApkEeepYbfRV01uyg" elementId="oida.bridge.ui.e4.handler.mapelement" contributionURI="bundleclass://net.bhl.oida.bridge.ui.e4/net.bhl.oida.bridge.ui.e4.handler.MapPrimaryHandler" command="_lRPzUAWYEeeRVMQ9MYdBLQ"/>
+    <elements xsi:type="commands:Handler" xmi:id="_Zda1cCIfEeepS7FG1PlakA" elementId="oida.bridge.ui.e4.handler.0" contributionURI="bundleclass://net.bhl.oida.bridge.ui.e4/net.bhl.oida.bridge.ui.e4.handler.MapSecondaryHandler" command="_U0uzECIfEeepS7FG1PlakA"/>
+    <elements xsi:type="commands:Handler" xmi:id="_VSix8DuxEeeh2-7Emt4u-Q" elementId="oida.bridge.ui.e4.handler.1" contributionURI="bundleclass://net.bhl.oida.bridge.ui.e4/net.bhl.oida.bridge.ui.e4.handler.FindMappedClassesHandler" command="_RC9zIDuxEeeh2-7Emt4u-Q"/>
+  </fragments>
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_bWHmABrYEeeFu6vNfOMXuw" featurename="descriptors" parentElementId="net.bhl.cdt.application">
+    <elements xsi:type="basic:PartDescriptor" xmi:id="_sivqEBrYEeeFu6vNfOMXuw" elementId="oida.bridge.ui.e4.partdescriptor.oidaprimarymapping" label="OIDA Primary Mapping" closeable="true" contributionURI="bundleclass://net.bhl.oida.bridge.ui.e4/net.bhl.oida.bridge.ui.e4.part.PrimaryRecommendationsViewPart">
+      <toolbar xmi:id="_t7QVIBrYEeeFu6vNfOMXuw" elementId="oida.bridge.ui.e4.toolbar.1">
+        <children xsi:type="menu:HandledToolItem" xmi:id="_ptIN8ApoEeepYbfRV01uyg" elementId="oida.bridge.ui.e4.handledtoolitem.map" label="Map" command="_lRPzUAWYEeeRVMQ9MYdBLQ"/>
+      </toolbar>
+    </elements>
+    <elements xsi:type="basic:PartDescriptor" xmi:id="_eBbsQCQZEee87prP5ogXPA" elementId="oida.bridge.ui.e4.partdescriptor.oidamappingview" label="OIDA Mapping View" contributionURI="bundleclass://net.bhl.oida.bridge.ui.e4/net.bhl.oida.bridge.ui.e4.part.MappingViewPart"/>
+    <elements xsi:type="basic:PartDescriptor" xmi:id="_nQ6MYEk5Eei0Zew17cMbnQ" elementId="oida.bridge.ui.e4.partdescriptor.recommendationdetails" label="Recommendation Details" contributionURI="bundleclass://net.bhl.oida.bridge.ui.e4/net.bhl.oida.bridge.ui.e4.part.RecommendationDetailsPart"/>
+  </fragments>
+  <fragments xsi:type="fragment:StringModelFragment" xmi:id="_l0CG4CQOEee87prP5ogXPA" featurename="children" parentElementId="net.bhl.cdt.client.e4.mainwindow.perspectivestack">
+    <elements xsi:type="advanced:Perspective" xmi:id="_plyhQCQOEee87prP5ogXPA" elementId="oida.bridge.ui.e4.perspective.oidamapping" label="OIDA Mapping" iconURI="platform:/plugin/net.bhl.oida.bridge.ui.e4/icons/Mapping.png">
+      <children xsi:type="basic_1:PartSashContainer" xmi:id="_NAYqED7IEeeHK_dWnOMNvw" elementId="oida.bridge.ui.e4.mappingperspective.maincontainer">
+        <children xsi:type="basic_1:PartSashContainer" xmi:id="_SWGKgD7IEeeHK_dWnOMNvw" elementId="oida.bridge.ui.e4.mappingperspective.classesviewcontainer" containerData="80" horizontal="true">
+          <children xsi:type="basic_1:PartStack" xmi:id="_FMYdwDP9Eee8YbmpPlwRbw" elementId="oida.bridge.ui.e4.partstack.0" containerData="15">
+            <children xsi:type="basic_1:Part" xmi:id="_D7JZgCQREee87prP5ogXPA" elementId="oida.bridge.ui.e4.part.metamodelclassmappingpart" contributionURI="bundleclass://net.bhl.oida.bridge.ui.e4/net.bhl.oida.bridge.ui.e4.part.MetaModelClassMappingPart" label="Meta Model Class Hierarchy" iconURI="platform:/plugin/net.bhl.oida.bridge.ui.e4/icons/Class.png"/>
+            <children xsi:type="basic_1:Part" xmi:id="_O8V4MDrdEeeGr5Dk53raOA" elementId="oida.bridge.ui.e4.part.metamodelobjectproperties" toBeRendered="false" visible="false" contributionURI="bundleclass://net.bhl.oida.bridge.ui.e4/net.bhl.oida.bridge.ui.e4.part.MetaModelObjectPropertyMappingPart" label="Meta Model Object Properties" iconURI="platform:/plugin/net.bhl.oida.bridge.ui.e4/icons/ObjectProperty.png"/>
+          </children>
+          <children xsi:type="basic_1:PartSashContainer" xmi:id="_rFSLMDzSEeef1_9Ke6NtTg" elementId="oida.bridge.ui.e4.partsashcontainer.3" containerData="70">
+            <children xsi:type="basic_1:PartStack" xmi:id="_sxd2ED7IEeeHK_dWnOMNvw" elementId="oida.bridge.ui.e4.partstack.5" containerData="40">
+              <children xsi:type="basic_1:Part" xmi:id="_owAusDuaEeeuio0AsV1QsA" elementId="oida.bridge.ui.e4.part.classequivalencemappingsviewpart" containerData="50" contributionURI="bundleclass://net.bhl.oida.bridge.ui.e4/net.bhl.oida.bridge.ui.e4.part.ClassEquivalenceMappingsViewPart" label="Mapping" iconURI="platform:/plugin/net.bhl.oida.bridge.ui.e4/icons/Mapping.png">
+                <toolbar xmi:id="_OBQVoDuxEeeh2-7Emt4u-Q" elementId="oida.bridge.ui.e4.toolbar.0" toBeRendered="false" visible="false">
+                  <children xsi:type="menu:HandledToolItem" xmi:id="_OTeuEDuxEeeh2-7Emt4u-Q" elementId="oida.bridge.ui.e4.handledtoolitem.findclasses" label="Find Classes" command="_RC9zIDuxEeeh2-7Emt4u-Q"/>
+                </toolbar>
+              </children>
+            </children>
+            <children xsi:type="basic_1:PartSashContainer" xmi:id="_uCwB4DzSEeef1_9Ke6NtTg" elementId="oida.bridge.ui.e4.partsashcontainer.4" containerData="60" horizontal="true">
+              <children xsi:type="basic_1:PartStack" xmi:id="_pa1RcD7IEeeHK_dWnOMNvw" elementId="oida.bridge.ui.e4.partstack.3" containerData="50">
+                <children xsi:type="basic_1:Part" xmi:id="_uwMWsDzSEeef1_9Ke6NtTg" elementId="oida.bridge.ui.e4.part.class" containerData="50" contributionURI="bundleclass://net.bhl.oida.bridge.ui.e4/net.bhl.oida.bridge.ui.e4.part.MetaModelClassDetailsViewPart" label="Meta-Model Class"/>
+              </children>
+              <children xsi:type="basic_1:PartStack" xmi:id="_rXl5ED7IEeeHK_dWnOMNvw" elementId="oida.bridge.ui.e4.partstack.4" containerData="50">
+                <children xsi:type="basic_1:Part" xmi:id="_vSX2sDzSEeef1_9Ke6NtTg" elementId="oida.bridge.ui.e4.part.referenceclass" containerData="50" contributionURI="bundleclass://net.bhl.oida.bridge.ui.e4/net.bhl.oida.bridge.ui.e4.part.ReferenceOntologyClassDetailsViewPart" label="Reference Class"/>
+              </children>
+            </children>
+          </children>
+          <children xsi:type="basic_1:PartStack" xmi:id="_k7k34D7IEeeHK_dWnOMNvw" elementId="oida.bridge.ui.e4.partstack.2" containerData="15">
+            <children xsi:type="basic_1:Part" xmi:id="_-LTBADuZEeeuio0AsV1QsA" elementId="oida.bridge.ui.e4.part.referenceontologyclasshierarchy" contributionURI="bundleclass://net.bhl.oida.bridge.ui.e4/net.bhl.oida.bridge.ui.e4.part.ReferenceOntologyClassHierarchyPart" label="Reference Ontology Class Hierarchy" iconURI="platform:/plugin/net.bhl.oida.bridge.ui.e4/icons/Class.png"/>
+          </children>
+        </children>
+        <children xsi:type="basic_1:PartStack" xmi:id="_Rgms8D7IEeeHK_dWnOMNvw" elementId="oida.bridge.ui.e4.mappingperspective.recommendationsstack" containerData="20">
+          <children xsi:type="basic_1:Part" xmi:id="_yic20CmLEeepp_-SYWtz7w" elementId="oida.bridge.ui.e4.part.secondaryrecommendationspart" containerData="30" contributionURI="bundleclass://net.bhl.oida.bridge.ui.e4/net.bhl.oida.bridge.ui.e4.part.SecondaryRecommendationsViewPart" label="Secondary Recommendations"/>
+        </children>
+      </children>
+    </elements>
+  </fragments>
+</fragment:ModelFragments>

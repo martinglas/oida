@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated bridge -->
+      <package
+            uri="http://net/bauhaus-luftfahrt/oida/bridge/model/mapping"
+            class="net.bhl.oida.bridge.model.mapping.MappingPackage"
+            genModel="model/bridge.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated bridge -->
+      <package
+            uri="http://net/bauhaus-luftfahrt/oida/bridge/model/recommendation"
+            class="net.bhl.oida.bridge.model.recommendation.RecommendationPackage"
+            genModel="model/bridge.genmodel"/>
+   </extension>
+</plugin>

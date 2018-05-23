@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: OpenCDT Strategies
+Bundle-SymbolicName: net.bhl.oida.cdt.strategy;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: Bauhaus Luftfahrt e.V.
+Automatic-Module-Name: oida.cdt.strategy
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Import-Package: net.bhl.oida.bridge.model.strategy,
+ net.bhl.oida.bridge.service,
+ oida.bridge.model.emf.strategy,
+ org.eclipse.emf.ecore
+Require-Bundle: net.bhl.cdt.model

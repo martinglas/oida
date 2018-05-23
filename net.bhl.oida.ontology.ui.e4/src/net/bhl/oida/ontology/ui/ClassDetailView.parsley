@@ -1,0 +1,60 @@
+/*******************************************************************************
+ * <copyright> Copyright (c) 2009-2017 Bauhaus Luftfahrt e.V.. All rights reserved. This program and the accompanying
+ * materials are made available under the terms of the Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html </copyright>
+ ******************************************************************************/
+
+import net.bhl.oida.ontology.model.owlontology.OntologyClass
+import net.bhl.oida.ontology.ui.view.ClassDetailView
+import org.eclipse.swt.SWT
+
+/**
+ * 
+ * @since 2016-11-08
+ * @author Michael Shamiyeh
+ * 
+ */
+module net.bhl.oida.ontology.ui.ClassDetailView {
+	parts {
+		viewpart net.bhl.oida.ontology.ui.view.ClassDetailView {
+			viewname "Class Details"
+			viewclass ClassDetailView
+		}
+	}
+	
+	featuresProvider {
+		features {
+			OntologyClass -> prefix, superClasses, subClasses, someValuesFrom, equivalentClasses, annotations
+		}
+	}
+	
+	labelProvider {
+		text {
+			OntologyClass -> name
+		}
+		
+		image {
+			OntologyClass -> "Class.png"
+		}
+	}
+	
+	featureCaptionProvider {
+		text {
+			OntologyClass : prefix -> "Prefix:"
+			OntologyClass : superClasses -> "Super Classes:"
+			OntologyClass : subClasses -> "Sub Classes:"
+			OntologyClass : someValuesFrom -> "Restrictions:"
+			OntologyClass : equivalentClasses -> "Equivalent Classes:"
+			OntologyClass : annotations -> "Annotations:"
+		}
+	}
+	
+	formControlFactory {
+		control {
+			OntologyClass : prefix -> createLabel(prefix)
+			OntologyClass : someValuesFrom -> {
+				createText(someValuesFrom.map[objectProperty.name + " " + clazz.name].join(System.getProperty("line.separator")), SWT.MULTI, SWT.WRAP)
+			}
+		}
+	}
+}

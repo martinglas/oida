@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            category="org.eclipse.emf.parsley"
+            class="net.bhl.oida.ontology.ui.view.ClassEquivalenceMappingsView.ClassEquivalenceMappingsViewExecutableExtensionFactory:net.bhl.oida.bridge.ui.view.ClassEquivalenceMappingsView"
+            id="net.bhl.oida.bridge.ui.view.ClassEquivalenceMappingsView"
+            name="Class-Equivalence Mappings"
+            restorable="true">
+      </view>
+      <view
+            category="org.eclipse.emf.parsley"
+            class="net.bhl.oida.bridge.ui.ClassHierarchyView.ClassHierarchyViewExecutableExtensionFactory:net.bhl.oida.bridge.ui.view.ClassHierarchyView"
+            id="net.bhl.oida.bridge.ui.view.ClassHierarchyView"
+            name="Class Hierarchy"
+            restorable="true">
+      </view>
+      <view
+            category="org.eclipse.emf.parsley"
+            class="net.bhl.oida.bridge.ui.ObjectPropertyHierarchyView.ObjectPropertyHierarchyViewExecutableExtensionFactory:net.bhl.oida.bridge.ui.view.ObjectPropertyHierarchyView"
+            id="net.bhl.oida.bridge.ui.view.ObjectPropertyHierarchyView"
+            name="Object Property"
+            restorable="true">
+      </view>
+      <view
+            category="org.eclipse.emf.parsley"
+            class="net.bhl.oida.bridge.ui.RecommendationFormView.RecommendationFormViewExecutableExtensionFactory:net.bhl.oida.bridge.ui.view.RecommendationFormView"
+            id="net.bhl.oida.bridge.ui.RecommendationFormView"
+            name="Recommendation"
+            restorable="true">
+      </view>
+      <view
+            category="org.eclipse.emf.parsley"
+            class="net.bhl.oida.bridge.ui.RecommendationsView.RecommendationsViewExecutableExtensionFactory:net.bhl.oida.bridge.ui.view.RecommendationsView"
+            id="net.bhl.oida.bridge.ui.RecommendationsView"
+            name="OIDA Recommendations"
+            restorable="true">
+      </view>
+   </extension>
+   <extension
+         id="oida.bridge.ui.e4.fragment"
+         point="org.eclipse.e4.workbench.model">
+      <fragment
+            uri="fragment.e4xmi">
+      </fragment>
+   </extension>
+</plugin>

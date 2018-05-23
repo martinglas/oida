@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: OIDA EMF Model Change Handler
+Bundle-SymbolicName: net.bhl.oida.bridge.emf;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: Bauhaus Luftfahrt e.V.
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Require-Bundle: org.eclipse.emf.ecore,
+ net.bhl.oida.bridge,
+ net.bhl.oida.util;bundle-version="1.0.0",
+ net.bhl.oida.bridge.model;bundle-version="0.1.0"
+Export-Package: oida.bridge.model.emf.strategy
+Import-Package: net.bhl.oida.ontology.manager,
+ net.bhl.oida.ontology.predefined
+Automatic-Module-Name: oida.bridge.emf

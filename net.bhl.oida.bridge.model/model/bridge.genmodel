@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/net.bhl.oida.bridge.model/src-gen" editDirectory="/net.bhl.oida.bridge.model.edit/src-gen"
+    editorDirectory="/net.bhl.oida.bridge.model.editor/src-gen" modelPluginID="net.bhl.oida.bridge.model"
+    modelName="Bridge" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    testsDirectory="/net.bhl.oida.bridge.model.tests/src-gen" importerID="org.eclipse.emf.importer.ecore"
+    complianceLevel="8.0" copyrightFields="false" usedGenPackages="../../net.bhl.oida.ontology.model/model/model.genmodel#//owlontology"
+    operationReflection="true" importOrganizing="true">
+  <foreignModel>mapping.ecore</foreignModel>
+  <foreignModel>recommendation.ecore</foreignModel>
+  <genPackages prefix="Mapping" basePackage="net.bhl.oida.bridge.model" disposableProviderFactory="true"
+      ecorePackage="mapping.ecore#/">
+    <genClasses ecoreClass="mapping.ecore#//MappingSet">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference mapping.ecore#//MappingSet/mappings"/>
+    </genClasses>
+    <genClasses ecoreClass="mapping.ecore#//Mapping">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference mapping.ecore#//Mapping/mappingSet"/>
+    </genClasses>
+    <genClasses ecoreClass="mapping.ecore#//InstanceOfMapping">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference mapping.ecore#//InstanceOfMapping/individual"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference mapping.ecore#//InstanceOfMapping/clazz"/>
+    </genClasses>
+    <genClasses ecoreClass="mapping.ecore#//EqualsMapping"/>
+    <genClasses ecoreClass="mapping.ecore#//ClassEqualsMapping">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference mapping.ecore#//ClassEqualsMapping/clazz1"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference mapping.ecore#//ClassEqualsMapping/clazz2"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference mapping.ecore#//ClassEqualsMapping/equivalence"/>
+    </genClasses>
+    <genClasses ecoreClass="mapping.ecore#//ObjectPropertyEqualsMapping">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference mapping.ecore#//ObjectPropertyEqualsMapping/objectProperty1"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference mapping.ecore#//ObjectPropertyEqualsMapping/objectProperty2"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference mapping.ecore#//ObjectPropertyEqualsMapping/equivalence"/>
+    </genClasses>
+  </genPackages>
+  <genPackages prefix="Recommendation" basePackage="net.bhl.oida.bridge.model" disposableProviderFactory="true"
+      ecorePackage="recommendation.ecore#/">
+    <genEnums typeSafeEnumCompatible="false" ecoreEnum="recommendation.ecore#//RecommendationType">
+      <genEnumLiterals ecoreEnumLiteral="recommendation.ecore#//RecommendationType/instanceOf"/>
+      <genEnumLiterals ecoreEnumLiteral="recommendation.ecore#//RecommendationType/equivalentTo"/>
+    </genEnums>
+    <genClasses ecoreClass="recommendation.ecore#//RecommendationSet">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference recommendation.ecore#//RecommendationSet/ontologyEntity"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute recommendation.ecore#//RecommendationSet/modelObject"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference recommendation.ecore#//RecommendationSet/recommendations"/>
+    </genClasses>
+    <genClasses ecoreClass="recommendation.ecore#//Recommendation">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference recommendation.ecore#//Recommendation/recommendedEntity"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute recommendation.ecore#//Recommendation/recommenderName"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute recommendation.ecore#//Recommendation/recommenderMessage"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute recommendation.ecore#//Recommendation/recommendationType"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute recommendation.ecore#//Recommendation/reliability"/>
+    </genClasses>
+    <genClasses ecoreClass="recommendation.ecore#//AggregatedRecommendation">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference recommendation.ecore#//AggregatedRecommendation/recommendations"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

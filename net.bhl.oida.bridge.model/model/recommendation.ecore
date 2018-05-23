@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="recommendation" nsURI="http://net/bauhaus-luftfahrt/oida/bridge/model/recommendation"
+    nsPrefix="net.bauhaus-luftfahrt.oida.bridge.model.recommendation">
+  <eClassifiers xsi:type="ecore:EClass" name="RecommendationSet">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="ontologyEntity" lowerBound="1"
+        eType="ecore:EClass ../../net.bhl.oida.ontology.model/model/owlontology.ecore#//OntologyEntity"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="modelObject" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EJavaObject"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="recommendations" upperBound="-1"
+        eType="#//Recommendation" containment="true"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Recommendation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="recommendedEntity" lowerBound="1"
+        eType="ecore:EClass ../../net.bhl.oida.ontology.model/model/owlontology.ecore#//OntologyEntity"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="recommenderName" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="recommenderMessage" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EString"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="recommendationType" eType="#//RecommendationType"/>
+    <eStructuralFeatures xsi:type="ecore:EAttribute" name="reliability" eType="ecore:EDataType http://www.eclipse.org/emf/2002/Ecore#//EDouble"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="AggregatedRecommendation" eSuperTypes="#//Recommendation">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="recommendations" upperBound="-1"
+        eType="#//Recommendation"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EEnum" name="RecommendationType">
+    <eLiterals name="instanceOf"/>
+    <eLiterals name="equivalentTo" value="1"/>
+  </eClassifiers>
+</ecore:EPackage>

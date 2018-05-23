@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ecore:EPackage xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+    xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore" name="mapping" nsURI="http://net/bauhaus-luftfahrt/oida/bridge/model/mapping"
+    nsPrefix="net.bauhaus-luftfahrt.oida.bridge.model.mapping">
+  <eClassifiers xsi:type="ecore:EClass" name="MappingSet">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="mappings" upperBound="-1"
+        eType="#//Mapping"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="Mapping">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="mappingSet" lowerBound="1"
+        eType="#//MappingSet"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="InstanceOfMapping" eSuperTypes="#//Mapping">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="individual" lowerBound="1"
+        eType="ecore:EClass ../../net.bhl.oida.ontology.model/model/owlontology.ecore#//OntologyIndividual"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="clazz" lowerBound="1" eType="ecore:EClass ../../net.bhl.oida.ontology.model/model/owlontology.ecore#//OntologyClass"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="EqualsMapping" eSuperTypes="#//Mapping"/>
+  <eClassifiers xsi:type="ecore:EClass" name="ClassEqualsMapping" eSuperTypes="#//EqualsMapping">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="clazz1" lowerBound="1"
+        eType="ecore:EClass ../../net.bhl.oida.ontology.model/model/owlontology.ecore#//OntologyClass"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="clazz2" lowerBound="1"
+        eType="ecore:EClass ../../net.bhl.oida.ontology.model/model/owlontology.ecore#//OntologyClass"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="equivalence" lowerBound="1"
+        eType="ecore:EClass ../../net.bhl.oida.ontology.model/model/owlontology.ecore#//OntologyClassEquivalence"/>
+  </eClassifiers>
+  <eClassifiers xsi:type="ecore:EClass" name="ObjectPropertyEqualsMapping" eSuperTypes="#//EqualsMapping">
+    <eStructuralFeatures xsi:type="ecore:EReference" name="objectProperty1" lowerBound="1"
+        eType="ecore:EClass ../../net.bhl.oida.ontology.model/model/owlontology.ecore#//OntologyObjectProperty"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="objectProperty2" lowerBound="1"
+        eType="ecore:EClass ../../net.bhl.oida.ontology.model/model/owlontology.ecore#//OntologyObjectProperty"/>
+    <eStructuralFeatures xsi:type="ecore:EReference" name="equivalence" lowerBound="1"
+        eType="ecore:EClass ../../net.bhl.oida.ontology.model/model/owlontology.ecore#//OntologyObjectPropertyEquivalence"/>
+  </eClassifiers>
+</ecore:EPackage>

@@ -1,0 +1,32 @@
+import net.bhl.oida.ontology.model.owlontology.Ontology
+import net.bhl.oida.ontology.ui.view.NamespacesView
+
+/**
+ * 
+ * @since 2016-11-08
+ * @author Michael.Shamiyeh
+ * 
+ */
+module net.bhl.oida.ontology.ui.NamespacesView {
+	parts {
+		viewpart net.bhl.oida.ontology.ui.view.NamespacesView {
+			viewname "NamespacesView"
+			viewclass NamespacesView
+		}
+	}
+	
+	featuresProvider {
+		features {
+			Ontology -> namespaces
+		}
+	}
+
+	viewerContentProvider {
+		elements {
+			Ontology -> namespaces
+		}
+		children{
+			Ontology -> namespaces
+		}
+	}
+}

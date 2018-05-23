@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Default Recommender
+Bundle-SymbolicName: net.bhl.oida.bridge.recommender.name;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: Bauhaus Luftfahrt e.V.
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Import-Package: net.bhl.oida.util.constants,
+ org.eclipse.emf.common.notify,
+ org.eclipse.emf.ecore.util
+Require-Bundle: net.bhl.oida.bridge;bundle-version="1.0.0",
+ net.bhl.oida.bridge.model
+Automatic-Module-Name: oida.bridge.recommender.name

@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.0"?>
+
+<!--
+-->
+
+<plugin>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated model -->
+      <package
+            uri="http://net/bauhaus-luftfahrt/oida/ontology/model/ontologymgr"
+            class="net.bhl.oida.ontology.model.ontologymgr.OntologymgrPackage"
+            genModel="model/model.genmodel"/>
+   </extension>
+
+   <extension point="org.eclipse.emf.ecore.generated_package">
+      <!-- @generated model -->
+      <package
+            uri="http://net/bauhaus-luftfahrt/oida/ontology/model/owlontology"
+            class="net.bhl.oida.ontology.model.owlontology.OwlontologyPackage"
+            genModel="model/model.genmodel"/>
+   </extension>
+
+</plugin>

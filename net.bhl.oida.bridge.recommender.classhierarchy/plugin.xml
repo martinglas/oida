@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="oida.bridge.recommender.secondary.class">
+      <client
+            class="net.bhl.oida.bridge.recommender.classhierarchy.ClassHierarchyRecommender">
+      </client>
+   </extension>
+   <extension
+         point="oida.bridge.recommender.primary">
+      <client
+            class="net.bhl.oida.bridge.recommender.classhierarchy.IndividualClassRecommender">
+      </client>
+   </extension>
+	<extension
+         point="oida.bridge.recommender.primary">
+      <client
+            class="net.bhl.oida.bridge.recommender.classhierarchy.ProjectRepoRecommender">
+      </client>
+   </extension>
+</plugin>

@@ -1,0 +1,29 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: OIDA Core
+Bundle-SymbolicName: net.bhl.oida.util
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: Bauhaus Luftfahrt e.V.
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Require-Bundle: org.eclipse.osgi,
+ org.eclipse.equinox.registry,
+ org.eclipse.core.resources,
+ net.bhl.oida.ontology.model;bundle-version="0.1.0"
+Export-Package: net.bhl.oida.util,
+ net.bhl.oida.util.bundle,
+ net.bhl.oida.util.constants,
+ net.bhl.oida.util.ui.e4,
+ org.slf4j,
+ org.slf4j.helpers,
+ org.slf4j.impl,
+ org.slf4j.spi
+Bundle-ClassPath: .,
+ lib/slf4j-api-1.7.14.jar,
+ lib/slf4j-simple-1.7.14.jar
+Bundle-Activator: net.bhl.oida.util.Activator
+Import-Package: org.eclipse.e4.ui.workbench.modeling,
+ org.eclipse.emf.edit,
+ org.eclipse.emf.parsley.viewers,
+ org.eclipse.jface.viewers,
+ org.eclipse.swt.widgets
+Automatic-Module-Name: oida.util

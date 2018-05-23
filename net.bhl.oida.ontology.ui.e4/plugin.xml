@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         id="oida.ontology.ui.e4.fragment"
+         point="org.eclipse.e4.workbench.model">
+      <fragment
+            uri="fragment.e4xmi">
+      </fragment>
+   </extension>
+   <extension
+         point="org.eclipse.ui.views">
+      <view
+            category="org.eclipse.emf.parsley"
+            class="net.bhl.oida.ontology.ui.IndividualsView.IndividualsViewExecutableExtensionFactory:net.bhl.oida.ontology.ui.view.IndividualsView"
+            id="net.bhl.oida.ontology.ui.view.IndividualsView"
+            name="Individuals"
+            restorable="true">
+      </view>
+      <view
+            category="org.eclipse.emf.parsley"
+            class="net.bhl.oida.ontology.ui.ClassesView.ClassesViewExecutableExtensionFactory:net.bhl.oida.ontology.ui.view.ClassesView"
+            id="net.bhl.oida.ontology.ui.view.OntologyView"
+            name="Classes"
+            restorable="true">
+      </view>
+      <view
+            category="org.eclipse.emf.parsley"
+            class="net.bhl.oida.ontology.ui.ClassDetailView.ClassDetailViewExecutableExtensionFactory:net.bhl.oida.ontology.ui.view.ClassDetailView"
+            id="net.bhl.oida.ontology.ui.view.ClassDetailView"
+            name="Class Details"
+            restorable="true">
+      </view>
+      <view
+            category="org.eclipse.emf.parsley"
+            class="net.bhl.oida.ontology.ui.NamespacesView.NamespacesViewExecutableExtensionFactory:net.bhl.oida.ontology.ui.view.NamespacesView"
+            id="net.bhl.oida.ontology.ui.view.NamespacesView"
+            name="NamespacesView"
+            restorable="true">
+      </view>
+      <view
+            category="org.eclipse.emf.parsley"
+            class="net.bhl.oida.ontology.ui.ObjectPropertyView.ObjectPropertyViewExecutableExtensionFactory:net.bhl.oida.ontology.ui.view.ObjectPropertiesView"
+            id="net.bhl.oida.ontology.ui.view.ObjectPropertyView"
+            name="Object Properties"
+            restorable="true">
+      </view>
+      <view
+            category="org.eclipse.emf.parsley"
+            class="net.bhl.oida.ontology.ui.OntologyLibraryView.OntologyLibraryViewExecutableExtensionFactory:net.bhl.oida.ontology.ui.view.OntologyLibraryView"
+            id="net.bhl.oida.ontology.ui.OntologyLibraryView"
+            name="Ontology Library"
+            restorable="true">
+      </view>
+   </extension>
+</plugin>

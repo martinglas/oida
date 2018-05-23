@@ -1,0 +1,46 @@
+import net.bhl.oida.ontology.model.owlontology.Ontology
+import net.bhl.oida.ontology.model.owlontology.OntologyClass
+import net.bhl.oida.ontology.ui.view.ClassesView
+
+/**
+ * 
+ * @since 2016-11-08
+ * @author Michael Shamiyeh
+ * 
+ */
+module net.bhl.oida.ontology.ui.ClassesView {
+	parts {
+		viewpart net.bhl.oida.ontology.ui.view.OntologyView {
+			viewname "Classes"
+			viewclass ClassesView
+		}
+	}
+	
+	featuresProvider {
+		features {
+			Ontology -> classHierarchy
+			OntologyClass -> subClasses
+		}
+	}
+
+	viewerContentProvider {
+		elements {
+			Ontology -> classHierarchy
+		}
+		children {
+			Ontology -> classHierarchy
+			OntologyClass c -> c.subClasses
+		}
+	}
+
+	labelProvider {
+		text {
+			Ontology o -> o.iri
+			OntologyClass c -> c.name
+		}
+		
+		image {
+			OntologyClass -> "Class.png"
+		}
+	}
+}

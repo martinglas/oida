@@ -1,0 +1,122 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<genmodel:GenModel xmi:version="2.0" xmlns:xmi="http://www.omg.org/XMI" xmlns:ecore="http://www.eclipse.org/emf/2002/Ecore"
+    xmlns:genmodel="http://www.eclipse.org/emf/2002/GenModel" modelDirectory="/net.bhl.oida.ontology.model/src-gen" editDirectory="/net.bhl.oida.ontology.model.edit/src-gen"
+    editorDirectory="/net.bhl.oida.ontology.model.editor/src-gen" modelPluginID="net.bhl.oida.ontology.model"
+    modelName="Model" rootExtendsClass="org.eclipse.emf.ecore.impl.MinimalEObjectImpl$Container"
+    testsDirectory="/net.bhl.oida.ontology.model.tests/src-gen" importerID="org.eclipse.emf.importer.ecore"
+    complianceLevel="8.0" copyrightFields="false" operationReflection="true" importOrganizing="true">
+  <foreignModel>ontologymgr.ecore</foreignModel>
+  <foreignModel>owlontology.ecore</foreignModel>
+  <genPackages prefix="Ontologymgr" basePackage="net.bhl.oida.ontology.model" disposableProviderFactory="true"
+      ecorePackage="ontologymgr.ecore#/">
+    <genClasses ecoreClass="ontologymgr.ecore#//Library">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ontologymgr.ecore#//Library/owner"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ontologymgr.ecore#//Library/creationDate"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ontologymgr.ecore#//Library/referenceOntology"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference ontologymgr.ecore#//Library/ontologies"/>
+    </genClasses>
+    <genClasses ecoreClass="ontologymgr.ecore#//OntologyMetaInfo">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ontologymgr.ecore#//OntologyMetaInfo/iri"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference ontologymgr.ecore#//OntologyMetaInfo/ontology"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ontologymgr.ecore#//OntologyMetaInfo/loadAtStartup"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ontologymgr.ecore#//OntologyMetaInfo/nrOfClasses"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ontologymgr.ecore#//OntologyMetaInfo/nrOfIndividuals"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ontologymgr.ecore#//OntologyMetaInfo/nrOfObjectProperties"/>
+    </genClasses>
+    <genClasses ecoreClass="ontologymgr.ecore#//LocalOntologyMetaInfo">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute ontologymgr.ecore#//LocalOntologyMetaInfo/localPath"/>
+    </genClasses>
+    <genClasses ecoreClass="ontologymgr.ecore#//SystemOntologyMetaInfo"/>
+  </genPackages>
+  <genPackages prefix="Owlontology" basePackage="net.bhl.oida.ontology.model" disposableProviderFactory="true"
+      ecorePackage="owlontology.ecore#/">
+    <genClasses image="false" ecoreClass="owlontology.ecore#//IMappable">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owlontology.ecore#//IMappable/mappingExists"/>
+    </genClasses>
+    <genClasses image="false" ecoreClass="owlontology.ecore#//AOntologyItem">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference owlontology.ecore#//AOntologyItem/containingOntology"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owlontology.ecore#//AOntologyItem/iri"/>
+    </genClasses>
+    <genClasses ecoreClass="owlontology.ecore#//Ontology">
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference owlontology.ecore#//Ontology/namespaces"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference owlontology.ecore#//Ontology/imports"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference owlontology.ecore#//Ontology/classes"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference owlontology.ecore#//Ontology/classHierarchy"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference owlontology.ecore#//Ontology/individuals"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference owlontology.ecore#//Ontology/objectPropertyHierarchy"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference owlontology.ecore#//Ontology/objectProperties"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference owlontology.ecore#//Ontology/annotationProperties"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference owlontology.ecore#//Ontology/classEquivalences"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference owlontology.ecore#//Ontology/objectPropertyEquivalences"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference owlontology.ecore#//Ontology/classAssertions"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference owlontology.ecore#//Ontology/localOntology"/>
+    </genClasses>
+    <genClasses ecoreClass="owlontology.ecore#//OntologyNamespace"/>
+    <genClasses ecoreClass="owlontology.ecore#//OntologyEntity">
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owlontology.ecore#//OntologyEntity/name"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owlontology.ecore#//OntologyEntity/prefix"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference owlontology.ecore#//OntologyEntity/annotations"/>
+    </genClasses>
+    <genClasses ecoreClass="owlontology.ecore#//OntologyClass">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference owlontology.ecore#//OntologyClass/individuals"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference owlontology.ecore#//OntologyClass/superClasses"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference owlontology.ecore#//OntologyClass/subClasses"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference owlontology.ecore#//OntologyClass/equivalentClasses"/>
+      <genFeatures property="None" children="true" createChild="true" ecoreFeature="ecore:EReference owlontology.ecore#//OntologyClass/someValuesFrom"/>
+    </genClasses>
+    <genClasses ecoreClass="owlontology.ecore#//OntologyIndividual">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference owlontology.ecore#//OntologyIndividual/types"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference owlontology.ecore#//OntologyIndividual/objectPropertyAssertions"/>
+    </genClasses>
+    <genClasses ecoreClass="owlontology.ecore#//OntologyProperty">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference owlontology.ecore#//OntologyProperty/superProperties"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference owlontology.ecore#//OntologyProperty/domain"/>
+    </genClasses>
+    <genClasses ecoreClass="owlontology.ecore#//OntologyObjectProperty">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference owlontology.ecore#//OntologyObjectProperty/subObjectProperties"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference owlontology.ecore#//OntologyObjectProperty/inverseObjectProperties"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference owlontology.ecore#//OntologyObjectProperty/equivalentProperties"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference owlontology.ecore#//OntologyObjectProperty/range"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owlontology.ecore#//OntologyObjectProperty/functional"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owlontology.ecore#//OntologyObjectProperty/inverseFunctional"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owlontology.ecore#//OntologyObjectProperty/transitive"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owlontology.ecore#//OntologyObjectProperty/symmetric"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owlontology.ecore#//OntologyObjectProperty/asymmetric"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owlontology.ecore#//OntologyObjectProperty/reflexive"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owlontology.ecore#//OntologyObjectProperty/irreflexive"/>
+    </genClasses>
+    <genClasses ecoreClass="owlontology.ecore#//OntologyObjectPropertyAssertion">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference owlontology.ecore#//OntologyObjectPropertyAssertion/objectProperty"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference owlontology.ecore#//OntologyObjectPropertyAssertion/object"/>
+    </genClasses>
+    <genClasses ecoreClass="owlontology.ecore#//OntologyDatatypeProperty">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference owlontology.ecore#//OntologyDatatypeProperty/range"/>
+    </genClasses>
+    <genClasses ecoreClass="owlontology.ecore#//OntologyDataType"/>
+    <genClasses ecoreClass="owlontology.ecore#//OntologyAnnotationProperty"/>
+    <genClasses ecoreClass="owlontology.ecore#//OntologyAnnotation">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference owlontology.ecore#//OntologyAnnotation/annotationproperty"/>
+      <genFeatures createChild="false" ecoreFeature="ecore:EAttribute owlontology.ecore#//OntologyAnnotation/value"/>
+    </genClasses>
+    <genClasses ecoreClass="owlontology.ecore#//OntologyClassEquivalence">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference owlontology.ecore#//OntologyClassEquivalence/class1"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference owlontology.ecore#//OntologyClassEquivalence/class2"/>
+    </genClasses>
+    <genClasses ecoreClass="owlontology.ecore#//OntologyObjectPropertyEquivalence">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference owlontology.ecore#//OntologyObjectPropertyEquivalence/objectProperty1"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference owlontology.ecore#//OntologyObjectPropertyEquivalence/objectProperty2"/>
+    </genClasses>
+    <genClasses ecoreClass="owlontology.ecore#//OntologySubClassAssignment">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference owlontology.ecore#//OntologySubClassAssignment/subClass"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference owlontology.ecore#//OntologySubClassAssignment/superClass"/>
+    </genClasses>
+    <genClasses ecoreClass="owlontology.ecore#//OntologyObjectSomeValuesFrom">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference owlontology.ecore#//OntologyObjectSomeValuesFrom/objectProperty"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference owlontology.ecore#//OntologyObjectSomeValuesFrom/clazz"/>
+    </genClasses>
+    <genClasses ecoreClass="owlontology.ecore#//OntologyClassAssertion">
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference owlontology.ecore#//OntologyClassAssertion/class"/>
+      <genFeatures notify="false" createChild="false" propertySortChoices="true" ecoreFeature="ecore:EReference owlontology.ecore#//OntologyClassAssertion/individual"/>
+    </genClasses>
+  </genPackages>
+</genmodel:GenModel>

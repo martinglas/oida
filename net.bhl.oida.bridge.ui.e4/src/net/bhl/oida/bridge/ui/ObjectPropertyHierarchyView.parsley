@@ -1,0 +1,50 @@
+import net.bhl.oida.bridge.ui.view.ObjectPropertyHierarchyView
+import net.bhl.oida.ontology.model.owlontology.Ontology
+import net.bhl.oida.ontology.model.owlontology.OntologyObjectProperty
+
+/**
+ * 
+ * @since 2017-04-25
+ * @author Michael Shamiyeh
+ * 
+ */
+module net.bhl.oida.bridge.ui.ObjectPropertyHierarchyView {
+	parts {
+		viewpart net.bhl.oida.bridge.ui.view.ObjectPropertyHierarchyView {
+			viewname "Object Property"
+			viewclass ObjectPropertyHierarchyView
+		}
+	}
+	
+	featuresProvider {
+		features {
+			Ontology -> objectPropertyHierarchy
+			OntologyObjectProperty -> subObjectProperties
+		}
+	}
+
+	viewerContentProvider {
+		elements {
+			Ontology -> objectPropertyHierarchy
+		}
+		children {
+			Ontology -> objectPropertyHierarchy
+			OntologyObjectProperty op -> op.subObjectProperties
+		}
+	}
+
+	labelProvider {
+		text {
+			Ontology o -> o.iri
+			OntologyObjectProperty op -> op.name
+		}
+		
+		image {
+			OntologyObjectProperty op ->
+				if (op.mappingExists)
+					"ObjectPropertyMapped.png"
+				else
+					"ObjectProperty.png"
+		}
+	}
+}

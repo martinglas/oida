@@ -1,0 +1,32 @@
+import net.bhl.oida.bridge.model.recommendation.Recommendation
+import net.bhl.oida.bridge.ui.view.RecommendationFormView
+
+/* oida.bridge.ui.e4 Emf Parsley Dsl Module file */
+module net.bhl.oida.bridge.ui.RecommendationFormView {
+	parts {
+		viewpart net.bhl.oida.bridge.ui.RecommendationFormView {
+			viewname "Recommendation"
+			viewclass RecommendationFormView
+		}
+	}
+	
+	featuresProvider {
+		features {
+			Recommendation -> recommenderName, recommenderMessage, reliability
+		}
+	}
+	
+	formFeatureCaptionProvider {
+		text {
+			Recommendation : recommenderName -> "Source: "
+			Recommendation : recommenderMessage -> "Comment: "
+			Recommendation : reliability -> "Reliability: "
+		}
+	}
+
+//	labelProvider {
+//		text {
+//			Recommendation : reliability -> String.format("%1$,.2f", reliability) + '%'
+//		}
+//	}
+}

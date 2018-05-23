@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="oida.bridge.model.structuringstrategy">
+      <client
+            class="net.bhl.oida.cdt.strategy.OpenCDTStructuringStrategy">
+      </client>
+   </extension>
+   <extension
+         point="oida.bridge.model.renamerstrategy">
+      <client
+            class="net.bhl.oida.cdt.strategy.OpenCDTRenamerStrategy">
+      </client>
+   </extension>
+
+</plugin>

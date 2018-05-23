@@ -1,0 +1,47 @@
+import java.util.List
+import net.bhl.oida.bridge.model.recommendation.Recommendation
+import net.bhl.oida.bridge.model.recommendation.RecommendationPackage
+import net.bhl.oida.bridge.ui.view.RecommendationsView
+
+/* oida.bridge.ui.e4 Emf Parsley Dsl Module file */
+module net.bhl.oida.bridge.ui.RecommendationsView {
+	parts {
+		viewpart net.bhl.oida.bridge.ui.RecommendationsView {
+			viewname "OIDA Recommendations"
+			viewclass RecommendationsView
+		}
+	}
+	
+	tableFeaturesProvider {
+		features {
+			Recommendation -> recommendedEntity, reliability, recommenderName, recommenderMessage
+		}
+	}
+
+	featureCaptionProvider {
+		text {
+			Recommendation : recommenderName -> "Source"
+			Recommendation : recommendedEntity -> "Recommended Concept"
+			Recommendation : reliability -> "Reliability"
+			Recommendation : recommenderMessage -> "Comment"
+		}
+	}
+
+	tableLabelProvider {
+		text {
+			Recommendation : reliability -> String.format("%1$,.2f", reliability) + '%'
+		}
+	}
+
+	bindings {
+		value List<Integer> TableColumnWeights -> #[50, 25, 25]
+	}
+	
+	configurator {
+		eClass {
+			RecommendationsView -> {
+				RecommendationPackage.eINSTANCE.recommendation
+			}
+		}
+	}
+}

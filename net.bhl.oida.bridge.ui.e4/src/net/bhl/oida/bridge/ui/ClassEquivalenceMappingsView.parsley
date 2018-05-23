@@ -1,0 +1,66 @@
+/*******************************************************************************
+ * <copyright> Copyright (c) 2009-2017 Bauhaus Luftfahrt e.V.. All rights reserved. This program and the accompanying
+ * materials are made available under the terms of the Eclipse Public License v1.0 which accompanies this distribution,
+ * and is available at http://www.eclipse.org/legal/epl-v10.html </copyright>
+ ******************************************************************************/
+
+import net.bhl.oida.bridge.model.mapping.ClassEqualsMapping
+import net.bhl.oida.bridge.model.mapping.MappingSet
+import net.bhl.oida.bridge.ui.view.ClassEquivalenceMappingsView
+
+/**
+ * 
+ * @since 2016-11-08
+ * @author Michael.Shamiyeh
+ * 
+ */
+module net.bhl.oida.ontology.ui.view.ClassEquivalenceMappingsView {
+	parts {
+		viewpart net.bhl.oida.bridge.ui.view.ClassEquivalenceMappingsView {
+			viewname "Class-Equivalence Mappings"
+			viewclass ClassEquivalenceMappingsView
+		}
+	}
+	
+	featuresProvider {
+		features {
+			ClassEqualsMapping -> clazz1, clazz2
+		}
+	}
+
+	viewerContentProvider {
+		elements {
+			MappingSet -> mappings
+		}
+		children {
+			MappingSet -> mappings
+		}
+	}
+	
+	labelProvider {
+		text {
+			ClassEqualsMapping m -> {
+				m.clazz1.name + " -> " + m.clazz2.name
+			}
+		}
+		
+		image {
+			MappingSet -> "Mapping.png"
+			ClassEqualsMapping -> "Mapping.png"
+		}
+	}
+
+	formControlFactory {
+		control {
+			ClassEqualsMapping : clazz1 -> createLabel(clazz1.iri)
+			ClassEqualsMapping : clazz2 -> createLabel(clazz2.iri)
+		}
+	}
+	
+	formFeatureCaptionProvider{
+		text{
+			ClassEqualsMapping:clazz1 -> "Meta Model Class:"
+			ClassEqualsMapping:clazz2 -> "Reference Class:"
+		}
+	}
+}

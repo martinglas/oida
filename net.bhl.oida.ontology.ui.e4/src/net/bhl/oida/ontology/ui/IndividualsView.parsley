@@ -1,0 +1,43 @@
+import net.bhl.oida.ontology.model.owlontology.OntologyClass
+import net.bhl.oida.ontology.model.owlontology.OntologyIndividual
+import net.bhl.oida.ontology.ui.view.IndividualsView
+
+/**
+ * 
+ * @since 2016-11-08
+ * @author Michael.Shamiyeh
+ * 
+ */
+module net.bhl.oida.ontology.ui.IndividualsView {
+	parts {
+		viewpart net.bhl.oida.ontology.ui.view.IndividualsView {
+			viewname "Individuals"
+			viewclass IndividualsView
+		}
+	}
+	
+	featuresProvider {
+		features {
+			OntologyClass -> individuals
+			OntologyIndividual -> name, prefix
+		}
+	}
+
+	viewerContentProvider {
+		elements {
+			OntologyClass -> individuals
+		}
+		children {
+			OntologyClass -> individuals
+		}
+	}
+
+	labelProvider {
+		text {
+			OntologyIndividual i -> i.name
+		}
+		image {
+			OntologyIndividual -> "Individual.png"
+		}
+	}
+}
