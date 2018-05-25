@@ -14,6 +14,7 @@ import org.eclipse.swt.widgets.Composite;
 
 import com.google.inject.Injector;
 
+import net.bhl.oida.bridge.model.recommendation.RecommendationFactory;
 import net.bhl.oida.bridge.ui.RecommendationFormView.RecommendationFormViewInjectorProvider;
 
 /**
@@ -44,7 +45,12 @@ public class RecommendationDetailsPart implements ISelectionListener {
 	    formComposite.dispose();
 
 	formComposite = viewerFactory.createFormDetailReadOnlyComposite(parent, SWT.NONE);
-	formComposite.init((EObject)selection);
+	
+	if (!(selection instanceof Object[]))
+	    formComposite.init((EObject)selection);
+	else
+	    formComposite.init(RecommendationFactory.eINSTANCE.createRecommendation());
+
 	parent.layout();
     }
 }

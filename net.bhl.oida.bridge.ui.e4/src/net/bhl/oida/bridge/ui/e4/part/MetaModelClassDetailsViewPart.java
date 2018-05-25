@@ -16,27 +16,27 @@ import net.bhl.oida.bridge.model.mapping.ClassEqualsMapping;
 import net.bhl.oida.ontology.ui.ClassDetailView.ClassDetailViewInjectorProvider;
 
 public class MetaModelClassDetailsViewPart {
-	private FormDetailComposite formComposite;
+    private FormDetailComposite formComposite;
 
-	private FormFactory viewerFactory;
+    private FormFactory viewerFactory;
 
-	@PostConstruct
-	public void postConstruct(Composite parent, ESelectionService selectionService) {
-		Injector injector = ClassDetailViewInjectorProvider.getInjector();
-		viewerFactory = injector.getInstance(FormFactory.class);
-		
-		selectionService.addSelectionListener(ClassEquivalenceMappingsViewPart.PART_ID, new ISelectionListener() {
-			@Override
-			public void selectionChanged(MPart part, Object selection) {
-				if (formComposite != null)
-					formComposite.dispose();
+    @PostConstruct
+    public void postConstruct(Composite parent, ESelectionService selectionService) {
+	Injector injector = ClassDetailViewInjectorProvider.getInjector();
+	viewerFactory = injector.getInstance(FormFactory.class);
 
-				if (selection instanceof ClassEqualsMapping) {
-					formComposite = viewerFactory.createFormDetailReadOnlyComposite(parent, SWT.NONE);
-					formComposite.init(((ClassEqualsMapping)selection).getClazz1());
-					parent.layout();
-				}
-			}
-		});
-	}
+	selectionService.addSelectionListener(ClassEquivalenceMappingsViewPart.PART_ID, new ISelectionListener() {
+	    @Override
+	    public void selectionChanged(MPart part, Object selection) {
+		if (formComposite != null)
+		    formComposite.dispose();
+
+		if (selection instanceof ClassEqualsMapping) {
+		    formComposite = viewerFactory.createFormDetailReadOnlyComposite(parent, SWT.NONE);
+		    formComposite.init(((ClassEqualsMapping)selection).getClazz1());
+		    parent.layout();
+		}
+	    }
+	});
+    }
 }

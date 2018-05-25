@@ -174,8 +174,9 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 	    updateIRIMappings();
 
 	    owlOntology = owlOntologyManager.loadOntology(IRI.create(iri));
+	    owlPrefixManager = (OWLXMLDocumentFormat)owlOntologyManager.getOntologyFormat(owlOntology);
 	    owlPrefixManager.setDefaultPrefix(owlOntology.getOntologyID().getOntologyIRI().get().getIRIString());
-	    owlOntologyManager.setOntologyFormat(owlOntology, owlPrefixManager);
+	    //owlOntologyManager.setOntologyFormat(owlOntology, owlPrefixManager);
 	    initializeInternalOntology(metaInfo);
 
 	    refreshOntologyRepresentation(true);
@@ -203,6 +204,8 @@ public class OwlOntologyManager extends AbstractOntologyManager {
     public void refreshOntologyRepresentationInternal(OWLOntology owlOntology, boolean buildLocalRepresentation) {
 	extractImports(owlOntology, getOntology());
 
+	extractNamespaces(getOntology());
+	
 	// Classes:
 	Stream<OWLClass> allClasses = owlOntology.classesInSignature(Imports.INCLUDED);
 	List<OWLSubClassOfAxiom> allSubClassOfAxioms = owlOntology.axioms(AxiomType.SUBCLASS_OF, Imports.INCLUDED).collect(Collectors.toList());
@@ -267,6 +270,11 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 	    ontology.getImports().add(OntologyManagerUtils.generateInternalOntologyObject(importedOwlOntology.getOntologyID().getOntologyIRI().get().getIRIString()));
 
 	ontology.getLocalOntology().getImports().addAll(ontology.getImports());
+    }
+    
+    private void extractNamespaces(Ontology ontology) {
+	for(String prefix : owlPrefixManager.getPrefixName2PrefixMap().keySet())
+	    ontology.getNamespaces().add(OntologyManagerUtils.generateInternalNamespaceObject(ontology, owlPrefixManager.getPrefixName2PrefixMap().get(prefix), prefix));
     }
 
     private void extractClassHierarchy(Ontology ontology, Stream<OWLClass> classes, List<OWLSubClassOfAxiom> owlSubClassOfAxioms, List<OWLEquivalentClassesAxiom> owlClassEquivalences,

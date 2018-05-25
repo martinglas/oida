@@ -50,6 +50,7 @@ import net.bhl.oida.ontology.model.owlontology.Ontology;
 import net.bhl.oida.ontology.model.owlontology.OntologyClass;
 import net.bhl.oida.ontology.model.owlontology.OntologyClassEquivalence;
 import net.bhl.oida.ontology.model.owlontology.OntologyIndividual;
+import net.bhl.oida.ontology.model.owlontology.OntologyNamespace;
 import net.bhl.oida.ontology.model.owlontology.OntologyObjectProperty;
 import net.bhl.oida.ontology.model.owlontology.OntologyObjectPropertyEquivalence;
 import net.bhl.oida.ontology.predefined.Mereology;
@@ -332,6 +333,7 @@ public final class OIDABridge {
 	if (optModelOntologyMgr.isPresent()) {
 	    IModelChangeHandler changeHandler = changeHandlerFactory.getChangeHandler();
 
+	    extractMappings(optModelOntologyMgr.get());
 	    changeHandler.setSuperModelChangeHandler(getMetaModelHandler());
 	    changeHandler.startChangeTracking(renamerStrategy, structuringStrategy, getMetaModelHandler().getModelOntologyManager(), optModelOntologyMgr.get(), modelObject);
 	    modelHandlerMap.put(modelObject, changeHandler);
@@ -427,6 +429,23 @@ public final class OIDABridge {
 	    }
 	}
 
+	for (OntologyIndividual individual : modelOntologyManager.getOntology().getIndividuals()) {
+	    if (individual.getIri().contains(modelOntologyManager.getOntology().getIri())) {
+		for (OntologyClass clazz : individual.getTypes()) {
+		    try {
+			for (OntologyNamespace nspc : getReferenceOntology().getNamespaces()) {
+			    if (clazz.getIri().contains(nspc.getName())) {
+				createInstanceOfMapping(clazz, individual);
+				System.out.println("MAPPING FOUND!!!!!");
+				break;
+			    }
+			}
+		    } catch (OIDABridgeException e) {
+			e.printStackTrace();
+		    }
+		}
+	    }
+	}
 	// instance of relationships
 	// for (OntologyClassEquivalence equ :
 	// modelOntologyManager.getOntology().getLocalOntology().getClassEquivalences())
@@ -458,15 +477,13 @@ public final class OIDABridge {
 	    OntologyIndividual mappedIndividual = (OntologyIndividual)recSet.getOntologyEntity();
 	    modelOntologyManager.assignIndividualToClass((OntologyIndividual)recSet.getOntologyEntity(), (OntologyClass)selectedRecommendation.getRecommendedEntity());
 
-	    InstanceOfMapping mapping = MappingFactory.eINSTANCE.createInstanceOfMapping();
-	    mapping.setClazz((OntologyClass)selectedRecommendation.getRecommendedEntity());
-	    mapping.setIndividual(mappedIndividual);
-
-	    mappedIndividual.setMappingExists(true);
-
-	    getModelMappings().getMappings().add(mapping);
-
-	    LOGGER.info("Primary Mapping establisehd. Individual '" + recSet.getOntologyEntity().getIri() + "' is of type '" + selectedRecommendation.getRecommendedEntity().getIri() + "'");
+	    createInstanceOfMapping((OntologyClass)selectedRecommendation.getRecommendedEntity(), mappedIndividual);
+	    try {
+		modelOntologyManager.saveLocalOntology();
+		LOGGER.info("Primary Mapping establisehd. Individual '" + recSet.getOntologyEntity().getIri() + "' is of type '" + selectedRecommendation.getRecommendedEntity().getIri() + "'");
+	    } catch (OntologyManagerException e) {
+		e.printStackTrace();
+	    }
 	}
     }
 
@@ -485,18 +502,9 @@ public final class OIDABridge {
 	    Optional<OntologyClassEquivalence> optEquivalence = modelOntMgr.assignClassEquivalence(metaModelClass, referenceClass);
 
 	    if (optEquivalence.isPresent()) {
-		ClassEqualsMapping mapping = MappingFactory.eINSTANCE.createClassEqualsMapping();
-		mapping.setClazz1(metaModelClass);
-		mapping.setClazz2(referenceClass);
-		mapping.setEquivalence(optEquivalence.get());
 
-		metaModelClass.setMappingExists(true);
-		referenceClass.setMappingExists(true);
-
-		getMetaModelClassMappings().getMappings().add(mapping);
-
+		createClassMapping(optEquivalence.get(), metaModelClass, referenceClass);
 		LOGGER.info("Secondary class-mapping established: '" + metaModelClass.getIri() + "' equals '" + referenceClass.getIri() + "'.");
-
 		modelOntMgr.saveLocalOntology();
 	    }
 	} catch (OIDABridgeException inner) {
@@ -628,6 +636,18 @@ public final class OIDABridge {
 
 	metaModelObjProperty.setMappingExists(true);
 	referenceObjProperty.setMappingExists(true);
+
+	return mapping;
+    }
+
+    private InstanceOfMapping createInstanceOfMapping(OntologyClass clazz, OntologyIndividual individual) {
+	InstanceOfMapping mapping = MappingFactory.eINSTANCE.createInstanceOfMapping();
+	mapping.setClazz(clazz);
+	mapping.setIndividual(individual);
+
+	getModelMappings().getMappings().add(mapping);
+
+	individual.setMappingExists(true);
 
 	return mapping;
     }
