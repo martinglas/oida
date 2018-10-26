@@ -16,4 +16,5 @@ public class StringConstants {
 	
 	public static final String BACKSLASH = "\\";
 	public static final String SLASH = "/";
+	public static final String NEWLINE = System.getProperty("line.separator");
 }

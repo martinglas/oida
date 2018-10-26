@@ -154,6 +154,6 @@ public final class EMFModelChangeHandler extends AbstractModelChangeHandler {
 	Optional<OntologyIndividual> individual = getOntologyIndividualForModelElement(eObject);
 
 	if (referenceObjectProperty.isPresent() && containerIndividual.isPresent() && individual.isPresent())
-	    modelOntologyManager.createObjectPropertyAssertion(referenceObjectProperty.get(), containerIndividual.get(), individual.get());
+	    modelOntologyManager.createObjectPropertyAssertion(referenceObjectProperty.get(), individual.get(), containerIndividual.get());
     }
 }

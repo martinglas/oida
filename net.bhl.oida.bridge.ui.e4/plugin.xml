@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <?eclipse version="3.4"?>
 <plugin>
+   <extension-point id="net.bhl.oida.bridge.ui.e4.uiarrangements" name="OIDA UI Arrangements" schema="schema/net.bhl.oida.bridge.ui.e4.uiarrangements.exsd"/>
    <extension
          point="org.eclipse.ui.views">
       <view
@@ -45,5 +46,10 @@
       <fragment
             uri="fragment.e4xmi">
       </fragment>
+      <processor
+            apply="always"
+            beforefragment="false"
+            class="net.bhl.oida.bridge.ui.e4.OIDABridgeE4Processor">
+      </processor>
    </extension>
 </plugin>

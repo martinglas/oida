@@ -13,5 +13,10 @@
             class="net.bhl.oida.cdt.strategy.OpenCDTRenamerStrategy">
       </client>
    </extension>
-
+   <extension
+         point="net.bhl.oida.bridge.ui.e4.uiarrangements">
+      <client
+            class="net.bhl.cdt.oida.ui.OpenCDTOIDAUIArrangements">
+      </client>
+   </extension>
 </plugin>

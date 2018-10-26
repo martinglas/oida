@@ -5,7 +5,8 @@ Bundle-SymbolicName: net.bhl.oida.bridge.ui.e4;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: net.bhl.oida.bridge.ui.Activator
 Bundle-Vendor: Bauhaus Luftfahrt e.V.
-Export-Package: net.bhl.oida.bridge.ui.e4.part
+Export-Package: net.bhl.oida.bridge.ui.e4,
+ net.bhl.oida.bridge.ui.e4.part
 Require-Bundle: org.eclipse.core.runtime,
  org.eclipse.xtext.xbase.lib,
  org.eclipse.ui,
@@ -23,9 +24,10 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Import-Package: javax.annotation;version="1.0.0";resolution:=optional,
  javax.inject;version="1.0.0",
+ net.bhl.oida.ontology.ui.ClassDetailView,
+ net.bhl.oida.util,
  net.bhl.oida.util.constants,
  net.bhl.oida.util.ui.e4,
- net.bhl.oida.ontology.ui.ClassDetailView,
  org.apache.commons.logging,
  org.apache.log4j
 Automatic-Module-Name: oida.bridge.ui.e4

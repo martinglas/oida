@@ -9,3 +9,5 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Require-Bundle: net.bhl.oida.bridge;bundle-version="1.0.0",
  net.bhl.oida.bridge.model
 Bundle-ActivationPolicy: lazy
+Import-Package: net.bhl.oida.ontology.predefined,
+ net.bhl.oida.util.constants

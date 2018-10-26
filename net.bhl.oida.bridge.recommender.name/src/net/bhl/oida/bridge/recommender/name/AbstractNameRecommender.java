@@ -44,7 +44,10 @@ public abstract class AbstractNameRecommender<T extends OntologyEntity> extends 
 		r.setRecommenderName(getName());
 		r.setRecommendationType(getRecommendationType());
 		r.setReliability(LevenshteinStringSimilarity.similarity(entity.getName().toLowerCase(), selectedElementName.toLowerCase()) * 100);
-		r.setRecommenderMessage("The name '" + entity.getName() + "' contains the string '" + selectedElementName + "'");
+		r.setRecommenderMessage("The name of the item" + StringConstants.NEWLINE +
+			"'" + entity.getName() + "'" + StringConstants.NEWLINE +
+			"in the knowledge-base is similar to the string" + StringConstants.NEWLINE +
+			"'" + selectedElementName + "'");
 		recommendations.add(r);
 	    }
 	}

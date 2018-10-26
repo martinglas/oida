@@ -28,6 +28,7 @@ import net.bhl.oida.ontology.model.owlontology.OntologyEntity;
 import net.bhl.oida.ontology.model.owlontology.OntologyIndividual;
 import net.bhl.oida.ontology.model.owlontology.OntologyObjectProperty;
 import net.bhl.oida.util.ExtensionPointUtil;
+import net.bhl.oida.util.constants.StringConstants;
 
 /**
  * 
@@ -156,26 +157,32 @@ public final class RecommenderSystem {
 	while (!set.getRecommendations().isEmpty()) {
 	    Recommendation r = set.getRecommendations().get(0);
 
-	    Recommendation r2 = null;
+	    List<Recommendation> similarRecomms = new ArrayList<Recommendation>();
 	    for (int i = 1; i < set.getRecommendations().size(); i++) {
-		if (r.getRecommendedEntity().equals(set.getRecommendations().get(i).getRecommendedEntity())) {
-		    r2 = set.getRecommendations().get(i);
-		    break;
-		}
+		if (!(r == set.getRecommendations().get(i)) && r.getRecommendedEntity().equals(set.getRecommendations().get(i).getRecommendedEntity()))
+		    similarRecomms.add(set.getRecommendations().get(i));
 	    }
-
-	    if (r2 != null) {
+	    
+	    if (!similarRecomms.isEmpty()) {
 		AggregatedRecommendation ar = RecommendationFactory.eINSTANCE.createAggregatedRecommendation();
 		ar.getRecommendations().add(r);
-		ar.getRecommendations().add(r2);
-		ar.setRecommenderName(r.getRecommenderName() + ", " + r2.getRecommenderName());
-		ar.setRecommenderMessage(r.getRecommenderMessage() + " AND " + r2.getRecommenderMessage());
 		ar.setRecommendedEntity(r.getRecommendedEntity());
-		ar.setReliability(r.getReliability() + r2.getReliability());
-
-		set.getRecommendations().remove(r);
-		set.getRecommendations().remove(r2);
-		aggregatedRecommendations.add(ar);
+		ar.setRecommenderName(r.getRecommenderName());
+		ar.setRecommenderMessage(r.getRecommenderMessage());
+		ar.setReliability(r.getReliability());
+		
+        	    for (Recommendation sr : similarRecomms) {
+        		ar.getRecommendations().add(sr);
+        		ar.setRecommenderName(ar.getRecommenderName() + ", " + sr.getRecommenderName());
+        		ar.setRecommenderMessage(ar.getRecommenderMessage() + StringConstants.NEWLINE +
+        			" AND " + StringConstants.NEWLINE + sr.getRecommenderMessage());
+        		ar.setReliability(ar.getReliability() + sr.getReliability());
+        		
+        		set.getRecommendations().remove(sr);
+        	    }
+        	    
+        	    aggregatedRecommendations.add(ar);
+        	    set.getRecommendations().remove(r);
 	    } else {
 		set.getRecommendations().remove(r);
 		aggregatedRecommendations.add(r);

@@ -445,6 +445,21 @@ public class OwlOntologyManager extends AbstractOntologyManager {
 		}
 	    }
 	}
+	
+	for (OWLNamedIndividual owlIndividual : allindividuals) {
+	    for (OWLObjectPropertyAssertionAxiom opa : owlOntology.objectPropertyAssertionAxioms(owlIndividual).collect(Collectors.toList())) {
+		OWLObjectProperty op = opa.objectPropertiesInSignature().collect(Collectors.toList()).get(0);
+		OWLNamedIndividual subject = (OWLNamedIndividual)opa.getSubject();
+		OWLNamedIndividual object = (OWLNamedIndividual)opa.getObject();
+		
+		Optional<OntologyObjectProperty> opInternal = mapHandler.getInternalObjectProperty(op);
+		Optional<OntologyIndividual> subjectInternal = mapHandler.getInternalIndividual(owlIndividual);
+		Optional<OntologyIndividual> objectInternal = mapHandler.getInternalIndividual(object);
+		
+		if (opInternal.isPresent() && subjectInternal.isPresent() && objectInternal.isPresent())
+		    createObjectPropertyAssertion(opInternal.get(), subjectInternal.get(), objectInternal.get());
+	    }
+	}
     }
 
     private void extractAnnotationProperties(Ontology ontology, List<OWLAnnotationProperty> allAnnotationProperties, OwlOntologyManagerMapHandler mapHandler) {

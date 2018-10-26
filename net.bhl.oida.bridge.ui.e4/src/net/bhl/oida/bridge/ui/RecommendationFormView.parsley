@@ -1,5 +1,6 @@
 import net.bhl.oida.bridge.model.recommendation.Recommendation
 import net.bhl.oida.bridge.ui.view.RecommendationFormView
+import net.bhl.oida.bridge.model.recommendation.AggregatedRecommendation
 
 /* oida.bridge.ui.e4 Emf Parsley Dsl Module file */
 module net.bhl.oida.bridge.ui.RecommendationFormView {
@@ -12,21 +13,50 @@ module net.bhl.oida.bridge.ui.RecommendationFormView {
 	
 	featuresProvider {
 		features {
-			Recommendation -> recommenderName, recommenderMessage, reliability
+			Recommendation -> recommendedEntity, recommenderName, recommenderMessage, reliability
+			AggregatedRecommendation -> recommendedEntity, recommenderName, recommenderMessage, reliability 
 		}
 	}
 	
-	formFeatureCaptionProvider {
+	labelProvider {
 		text {
-			Recommendation : recommenderName -> "Source: "
-			Recommendation : recommenderMessage -> "Comment: "
-			Recommendation : reliability -> "Reliability: "
+			Recommendation -> recommendedEntity.name
+			AggregatedRecommendation -> recommendedEntity.name
+		}
+		
+		image {
+			Recommendation -> "Class.png"
+			AggregatedRecommendation -> "Class.png"
 		}
 	}
 
-//	labelProvider {
-//		text {
-//			Recommendation : reliability -> String.format("%1$,.2f", reliability) + '%'
-//		}
-//	}
+	formFeatureCaptionProvider {
+		text {
+			Recommendation : recommendedEntity -> "Recommended Item:"
+			Recommendation : recommenderName -> "Source: "
+			Recommendation : recommenderMessage -> "Comment: "
+			Recommendation : reliability -> "Reliability: "
+			AggregatedRecommendation : recommendedEntity -> "Recommended Item:"
+			AggregatedRecommendation : recommenderName -> "Source: "
+			AggregatedRecommendation : recommenderMessage -> "Comment: "
+			AggregatedRecommendation : reliability -> "Reliability: "
+		}
+	}
+
+	formControlFactory {
+		control {
+			Recommendation : recommendedEntity -> createLabel(recommendedEntity.name)
+			Recommendation : recommenderName -> createLabel(recommenderName)
+			Recommendation : recommenderMessage -> {
+				createText(recommenderMessage, SWT.MULTI, SWT.WRAP)
+			}
+			Recommendation : reliability -> createLabel(String.format("%1$,.2f", reliability) + '%')
+			AggregatedRecommendation : recommendedEntity -> createLabel(recommendedEntity.name)
+			AggregatedRecommendation : recommenderName -> createLabel(recommenderName)
+			AggregatedRecommendation : recommenderMessage -> {
+				createText(recommenderMessage, SWT.MULTI, SWT.WRAP)
+			}
+			AggregatedRecommendation : reliability -> createLabel(String.format("%1$,.2f", reliability) + '%')
+		}
+	}
 }

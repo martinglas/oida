@@ -87,7 +87,7 @@ public class EMFMetaModelOntology extends AbstractModelChangeHandler {
 
 	EStructuralFeature partOfFeature = getStructuringStrategy().getPartOfStructuralFeature();
 	if (partOfFeature != null)
-	    assignSystemOntologyObjectPropertyToFeature(partOfFeature, Mereology.getInstance().getHasPartDirectlyObjectProperty());
+	    assignSystemOntologyObjectPropertyToFeature(partOfFeature, Mereology.getInstance().getPartOfDirectlyObjectProperty());
 
 	extractClassHierarchy((EPackage[])getStructuringStrategy().getMetaModelInformationObject());
 	extractObjectPropertyHierarchy((EPackage[])getStructuringStrategy().getMetaModelInformationObject());
