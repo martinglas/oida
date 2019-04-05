@@ -6,7 +6,7 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: Bauhaus Luftfahrt e.V.
 Automatic-Module-Name: oida.bridge.recommender.mereology
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Require-Bundle: net.bhl.oida.bridge;bundle-version="1.0.0",
+Require-Bundle: net.bhl.oida.bridge,
  net.bhl.oida.bridge.model
 Bundle-ActivationPolicy: lazy
 Import-Package: net.bhl.oida.ontology.predefined,

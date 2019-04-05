@@ -6,9 +6,8 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: net.bhl.oida.ontology.owl.Activator
 Bundle-Vendor: Bauhaus Luftfahrt e.V.
 Require-Bundle: org.eclipse.core.runtime,
- net.bhl.oida.ontology.model;bundle-version="0.1.0",
- org.junit,
- net.bhl.oida.util;bundle-version="1.0.0"
+ net.bhl.oida.ontology.model,
+ net.bhl.oida.util
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ActivationPolicy: lazy
 Import-Package: net.bhl.oida.ontology.manager,
@@ -81,3 +80,4 @@ Bundle-ClassPath: lib/antlr-2.7.7.jar,
  lib/xz-1.5.jar,
  .
 Automatic-Module-Name: oida.ontology.owl
+

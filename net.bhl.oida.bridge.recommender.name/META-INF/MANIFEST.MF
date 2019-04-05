@@ -8,6 +8,6 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: net.bhl.oida.util.constants,
  org.eclipse.emf.common.notify,
  org.eclipse.emf.ecore.util
-Require-Bundle: net.bhl.oida.bridge;bundle-version="1.0.0",
+Require-Bundle: net.bhl.oida.bridge,
  net.bhl.oida.bridge.model
 Automatic-Module-Name: oida.bridge.recommender.name

@@ -7,6 +7,6 @@ Bundle-Vendor: Bauhaus Luftfahrt e.V.
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: net.bhl.oida.util.constants,
  org.eclipse.emf.ecore.util
-Require-Bundle: net.bhl.oida.bridge;bundle-version="1.0.0",
- net.bhl.oida.bridge.model;bundle-version="0.1.0"
+Require-Bundle: net.bhl.oida.bridge,
+ net.bhl.oida.bridge.model
 Automatic-Module-Name: oida.bridge.recommender.classhierarchy
